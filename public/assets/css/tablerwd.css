@@ -18,6 +18,10 @@
 	border: 1px solid #ccc;
 	text-align: left;
 }
+.myTable caption {
+	display: none;
+}
+
 
 @media only screen and (max-width: 760px),(min-device-width: 768px) and (max-device-width: 1024px)  {
 
@@ -53,6 +57,7 @@
 		padding-right: 10px;
 		white-space: nowrap;
 	}
+
 
 	/*
 	Label the data
