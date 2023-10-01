@@ -80,7 +80,7 @@
                                                                                             <input class="form-check-input"
                                                                                                    type="radio"
                                                                                                    v-model="conType"
-                                                                                                   :value="0"
+                                                                                                   value="0"
                                                                                                    id="type_0">
                                                                                             <label class="form-check-label"
                                                                                                    for="type_0">
@@ -91,7 +91,7 @@
                                                                                             <input class="form-check-input"
                                                                                                    type="radio"
                                                                                                    v-model="conType"
-                                                                                                   :value="1"
+                                                                                                   value="1"
                                                                                                    id="type_1">
                                                                                             <label class="form-check-label"
                                                                                                    for="type_1">
@@ -102,7 +102,7 @@
                                                                                             <input class="form-check-input"
                                                                                                    type="radio"
                                                                                                    v-model="conType"
-                                                                                                   :value="2"
+                                                                                                   value="2"
                                                                                                    id="type_2">
                                                                                             <label class="form-check-label"
                                                                                                    for="type_2">
