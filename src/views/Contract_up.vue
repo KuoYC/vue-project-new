@@ -381,30 +381,28 @@
                                                                         </template>
                                                                         <template v-if="col.type === 'radio'">
                                                                             <template v-if="col.tip === ''">
-                                                                                <div v-for="option in col.option.split('|')"
-                                                                                     class="form-check form-check-primary form-check-inline">
+                                                                                <div v-for="item in col.option.split('|')" class="form-check form-check-primary form-check-inline">
                                                                                         <input type="radio"
-                                                                                               :value="option"
+                                                                                               :value="item"
                                                                                                class="form-check-input"
                                                                                                :id="'radio_'+parentIndex+'_'+childIndex">
 
                                                                                         <label class="form-check-label"
-                                                                                               :for="'radio_'+parentIndex+'_'+childIndex">{{ option }}</label>
+                                                                                               :for="'radio_'+parentIndex+'_'+childIndex">{{ item }}</label>
                                                                                 </div>
                                                                             </template>
                                                                             <template v-else>
                                                                             <div class="myToolTipContainer d-flex"
                                                                                  style="width: 200px;">
                                                                                 <!-- 以下放edit元件 -->
-                                                                                <div v-for="option in col.option.split('|')"
-                                                                                     class="form-check form-check-primary form-check-inline">
+                                                                                <div v-for="item in col.option.split('|')" class="form-check form-check-primary form-check-inline">
                                                                                         <input type="radio"
-                                                                                               :value="option"
+                                                                                               :value="item"
                                                                                                class="form-check-input"
                                                                                                :id="'radio_'+parentIndex+'_'+childIndex">
 
                                                                                         <label class="form-check-label"
-                                                                                               :for="'radio_'+parentIndex+'_'+childIndex">{{ option }}</label>
+                                                                                               :for="'radio_'+parentIndex+'_'+childIndex">{{ item }}</label>
                                                                                 </div>
                                                                                 <!-- 以上放edit元件 -->
                                                                                 <div class="help-tip">
@@ -415,30 +413,28 @@
                                                                         </template>
                                                                         <template v-if="col.type === 'check'">
                                                                             <template v-if="col.tip === ''">
-                                                                                <div v-for="option in col.option.split('|')"
-                                                                                     class="form-check form-check-primary form-check-inline">
+                                                                                <div v-for="item in col.option.split('|')" class="form-check form-check-primary form-check-inline">
                                                                                     <input type="checkbox"
-                                                                                           :value="option"
+                                                                                           :value="item"
                                                                                            class="form-check-input"
                                                                                            :id="'radio_'+parentIndex+'_'+childIndex">
 
                                                                                     <label class="form-check-label"
-                                                                                           :for="'radio_'+parentIndex+'_'+childIndex">{{ option }}</label>
+                                                                                           :for="'radio_'+parentIndex+'_'+childIndex">{{ item }}</label>
                                                                                 </div>
                                                                             </template>
                                                                             <template v-else>
                                                                             <div class="myToolTipContainer d-flex"
                                                                                  style="width: 200px;">
                                                                               <!-- 以下放edit元件 -->
-                                                                                <div v-for="option in col.option.split('|')"
-                                                                                     class="form-check form-check-primary form-check-inline">
+                                                                                <div v-for="item in col.option.split('|')" class="form-check form-check-primary form-check-inline">
                                                                                         <input type="checkbox"
-                                                                                               :value="option"
+                                                                                               :value="item"
                                                                                                class="form-check-input"
                                                                                                :id="'radio_'+parentIndex+'_'+childIndex">
 
                                                                                         <label class="form-check-label"
-                                                                                               :for="'radio_'+parentIndex+'_'+childIndex">{{ option }}</label>
+                                                                                               :for="'radio_'+parentIndex+'_'+childIndex">{{ item }}</label>
                                                                                 </div>
                                                                                 <!-- 以上放edit元件 -->
                                                                               <div class="help-tip">
