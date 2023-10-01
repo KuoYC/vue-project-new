@@ -76,11 +76,17 @@
                                                                                 <div class="myFont16">申請類型：<span
                                                                                         class="date">
                                                                                     <div class="d-flex m-tb">
-                                                                                        <select v-model="conType" class="form-control form-select" style="width: auto;">
-                                                                                          <option value="0">新增</option>
-                                                                                          <option value="1">變更</option>
-                                                                                          <option value="2">終止</option>
-                                                                                        </select>
+                                                                                        <div v-for="cType in contractType" class="form-check form-check-inline">
+                                                                                            <input class="form-check-input"
+                                                                                                   type="radio"
+                                                                                                   v-model="conType"
+                                                                                                   :value="cType.value"
+                                                                                                   :id="'type_' + cType.value">
+                                                                                            <label class="form-check-label"
+                                                                                                   :for="'type_' + cType.value">
+                                                                                                {{ cType.text }}
+                                                                                            </label>
+                                                                                        </div>
                                                                                     </div>
                                                                                 </span></div>
                                                                                 <!-- 這裡放計劃框架 -->
@@ -543,6 +549,7 @@
                 sourceData: [//選單類型
                     {souId: '0', catId: '0', souTitle: ''},
                 ],
+                contractType:[{text:'新增', value:0}, {text:'變更', value:1}, {text:'終止', value:2}, ],
 
                 conTitle: '',
                 conType: '0',//申請類別

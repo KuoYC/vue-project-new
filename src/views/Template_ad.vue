@@ -74,11 +74,14 @@
                                                                             <!-- 這裡放承辦單位 -->
                                                                             <div class="myFont16">申請類型：<span
                                                                                     class="date">
-                                                                                <select class="form-control form-select" style="width: auto;">
-                                                                                  <option value="0">新增</option>
-                                                                                  <option value="1">變更</option>
-                                                                                  <option value="2">終止</option>
-                                                                                </select>
+                                                                                <div v-for="cType in contractType" class="form-check form-check-primary form-check-inline">
+                                                                                    <input class="form-check-input"
+                                                                                           type="radio" :id="'type_'+ cType.value">
+                                                                                    <label class="form-check-label"
+                                                                                           for="'type_'+ cType.value">
+                                                                                        {{ cType.text }}
+                                                                                    </label>
+                                                                                </div>
                                                                             </span></div>
                                                                             <!-- 這裡放管理維運公司 -->
                                                                             <div class="myFont16">管理維運公司：<span
@@ -740,6 +743,7 @@
                 sourceData: [//選單類型
                     {souId: 0, catId: 0, souTitle: ''},
                 ],
+                contractType:[{text:'新增', value:0}, {text:'變更', value:1}, {text:'終止', value:2}, ],
                 tpName: "",//樣板名稱
                 tpAreaGroup: {//樣板區塊
                     pull: false,
