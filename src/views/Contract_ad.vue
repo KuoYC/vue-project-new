@@ -640,8 +640,7 @@
                     .then(([templateResponse, workResponse, companyResponse, categoryResponse, sourceResponse, distributionResponse]) => {
                         //templateResponse
                         this.templateData = templateResponse.data.data;
-                        this.templateData.temStyle = JSON.parse(this.templateData.temStyle);
-                        this.conValue = this.templateData.temStyle;
+                        this.conValue = this.templateData && this.templateData.temStyle ? JSON.parse(this.templateData.temStyle) : null;
                         //workResponse
                         this.workData = workResponse.data.data;
                         //companyResponse

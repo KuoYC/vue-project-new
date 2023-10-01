@@ -12,10 +12,10 @@
                     <div class="page-content note-has-grid">
                         <ul class="nav nav-pills p-3 mb-3 rounded-pill align-items-center">
                             <li class="nav-item">
-                                <a :href="`/contract/${templateData.temId}/ad`"
+                                <router-link :to="`/contract/${this.$route.params.tem}/ad`"
                                    class="nav-link rounded-pill note-link d-flex align-items-center px-2 px-md-3 mr-0 mr-md-2">
                                     <vue-feather type="plus" stroke="red"></vue-feather>
-                                </a>
+                                </router-link>
                             </li>
                             <li class="nav-item">
                                 <a href="javascript:void(0)"
