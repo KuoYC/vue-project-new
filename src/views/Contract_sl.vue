@@ -107,24 +107,20 @@
                                                                             </template>
                                                                             <template
                                                                                     v-if="col.type.startsWith('list')">
-                                                                                    <!-- 選項列表 -->
                                                                                     <div class="replyBox m-t-20 myFont16">
                                                                                         {{ col.value }}
                                                                                     </div>
-                                                                                <!--<option v-for="option in col.option.split('|')" :value="option">-->
-                                                                                <!--{{ option }}-->
-                                                                                <!--</option>-->
                                                                             </template>
                                                                             <template
                                                                                     v-if="col.type.startsWith('word')">
                                                                                 <div class="replyBox m-t-20 myFont16">
                                                                                     {{ col.value }}
                                                                                 </div>
-                                                                                <!--<label>{{ col.option }}</label>-->
                                                                             </template>
 
                                                                             <template v-if="col.type === 'work_area'">
                                                                                 <table class="myTable myTableItem">
+                                                                                    <caption>作業項目資料表</caption>
                                                                                     <thead>
                                                                                     <tr>
                                                                                         <th>序號</th>
@@ -173,7 +169,7 @@
                                                                             <template v-if="col.type === 'sign'">
                                                                                 <label>維運</label>
                                                                                 <table class="myTable myTableMemberIv">
-                                                                                        <caption>發起維運公司簽核人員資料表</caption>
+                                                                                    <caption>發起維運公司簽核人員資料表</caption>
                                                                                     <thead>
                                                                                     <tr>
                                                                                         <th>公司</th>
@@ -1103,6 +1099,7 @@
 
                         if (this.clearMemberAll()) {
                             if (this.updateContractStatus(2, '', '文件退回')) {
+                                // 執行文件退回
                                 alert('文件已退回');
                                 this.$router.push(`/contract/${this.$route.params.tem}/list`);
                             }
@@ -1422,8 +1419,8 @@
                                         });
                                     }
                                     else {
-                                        // 執行文件簽核完成
                                         if (this.updateContractStatus(3, dayjs().format('YYYY-MM-DD'), '文件簽核完成')) {
+                                            // 執行文件簽核完成
                                             SignEnd = true;
                                         }
                                         else {
@@ -1456,8 +1453,8 @@
                                     });
                                 }
                                 else {
-                                    // 執行文件簽核完成
                                     if (this.updateContractStatus(3, dayjs().format('YYYY-MM-DD'), '文件簽核完成')) {
+                                        // 執行文件簽核完成
                                         SignEnd = true;
                                     }
                                     else {
@@ -1470,6 +1467,7 @@
                         if (uMemberSignCheck) {//使用簽完
                             if (this.checkSameTypeSign(2)) {
                                 if (this.updateContractStatus(3, dayjs().format('YYYY-MM-DD'), '文件簽核完成')) {
+                                    // 執行文件簽核完成
                                     SignEnd = true;
                                 }
                                 else {
@@ -1657,6 +1655,7 @@
                         });
                         if (this.clearMemberAll()) {
                             if (this.updateContractStatus(4, '', '文件終止')) {
+                                // 執行文件終止
                                 alert('文件終止');
                                 this.$router.go(0);
                             }

@@ -204,6 +204,7 @@
 
                                                                         <template v-if="col.type === 'work_area'">
                                                                             <table class="myTable myTableItem">
+                                                                                <caption>作業項目資料表</caption>
                                                                                 <thead>
                                                                                 <tr>
                                                                                     <th>序號</th>
