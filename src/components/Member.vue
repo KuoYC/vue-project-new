@@ -1,7 +1,7 @@
 <template>
     <td>
         <a @click="removeMember(member.uniqueId)" style="color: red;" class="mouse-clean" v-show="use_close">X</a>
-        <select v-model="member.memBu1Code" class="form-select" ref="bu1" @change="getBu2">
+        <select v-model="member.memBu1Code" class="form-select" ref="bu1" @change="Bu1Change">
             <template v-if="member.memType === '0' || member.memType === '1'">
                 <template v-for="com in companyData">
                     <option v-if="com.comCode === member.memBu1Code" :value="com.comCode" :comCode="com.comCode">
@@ -19,44 +19,46 @@
         </select>
     </td>
     <td>
-        <select v-model="member.memBu2Code" class="form-select" ref="bu2" @change="getBu3">
+        <select v-model="member.memBu2Code" class="form-select" ref="bu2" @change="Bu2Change">
             <template v-if="member.memType === '0'">
                 <template v-for="bu2 in bu2Data">
-                    <option v-if="bu2.perBu2Code === member.memBu2Code" :value="bu2.perBu2Code">
+                    <option v-if="bu2.perBu2Code === member.memBu2Code" :value="bu2.perBu2Code" :department="bu2.perBu2">
                         {{bu2.perBu2}}
                     </option>
                 </template>
             </template>
             <template v-else>
-                <option value="">部門</option>
-                <option v-for="bu2 in bu2Data" :value="bu2.perBu2Code">
+                <option value="" buName="">部門</option>
+                <option v-for="bu2 in bu2Data" :value="bu2.perBu2Code" :department="bu2.perBu2">
                     {{bu2.perBu2}}
                 </option>
             </template>
         </select>
     </td>
     <td>
-        <select v-model="member.memBu3Code" class="form-select" ref="bu3" @change="getPersonnelAll">
+        <select v-model="member.memBu3Code" class="form-select" ref="bu3" @change="Bu3Change">
             <template v-if="member.memType === '0'">
                 <template v-for="bu3 in bu3Data">
-                    <option v-if="bu3.perBu3Code === member.memBu3Code" :value="bu3.perBu3Code">
+                    <option v-if="bu3.perBu3Code === member.memBu3Code" :value="bu3.perBu3Code" :division="bu3.perBu3">
                         {{bu3.perBu3}}
                     </option>
                 </template>
             </template>
             <template v-else>
-                <option value="">科部</option>
-                <option v-for="bu3 in bu3Data" :value="bu3.perBu3Code">
+                <option value="" buName="">科部</option>
+                <option v-for="bu3 in bu3Data" :value="bu3.perBu3Code" :division="bu3.perBu3">
                     {{bu3.perBu3}}
                 </option>
             </template>
         </select>
     </td>
     <td>
-        <select v-model="member.LV2" class="form-select" :disabled="member.LV1 === '' || member.memLV0 === ''" ref="lv2" @change="LV2Change">
-            <option value="">部門主管</option>
-            <option v-for="per in personnel1Data" :value="per.perNo + '|' + per.perPosition" :key="per.perId"
-                    :no="per.perNo" :position="per.perPosition" :bu1="per.perBu1" :bu2="per.perBu2" :bu3="per.perBu3">
+        <select v-model="member.LV0" class="form-select" :disabled="lv_disabled" ref="lv0" @change="LV0Change">
+            <option value="">承辦人</option>
+            <option v-for="per in personnel3Data" :value="per.perNo + '|' + per.perPosition" :key="per.perId"
+                    :no="per.perNo" :perName="per.perName" :position="per.perPosition"
+                    :positionName="per.perPositionName" :bu1="per.perBu1" :bu2="per.perBu2" :bu3="per.perBu3"
+                    :phone="per.perPhone1 + ' ' +per.perPhone2 + ' ' + per.perPhone3">
                 {{ per.perName + ' ' + per.perPositionName }}
             </option>
         </select>
@@ -65,7 +67,19 @@
         <select v-model="member.LV1" class="form-select" :disabled="member.LV0 === ''" ref="lv1" @change="LV1Change">
             <option value="">科別主管</option>
             <option v-for="per in personnel2Data" :value="per.perNo + '|' + per.perPosition" :key="per.perId"
-                    :no="per.perNo" :position="per.perPosition" :bu1="per.perBu1" :bu2="per.perBu2" :bu3="per.perBu3">
+                    :no="per.perNo" :perName="per.perName" :position="per.perPosition"
+                    :positionName="per.perPositionName" :bu1="per.perBu1" :bu2="per.perBu2" :bu3="per.perBu3">
+                {{ per.perName + ' ' + per.perPositionName }}
+            </option>
+        </select>
+    </td>
+    <td>
+        <select v-model="member.LV2" class="form-select" :disabled="member.LV1 === '' || member.memLV0 === ''" ref="lv2"
+                @change="LV2Change">
+            <option value="">部門主管</option>
+            <option v-for="per in personnel1Data" :value="per.perNo + '|' + per.perPosition" :key="per.perId"
+                    :no="per.perNo" :perName="per.perName" :position="per.perPosition"
+                    :positionName="per.perPositionName" :bu1="per.perBu1" :bu2="per.perBu2" :bu3="per.perBu3">
                 {{ per.perName + ' ' + per.perPositionName }}
             </option>
         </select>
@@ -74,18 +88,9 @@
         <select v-model="member.LVC" class="form-select" ref="lvc" @change="LVCChange">
             <option value="">窗口</option>
             <option v-for="cot in contactData" :value="cot.perNo + '|' + cot.perPosition"
-                    :no="cot.perNo" :position="cot.perPosition">
+                    :no="cot.perNo" :perName="cot.perName" :position="cot.perPosition"
+                    :positionName="cot.perPositionName">
                 {{ cot.perName + ' ' + cot.perPositionName }}
-            </option>
-        </select>
-    </td>
-    <td>
-        <select v-model="member.LV0" class="form-select" :disabled="lv_disabled" ref="lv0" @change="LV0Change">
-            <option value="">承辦人</option>
-            <option v-for="per in personnel3Data" :value="per.perNo + '|' + per.perPosition" :key="per.perId"
-                    :no="per.perNo" :position="per.perPosition" :bu1="per.perBu1" :bu2="per.perBu2" :bu3="per.perBu3"
-                    :phone="per.perPhone2 + ' ' + per.perPhone3">
-                {{ per.perName + ' ' + per.perPositionName }}
             </option>
         </select>
     </td>
@@ -130,16 +135,15 @@
         },
         data() {
             return {
-                bu2Data:[],
-                bu3Data:[],
-                contactData:[],
-                personnel1Data:[],
-                personnel2Data:[],
-                personnel3Data:[],
+                bu2Data: [],
+                bu3Data: [],
+                contactData: [],
+                personnel1Data: [],
+                personnel2Data: [],
+                personnel3Data: [],
             };
         },
-        computed: {
-        },
+        computed: {},
         watch: {
             // member:{
             //     handler(new_member) {
@@ -163,15 +167,19 @@
             removeMember() {
                 this.$emit('remove-member', this.member.uniqueId);
             },
-            LVCChange(){
+            LVCChange() {
                 if (this.member.LVC !== '') {
                     const mem = this.$refs.lvc.querySelector('option:checked');
                     this.member.memLVC = mem.getAttribute('no');
+                    this.member.memLVCName = mem.getAttribute('perName');
                     this.member.memLVCPosition = mem.getAttribute('position');
+                    this.member.memLVCPositionName = mem.getAttribute('positionName');
                 }
                 else {
                     this.member.memLVC = '';
+                    this.member.memLVCName = '';
                     this.member.memLVCPosition = '';
+                    this.member.memLVCPositionName = '';
                 }
             },
             LV0Change() {
@@ -182,7 +190,9 @@
 
                 const mem = this.$refs.lv0.querySelector('option:checked');
                 this.member.memLV0 = mem.getAttribute('no');
+                this.member.memLV0Name = mem.getAttribute('perName');
                 this.member.memLV0Position = mem.getAttribute('position');
+                this.member.memLV0PositionName = mem.getAttribute('positionName');
                 this.member.memPhone = mem.getAttribute('phone');
             },
             LV1Change() {
@@ -193,7 +203,9 @@
 
                 const mem = this.$refs.lv1.querySelector('option:checked');
                 this.member.memLV1 = mem.getAttribute('no');
+                this.member.memLV1Name = mem.getAttribute('perName');
                 this.member.memLV1Position = mem.getAttribute('position');
+                this.member.memLV1PositionName = mem.getAttribute('positionName');
             },
             LV2Change() {
 
@@ -203,9 +215,28 @@
 
                 const mem = this.$refs.lv2.querySelector('option:checked');
                 this.member.memLV2 = mem.getAttribute('no');
+                this.member.memLV2Name = mem.getAttribute('perName');
                 this.member.memLV2Position = mem.getAttribute('position');
+                this.member.memLV2PositionName = mem.getAttribute('positionName');
             },
-            getBu2(){
+            Bu1Change(){
+                this.member.memBu2Code = '';
+                this.member.memBu2 = '';
+                this.getBu2();
+            },
+            Bu2Change(){
+                this.member.memBu3Code = '';
+                this.member.memBu3 = '';
+                const mem = this.$refs.bu2.querySelector('option:checked');
+                this.member.memBu2 = mem.getAttribute('department');
+                this.getBu3();
+            },
+            Bu3Change(){
+                const mem = this.$refs.bu3.querySelector('option:checked');
+                this.member.memBu3 = mem.getAttribute('division');
+                this.getPersonnelAll();
+            },
+            getBu2() {
                 if (this.member.memBu1Code === '') {
                     this.bu2Data = [];
                 }
@@ -223,7 +254,7 @@
                         });
                 }
             },
-            getBu3(){
+            getBu3() {
                 if (this.member.memBu1Code === '' || this.member.memBu2Code === '') {
                     this.bu3Data = [];
                 }
@@ -242,27 +273,27 @@
                 }
             },
             getContact() {
-              if (this.member.memType ==='0') {
-                  this.$api
-                      .get(this.$test ? `/api/?type=contact&comCode=${this.member.memBu1Code}` : '/api/iform/template')
-                      .then(response => {
-                          this.contactData = response.data.data;
-                      })
-                      .catch(error => {
-                          console.error(error);
-                      });
-              }
-              else {
-                  this.contactData = [];
-              }
+                if (this.member.memType === '0') {
+                    this.$api
+                        .get(this.$test ? `/api/?type=contact&comCode=${this.member.memBu1Code}` : '/api/iform/template')
+                        .then(response => {
+                            this.contactData = response.data.data;
+                        })
+                        .catch(error => {
+                            console.error(error);
+                        });
+                }
+                else {
+                    this.contactData = [];
+                }
             },
-            getPersonnelAll(){
+            getPersonnelAll() {
                 this.getPersonnel1();
                 this.getPersonnel2();
                 this.getPersonnel3();
 
             },
-            async getPersonnel1(){
+            async getPersonnel1() {
                 if (this.member.memBu1Code && this.member.memBu2Code && this.member.memBu3Code) {
                     this.$api
                         .get(this.$test ? `/api/?type=personnel&perBu1Code=${this.member.memBu1Code}&perBu2Code=${this.member.memBu2Code}&perBu3Code=${this.member.memBu3Code}` : '/api/iform/template')
@@ -277,7 +308,7 @@
                     this.personnel1Data = [];
                 }
             },
-            async getPersonnel2(){
+            async getPersonnel2() {
                 if (this.member.memBu1Code && this.member.memBu2Code && this.member.memBu3Code) {
                     this.$api
                         .get(this.$test ? `/api/?type=personnel&perBu1Code=${this.member.memBu1Code}&perBu2Code=${this.member.memBu2Code}&perBu3Code=${this.member.memBu3Code}` : '/api/iform/template')
@@ -292,7 +323,7 @@
                     this.personnel2Data = [];
                 }
             },
-            async getPersonnel3(){
+            async getPersonnel3() {
                 if (this.member.memBu1Code && this.member.memBu2Code && this.member.memBu3Code) {
                     this.$api
                         .get(this.$test ? `/api/?type=personnel&perBu1Code=${this.member.memBu1Code}&perBu2Code=${this.member.memBu2Code}&perBu3Code=${this.member.memBu3Code}` : '/api/iform/template')

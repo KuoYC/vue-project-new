@@ -2,9 +2,9 @@
     <section class="section">
         <ul class="breadcrumb breadcrumb-style ">
             <li class="breadcrumb-item">
-                <h4 class="page-title m-b-0">樣板管理</h4>
+                <h4 class="page-title m-b-0">簽核單項</h4>
             </li>
-            <li class="breadcrumb-item">查看樣板</li>
+            <li class="breadcrumb-item">新增文件</li>
         </ul>
         <div class="section-body">
             <div class="row">
@@ -117,7 +117,7 @@
                                                                                 </div>
                                                                                 <!-- 這裡放管理維運公司 -->
                                                                                 <div class="myFont16">管理維運公司：<span
-                                                                                        class="data">{{ this.$root.getCompanyTitle(comId, '')}}</span>
+                                                                                        class="data">{{ this.$root.getCompanyTitle(per.comId, '')}}</span>
                                                                                 </div>
                                                                                 <!-- 這裡放生效日期 -->
                                                                                 <div class="myFont16">生效日期：<span
@@ -205,8 +205,7 @@
                                                                         </template>
 
                                                                         <template v-if="col.type === 'work_area'">
-                                                                                <div class="table-responsive">
-                                                                                    <table class="myTable myTableItem">
+                                                                            <table class="myTable myTableItem">
                                                                                         <thead>
                                                                                         <tr>
                                                                                             <th>序號</th>
@@ -236,38 +235,23 @@
                                                                                         </tr>
                                                                                         </tbody>
                                                                                     </table>
-                                                                                </div>
                                                                             <p><button @click="addItemData"
                                                                                        class="btn btn-success btn-icon">
-                                                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                                                     width="24" height="24"
-                                                                                     viewBox="0 0 24 24"
-                                                                                     fill="none"
-                                                                                     stroke="currentColor"
-                                                                                     stroke-width="2"
-                                                                                     stroke-linecap="round"
-                                                                                     stroke-linejoin="round"
-                                                                                     class="feather feather-plus">
-                                                                                    <line x1="12" y1="5" x2="12"
-                                                                                          y2="19"></line>
-                                                                                    <line x1="5" y1="12" x2="19"
-                                                                                          y2="12"></line>
-                                                                                </svg>
+                                                                                <vue-feather type="plus"></vue-feather>
                                                                             </button></p>
                                                                         </template>
                                                                         <template v-if="col.type === 'sign'">
                                                                                     <label>維運</label>
-                                                                                    <div class="table-responsive">
-                                                                                        <table class="myTable myTableMemberI">
+                                                                                    <table class="myTable myTableMemberI">
                                                                                             <thead>
                                                                                             <tr>
                                                                                                 <th>公司</th>
                                                                                                 <th>部門</th>
                                                                                                 <th>科別</th>
-                                                                                                <th>部門主管</th>
-                                                                                                <th>科別主管</th>
-                                                                                                <th>窗口</th>
                                                                                                 <th>承辦人</th>
+                                                                                                <th>科別主管</th>
+                                                                                                <th>部門主管</th>
+                                                                                                <th>窗口</th>
                                                                                                 <th>承辦人連絡電話</th>
                                                                                             </tr>
                                                                                             </thead>
@@ -286,69 +270,48 @@
                                                                                             </tr>
                                                                                             </tbody>
                                                                                         </table>
-                                                                                    </div>
-                                                                                    <div v-if="mMemberData.length !== 0"
-                                                                                         class="table-responsive">
-                                                                                        <table class="myTable myTableMemberM">
-                                                                                            <thead>
-                                                                                            <tr>
-                                                                                                <th>公司</th>
-                                                                                                <th>部門</th>
-                                                                                                <th>科別</th>
-                                                                                                <th>部門主管</th>
-                                                                                                <th>科別主管</th>
-                                                                                                <th>承辦人</th>
-                                                                                                <th>承辦人連絡電話</th>
+                                                                                    <table v-if="mMemberData.length !== 0" class="myTable myTableMemberM">
+                                                                                        <thead>
+                                                                                        <tr>
+                                                                                            <th>公司</th>
+                                                                                            <th>部門</th>
+                                                                                            <th>科別</th>
+                                                                                            <th>承辦人</th>
+                                                                                            <th>科別主管</th>
+                                                                                            <th>部門主管</th>
+                                                                                            <th>承辦人連絡電話</th>
+                                                                                        </tr>
+                                                                                        </thead>
+                                                                                        <tbody>
+                                                                                            <tr v-for="mmem in mMemberData">
+                                                                                                <Member
+                                                                                                        :key="mmem.uniqueId"
+                                                                                                        :member="mmem"
+                                                                                                        :use_close="true"
+                                                                                                        :lv_disabled="false"
+                                                                                                        :companyData="companyData"
+                                                                                                        :companyUse="conCompany"
+                                                                                                        @remove-member="removeMemberMData"
+                                                                                                        ref="mMemberComp"
+                                                                                                />
                                                                                             </tr>
-                                                                                            </thead>
-                                                                                            <tbody>
-                                                                                                <tr v-for="mmem in mMemberData">
-                                                                                                    <Member
-                                                                                                            :key="mmem.uniqueId"
-                                                                                                            :member="mmem"
-                                                                                                            :use_close="true"
-                                                                                                            :lv_disabled="false"
-                                                                                                            :companyData="companyData"
-                                                                                                            :companyUse="conCompany"
-                                                                                                            @remove-member="removeMemberMData"
-                                                                                                            ref="mMemberComp"
-                                                                                                    />
-                                                                                                </tr>
-                                                                                            </tbody>
-                                                                                        </table>
-                                                                                    </div>
-                                                                                        <p><button
-                                                                                                @click="addMemberMData"
-                                                                                                class="btn btn-success btn-icon">
-                                                                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                                                                 width="24" height="24"
-                                                                                                 viewBox="0 0 24 24"
-                                                                                                 fill="none"
-                                                                                                 stroke="currentColor"
-                                                                                                 stroke-width="2"
-                                                                                                 stroke-linecap="round"
-                                                                                                 stroke-linejoin="round"
-                                                                                                 class="feather feather-plus">
-                                                                                                <line x1="12" y1="5"
-                                                                                                      x2="12"
-                                                                                                      y2="19"></line>
-                                                                                                <line x1="5" y1="12"
-                                                                                                      x2="19"
-                                                                                                      y2="12"></line>
-                                                                                            </svg>
-                                                                                        </button></p>
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                    <p><button
+                                                                                            @click="addMemberMData"
+                                                                                            class="btn btn-success btn-icon">
+                                                                                        <vue-feather type="plus"></vue-feather>
+                                                                                    </button></p>
                                                                                     <label>使用</label>
-                                                                                        <div v-if="uMemberData.length !== 0"
-                                                                                             class="table-responsive">
-                                                                                            <table class="myTable myTableMemberU">
+                                                                                    <table v-if="uMemberData.length !== 0" class="myTable myTableMemberU">
                                                                                                 <thead>
                                                                                                 <tr>
                                                                                                     <th>公司</th>
                                                                                                     <th>部門</th>
-                                                                                                    <th>部門主管</th>
                                                                                                     <th>科別</th>
-                                                                                                    <th>科別主管</th>
                                                                                                     <th>承辦人</th>
+                                                                                                    <th>科別主管</th>
+                                                                                                    <th>部門主管</th>
                                                                                                     <th>承辦人連絡電話</th>
                                                                                                 </tr>
                                                                                                 </thead>
@@ -367,23 +330,9 @@
                                                                                                     </tr>
                                                                                                 </tbody>
                                                                                             </table>
-                                                                                        </div>
                                                                                     <p><button @click="addMemberUData"
                                                                                                class="btn btn-success btn-icon">
-                                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                                             width="24" height="24"
-                                                                                             viewBox="0 0 24 24"
-                                                                                             fill="none"
-                                                                                             stroke="currentColor"
-                                                                                             stroke-width="2"
-                                                                                             stroke-linecap="round"
-                                                                                             stroke-linejoin="round"
-                                                                                             class="feather feather-plus">
-                                                                                            <line x1="12" y1="5" x2="12"
-                                                                                                  y2="19"></line>
-                                                                                            <line x1="5" y1="12" x2="19"
-                                                                                                  y2="12"></line>
-                                                                                        </svg>
+                                                                                        <vue-feather type="plus"></vue-feather>
                                                                                     </button></p>
                                                                         </template>
 
@@ -596,6 +545,7 @@
     import Item from '@/components/Item.vue';
     import Member from '@/components/Member.vue';
     import DatePicker from '@vuepic/vue-datepicker';
+
     import '@vuepic/vue-datepicker/dist/main.css';
 
     export default {
@@ -604,12 +554,6 @@
             return {
                 per: JSON.parse(Cookies.get('per')),
                 isSidebarVisible: false,//管理面板使用
-
-                perNo: Cookies.get('perNo'),
-                perPosition: Cookies.get('perPosition'),
-                perBu1Code: Cookies.get('perBu1Code'),
-                comId: Cookies.get('comId'),//維運公司
-                comCode: Cookies.get('perBu1Code'),//公司代號
                 temId: 0,
 
                 workData: [//作業種類
@@ -717,10 +661,14 @@
                             memType: '0',
                             memBu1Code: this.per.perBu1Code,
                             memBu2Code: this.per.perBu2Code,
+                            memBu2: this.per.perBu2,
                             memBu3Code: this.per.perBu3Code,
+                            memBu3: this.per.perBu3,
                             LV0: this.per.perNo + '|' + this.per.perPosition,
                             memLV0: this.per.perNo,
+                            memLV0Name: this.per.perName,
                             memLV0Position: this.per.perPosition,
+                            memLV0PositionName: this.per.perPositionName,
                             LVC: '',
                             memLVC: '',
                             memLVCPosition: '',
@@ -759,11 +707,25 @@
                 itemList.forEach(item => {
                     item.iteSubsidiaries = item.iteSubsidiaries.join('|');
                 });
+
+                this.conValue.forEach(area => {
+                    area.colItem.forEach(col => {
+                        if (col.type?.startsWith('word')) {
+                            this.categoryData.forEach(cat => {
+                                if (parseInt(cat.catId) === parseInt(col.id)) {
+                                    col.value = cat.catWord;
+                                }
+                            });
+                        }
+                    });
+                });
+
+
                 const payload = {
                     temId: this.temId,
-                    perNo: this.perNo,
-                    perPosition: this.perPosition,
-                    comId: this.comId,
+                    perNo: this.per.perNo,
+                    perPosition: this.per.perPosition,
+                    comId: this.per.comId,
                     conTitle: this.conTitle,
                     conType: this.conType,
                     conDate: this.conDate,
@@ -773,14 +735,14 @@
                     itemList: itemList,
                     memberList: memberList,
                 };
-                console.log(payload);
+                console.log(JSON.stringify(payload));
                 this.$api
                     .post(this.$test ? '/api/?type=contract' : '/api/adm/contract/addNew', payload)
                     .then(response => {
-                        console.log(response.data);
+                        // console.log(response.data);
                         if (response.status === 200) {
-                            console.log(response);
-                            // this.$router.push(`/contract/${this.$route.params.tem}/sl/${response.data.conId}`);
+                            // console.log(response.data.conId);
+                            this.$router.push(`/contract/${this.$route.params.tem}/sl/${response.data.conId}`);
                         } else {
                             console.log('err');
                         }
@@ -824,19 +786,29 @@
                     memType: '1',
                     memBu1Code: Cookies.get('perBu1Code'),
                     memBu2Code: '',
+                    memBu2: '',
                     memBu3Code: '',
+                    memBu3: '',
                     LV0: '',
                     memLV0: '',
+                    memLV0Name: '',
                     memLV0Position: '',
+                    memLV0PositionName: '',
                     LVC: '',
                     memLVC: '',
+                    memLVCName: '',
                     memLVCPosition: '',
+                    memLVCPositionName: '',
                     LV1: '',
                     memLV1: '',
+                    memLV1Name: '',
                     memLV1Position: '',
+                    memLV1PositionName: '',
                     LV2: '',
                     memLV2: '',
+                    memLV2Name: '',
                     memLV2Position: '',
+                    memLV2PositionName: '',
                     memPhone: '',
                 },);
             },
@@ -847,19 +819,29 @@
                     memType: '2',
                     memBu1Code: '',
                     memBu2Code: '',
+                    memBu2: '',
                     memBu3Code: '',
+                    memBu3: '',
                     LV0: '',
                     memLV0: '',
+                    memLV0Name: '',
                     memLV0Position: '',
+                    memLV0PositionName: '',
                     LVC: '',
                     memLVC: '',
+                    memLVCName: '',
                     memLVCPosition: '',
+                    memLVCPositionName: '',
                     LV1: '',
                     memLV1: '',
+                    memLV1Name: '',
                     memLV1Position: '',
+                    memLV1PositionName: '',
                     LV2: '',
                     memLV2: '',
+                    memLV2Name: '',
                     memLV2Position: '',
+                    memLV2PositionName: '',
                     memPhone: '',
                 },);
             },

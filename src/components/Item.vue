@@ -101,7 +101,7 @@
             },
             item: {
                 type: Object,
-                default: () => [],
+                // default: () => [],
                 required: false,
             }
         },
@@ -136,8 +136,8 @@
         watch: {
             companyUse: {
                 handler(newVal) {
-                    this.item.iteSubsidiaries = this.item.iteSubsidiaries.filter((comId) =>
-                        newVal.includes(comId)
+                    this.item.iteSubsidiaries = this.item.iteSubsidiaries.filter((comCode) =>
+                        newVal.includes(comCode)
                     );
                 },
                 deep: true, // 深度监听数组内元素的变化

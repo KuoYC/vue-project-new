@@ -4,11 +4,13 @@ import router from './router'
 import store from './store'; // 路徑可能需要調整
 import Cookies from 'js-cookie'
 import axios from 'axios'
+import VueFeather from 'vue-feather';
 
 const app = createApp(App);
 app.use(router);
 app.use(store); // 將 Vuex Store 連接到 Vue 實例
 app.config.globalProperties.$cookies = Cookies;
+app.component(VueFeather.name, VueFeather);
 
 const test = true;
 const api = axios.create({

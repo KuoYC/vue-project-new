@@ -2,9 +2,9 @@
     <section class="section">
         <ul class="breadcrumb breadcrumb-style ">
             <li class="breadcrumb-item">
-                <h4 class="page-title m-b-0">樣板管理</h4>
+                <h4 class="page-title m-b-0">簽核單項</h4>
             </li>
-            <li class="breadcrumb-item">查看樣板</li>
+            <li class="breadcrumb-item">修改文件</li>
         </ul>
         <div class="section-body">
             <div class="row">
@@ -27,15 +27,13 @@
                                                                     area.areaTitle }}</h4>
                                                                 <div v-if="parentIndex === 0">
                                                                     <!-- 這裡放創文日期 -->
-                                                                    <div class="myFont16" style="font-weight: 400;">
+                                                                    <div class="myFont16Title">
                                                                         文件序號：<span
-                                                                            class="date float-end"
-                                                                            style="font-style: italic; color: #e3e3e3;">文件建檔後產生</span>
+                                                                            class="date float-end myFont16">{{ contractData.conSerial }}</span>
                                                                     </div>
-                                                                    <div class="myFont16" style="font-weight: 400;">
+                                                                    <div class="myFont16Title">
                                                                         建檔日期：<span
-                                                                            class="date float-end"
-                                                                            style="font-style: italic; color: #e3e3e3;">文件建檔後產生</span>
+                                                                            class="date float-end myFont16">{{ this.$root.formatDate(contractData.conCreateTime)}}</span>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -63,13 +61,13 @@
                                                                             <div class="flex-grow-1">
                                                                                 <!-- 這裡放承辦單位 -->
                                                                                 <div class="myFont16">承辦單位：<span
-                                                                                        class="data">{{ this.$root.getPersonDepartment(comId, perNo, perPosition)}}  {{ this.$root.getPersonBranch(comId, perNo, perPosition)}}</span></div>
+                                                                                        class="data">{{ this.contractData.perBu1}}  {{ this.contractData.perBu2 }}</span></div>
                                                                                 <!-- 這裡放承辦人 -->
                                                                                 <div class="myFont16">承辦人：<span
-                                                                                        class="data">{{ this.$root.getPersonName(comId, perNo, perPosition)}}</span></div>
+                                                                                        class="data">{{ this.contractData.perName }}</span></div>
                                                                                 <!-- 這裡放聯絡電話 -->
                                                                                 <div class="myFont16">聯絡電話：<span
-                                                                                        class="data">{{ this.$root.getPersonPhone(comId, perNo, perPosition)}}</span>
+                                                                                        class="data">{{ this.contractData.perPhon1 }} {{ this.contractData.perPhon2 }} {{ this.contractData.perPhon3 }}</span>
                                                                                 </div>
                                                                                 <br>
                                                                                 <!-- 這裡放承辦單位 -->
@@ -113,11 +111,11 @@
                                                                                 </span></div>
                                                                                 <!-- 這裡放計劃框架 -->
                                                                                 <div class="myFont16">計劃框架：<span
-                                                                                        class="data">{{ templateData.temTitle }}</span>
+                                                                                        class="data">{{ contractData.temTitle }}</span>
                                                                                 </div>
                                                                                 <!-- 這裡放管理維運公司 -->
                                                                                 <div class="myFont16">管理維運公司：<span
-                                                                                        class="data">{{ this.$root.getCompanyTitle(comId, '')}}</span>
+                                                                                        class="data">{{ this.$root.getCompanyTitle(contractData.comId, '')}}</span>
                                                                                 </div>
                                                                                 <!-- 這裡放生效日期 -->
                                                                                 <div class="myFont16">生效日期：<span
@@ -205,186 +203,135 @@
                                                                         </template>
 
                                                                         <template v-if="col.type === 'work_area'">
-                                                                                <div class="table-responsive">
-                                                                                    <table class="myTable myTableItem">
-                                                                                        <thead>
-                                                                                        <tr>
-                                                                                            <th>序號</th>
-                                                                                            <th>作業項目</th>
-                                                                                            <th>作業種類</th>
-                                                                                            <th>服務時間</th>
-                                                                                            <th>本項目使用公司</th>
-                                                                                            <th>權限控管及資料管制</th>
-                                                                                            <th>分攤比例原則</th>
-                                                                                        </tr>
-                                                                                        </thead>
-                                                                                        <tbody>
-                                                                                        <tr v-for="(item, item_index) in itemData">
-                                                                                            <Item
-                                                                                                    :key="item.uniqueId"
-                                                                                                    :idx="item_index"
-                                                                                                    :item="item"
-                                                                                                    :workData="workData"
-                                                                                                    :workUse="conWork"
-                                                                                                    :timeData="timeData"
-                                                                                                    :distributionData="distributionData"
-                                                                                                    :companyData="companyData"
-                                                                                                    :companyUse="conCompany"
-                                                                                                    @remove-item="removeItemData"
-                                                                                                    ref="ItemComp"
-                                                                                            />
-                                                                                        </tr>
-                                                                                        </tbody>
-                                                                                    </table>
-                                                                                </div>
+                                                                            <table class="myTable myTableItem">
+                                                                                <thead>
+                                                                                <tr>
+                                                                                    <th>序號</th>
+                                                                                    <th>作業項目</th>
+                                                                                    <th>作業種類</th>
+                                                                                    <th>服務時間</th>
+                                                                                    <th>本項目使用公司</th>
+                                                                                    <th>權限控管及資料管制</th>
+                                                                                    <th>分攤比例原則</th>
+                                                                                </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                <tr v-for="(item, item_index) in itemData">
+                                                                                    <Item
+                                                                                            :key="item.uniqueId"
+                                                                                            :idx="item_index"
+                                                                                            :item="item"
+                                                                                            :workData="workData"
+                                                                                            :workUse="conWork"
+                                                                                            :timeData="timeData"
+                                                                                            :distributionData="distributionData"
+                                                                                            :companyData="companyData"
+                                                                                            :companyUse="conCompany"
+                                                                                            @remove-item="removeItemData"
+                                                                                            ref="ItemComp"
+                                                                                    />
+                                                                                </tr>
+                                                                                </tbody>
+                                                                            </table>
                                                                             <p><button @click="addItemData"
                                                                                        class="btn btn-success btn-icon">
-                                                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                                                     width="24" height="24"
-                                                                                     viewBox="0 0 24 24"
-                                                                                     fill="none"
-                                                                                     stroke="currentColor"
-                                                                                     stroke-width="2"
-                                                                                     stroke-linecap="round"
-                                                                                     stroke-linejoin="round"
-                                                                                     class="feather feather-plus">
-                                                                                    <line x1="12" y1="5" x2="12"
-                                                                                          y2="19"></line>
-                                                                                    <line x1="5" y1="12" x2="19"
-                                                                                          y2="12"></line>
-                                                                                </svg>
+                                                                            <vue-feather type="plus"></vue-feather>
                                                                             </button></p>
                                                                         </template>
                                                                         <template v-if="col.type === 'sign'">
-                                                                                    <label>維運</label>
-                                                                                    <div class="table-responsive">
-                                                                                        <table class="myTable myTableMemberI">
-                                                                                            <thead>
-                                                                                            <tr>
-                                                                                                <th>公司</th>
-                                                                                                <th>部門</th>
-                                                                                                <th>科別</th>
-                                                                                                <th>部門主管</th>
-                                                                                                <th>科別主管</th>
-                                                                                                <th>窗口</th>
-                                                                                                <th>承辦人</th>
-                                                                                                <th>承辦人連絡電話</th>
-                                                                                            </tr>
-                                                                                            </thead>
-                                                                                            <tbody>
-                                                                                            <tr>
-                                                                                                <Member
-                                                                                                        :key="iMemberData.uniqueId"
-                                                                                                        :member="iMemberData"
-                                                                                                        :companyData="companyData"
-                                                                                                        :companyUse="conCompany"
-                                                                                                        :use_close="false"
-                                                                                                        :use_contact="true"
-                                                                                                        :lv_disabled="true"
-                                                                                                        ref="iMemberComp"
-                                                                                                />
-                                                                                            </tr>
-                                                                                            </tbody>
-                                                                                        </table>
-                                                                                    </div>
-                                                                                    <div v-if="mMemberData.length !== 0"
-                                                                                         class="table-responsive">
-                                                                                        <table class="myTable myTableMemberM">
-                                                                                            <thead>
-                                                                                            <tr>
-                                                                                                <th>公司</th>
-                                                                                                <th>部門</th>
-                                                                                                <th>科別</th>
-                                                                                                <th>部門主管</th>
-                                                                                                <th>科別主管</th>
-                                                                                                <th>承辦人</th>
-                                                                                                <th>承辦人連絡電話</th>
-                                                                                            </tr>
-                                                                                            </thead>
-                                                                                            <tbody>
-                                                                                                <tr v-for="mmem in mMemberData">
-                                                                                                    <Member
-                                                                                                            :key="mmem.uniqueId"
-                                                                                                            :member="mmem"
-                                                                                                            :use_close="true"
-                                                                                                            :lv_disabled="false"
-                                                                                                            :companyData="companyData"
-                                                                                                            :companyUse="conCompany"
-                                                                                                            @remove-member="removeMemberMData"
-                                                                                                            ref="mMemberComp"
-                                                                                                    />
-                                                                                                </tr>
-                                                                                            </tbody>
-                                                                                        </table>
-                                                                                    </div>
-                                                                                        <p><button
-                                                                                                @click="addMemberMData"
-                                                                                                class="btn btn-success btn-icon">
-                                                                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                                                                 width="24" height="24"
-                                                                                                 viewBox="0 0 24 24"
-                                                                                                 fill="none"
-                                                                                                 stroke="currentColor"
-                                                                                                 stroke-width="2"
-                                                                                                 stroke-linecap="round"
-                                                                                                 stroke-linejoin="round"
-                                                                                                 class="feather feather-plus">
-                                                                                                <line x1="12" y1="5"
-                                                                                                      x2="12"
-                                                                                                      y2="19"></line>
-                                                                                                <line x1="5" y1="12"
-                                                                                                      x2="19"
-                                                                                                      y2="12"></line>
-                                                                                            </svg>
-                                                                                        </button></p>
-                                                                                    <label>使用</label>
-                                                                                        <div v-if="uMemberData.length !== 0"
-                                                                                             class="table-responsive">
-                                                                                            <table class="myTable myTableMemberU">
-                                                                                                <thead>
-                                                                                                <tr>
-                                                                                                    <th>公司</th>
-                                                                                                    <th>部門</th>
-                                                                                                    <th>部門主管</th>
-                                                                                                    <th>科別</th>
-                                                                                                    <th>科別主管</th>
-                                                                                                    <th>承辦人</th>
-                                                                                                    <th>承辦人連絡電話</th>
-                                                                                                </tr>
-                                                                                                </thead>
-                                                                                                <tbody>
-                                                                                                    <tr v-for="umem in uMemberData">
-                                                                                                        <Member
-                                                                                                                :key="umem.uniqueId"
-                                                                                                                :member="umem"
-                                                                                                                :use_close="true"
-                                                                                                                :lv_disabled="false"
-                                                                                                                :companyData="companyData"
-                                                                                                                :companyUse="conCompany"
-                                                                                                                @remove-member="removeMemberUData"
-                                                                                                                ref="uMemberComp"
-                                                                                                        />
-                                                                                                    </tr>
-                                                                                                </tbody>
-                                                                                            </table>
-                                                                                        </div>
-                                                                                    <p><button @click="addMemberUData"
-                                                                                               class="btn btn-success btn-icon">
-                                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                                             width="24" height="24"
-                                                                                             viewBox="0 0 24 24"
-                                                                                             fill="none"
-                                                                                             stroke="currentColor"
-                                                                                             stroke-width="2"
-                                                                                             stroke-linecap="round"
-                                                                                             stroke-linejoin="round"
-                                                                                             class="feather feather-plus">
-                                                                                            <line x1="12" y1="5" x2="12"
-                                                                                                  y2="19"></line>
-                                                                                            <line x1="5" y1="12" x2="19"
-                                                                                                  y2="12"></line>
-                                                                                        </svg>
-                                                                                    </button></p>
+                                                                            <label>維運</label>
+                                                                            <table class="myTable myTableMemberI">
+                                                                                <thead>
+                                                                                <tr>
+                                                                                    <th>公司</th>
+                                                                                    <th>部門</th>
+                                                                                    <th>科別</th>
+                                                                                    <th>部門主管</th>
+                                                                                    <th>科別主管</th>
+                                                                                    <th>窗口</th>
+                                                                                    <th>承辦人</th>
+                                                                                    <th>承辦人連絡電話</th>
+                                                                                </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                <tr>
+                                                                                    <Member
+                                                                                            :key="iMemberData.uniqueId"
+                                                                                            :member="iMemberData"
+                                                                                            :companyData="companyData"
+                                                                                            :companyUse="conCompany"
+                                                                                            :use_close="false"
+                                                                                            :use_contact="true"
+                                                                                            :lv_disabled="true"
+                                                                                            ref="iMemberComp"
+                                                                                    />
+                                                                                </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                            <table v-if="mMemberData.length !== 0" class="myTable myTableMemberM">
+                                                                                <thead>
+                                                                                <tr>
+                                                                                    <th>公司</th>
+                                                                                    <th>部門</th>
+                                                                                    <th>科別</th>
+                                                                                    <th>部門主管</th>
+                                                                                    <th>科別主管</th>
+                                                                                    <th>承辦人</th>
+                                                                                    <th>承辦人連絡電話</th>
+                                                                                </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    <tr v-for="mmem in mMemberData">
+                                                                                        <Member
+                                                                                                :key="mmem.uniqueId"
+                                                                                                :member="mmem"
+                                                                                                :use_close="true"
+                                                                                                :lv_disabled="false"
+                                                                                                :companyData="companyData"
+                                                                                                :companyUse="conCompany"
+                                                                                                @remove-member="removeMemberMData"
+                                                                                                ref="mMemberComp"
+                                                                                        />
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                            <p><button
+                                                                                    @click="addMemberMData"
+                                                                                    class="btn btn-success btn-icon">
+                                                                                        <vue-feather type="plus"></vue-feather>
+                                                                            </button></p>
+                                                                            <label>使用</label>
+                                                                            <table v-if="uMemberData.length !== 0" class="myTable myTableMemberU">
+                                                                                <thead>
+                                                                                <tr>
+                                                                                    <th>公司</th>
+                                                                                    <th>部門</th>
+                                                                                    <th>部門主管</th>
+                                                                                    <th>科別</th>
+                                                                                    <th>科別主管</th>
+                                                                                    <th>承辦人</th>
+                                                                                    <th>承辦人連絡電話</th>
+                                                                                </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    <tr v-for="umem in uMemberData">
+                                                                                        <Member
+                                                                                                :key="umem.uniqueId"
+                                                                                                :member="umem"
+                                                                                                :use_close="true"
+                                                                                                :lv_disabled="false"
+                                                                                                :companyData="companyData"
+                                                                                                :companyUse="conCompany"
+                                                                                                @remove-member="removeMemberUData"
+                                                                                                ref="uMemberComp"
+                                                                                        />
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                            <p><button @click="addMemberUData"
+                                                                                       class="btn btn-success btn-icon">
+                                                                                        <vue-feather type="plus"></vue-feather>
+                                                                            </button></p>
                                                                         </template>
 
                                                                         <template v-if="col.type === 'file_area'">
@@ -622,13 +569,8 @@
         name: "Contract_up",
         data() {
             return {
+                per: JSON.parse(Cookies.get('per')),
                 isSidebarVisible: false,//管理面板使用
-
-                perNo: Cookies.get('perNo'),
-                perPosition: Cookies.get('perPosition'),
-                perBu1Code: Cookies.get('perBu1Code'),
-                comId: Cookies.get('comId'),//維運公司
-                comCode: Cookies.get('perBu1Code'),//公司代號
 
                 workData: [//作業種類
                     {worId: '0', worTitle: ''},
@@ -643,17 +585,18 @@
                     {souId: '0', catId: '0', souTitle: ''},
                 ],
 
+                contractData:[],
                 conId: 0,
                 conTitle: '',
                 conType: '0',//申請類別
                 conDate: null,//生效日期
                 // conSerial:'xxxxxxx',//序號
                 account: '',
-                templateData: {
-                    temId: '',
-                    temTitle: '',
-                    temStyle: '',
-                }, // 存放樣板資料的陣列
+                // templateData: {
+                //     temId: '',
+                //     temTitle: '',
+                //     temStyle: '',
+                // }, // 存放樣板資料的陣列
                 conValue: [],//temStyle
                 conWork: [],//作業種類
                 conCompany: [],//使用公司
@@ -701,7 +644,7 @@
             },
             fetchFirst() {
                 this.conId = this.$route.params.id; // 取得路由參數 id
-                this.temId = this.$route.params.tem;
+                // this.temId = this.$route.params.tem;
                 const apiRequests = [
                     this.$api.get(this.$test ? `/api/?type=contract&conId=${this.$route.params.id}` : `/api/adm/contractTemplate/${this.$route.params.ctp}`),
                     this.$api.get(this.$test ? `/api/?type=contract_member&conId=${this.$route.params.id}` : `/api/adm/contractTemplate/${this.$route.params.ctp}`),
@@ -717,17 +660,13 @@
                 Promise.all(apiRequests)
                     .then(([contractResponse, memberResponse, itemResponse, workResponse, companyResponse, categoryResponse, sourceResponse, distributionResponse, personnelResponse]) => {
                         //contractResponse
-                        this.temId = contractResponse.data.data.temId;
-                        this.perNo = contractResponse.data.data.perNo;
-                        this.perPosition = contractResponse.data.data.perPosition;
-                        this.comId = contractResponse.data.data.comId;
+                        this.contractData = contractResponse.data.data;
                         this.conTitle = contractResponse.data.data.conTitle;
                         this.conType = contractResponse.data.data.conType;
                         this.conDate = contractResponse.data.data.conDate;
                         this.conWork = contractResponse.data.data.conWork.split('|');
                         this.conCompany = contractResponse.data.data.conCompany.split('|');
                         this.conValue = JSON.parse(contractResponse.data.data.conValue);
-                        this.conId = contractResponse.data.data.conId;
                         // memberResponse
                         const memberList = memberResponse.data.data;
                         memberList.forEach(member => {
@@ -737,10 +676,11 @@
                             member.LV1 = member.memLV1 + '|' + member.memLV1Position;
                             member.LV2 = member.memLV2 + '|' + member.memLV2Position;
                         });
+                        console.log(memberList);
 
-                        this.iMemberData = memberResponse.data.data.find(member => member.memType === '0');
-                        this.mMemberData = memberResponse.data.data.filter(member => member.memType === '1');
-                        this.uMemberData = memberResponse.data.data.filter(member => member.memType === '2');
+                        this.iMemberData = memberList.find(member => member.memType === '0');
+                        this.mMemberData = memberList.filter(member => member.memType === '1');
+                        this.uMemberData = memberList.filter(member => member.memType === '2');
 
                         //itemResponse
                         const itemList = itemResponse.data.data;
@@ -793,11 +733,11 @@
                     item.iteSubsidiaries = item.iteSubsidiaries.join('|');
                 });
                 const payload = {
-                    conId: this.conId,
-                    temId: this.temId,
-                    perNo: this.perNo,
-                    perPosition: this.perPosition,
-                    comId: this.comId,
+                    conId: this.contractData.conId,
+                    temId: this.contractData.temId,
+                    perNo: this.contractData.perNo,
+                    perPosition: this.contractData.perPosition,
+                    comId: this.contractData.comId,
                     conTitle: this.conTitle,
                     conType: this.conType,
                     conDate: this.conDate,
@@ -856,21 +796,31 @@
                     uniqueId: this.generateUniqueId(),
                     memId: '0',
                     memType: '1',
-                    memBu1Code: Cookies.get('perBu1Code'),
+                    memBu1Code: this.contractData.perBu1Code,
                     memBu2Code: '',
+                    memBu2: '',
                     memBu3Code: '',
+                    memBu3: '',
                     LV0: '',
                     memLV0: '',
+                    memLV0Name: '',
                     memLV0Position: '',
+                    memLV0PositionName: '',
                     LVC: '',
                     memLVC: '',
+                    memLVCName: '',
                     memLVCPosition: '',
+                    memLVCPositionName: '',
                     LV1: '',
                     memLV1: '',
+                    memLV1Name: '',
                     memLV1Position: '',
+                    memLV1PositionName: '',
                     LV2: '',
                     memLV2: '',
+                    memLV2Name: '',
                     memLV2Position: '',
+                    memLV2PositionName: '',
                     memPhone: '',
                 },);
             },
@@ -881,19 +831,29 @@
                     memType: '2',
                     memBu1Code: '',
                     memBu2Code: '',
+                    memBu2: '',
                     memBu3Code: '',
+                    memBu3: '',
                     LV0: '',
                     memLV0: '',
+                    memLV0Name: '',
                     memLV0Position: '',
+                    memLV0PositionName: '',
                     LVC: '',
                     memLVC: '',
+                    memLVCName: '',
                     memLVCPosition: '',
+                    memLVCPositionName: '',
                     LV1: '',
                     memLV1: '',
+                    memLV1Name: '',
                     memLV1Position: '',
+                    memLV1PositionName: '',
                     LV2: '',
                     memLV2: '',
+                    memLV2Name: '',
                     memLV2Position: '',
+                    memLV2PositionName: '',
                     memPhone: '',
                 },);
             },

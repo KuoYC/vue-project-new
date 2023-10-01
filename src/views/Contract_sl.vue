@@ -11,7 +11,7 @@
                 <div class="d-flex">
                     <!-- 主要內容 -->
                     <div id="myMainDocument" :class="viewFile ? 'col-6' : 'col-12'">
-                        <template v-for="(area, parentIndex) in contractData.conValue">
+                        <template v-for="(area, parentIndex) in conValue">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 item" :id="'my'+parentIndex">
                                 <div class="card">
                                     <div class="boxs mail_listing">
@@ -171,90 +171,84 @@
                                                                                 </table>
                                                                             </template>
                                                                             <template v-if="col.type === 'sign'">
-                                                                                        <label>維運</label>
-                                                                                        <div class="table-responsive">
-                                                                                            <table class="myTable myTableMemberI">
-                                                                                                <thead>
-                                                                                                <tr>
-                                                                                                    <th>公司</th>
-                                                                                                    <th>部門</th>
-                                                                                                    <th>部門主管</th>
-                                                                                                    <th>科別</th>
-                                                                                                    <th>科別主管</th>
-                                                                                                    <th v-if="showContact">窗口</th>
-                                                                                                    <th>承辦人</th>
-                                                                                                    <th>承辦人連絡電話</th>
-                                                                                                </tr>
-                                                                                                </thead>
-                                                                                                <tbody>
-                                                                                                <tr>
-                                                                                                    <td>{{ iMemberData.comTitle }}</td>
-                                                                                                    <td>{{ this.$root.getPersonDepartment(iMemberData.comId, iMemberData.memLV0, iMemberData.memLV0Position) }}</td>
-                                                                                                    <td>{{ this.$root.getPersonName(iMemberData.comId, iMemberData.memLV2, iMemberData.memLV2Position) }}</td>
-                                                                                                    <td>{{ this.$root.getPersonBranch(iMemberData.comId, iMemberData.memLV0, iMemberData.memLV0Position) }}</td>
-                                                                                                    <td>{{ this.$root.getPersonName(iMemberData.comId, iMemberData.memLV1, iMemberData.memLV1Position) }}</td>
-                                                                                                    <td v-if="showContact">{{ this.$root.getPersonName(iMemberData.comId, iMemberData.memLVC, iMemberData.memLVCPosition) }}</td>
-                                                                                                    <td>{{ this.$root.getPersonName(iMemberData.comId, iMemberData.memLV0, iMemberData.memLV0Position) }}</td>
-                                                                                                    <td>{{ iMemberData.memPhone }}</td>
-                                                                                                </tr>
-                                                                                                </tbody>
-                                                                                            </table>
-                                                                                        </div>
-                                                                                        <div v-if="mMemberData.length !== 0"
-                                                                                             class="table-responsive">
-                                                                                            <table class="myTable myTableMemberM">
-                                                                                                <thead>
-                                                                                                <tr>
-                                                                                                    <th>公司</th>
-                                                                                                    <th>部門</th>
-                                                                                                    <th>部門主管</th>
-                                                                                                    <th>科別</th>
-                                                                                                    <th>科別主管</th>
-                                                                                                    <th>承辦人</th>
-                                                                                                    <th>承辦人連絡電話</th>
-                                                                                                </tr>
-                                                                                                </thead>
-                                                                                                <tbody>
-                                                                                                <tr v-for="mmem in mMemberData">
-                                                                                                    <td>{{ mmem.comTitle }}</td>
-                                                                                                    <td>{{ this.$root.getPersonDepartment(mmem.comId, mmem.memLV2, mmem.memLV2Position) }}</td>
-                                                                                                    <td>{{ this.$root.getPersonName(mmem.comId, mmem.memLV2, mmem.memLV2Position) }}</td>
-                                                                                                    <td>{{ this.$root.getPersonBranch(mmem.comId, mmem.memLV2, mmem.memLV2Position) }}</td>
-                                                                                                    <td>{{ this.$root.getPersonName(mmem.comId, mmem.memLV1, mmem.memLV1Position) }}</td>
-                                                                                                    <td>{{ this.$root.getPersonName(mmem.comId, mmem.memLV0, mmem.memLV0Position) }}</td>
-                                                                                                    <td>{{ mmem.memPhone }}</td>
-                                                                                                </tr>
-                                                                                                </tbody>
-                                                                                            </table>
-                                                                                        </div>
-                                                                                        <label>使用</label>
-                                                                                            <div v-if="uMemberData.length !== 0"
-                                                                                                 class="table-responsive">
-                                                                                                <table class="myTable myTableMemberU">
-                                                                                                    <thead>
-                                                                                                    <tr>
-                                                                                                        <th>公司</th>
-                                                                                                        <th>部門</th>
-                                                                                                        <th>部門主管</th>
-                                                                                                        <th>科別</th>
-                                                                                                        <th>科別主管</th>
-                                                                                                        <th>承辦人</th>
-                                                                                                        <th>承辦人連絡電話</th>
-                                                                                                    </tr>
-                                                                                                    </thead>
-                                                                                                    <tbody>
-                                                                                                <tr v-for="umem in uMemberData">
-                                                                                                    <td>{{ umem.comTitle }}</td>
-                                                                                                    <td>{{ this.$root.getPersonDepartment(umem.comId, umem.memLV2, umem.memLV2Position) }}</td>
-                                                                                                    <td>{{ this.$root.getPersonName(umem.comId, umem.memLV2, umem.memLV2Position) }}</td>
-                                                                                                    <td>{{ this.$root.getPersonBranch(umem.comId, umem.memLV2, umem.memLV2Position) }}</td>
-                                                                                                    <td>{{ this.$root.getPersonName(umem.comId, umem.memLV1, umem.memLV1Position) }}</td>
-                                                                                                    <td>{{ this.$root.getPersonName(umem.comId, umem.memLV0, umem.memLV0Position) }}</td>
-                                                                                                    <td>{{ umem.memPhone }}</td>
-                                                                                                </tr>
-                                                                                                    </tbody>
-                                                                                                </table>
-                                                                                            </div>
+                                                                                <label>維運</label>
+                                                                                <table class="myTable myTableMemberIv">
+                                                                                    <thead>
+                                                                                    <tr>
+                                                                                        <th>公司</th>
+                                                                                        <th>部門</th>
+                                                                                        <th>科別</th>
+                                                                                        <th>部門主管</th>
+                                                                                        <th>科別主管</th>
+                                                                                        <th v-if="showContact">窗口</th>
+                                                                                        <th>承辦人</th>
+                                                                                        <th>承辦人連絡電話</th>
+                                                                                    </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                    <tr>
+                                                                                        <td>{{ iMemberData.comTitle }}</td>
+                                                                                        <td>{{ iMemberData.memBu2 }}</td>
+                                                                                        <td>{{ iMemberData.memBu3 }}</td>
+                                                                                        <td>{{ iMemberData.memLV2Name }}</td>
+                                                                                        <td>{{ iMemberData.memLV1Name }}</td>
+                                                                                        <td v-if="showContact">{{ iMemberData.memLVCName }}</td>
+                                                                                        <td>{{ iMemberData.memLV0Name }}</td>
+                                                                                        <td>{{ iMemberData.memPhone }}</td>
+                                                                                    </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                                <table v-if="mMemberData.length !== 0"
+                                                                                       class="myTable myTableMemberMv">
+                                                                                        <thead>
+                                                                                        <tr>
+                                                                                            <th>公司</th>
+                                                                                            <th>部門</th>
+                                                                                            <th>科別</th>
+                                                                                            <th>部門主管</th>
+                                                                                            <th>科別主管</th>
+                                                                                            <th>承辦人</th>
+                                                                                            <th>承辦人連絡電話</th>
+                                                                                        </tr>
+                                                                                        </thead>
+                                                                                        <tbody>
+                                                                                        <tr v-for="mmem in mMemberData">
+                                                                                            <td>{{ mmem.comTitle }}</td>
+                                                                                            <td>{{ mmem.memBu2 }}</td>
+                                                                                            <td>{{ mmem.memBu3 }}</td>
+                                                                                            <td>{{ mmem.memLV2Name }}</td>
+                                                                                            <td>{{ mmem.memLV1Name }}</td>
+                                                                                            <td>{{ mmem.memLV0Name }}</td>
+                                                                                            <td>{{ mmem.memPhone }}</td>
+                                                                                        </tr>
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                <label>使用</label>
+                                                                                <table v-if="uMemberData.length !== 0"
+                                                                                       class="myTable myTableMemberUv">
+                                                                                            <thead>
+                                                                                            <tr>
+                                                                                                <th>公司</th>
+                                                                                                <th>部門</th>
+                                                                                                <th>科別</th>
+                                                                                                <th>部門主管</th>
+                                                                                                <th>科別主管</th>
+                                                                                                <th>承辦人</th>
+                                                                                                <th>承辦人連絡電話</th>
+                                                                                            </tr>
+                                                                                            </thead>
+                                                                                            <tbody>
+                                                                                            <tr v-for="umem in uMemberData">
+                                                                                                <td>{{ umem.comTitle }}</td>
+                                                                                                <td>{{ umem.memBu2 }}</td>
+                                                                                                <td>{{ umem.memBu3 }}</td>
+                                                                                                <td>{{ umem.memLV2Name }}</td>
+                                                                                                <td>{{ umem.memLV1Name }}</td>
+                                                                                                <td>{{ umem.memLV0Name }}</td>
+                                                                                                <td>{{ umem.memPhone }}</td>
+                                                                                            </tr>
+                                                                                            </tbody>
+                                                                                        </table>
                                                                             </template>
 
                                                                             <template v-if="col.type === 'file_area'">
@@ -438,26 +432,32 @@
 
 
                 <div class="col-6" style="padding-bottom: 20px;">
-                    <button v-if="checkMember" type="button" @click="signContract(3)"
-                            class="m-r-5 btn btn-info btn-border-radius waves-effect myFont16">簽核
-                    </button>
-                    <button v-if="contractData.conStatus === '0' && contractData.comId === comId && contractData.perNo === perNo && contractData.perPosition === perPosition"
+                    <button v-if="contractData.conStatus === '0' && contractData.comId === per.comId && contractData.perNo === per.perNo && contractData.perPosition === per.perPosition"
                             @click="releaseSign"
                             type="button"
                             class="m-r-5 btn btn-warning btn-border-radius waves-effect myFont16">發起
                     </button>
-                    <div class="form-group">
+                    <button v-if="contractData.conStatus === '2' && contractData.comId === per.comId && contractData.perNo === per.perNo && contractData.perPosition === per.perPosition"
+                            @click="releaseSign"
+                            type="button"
+                            class="m-r-5 btn btn-warning btn-border-radius waves-effect myFont16">重新發起
+                    </button>
+                    <button v-if="contractData.conStatus === '1' && checkMember()" type="button"
+                            @click="signContract(3)"
+                            class="m-r-5 btn btn-info btn-border-radius waves-effect myFont16">簽核
+                    </button>
+                    <div v-if="contractData.conStatus === '1' && checkMember()" class="form-group">
                         <div class="input-group mb-3">
                             <input
                                     type="text" class="form-control" v-model="msg"
                                     placeholder="理由"/>
                             <div class="input-group-append">
-                                <button v-if="checkMember" type="button" @click="signContract(4)"
+                                <button v-if="checkMember()" type="button" @click="signContract(4)"
                                         class="btn btn-danger btn-border-radius waves-effect myFont16">拒絕
                                 </button>
                             </div>
                             <div class="input-group-append">
-                                <button v-if="checkMember" type="button" @click="signContract(2)"
+                                <button v-if="checkMember()" type="button" @click="signContract(2)"
                                         class="btn btn-danger btn-border-radius waves-effect myFont16">退回
                                 </button>
                             </div>
@@ -497,13 +497,8 @@
                     <tr>
                         <td>1</td>
                         <th scope="row"><span class="badge badge-success">發起</span></th>
-                        <td>{{ iMemberData.comTitle}} {{ this.$root.getPersonDepartment(iMemberData.comId,
-                            iMemberData.memLV0, iMemberData.memLV0Position)}} {{
-                            this.$root.getPersonBranch(iMemberData.comId, iMemberData.memLV0,
-                            iMemberData.memLV0Position)}} {{ this.$root.getPersonName(iMemberData.comId,
-                            iMemberData.memLV0, iMemberData.memLV0Position)}} {{
-                            this.$root.getPersonPositionName(iMemberData.comId, iMemberData.memLV0,
-                            iMemberData.memLV0Position)}}
+                        <td>{{ iMemberData.comTitle}} {{ iMemberData.memBu2 }} {{ iMemberData.memBu3 }} {{
+                            iMemberData.memLV0Name }} {{ iMemberData.memLV0PositionName }}
                         </td>
                         <td style="text-align: right;">
                             <a :class="iMemberData.memLV0Status === '0' || iMemberData.memLV0Status === '1' ? 'text-job text-danger myFont16' : 'text-job myFont16'"
@@ -526,14 +521,34 @@
                     </tr>
                     <tr>
                         <td>2</td>
+                        <th scope="row"><span class="badge badge-primary">窗口</span></th>
+                        <td>{{ iMemberData.comTitle}} {{ iMemberData.memBu2 }} {{ iMemberData.memBu3 }} {{
+                            iMemberData.memLVCName }} {{ iMemberData.memLVCPositionName }}
+                        </td>
+                        <td style="text-align: right;">
+                            <a :class="iMemberData.memLVCStatus === '0' || iMemberData.memLVCStatus === '1' ? 'text-job text-danger myFont16' : 'text-job myFont16'"
+                               href="javascript:void(1);">
+                                <template v-if="iMemberData.memLVCStatus === '-1'">等待</template>
+                                <template v-if="iMemberData.memLVCStatus === '0'">待檢視</template>
+                                <template v-if="iMemberData.memLVCStatus === '1'">簽核中</template>
+                                <template v-if="iMemberData.memLVCStatus === '2'">退件<br>{{iMemberData.memLVCTime}}
+                                    <template v-if="iMemberData.memLVCMsg !== ''"><br>{{ iMemberData.memLVCMsg }}
+                                    </template>
+                                </template>
+                                <template v-if="iMemberData.memLVCStatus === '3'">已完成<br>{{iMemberData.memLVCTime}}
+                                </template>
+                                <template v-if="iMemberData.memLVCStatus === '4'">拒絕<br>{{iMemberData.memLVCTime}}
+                                    <template v-if="iMemberData.memLVCMsg !== ''"><br>{{ iMemberData.memLVCMsg }}
+                                    </template>
+                                </template>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
                         <th scope="row"><span class="badge badge-primary">簽核</span></th>
-                        <td>{{ iMemberData.comTitle}} {{ this.$root.getPersonDepartment(iMemberData.comId,
-                            iMemberData.memLV1, iMemberData.memLV0Position)}} {{
-                            this.$root.getPersonBranch(iMemberData.comId, iMemberData.memLV1,
-                            iMemberData.memLV0Position)}} {{ this.$root.getPersonName(iMemberData.comId,
-                            iMemberData.memLV1, iMemberData.memLV1Position)}} {{
-                            this.$root.getPersonPositionName(iMemberData.comId, iMemberData.memLV1,
-                            iMemberData.memLV1Position)}}
+                        <td>{{ iMemberData.comTitle}} {{ iMemberData.memBu2 }} {{ iMemberData.memBu3 }} {{
+                            iMemberData.memLV1Name }} {{ iMemberData.memLV1PositionName }}
                         </td>
                         <td style="text-align: right;">
                             <a :class="iMemberData.memLV1Status === '0' || iMemberData.memLV1Status === '1' ? 'text-job text-danger myFont16' : 'text-job myFont16'"
@@ -555,15 +570,10 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>3</td>
+                        <td>4</td>
                         <th scope="row"><span class="badge badge-primary">簽核</span></th>
-                        <td>{{ iMemberData.comTitle}} {{ this.$root.getPersonDepartment(iMemberData.comId,
-                            iMemberData.memLV2, iMemberData.memLV0Position)}} {{
-                            this.$root.getPersonBranch(iMemberData.comId, iMemberData.memLV2,
-                            iMemberData.memLV2Position)}} {{ this.$root.getPersonName(iMemberData.comId,
-                            iMemberData.memLV2, iMemberData.memLV2Position)}} {{
-                            this.$root.getPersonPositionName(iMemberData.comId, iMemberData.memLV2,
-                            iMemberData.memLV2Position)}}
+                        <td>{{ iMemberData.comTitle}} {{ iMemberData.memBu2 }} {{ iMemberData.memBu3 }} {{
+                            iMemberData.memLV2Name }} {{ iMemberData.memLV2PositionName }}
                         </td>
                         <td style="text-align: right;">
                             <a :class="iMemberData.memLV2Status === '0' || iMemberData.memLV2Status === '1' ? 'text-job text-danger myFont16' : 'text-job myFont16'"
@@ -586,15 +596,10 @@
                     </tr>
                     <template v-for="(mmem, idx) in mMemberData">
                         <tr>
-                            <td>{{idx+4}}</td>
+                            <td>{{idx+5}}</td>
                             <th scope="row"><span class="badge badge-info">維運-水平會議</span></th>
-                            <td>{{ mmem.comTitle}} {{ this.$root.getPersonDepartment(mmem.comId,
-                                mmem.memLV0, mmem.memLV0Position)}} {{
-                                this.$root.getPersonBranch(mmem.comId, mmem.memLV0,
-                                mmem.memLV0Position)}} {{ this.$root.getPersonName(mmem.comId,
-                                mmem.memLV0, mmem.memLV0Position)}} {{
-                                this.$root.getPersonPositionName(mmem.comId, mmem.memLV0,
-                                mmem.memLV0Position)}}
+                            <td>{{ mmem.comTitle}} {{ mmem.memBu2 }} {{ mmem.memBu3 }} {{ mmem.memLV0Name }} {{
+                                mmem.memLV0PositionName }}
                             </td>
                             <td style="text-align: right;">
                                 <a :class="mmem.memLV0Status === '0' || mmem.memLV0Status === '1' ? 'text-job text-danger myFont16' : 'text-job myFont16'"
@@ -615,13 +620,8 @@
                         <tr>
                             <td></td>
                             <th scope="row"><span class="badge badge-secondary"></span></th>
-                            <td>{{ mmem.comTitle}} {{ this.$root.getPersonDepartment(mmem.comId,
-                                mmem.memLV1, mmem.memLV1Position)}} {{
-                                this.$root.getPersonBranch(mmem.comId, mmem.memLV1,
-                                mmem.memLV1Position)}} {{ this.$root.getPersonName(mmem.comId,
-                                mmem.memLV1, mmem.memLV1Position)}} {{
-                                this.$root.getPersonPositionName(mmem.comId, mmem.memLV1,
-                                mmem.memLV1Position)}}
+                            <td>{{ mmem.comTitle}} {{ mmem.memBu2 }} {{ mmem.memBu3 }} {{ mmem.memLV1Name }} {{
+                                mmem.memLV1PositionName }}
                             </td>
                             <td style="text-align: right;">
                                 <a :class="mmem.memLV1Status === '0' || mmem.memLV1Status === '1' ? 'text-job text-danger myFont16' : 'text-job myFont16'"
@@ -642,13 +642,8 @@
                         <tr>
                             <td></td>
                             <th scope="row"><span class="badge badge-success"></span></th>
-                            <td>{{ mmem.comTitle}} {{ this.$root.getPersonDepartment(mmem.comId,
-                                mmem.memLV2, mmem.memLV2Position)}} {{
-                                this.$root.getPersonBranch(mmem.comId, mmem.memLV2,
-                                mmem.memLV2Position)}} {{ this.$root.getPersonName(mmem.comId,
-                                mmem.memLV2, mmem.memLV2Position)}} {{
-                                this.$root.getPersonPositionName(mmem.comId, mmem.memLV2,
-                                mmem.memLV2Position)}}
+                            <td>{{ mmem.comTitle}} {{ mmem.memBu2 }} {{ mmem.memBu3 }} {{ mmem.memLV2Name }} {{
+                                mmem.memLV2PositionName }}
                             </td>
                             <td style="text-align: right;">
                                 <a :class="mmem.memLV2Status === '0' || mmem.memLV2Status === '1' ? 'text-job text-danger myFont16' : 'text-job myFont16'"
@@ -669,15 +664,10 @@
                     </template>
                     <template v-for="(umem, idx) in uMemberData">
                         <tr>
-                            <td>{{mMemberData.length+idx+4}}</td>
+                            <td>{{mMemberData.length+idx+5}}</td>
                             <th scope="row"><span class="badge badge-info">水平會議</span></th>
-                            <td>{{ umem.comTitle}} {{ this.$root.getPersonDepartment(umem.comId,
-                                umem.memLV0, umem.memLV0Position)}} {{
-                                this.$root.getPersonBranch(umem.comId, umem.memLV0,
-                                umem.memLV0Position)}} {{ this.$root.getPersonName(umem.comId,
-                                umem.memLV0, umem.memLV0Position)}} {{
-                                this.$root.getPersonPositionName(umem.comId, umem.memLV0,
-                                umem.memLV0Position)}}
+                            <td>{{ umem.comTitle}} {{ umem.memBu2 }} {{ umem.memBu3 }} {{ umem.memLV0Name }} {{
+                                umem.memLV0PositionName }}
                             </td>
                             <td style="text-align: right;">
                                 <a :class="umem.memLV0Status === '0' || umem.memLV0Status === '1' ? 'text-job text-danger myFont16' : 'text-job myFont16'"
@@ -698,13 +688,8 @@
                         <tr>
                             <td></td>
                             <th scope="row"><span class="badge badge-secondary"></span></th>
-                            <td>{{ umem.comTitle}} {{ this.$root.getPersonDepartment(umem.comId,
-                                umem.memLV1, umem.memLV1Position)}} {{
-                                this.$root.getPersonBranch(umem.comId, umem.memLV1,
-                                umem.memLV1Position)}} {{ this.$root.getPersonName(umem.comId,
-                                umem.memLV1, umem.memLV1Position)}} {{
-                                this.$root.getPersonPositionName(umem.comId, umem.memLV1,
-                                umem.memLV1Position)}}
+                            <td>{{ umem.comTitle}} {{ umem.memBu2 }} {{ umem.memBu3 }} {{ umem.memLV1Name }} {{
+                                umem.memLV1PositionName }}
                             </td>
                             <td style="text-align: right;">
                                 <a :class="umem.memLV1Status === '0' || umem.memLV1Status === '1' ? 'text-job text-danger myFont16' : 'text-job myFont16'"
@@ -725,13 +710,8 @@
                         <tr>
                             <td></td>
                             <th scope="row"><span class="badge badge-success"></span></th>
-                            <td>{{ umem.comTitle}} {{ this.$root.getPersonDepartment(umem.comId,
-                                umem.memLV2, umem.memLV2Position)}} {{
-                                this.$root.getPersonBranch(umem.comId, umem.memLV2,
-                                umem.memLV2Position)}} {{ this.$root.getPersonName(umem.comId,
-                                umem.memLV2, umem.memLV2Position)}} {{
-                                this.$root.getPersonPositionName(umem.comId, umem.memLV2,
-                                umem.memLV2Position)}}
+                            <td>{{ umem.comTitle}} {{ umem.memBu2 }} {{ umem.memBu3 }} {{ umem.memLV2Name }} {{
+                                umem.memLV2PositionName }}
                             </td>
                             <td style="text-align: right;">
                                 <a :class="umem.memLV2Status === '0' || umem.memLV2Status === '1' ? 'text-job text-danger myFont16' : 'text-job myFont16'"
@@ -836,15 +816,16 @@
         name: "Contract_sl",
         data() {
             return {
+                per: JSON.parse(Cookies.get('per')),
                 showContact: true,
                 viewFile: false,
                 viewFileUrl: '',
                 fileNum: 0,
                 isSidebarVisible: false,
-                perNo: Cookies.get('perNo'),
-                perPosition: Cookies.get('perPosition'),
-                perBu1Code: Cookies.get('perBu1Code'),
-                comId: Cookies.get('comId'),
+                // perNo: Cookies.get('perNo'),
+                // perPosition: Cookies.get('perPosition'),
+                // perBu1Code: Cookies.get('perBu1Code'),
+                // comId: Cookies.get('comId'),
                 msg: '',//理由
                 contractData: {
                     // conId:'',
@@ -865,6 +846,7 @@
                     // conCreateTime:'',
                     // ctPurpose: '',
                 },
+                conValue: [],
                 itemData: [],
                 iMemberData: [],//發起
                 mMemberData: [],//維運
@@ -916,7 +898,7 @@
                     .then(([contractResponse, itemResponse, memberResponse, personnelResponse]) => {
                         //contractResponse
                         this.contractData = contractResponse.data.data;
-                        this.contractData.conValue = JSON.parse(this.contractData.conValue);
+                        this.conValue = this.contractData && this.contractData.conValue ? JSON.parse(this.contractData.conValue) : null;
                         let fileNum = 0;
                         if (this.contractData.conFileMeeting && '' !== this.contractData.conFileMeeting) {
                             fileNum += 1;
@@ -938,10 +920,9 @@
                         this.itemData = itemResponse.data.data;
 
                         // memberResponse
-                        const memberData = memberResponse.data.data;
-                        this.iMemberData = memberData.find(member => member.memType === '0');
-                        this.mMemberData = memberData.filter(member => member.memType === '1');
-                        this.uMemberData = memberData.filter(member => member.memType === '2');
+                        this.iMemberData = memberResponse.data.data.find(member => member.memType === '0');
+                        this.mMemberData = memberResponse.data.data.filter(member => member.memType === '1');
+                        this.uMemberData = memberResponse.data.data.filter(member => member.memType === '2');
 
                         //itemSubsidiaryResponse
                         // const itemSubsidiaryData = itemSubsidiaryResponse.data.data;
@@ -962,59 +943,335 @@
             signContract(status) {// todo: signContract 簽核作業
                 switch (status) {
                     case 2://退件
+                        if (this.iMemberData.comId === this.per.comId && this.iMemberData.memNow === this.per.perNo && this.iMemberData.memNowPosition === this.per.perPosition) {
+                            if (this.iMemberData.comId === this.per.comId && this.iMemberData.memLV0 === this.per.perNo && this.iMemberData.memLV0Position === this.per.perPosition) {
+                                const upMember = {
+                                    memId: this.iMemberData.memId,
+                                    memLV0Status: 2,
+                                    memLV0Time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                                    memLV0Msg: this.msg,
+                                    memStatus: 2,
+                                    conLogMsg: this.$root.getCompanyTitle(this.iMemberData.comId, '') + ' '
+                                        + this.iMemberData.memBu2 + ' '
+                                        + this.iMemberData.memBu3 + ' '
+                                        + this.iMemberData.memLV0Name + ' '
+                                        + this.iMemberData.memLV0PositionName + ' '
+                                        + '退件' + (this.msg !== '' ? ':' + this.msg : ''),
+                                };
+                                this.updateMember(upMember);
+                            }
+                            else if (this.iMemberData.comId === this.per.comId && this.iMemberData.memLVC === this.pre.perNo && this.iMemberData.memLVCPosition === this.pre.perPosition) {
+                                const upMember = {
+                                    memId: this.iMemberData.memId,
+                                    memLVCStatus: 2,
+                                    memLVCTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                                    memLVCMsg: this.msg,
+                                    memStatus: 2,
+                                    conLogMsg: this.$root.getCompanyTitle(this.iMemberData.comId, '') + ' '
+                                        + this.iMemberData.memBu2 + ' '
+                                        + this.iMemberData.memBu3 + ' '
+                                        + this.iMemberData.memLVCName + ' '
+                                        + this.iMemberData.memLVCPositionName + ' '
+                                        + '退件' + (this.msg !== '' ? ':' + this.msg : ''),
+                                };
+                                this.updateMember(upMember);
+                            }
+                            else if (this.iMemberData.comId === this.per.comId && this.iMemberData.memLV1 === this.pre.perNo && this.iMemberData.memLV1Position === this.pre.perPosition) {
+                                const upMember = {
+                                    memId: this.iMemberData.memId,
+                                    memLV1Status: 2,
+                                    memLV1Time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                                    memLV1Msg: this.msg,
+                                    memStatus: 2,
+                                    conLogMsg: this.$root.getCompanyTitle(this.iMemberData.comId, '') + ' '
+                                        + this.iMemberData.memBu2 + ' '
+                                        + this.iMemberData.memBu3 + ' '
+                                        + this.iMemberData.memLV1Name + ' '
+                                        + this.iMemberData.memLV1PositionName + ' '
+                                        + '退件' + (this.msg !== '' ? ':' + this.msg : ''),
+                                };
+                                this.updateMember(upMember);
+                            }
+                            else if (this.iMemberData.comId === this.per.comId && this.iMemberData.memLV2 === this.pre.perNo && this.iMemberData.memLV2Position === this.pre.perPosition) {
+                                const upMember = {
+                                    memId: this.iMemberData.memId,
+                                    memLV2Status: 2,
+                                    memLV2Time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                                    memLV2Msg: this.msg,
+                                    memStatus: 2,
+                                    conLogMsg: this.$root.getCompanyTitle(this.iMemberData.comId, '') + ' '
+                                        + this.iMemberData.memBu2 + ' '
+                                        + this.iMemberData.memBu3 + ' '
+                                        + this.iMemberData.memLV2Name + ' '
+                                        + this.iMemberData.memLV2PositionName + ' '
+                                        + '退件' + (this.msg !== '' ? ':' + this.msg : ''),
+                                };
+                                this.updateMember(upMember);
+                            }
+                            else {
+                            }
+                        }
+                        this.mMemberData.forEach((mem) => {
+                            if (mem.comId === this.per.comId && mem.memNow === this.per.perNo && mem.memNowPosition === this.per.perPosition) {
+                                if (mem.comId === this.per.comId && mem.memLV0 === this.per.perNo && mem.memLV0Position === this.per.perPosition) {
+                                    const upMember = {
+                                        memId: mem.memId,
+                                        memLV0Status: 2,
+                                        memLV0Time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                                        memLV0Msg: this.msg,
+                                        memStatus: 2,
+                                        conLogMsg: this.$root.getCompanyTitle(mem.comId, '') + ' '
+                                            + mem.memBu2 + ' '
+                                            + mem.memBu3 + ' '
+                                            + mem.memLV0Name + ' '
+                                            + mem.memLV0PositionName + ' '
+                                            + '退件' + (this.msg !== '' ? ':' + this.msg : ''),
+                                    };
+                                    this.updateMember(upMember);
+                                }
+                                else if (mem.comId === this.per.comId && mem.memLV1 === this.per.perNo && mem.memLV1Position === this.per.perPosition) {
+                                    const upMember = {
+                                        memId: mem.memId,
+                                        memLV1Status: 2,
+                                        memLV1Time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                                        memLV1Msg: this.msg,
+                                        memStatus: 2,
+                                        conLogMsg: this.$root.getCompanyTitle(mem.comId, '') + ' '
+                                            + mem.memBu2 + ' '
+                                            + mem.memBu3 + ' '
+                                            + mem.memLV1Name + ' '
+                                            + mem.memLV1PositionName + ' '
+                                            + '退件' + (this.msg !== '' ? ':' + this.msg : ''),
+                                    };
+                                    this.updateMember(upMember);
+                                }
+                                else if (mem.comId === this.per.comId && mem.memLV2 === this.per.perNo && mem.memLV2Position === this.per.perPosition) {
+                                    const upMember = {
+                                        memId: mem.memId,
+                                        memLV2Status: 2,
+                                        memLV2Time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                                        memLV2Msg: this.msg,
+                                        memStatus: 2,
+                                        conLogMsg: this.$root.getCompanyTitle(mem.comId, '') + ' '
+                                            + mem.memBu2 + ' '
+                                            + mem.memBu3 + ' '
+                                            + mem.memLV2Name + ' '
+                                            + mem.memLV2PositionName + ' '
+                                            + '退件' + (this.msg !== '' ? ':' + this.msg : ''),
+                                    };
+                                    this.updateMember(upMember);
+                                }
+                                else {
+                                }
+                            }
+                        });
+
+                        this.uMemberData.forEach((mem) => {
+                            if (mem.comId === this.per.comId && mem.memNow === this.per.perNo && mem.memNowPosition === this.per.perPosition) {
+                                if (mem.comId === this.per.comId && mem.memLV0 === this.per.perNo && mem.memLV0Position === this.per.perPosition) {
+                                    const upMember = {
+                                        memId: mem.memId,
+                                        memLV0Status: 2,
+                                        memLV0Time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                                        memLV0Msg: this.msg,
+                                        memStatus: 2,
+                                        conLogMsg: this.$root.getCompanyTitle(mem.comId, '') + ' '
+                                            + mem.memBu2 + ' '
+                                            + mem.memBu3 + ' '
+                                            + mem.memLV0Name + ' '
+                                            + mem.memLV0PositionName + ' '
+                                            + '退件' + (this.msg !== '' ? ':' + this.msg : ''),
+                                    };
+                                    this.updateMember(upMember);
+                                }
+                                else if (mem.comId === this.per.comId && mem.memLV1 === this.per.perNo && mem.memLV1Position === this.per.perPosition) {
+                                    const upMember = {
+                                        memId: mem.memId,
+                                        memLV1Status: 2,
+                                        memLV1Time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                                        memLV1Msg: this.msg,
+                                        memStatus: 2,
+                                        conLogMsg: this.$root.getCompanyTitle(mem.comId, '') + ' '
+                                            + mem.memBu2 + ' '
+                                            + mem.memBu3 + ' '
+                                            + mem.memLV1Name + ' '
+                                            + mem.memLV1PositionName + ' '
+                                            + '退件' + (this.msg !== '' ? ':' + this.msg : ''),
+                                    };
+                                    this.updateMember(upMember);
+                                }
+                                else if (mem.comId === this.per.comId && mem.memLV2 === this.per.perNo && mem.memLV2Position === this.per.perPosition) {
+                                    const upMember = {
+                                        memId: mem.memId,
+                                        memLV2Status: 2,
+                                        memLV2Time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                                        memLV2Msg: this.msg,
+                                        memStatus: 2,
+                                        conLogMsg: this.$root.getCompanyTitle(mem.comId, '') + ' '
+                                            + mem.memBu2 + ' '
+                                            + mem.memBu3 + ' '
+                                            + mem.memLV2Name + ' '
+                                            + mem.memLV2PositionName + ' '
+                                            + '退件' + (this.msg !== '' ? ':' + this.msg : ''),
+                                    };
+                                    this.updateMember(upMember);
+                                }
+                                else {
+                                }
+                            }
+                        });
+
+                        if (this.clearMemberAll()) {
+                            if (this.updateContractStatus(2, '', '文件退回')) {
+                                alert('文件已退回');
+                                this.$router.push(`/contract/${this.$route.params.tem}/list`);
+                            }
+                            else {
+                                alert('error');
+                                this.$router.go(0);
+                            }
+                        }
                         break;
                     case 3://簽核
-                        this.iMemberList.forEach((mem) => {
-                            if (mem.memNow === this.perNo && mem.memNowPosition === this.perPosition) {
-                                if (mem.comId === this.comId && mem.memLV0 === this.perNo && mem.memLV0Position === this.perPosition) {
+                        let iMemberSignCheck = false;
+                        if (this.iMemberData.comId === this.per.comId && this.iMemberData.memNow === this.per.perNo && this.iMemberData.memNowPosition === this.per.perPosition) {
+                            if (this.iMemberData.comId === this.per.comId && this.iMemberData.memLV0 === this.per.perNo && this.iMemberData.memLV0Position === this.per.perPosition) {
+                                const upMember = {
+                                    memId: this.iMemberData.memId,
+                                    memLV0Status: 3,
+                                    memLV0Time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                                    memLVCStatus: 0,
+                                    memNow: this.iMemberData.memLVC,
+                                    memNowPosition: this.iMemberData.memLVCPosition,
+                                    memNowStatus: 0,
+                                    memStatus: 1,
+                                    conLogMsg: this.$root.getCompanyTitle(this.iMemberData.comId, '') + ' '
+                                        + this.iMemberData.memBu2 + ' '
+                                        + this.iMemberData.memBu3 + ' '
+                                        + this.iMemberData.memLV0Name + ' '
+                                        + this.iMemberData.memLV0PositionName + ' '
+                                        + '簽核完成',
+                                    conLogMsgNext: this.$root.getCompanyTitle(this.iMemberData.comId, '') + ' '
+                                        + this.iMemberData.memBu2 + ' '
+                                        + this.iMemberData.memBu3 + ' '
+                                        + this.iMemberData.memLVCName + ' '
+                                        + this.iMemberData.memLVCPositionName + ' '
+                                        + '待檢視',
+                                };
+                                if (this.updateMember(upMember)) {
+                                    alert('簽核完成');
+                                }
+                            }
+                            else if (this.iMemberData.comId === this.per.comId && this.iMemberData.memLVC === this.per.perNo && this.iMemberData.memLVCPosition === this.per.perPosition) {
+                                const upMember = {
+                                    memId: this.iMemberData.memId,
+                                    memLVCStatus: 3,
+                                    memLVCTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                                    memLV1Status: 0,
+                                    memNow: this.iMemberData.memLV1,
+                                    memNowPosition: this.iMemberData.memLV1Position,
+                                    memNowStatus: 0,
+                                    memStatus: 1,
+                                    conLogMsg: this.$root.getCompanyTitle(this.iMemberData.comId, '') + ' '
+                                        + this.iMemberData.memBu2 + ' '
+                                        + this.iMemberData.memBu3 + ' '
+                                        + this.iMemberData.memLVCName + ' '
+                                        + this.iMemberData.memLVCPositionName + ' '
+                                        + '簽核完成',
+                                    conLogMsgNext: this.$root.getCompanyTitle(this.iMemberData.comId, '') + ' '
+                                        + this.iMemberData.memBu2 + ' '
+                                        + this.iMemberData.memBu3 + ' '
+                                        + this.iMemberData.memLV1Name + ' '
+                                        + this.iMemberData.memLV1PositionName + ' '
+                                        + '待檢視',
+                                };
+                                console.log(upMember);
+                                if (this.updateMember(upMember)) {
+                                    alert('簽核完成');
+                                }
+                            }
+                            else if (this.iMemberData.comId === this.per.comId && this.iMemberData.memLV1 === this.per.perNo && this.iMemberData.memLV1Position === this.per.perPosition) {
+                                const upMember = {
+                                    memId: this.iMemberData.memId,
+                                    memLV1Status: 3,
+                                    memLV1Time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                                    memLV2Status: 0,
+                                    memNow: this.iMemberData.memLV2,
+                                    memNowPosition: this.iMemberData.memLV2Position,
+                                    memNowStatus: 0,
+                                    memStatus: 1,
+                                    conLogMsg: this.$root.getCompanyTitle(this.iMemberData.comId, '') + ' '
+                                        + this.iMemberData.memBu2 + ' '
+                                        + this.iMemberData.memBu3 + ' '
+                                        + this.iMemberData.memLV1Name + ' '
+                                        + this.iMemberData.memLV1PositionName + ' '
+                                        + '簽核完成',
+                                    conLogMsgNext: this.$root.getCompanyTitle(this.iMemberData.comId, '') + ' '
+                                        + this.iMemberData.memBu2 + ' '
+                                        + this.iMemberData.memBu3 + ' '
+                                        + this.iMemberData.memLV2Name + ' '
+                                        + this.iMemberData.memLV2PositionName + ' '
+                                        + '待檢視',
+                                };
+                                if (this.updateMember(upMember)) {
+                                    alert('簽核完成');
+                                }
+                            }
+                            else if (this.iMemberData.comId === this.per.comId && this.iMemberData.memLV2 === this.per.perNo && this.iMemberData.memLV2Position === this.per.perPosition) {
+                                iMemberSignCheck = true;
+                                const upMember = {
+                                    memId: this.iMemberData.memId,
+                                    memLV2Status: 3,
+                                    memLV2Time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                                    memNow: 'null',
+                                    memNowPosition: 'null',
+                                    memNowStatus: -1,
+                                    memStatus: 3,
+                                    conLogMsg: this.$root.getCompanyTitle(this.iMemberData.comId, '') + ' '
+                                        + this.iMemberData.memBu2 + ' '
+                                        + this.iMemberData.memBu3 + ' '
+                                        + this.iMemberData.memLV2Name + ' '
+                                        + this.iMemberData.memLV2PositionName + ' '
+                                        + '簽核完成',
+                                };
+                                if (this.updateMember(upMember)) {
+                                    alert('簽核完成');
+                                }
+                            }
+                            else {
+                            }
+                        }
+                        let mMemberSignCheck = false;
+                        this.mMemberData.forEach((mem) => {
+                            if (mem.comId === this.per.comId && mem.memNow === this.per.perNo && mem.memNowPosition === this.per.perPosition) {
+                                if (mem.comId === this.per.comId && mem.memLV0 === this.per.perNo && mem.memLV0Position === this.per.perPosition) {
                                     const upMember = {
                                         memId: mem.memId,
                                         memLV0Status: 3,
                                         memLV0Time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-                                        memLVCStatus: 0,
-                                        memNow: mem.memLVC,
-                                        memNowPosition: mem.memLVCPosition,
-                                        memStatus: 0,
-                                        conLogMsg: this.$root.getCompanyTitle(this.comId, '') + ' '
-                                            + this.$root.getPersonDepartment(this.comId, this.perNo, this.perPosition) + ' '
-                                            + this.$root.getPersonBranch(this.comId, this.perNo, this.perPosition) + ' '
-                                            + this.$root.getPersonName(this.comId, this.perNo, this.perPosition) + ' '
-                                            + this.$root.getPersonPositionName(this.comId, this.perNo, this.perPosition) + ' '
-                                            + '簽核完成',
-                                        conLogMsgNext: this.$root.getCompanyTitle(mem.comId, '') + ' '
-                                            + this.$root.getPersonDepartment(mem.comId, mem.memLVC, mem.memLVCPosition) + ' '
-                                            + this.$root.getPersonBranch(mem.comId, mem.memLVC, mem.memLVCPosition) + ' '
-                                            + this.$root.getPersonName(mem.comId, mem.memLVC, mem.memLVCPosition) + ' '
-                                            + this.$root.getPersonPositionName(mem.comId, mem.memLVC, mem.memLVCPosition) + ' '
-                                            + '待檢視',
-                                    };
-                                    this.updateMember(upMember);
-                                }
-                                if (mem.memLVC === this.perNo && mem.memLVCPosition === this.perPosition) {
-                                    const upMember = {
-                                        memId: mem.memId,
-                                        memLVCStatus: 3,
-                                        memLVCTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
                                         memLV1Status: 0,
                                         memNow: mem.memLV1,
                                         memNowPosition: mem.memLV1Position,
-                                        memStatus: 0,
-                                        conLogMsg: this.$root.getCompanyTitle(this.comId, '') + ' '
-                                            + this.$root.getPersonDepartment(this.comId, this.perNo, this.perPosition) + ' '
-                                            + this.$root.getPersonBranch(this.comId, this.perNo, this.perPosition) + ' '
-                                            + this.$root.getPersonName(this.comId, this.perNo, this.perPosition) + ' '
-                                            + this.$root.getPersonPositionName(this.comId, this.perNo, this.perPosition) + ' '
+                                        memNowStatus: 0,
+                                        memStatus: 1,
+                                        conLogMsg: this.$root.getCompanyTitle(mem.comId, '') + ' '
+                                            + mem.memBu2 + ' '
+                                            + mem.memBu3 + ' '
+                                            + mem.memLV0Name + ' '
+                                            + mem.memLV0PositionName + ' '
                                             + '簽核完成',
                                         conLogMsgNext: this.$root.getCompanyTitle(mem.comId, '') + ' '
-                                            + this.$root.getPersonDepartment(mem.comId, mem.memLV1, mem.memLV1Position) + ' '
-                                            + this.$root.getPersonBranch(mem.comId, mem.memLV1, mem.memLV1Position) + ' '
-                                            + this.$root.getPersonName(mem.comId, mem.memLV1, mem.memLV1Position) + ' '
-                                            + this.$root.getPersonPositionName(mem.comId, mem.memLV1, mem.memLV1Position) + ' '
+                                            + mem.memBu2 + ' '
+                                            + mem.memBu3 + ' '
+                                            + mem.memLV1Name + ' '
+                                            + mem.memLV1PositionName + ' '
                                             + '待檢視',
                                     };
-                                    this.updateMember(upMember);
+                                    if (this.updateMember(upMember)) {
+                                        alert('簽核完成');
+                                    }
                                 }
-                                if (mem.memLV1 === this.perNo && mem.memLV1Position === this.perPosition) {
+                                if (mem.comId === this.per.comId && mem.memLV1 === this.per.perNo && mem.memLV1Position === this.per.perPosition) {
                                     const upMember = {
                                         memId: mem.memId,
                                         memLV1Status: 3,
@@ -1022,299 +1279,420 @@
                                         memLV2Status: 0,
                                         memNow: mem.memLV2,
                                         memNowPosition: mem.memLV2Position,
-                                        memStatus: 0,
-                                        conLogMsg: this.$root.getCompanyTitle(this.comId, '') + ' '
-                                            + this.$root.getPersonDepartment(this.comId, this.perNo, this.perPosition) + ' '
-                                            + this.$root.getPersonBranch(this.comId, this.perNo, this.perPosition) + ' '
-                                            + this.$root.getPersonName(this.comId, this.perNo, this.perPosition) + ' '
-                                            + this.$root.getPersonPositionName(this.comId, this.perNo, this.perPosition) + ' '
+                                        memNowStatus: 0,
+                                        memStatus: 1,
+                                        conLogMsg: this.$root.getCompanyTitle(mem.comId, '') + ' '
+                                            + mem.memBu2 + ' '
+                                            + mem.memBu3 + ' '
+                                            + mem.memLV1Name + ' '
+                                            + mem.memLV1PositionName + ' '
                                             + '簽核完成',
                                         conLogMsgNext: this.$root.getCompanyTitle(mem.comId, '') + ' '
-                                            + this.$root.getPersonDepartment(mem.comId, mem.memLV2, mem.memLV2Position) + ' '
-                                            + this.$root.getPersonBranch(mem.comId, mem.memLV2, mem.memLV2Position) + ' '
-                                            + this.$root.getPersonName(mem.comId, mem.memLV2, mem.memLV2Position) + ' '
-                                            + this.$root.getPersonPositionName(mem.comId, mem.memLV2, mem.memLV2Position) + ' '
+                                            + mem.memBu2 + ' '
+                                            + mem.memBu3 + ' '
+                                            + mem.memLV2Name + ' '
+                                            + mem.memLV2PositionName + ' '
                                             + '待檢視',
                                     };
-                                    this.updateMember(upMember);
+                                    if (this.updateMember(upMember)) {
+                                        alert('簽核完成');
+                                    }
                                 }
-                                if (mem.memLV2 === this.perNo && mem.memLV2Position === this.perPosition) {
+                                if (mem.comId === this.per.comId && mem.memLV2 === this.per.perNo && mem.memLV2Position === this.per.perPosition) {
+                                    mMemberSignCheck = true;
                                     const upMember = {
                                         memId: mem.memId,
                                         memLV2Status: 3,
                                         memLV2Time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-                                        memLV1Status: 0,
                                         memNow: 'null',
                                         memNowPosition: 'null',
+                                        memNowStatus: -1,
                                         memStatus: 3,
-                                        conLogMsg: this.$root.getCompanyTitle(this.comId, '') + ' '
-                                            + this.$root.getPersonDepartment(this.comId, this.perNo, this.perPosition) + ' '
-                                            + this.$root.getPersonBranch(this.comId, this.perNo, this.perPosition) + ' '
-                                            + this.$root.getPersonName(this.comId, this.perNo, this.perPosition) + ' '
-                                            + this.$root.getPersonPositionName(this.comId, this.perNo, this.perPosition) + ' '
+                                        conLogMsg: this.$root.getCompanyTitle(mem.comId, '') + ' '
+                                            + mem.memBu2 + ' '
+                                            + mem.memBu3 + ' '
+                                            + mem.memLV2Name + ' '
+                                            + mem.memLV2PositionName + ' '
                                             + '簽核完成',
                                     };
                                     if (this.updateMember(upMember)) {
-                                        if (this.mMemberData.length !== 0) {
-                                            this.mMemberList.forEach((next_mem) => {
-                                                const upMember = {
-                                                    memId: next_mem.memId,
-                                                    memLV0Status: 0,
-                                                    memNow: next_mem.mvmLV0,
-                                                    memNowPosition: next_mem.memLV0Position,
-                                                    memStatus: 0,
-                                                    conLogMsg: this.$root.getCompanyTitle(next_mem.comId, '') + ' '
-                                                        + this.$root.getPersonDepartment(next_mem.comId, next_mem.memLV0, next_mem.memLV0Position) + ' '
-                                                        + this.$root.getPersonBranch(next_mem.comId, next_mem.memLV0, next_mem.memLV0Position) + ' '
-                                                        + this.$root.getPersonName(next_mem.comId, next_mem.memLV0, next_mem.memLV0Position) + ' '
-                                                        + this.$root.getPersonPositionName(next_mem.comId, next_mem.memLV0, next_mem.memLV0Position) + ' '
-                                                        + '待檢視',
-                                                };
-                                                this.updateMember(upMember);
-                                            });
+                                        alert('簽核完成');
+                                    }
+                                }
+                            }
+                        });
+                        let uMemberSignCheck = false;
+                        this.uMemberData.forEach((mem) => {
+                            if (mem.comId === this.per.comId && mem.memNow === this.per.perNo && mem.memNowPosition === this.per.perPosition) {
+                                if (mem.comId === this.per.comId && mem.memLV0 === this.per.perNo && mem.memLV0Position === this.per.perPosition) {
+                                    const upMember = {
+                                        memId: mem.memId,
+                                        memLV0Status: 3,
+                                        memLV0Time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                                        memLV1Status: 0,
+                                        memNow: mem.memLV1,
+                                        memNowPosition: mem.memLV1Position,
+                                        memNowStatus: 0,
+                                        memStatus: 1,
+                                        conLogMsg: this.$root.getCompanyTitle(mem.comId, '') + ' '
+                                            + mem.memBu2 + ' '
+                                            + mem.memBu3 + ' '
+                                            + mem.memLV0Name + ' '
+                                            + mem.memLV0PositionName + ' '
+                                            + '簽核完成',
+                                        conLogMsgNext: this.$root.getCompanyTitle(mem.comId, '') + ' '
+                                            + mem.memBu2 + ' '
+                                            + mem.memBu3 + ' '
+                                            + mem.memLV1Name + ' '
+                                            + mem.memLV1PositionName + ' '
+                                            + '待檢視',
+                                    };
+                                    if (this.updateMember(upMember)) {
+                                        alert('簽核完成');
+                                    }
+                                }
+                                if (mem.comId === this.per.comId && mem.memLV1 === this.per.perNo && mem.memLV1Position === this.per.perPosition) {
+                                    const upMember = {
+                                        memId: mem.memId,
+                                        memLV1Status: 3,
+                                        memLV1Time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                                        memLV2Status: 0,
+                                        memNow: mem.memLV2,
+                                        memNowPosition: mem.memLV2Position,
+                                        memNowStatus: 0,
+                                        memStatus: 1,
+                                        conLogMsg: this.$root.getCompanyTitle(mem.comId, '') + ' '
+                                            + mem.memBu2 + ' '
+                                            + mem.memBu3 + ' '
+                                            + mem.memLV1Name + ' '
+                                            + mem.memLV1PositionName + ' '
+                                            + '簽核完成',
+                                        conLogMsgNext: this.$root.getCompanyTitle(mem.comId, '') + ' '
+                                            + mem.memBu2 + ' '
+                                            + mem.memBu3 + ' '
+                                            + mem.memLV2Name + ' '
+                                            + mem.memLV2PositionName + ' '
+                                            + '待檢視',
+                                    };
+                                    if (this.updateMember(upMember)) {
+                                        alert('簽核完成');
+                                    }
+                                }
+                                if (mem.comId === this.per.comId && mem.memLV2 === this.per.perNo && mem.memLV2Position === this.per.perPosition) {
+                                    uMemberSignCheck = true;
+                                    const upMember = {
+                                        memId: mem.memId,
+                                        memLV2Status: 3,
+                                        memLV2Time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                                        memNow: 'null',
+                                        memNowPosition: 'null',
+                                        memNowStatus: -1,
+                                        memStatus: 3,
+                                        conLogMsg: this.$root.getCompanyTitle(mem.comId, '') + ' '
+                                            + mem.memBu2 + ' '
+                                            + mem.memBu3 + ' '
+                                            + mem.memLV2Name + ' '
+                                            + mem.memLV2PositionName + ' '
+                                            + '簽核完成',
+                                    };
+                                    if (this.updateMember(upMember)) {
+                                        alert('簽核完成');
+                                    }
+                                }
+                            }
+                        });
+                        let SignEnd = false;
+                        if (iMemberSignCheck) {//發起簽完
+                            if (this.checkSameTypeSign(0)) {
+                                if (this.mMemberData.length !== 0) {
+                                    this.mMemberData.forEach((mem) => {
+                                        const upMember = {
+                                            memId: mem.memId,
+                                            memLV0Status: 0,
+                                            memNow: mem.memLV0,
+                                            memNowPosition: mem.memLV0Position,
+                                            memNowStatus:0,
+                                            memStatus: 0,
+                                            conLogMsg: this.$root.getCompanyTitle(mem.comId, '') + ' '
+                                                + mem.memBu2 + ' '
+                                                + mem.memBu3 + ' '
+                                                + mem.memLV0Name + ' '
+                                                + mem.memLV0PositionName + ' '
+                                                + '待檢視',
+                                        };
+                                        this.updateMember(upMember);
+                                    });
+                                }
+                                else {
+                                    if (this.uMemberData.length !== 0) {
+                                        this.uMemberData.forEach((mem) => {
+                                            const upMember = {
+                                                memId: mem.memId,
+                                                memLV0Status: 0,
+                                                memNow: mem.memLV0,
+                                                memNowPosition: mem.memLV0Position,
+                                                memNowStatus:0,
+                                                memStatus: 0,
+                                                conLogMsg: this.$root.getCompanyTitle(mem.comId, '') + ' '
+                                                    + mem.memBu2 + ' '
+                                                    + mem.memBu3 + ' '
+                                                    + mem.memLV0Name + ' '
+                                                    + mem.memLV0PositionName + ' '
+                                                    + '待檢視',
+                                            };
+                                            this.updateMember(upMember);
+                                        });
+                                    }
+                                    else {
+                                        if (this.updateContractStatus(3, dayjs().format('YYYY-MM-DD'), '文件簽核完成')) {
+                                            SignEnd = true;
                                         }
                                         else {
-                                            if (this.uMemberData.length !== 0) {
-                                                this.uMemberList.forEach((next_mem) => {
-                                                    const upMember = {
-                                                        memId: next_mem.memId,
-                                                        memLV0Status: 0,
-                                                        memNow: next_mem.mvmLV0,
-                                                        memNowPosition: next_mem.memLV0Position,
-                                                        memStatus: 0,
-                                                        conLogMsg: this.$root.getCompanyTitle(next_mem.comId, '') + ' '
-                                                            + this.$root.getPersonDepartment(next_mem.comId, next_mem.memLV0, next_mem.memLV0Position) + ' '
-                                                            + this.$root.getPersonBranch(next_mem.comId, next_mem.memLV0, next_mem.memLV0Position) + ' '
-                                                            + this.$root.getPersonName(next_mem.comId, next_mem.memLV0, next_mem.memLV0Position) + ' '
-                                                            + this.$root.getPersonPositionName(next_mem.comId, next_mem.memLV0, next_mem.memLV0Position) + ' '
-                                                            + '待檢視',
-                                                    };
-                                                    this.updateMember(upMember);
-                                                });
-                                            }
-
+                                            alert('error');
+                                            this.$router.go(0);
                                         }
                                     }
                                 }
                             }
-                        });
-                        this.mMemberList.forEach((mem) => {
-                            if (mem.memNow === this.perNo && mem.memNowPosition === this.perPosition) {
-                                if (mem.comId === this.comId && mem.memLV0 === this.perNo && mem.memLV0Position === this.perPosition) {
-                                    const upMember = {
-                                        memId: mem.memId,
-                                        memLV0Status: 3,
-                                        memLV0Time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-                                        memLV1Status: 0,
-                                        memNow: mem.memLV1,
-                                        memNowPosition: mem.memLV1Position,
-                                        memStatus: 0,
-                                        conLogMsg: this.$root.getCompanyTitle(this.comId, '') + ' '
-                                            + this.$root.getPersonDepartment(this.comId, this.perNo, this.perPosition) + ' '
-                                            + this.$root.getPersonBranch(this.comId, this.perNo, this.perPosition) + ' '
-                                            + this.$root.getPersonName(this.comId, this.perNo, this.perPosition) + ' '
-                                            + this.$root.getPersonPositionName(this.comId, this.perNo, this.perPosition) + ' '
-                                            + '簽核完成',
-                                        conLogMsgNext: this.$root.getCompanyTitle(mem.comId, '') + ' '
-                                            + this.$root.getPersonDepartment(mem.comId, mem.memLV1, mem.memLV1Position) + ' '
-                                            + this.$root.getPersonBranch(mem.comId, mem.memLV1, mem.memLV1Position) + ' '
-                                            + this.$root.getPersonName(mem.comId, mem.memLV1, mem.memLV1Position) + ' '
-                                            + this.$root.getPersonPositionName(mem.comId, mem.memLV1, mem.memLV1Position) + ' '
-                                            + '待檢視',
-                                    };
-                                    this.updateMember(upMember);
+                        }
+                        if (mMemberSignCheck) {//維運簽完
+                            if (this.checkSameTypeSign(1)) {
+                                if (this.uMemberData.length !== 0) {
+                                    this.uMemberData.forEach((mem) => {
+                                        const upMember = {
+                                            memId: mem.memId,
+                                            memLV0Status: 0,
+                                            memNow: mem.memLV0,
+                                            memNowPosition: mem.memLV0Position,
+                                            memNowStatus:0,
+                                            memStatus: 0,
+                                            conLogMsg: this.$root.getCompanyTitle(mem.comId, '') + ' '
+                                                + mem.memBu2 + ' '
+                                                + mem.memBu3 + ' '
+                                                + mem.memLV0Name + ' '
+                                                + mem.memLV0PositionName + ' '
+                                                + '待檢視',
+                                        };
+                                        this.updateMember(upMember);
+                                    });
                                 }
-                                if (mem.memLV1 === this.perNo && mem.memLV1Position === this.perPosition) {
-                                    const upMember = {
-                                        memId: mem.memId,
-                                        memLV1Status: 3,
-                                        memLV1Time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-                                        memLV2Status: 0,
-                                        memNow: mem.memLV2,
-                                        memNowPosition: mem.memLV2Position,
-                                        memStatus: 0,
-                                        conLogMsg: this.$root.getCompanyTitle(this.comId, '') + ' '
-                                            + this.$root.getPersonDepartment(this.comId, this.perNo, this.perPosition) + ' '
-                                            + this.$root.getPersonBranch(this.comId, this.perNo, this.perPosition) + ' '
-                                            + this.$root.getPersonName(this.comId, this.perNo, this.perPosition) + ' '
-                                            + this.$root.getPersonPositionName(this.comId, this.perNo, this.perPosition) + ' '
-                                            + '簽核完成',
-                                        conLogMsgNext: this.$root.getCompanyTitle(mem.comId, '') + ' '
-                                            + this.$root.getPersonDepartment(mem.comId, mem.memLV2, mem.memLV2Position) + ' '
-                                            + this.$root.getPersonBranch(mem.comId, mem.memLV2, mem.memLV2Position) + ' '
-                                            + this.$root.getPersonName(mem.comId, mem.memLV2, mem.memLV2Position) + ' '
-                                            + this.$root.getPersonPositionName(mem.comId, mem.memLV2, mem.memLV2Position) + ' '
-                                            + '待檢視',
-                                    };
-                                    this.updateMember(upMember);
-                                }
-                                if (mem.memLV2 === this.perNo && mem.memLV2Position === this.perPosition) {
-                                    const upMember = {
-                                        memId: mem.memId,
-                                        memLV2Status: 3,
-                                        memLV2Time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-                                        memLV1Status: 0,
-                                        memNow: 'null',
-                                        memNowPosition: 'null',
-                                        memStatus: 3,
-                                        conLogMsg: this.$root.getCompanyTitle(this.comId, '') + ' '
-                                            + this.$root.getPersonDepartment(this.comId, this.perNo, this.perPosition) + ' '
-                                            + this.$root.getPersonBranch(this.comId, this.perNo, this.perPosition) + ' '
-                                            + this.$root.getPersonName(this.comId, this.perNo, this.perPosition) + ' '
-                                            + this.$root.getPersonPositionName(this.comId, this.perNo, this.perPosition) + ' '
-                                            + '簽核完成',
-                                    };
-                                    if (this.updateMember(upMember)) {
-                                        if (this.checkSameTypeSign(1)) {
-                                            if (this.uMemberData.length !== 0) {
-                                                this.uMemberList.forEach((next_mem) => {
-                                                    const upMember = {
-                                                        memId: next_mem.memId,
-                                                        memLV0Status: 0,
-                                                        memNow: next_mem.mvmLV0,
-                                                        memNowPosition: next_mem.memLV0Position,
-                                                        memStatus: 0,
-                                                        conLogMsg: this.$root.getCompanyTitle(next_mem.comId, '') + ' '
-                                                            + this.$root.getPersonDepartment(next_mem.comId, next_mem.memLV0, next_mem.memLV0Position) + ' '
-                                                            + this.$root.getPersonBranch(next_mem.comId, next_mem.memLV0, next_mem.memLV0Position) + ' '
-                                                            + this.$root.getPersonName(next_mem.comId, next_mem.memLV0, next_mem.memLV0Position) + ' '
-                                                            + this.$root.getPersonPositionName(next_mem.comId, next_mem.memLV0, next_mem.memLV0Position) + ' '
-                                                            + '待檢視',
-                                                    };
-                                                    this.updateMember(upMember);
-                                                });
-                                            }
-                                            else {
-                                                const payload = {
-                                                    conId: this.contractData.conId,
-                                                    conStatus: 3,
-                                                    conDate: this.contractData.conDate === '' ? dayjs().format('YYYY-MM-DD') : '',
-                                                    conLogMsg: '簽核完成',
-                                                };
-
-                                                this.$api
-                                                    .put(this.$test ? '/api/?type=contract_status' : '/api/adm/contract/updateStatus', payload)
-                                                    .then(response => {
-                                                        if (response.status === 200) {
-                                                            alert('文件簽核完成');
-                                                        } else {
-                                                            console.log('err');
-                                                        }
-                                                        console.log('Edit successful:', response.data.data);
-                                                    })
-                                                    .catch(error => {
-                                                        console.error('Edit failed:', error);
-                                                    });
-
-                                            }
-                                        }
+                                else {
+                                    if (this.updateContractStatus(3, dayjs().format('YYYY-MM-DD'), '文件簽核完成')) {
+                                        SignEnd = true;
+                                    }
+                                    else {
+                                        alert('error');
+                                        this.$router.go(0);
                                     }
                                 }
                             }
-                        });
-                        this.uMemberList.forEach((mem) => {
-                            if (mem.memNow === this.perNo && mem.memNowPosition === this.perPosition) {
-                                if (mem.comId === this.comId && mem.memLV0 === this.perNo && mem.memLV0Position === this.perPosition) {
-                                    const upMember = {
-                                        memId: mem.memId,
-                                        memLV0Status: 3,
-                                        memLV0Time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-                                        memLV1Status: 0,
-                                        memNow: mem.memLV1,
-                                        memNowPosition: mem.memLV1Position,
-                                        memStatus: 0,
-                                        conLogMsg: this.$root.getCompanyTitle(this.comId, '') + ' '
-                                            + this.$root.getPersonDepartment(this.comId, this.perNo, this.perPosition) + ' '
-                                            + this.$root.getPersonBranch(this.comId, this.perNo, this.perPosition) + ' '
-                                            + this.$root.getPersonName(this.comId, this.perNo, this.perPosition) + ' '
-                                            + this.$root.getPersonPositionName(this.comId, this.perNo, this.perPosition) + ' '
-                                            + '簽核完成',
-                                        conLogMsgNext: this.$root.getCompanyTitle(mem.comId, '') + ' '
-                                            + this.$root.getPersonDepartment(mem.comId, mem.memLV1, mem.memLV1Position) + ' '
-                                            + this.$root.getPersonBranch(mem.comId, mem.memLV1, mem.memLV1Position) + ' '
-                                            + this.$root.getPersonName(mem.comId, mem.memLV1, mem.memLV1Position) + ' '
-                                            + this.$root.getPersonPositionName(mem.comId, mem.memLV1, mem.memLV1Position) + ' '
-                                            + '待檢視',
-                                    };
-                                    this.updateMember(upMember);
+                        }
+                        if (uMemberSignCheck) {//使用簽完
+                            if (this.checkSameTypeSign(2)) {
+                                if (this.updateContractStatus(3, dayjs().format('YYYY-MM-DD'), '文件簽核完成')) {
+                                    SignEnd = true;
                                 }
-                                if (mem.memLV1 === this.perNo && mem.memLV1Position === this.perPosition) {
-                                    const upMember = {
-                                        memId: mem.memId,
-                                        memLV1Status: 3,
-                                        memLV1Time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-                                        memLV2Status: 0,
-                                        memNow: mem.memLV2,
-                                        memNowPosition: mem.memLV2Position,
-                                        memStatus: 0,
-                                        conLogMsg: this.$root.getCompanyTitle(this.comId, '') + ' '
-                                            + this.$root.getPersonDepartment(this.comId, this.perNo, this.perPosition) + ' '
-                                            + this.$root.getPersonBranch(this.comId, this.perNo, this.perPosition) + ' '
-                                            + this.$root.getPersonName(this.comId, this.perNo, this.perPosition) + ' '
-                                            + this.$root.getPersonPositionName(this.comId, this.perNo, this.perPosition) + ' '
-                                            + '簽核完成',
-                                        conLogMsgNext: this.$root.getCompanyTitle(mem.comId, '') + ' '
-                                            + this.$root.getPersonDepartment(mem.comId, mem.memLV2, mem.memLV2Position) + ' '
-                                            + this.$root.getPersonBranch(mem.comId, mem.memLV2, mem.memLV2Position) + ' '
-                                            + this.$root.getPersonName(mem.comId, mem.memLV2, mem.memLV2Position) + ' '
-                                            + this.$root.getPersonPositionName(mem.comId, mem.memLV2, mem.memLV2Position) + ' '
-                                            + '待檢視',
-                                    };
-                                    this.updateMember(upMember);
-                                }
-                                if (mem.memLV2 === this.perNo && mem.memLV2Position === this.perPosition) {
-                                    const upMember = {
-                                        memId: mem.memId,
-                                        memLV2Status: 3,
-                                        memLV2Time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-                                        memLV1Status: 0,
-                                        memNow: 'null',
-                                        memNowPosition: 'null',
-                                        memStatus: 3,
-                                        conLogMsg: this.$root.getCompanyTitle(this.comId, '') + ' '
-                                            + this.$root.getPersonDepartment(this.comId, this.perNo, this.perPosition) + ' '
-                                            + this.$root.getPersonBranch(this.comId, this.perNo, this.perPosition) + ' '
-                                            + this.$root.getPersonName(this.comId, this.perNo, this.perPosition) + ' '
-                                            + this.$root.getPersonPositionName(this.comId, this.perNo, this.perPosition) + ' '
-                                            + '簽核完成',
-                                    };
-                                    if (this.updateMember(upMember)) {
-                                        if (this.checkSameTypeSign(2)) {
-                                            const payload = {
-                                                conId: this.contractData.conId,
-                                                conStatus: 3,
-                                                conDate: this.contractData.conDate === '' ? dayjs().format('YYYY-MM-DD') : '',
-                                                conLogMsg: '簽核完成',
-                                            };
-
-                                            this.$api
-                                                .put(this.$test ? '/api/?type=contract_status' : '/api/adm/contract/updateStatus', payload)
-                                                .then(response => {
-                                                    if (response.status === 200) {
-                                                        alert('文件簽核完成');
-                                                    } else {
-                                                        console.log('err');
-                                                    }
-                                                    console.log('Edit successful:', response.data.data);
-                                                })
-                                                .catch(error => {
-                                                    console.error('Edit failed:', error);
-                                                });
-
-                                        }
-                                    }
+                                else {
+                                    alert('error');
+                                    this.$router.go(0);
                                 }
                             }
-                        });
+                        }
+                        if (SignEnd) {
+                            this.clearMemberAll();
+                            alert('文件簽核完成');
+                        }
+                        this.$router.go(0);
                         break;
                     case 4://拒絕
+                        if (this.iMemberData.memNow === this.per.perNo && this.iMemberData.memNowPosition === this.per.perPosition) {
+                            if (this.iMemberData.comId === this.per.comId && this.iMemberData.memLV0 === this.per.perNo && this.iMemberData.memLV0Position === this.per.perPosition) {
+                                const upMember = {
+                                    memId: this.iMemberData.memId,
+                                    memLV0Status: 4,
+                                    memLV0Time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                                    memLV0Msg: this.msg,
+                                    memStatus: 4,
+                                    conLogMsg: this.$root.getCompanyTitle(this.iMemberData.comId, '') + ' '
+                                        + this.iMemberData.memBu2 + ' '
+                                        + this.iMemberData.memBu3 + ' '
+                                        + this.iMemberData.memLV0Name + ' '
+                                        + this.iMemberData.memLV0PositionName + ' '
+                                        + '拒絕' + (this.msg !== '' ? ':' + this.msg : ''),
+                                };
+                                this.updateMember(upMember);
+                            }
+                            if (this.iMemberData.memLVC === this.per.perNo && this.iMemberData.memLVCPosition === this.per.perPosition) {
+                                const upMember = {
+                                    memId: this.iMemberData.memId,
+                                    memLVCStatus: 4,
+                                    memLVCTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                                    memLVCMsg: this.msg,
+                                    memStatus: 4,
+                                    conLogMsg: this.$root.getCompanyTitle(this.iMemberData.comId, '') + ' '
+                                        + this.iMemberData.memBu2 + ' '
+                                        + this.iMemberData.memBu3 + ' '
+                                        + this.iMemberData.memLVCName + ' '
+                                        + this.iMemberData.memLVCPositionName + ' '
+                                        + '拒絕' + (this.msg !== '' ? ':' + this.msg : ''),
+                                };
+                                this.updateMember(upMember);
+                            }
+                            if (this.iMemberData.memLV1 === this.per.perNo && this.iMemberData.memLV1Position === this.per.perPosition) {
+                                const upMember = {
+                                    memId: this.iMemberData.memId,
+                                    memLV1Status: 4,
+                                    memLV1Time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                                    memLV1Msg: this.msg,
+                                    memStatus: 4,
+                                    conLogMsg: this.$root.getCompanyTitle(this.iMemberData.comId, '') + ' '
+                                        + this.iMemberData.memBu2 + ' '
+                                        + this.iMemberData.memBu3 + ' '
+                                        + this.iMemberData.memLV1Name + ' '
+                                        + this.iMemberData.memLV1PositionName + ' '
+                                        + '拒絕' + (this.msg !== '' ? ':' + this.msg : ''),
+                                };
+                                this.updateMember(upMember);
+                            }
+                            if (this.iMemberData.memLV2 === this.per.perNo && this.iMemberData.memLV2Position === this.per.perPosition) {
+                                const upMember = {
+                                    memId: this.iMemberData.memId,
+                                    memLV2Status: 4,
+                                    memLV2Time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                                    memLV2Msg: this.msg,
+                                    memStatus: 4,
+                                    conLogMsg: this.$root.getCompanyTitle(this.iMemberData.comId, '') + ' '
+                                        + this.iMemberData.memBu2 + ' '
+                                        + this.iMemberData.memBu3 + ' '
+                                        + this.iMemberData.memLV2Name + ' '
+                                        + this.iMemberData.memLV2PositionName + ' '
+                                        + '拒絕' + (this.msg !== '' ? ':' + this.msg : ''),
+                                };
+                                this.updateMember(upMember);
+                            }
+                        }
+                        this.mMemberData.forEach((mem) => {
+                            if (mem.memNow === this.per.perNo && mem.memNowPosition === this.per.perPosition) {
+                                if (mem.comId === this.per.comId && mem.memLV0 === this.per.perNo && mem.memLV0Position === this.per.perPosition) {
+                                    const upMember = {
+                                        memId: mem.memId,
+                                        memLV0Status: 4,
+                                        memLV0Time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                                        memLV0Msg: this.msg,
+                                        memStatus: 4,
+                                        conLogMsg: this.$root.getCompanyTitle(mem.comId, '') + ' '
+                                            + mem.memBu2 + ' '
+                                            + mem.memBu3 + ' '
+                                            + mem.memLV0Name + ' '
+                                            + mem.memLV0PositionName + ' '
+                                            + '拒絕' + (this.msg !== '' ? ':' + this.msg : ''),
+                                    };
+                                    this.updateMember(upMember);
+                                }
+                                if (mem.memLV1 === this.per.perNo && mem.memLV1Position === this.per.perPosition) {
+                                    const upMember = {
+                                        memId: mem.memId,
+                                        memLV1Status: 4,
+                                        memLV1Time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                                        memLV1Msg: this.msg,
+                                        memStatus: 4,
+                                        conLogMsg: this.$root.getCompanyTitle(mem.comId, '') + ' '
+                                            + mem.memBu2 + ' '
+                                            + mem.memBu3 + ' '
+                                            + mem.memLV1Name + ' '
+                                            + mem.memLV1PositionName + ' '
+                                            + '拒絕' + (this.msg !== '' ? ':' + this.msg : ''),
+                                    };
+                                    this.updateMember(upMember);
+                                }
+                                if (mem.memLV2 === this.per.perNo && mem.memLV2Position === this.per.perPosition) {
+                                    const upMember = {
+                                        memId: mem.memId,
+                                        memLV2Status: 4,
+                                        memLV2Time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                                        memLV2Msg: this.msg,
+                                        memStatus: 4,
+                                        conLogMsg: this.$root.getCompanyTitle(mem.comId, '') + ' '
+                                            + mem.memBu2 + ' '
+                                            + mem.memBu3 + ' '
+                                            + mem.memLV2Name + ' '
+                                            + mem.memLV2PositionName + ' '
+                                            + '拒絕' + (this.msg !== '' ? ':' + this.msg : ''),
+                                    };
+                                    this.updateMember(upMember);
+                                }
+                            }
+                        });
+                        this.uMemberData.forEach((mem) => {
+                            if (mem.memNow === this.per.perNo && mem.memNowPosition === this.per.perPosition) {
+                                if (mem.comId === this.per.comId && mem.memLV0 === this.per.perNo && mem.memLV0Position === this.per.perPosition) {
+                                    const upMember = {
+                                        memId: mem.memId,
+                                        memLV0Status: 4,
+                                        memLV0Time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                                        memLV0Msg: this.msg,
+                                        memStatus: 4,
+                                        conLogMsg: this.$root.getCompanyTitle(mem.comId, '') + ' '
+                                            + mem.memBu2 + ' '
+                                            + mem.memBu3 + ' '
+                                            + mem.memLV0Name + ' '
+                                            + mem.memLV0PositionName + ' '
+                                            + '拒絕' + (this.msg !== '' ? ':' + this.msg : ''),
+                                    };
+                                    this.updateMember(upMember);
+                                }
+                                if (mem.memLV1 === this.per.perNo && mem.memLV1Position === this.per.perPosition) {
+                                    const upMember = {
+                                        memId: mem.memId,
+                                        memLV1Status: 4,
+                                        memLV1Time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                                        memLV1Msg: this.msg,
+                                        memStatus: 4,
+                                        conLogMsg: this.$root.getCompanyTitle(mem.comId, '') + ' '
+                                            + mem.memBu2 + ' '
+                                            + mem.memBu3 + ' '
+                                            + mem.memLV1Name + ' '
+                                            + mem.memLV1PositionName + ' '
+                                            + '拒絕' + (this.msg !== '' ? ':' + this.msg : ''),
+                                    };
+                                    this.updateMember(upMember);
+                                }
+                                if (mem.memLV2 === this.per.perNo && mem.memLV2Position === this.per.perPosition) {
+                                    const upMember = {
+                                        memId: mem.memId,
+                                        memLV2Status: 4,
+                                        memLV2Time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                                        memLV2Msg: this.msg,
+                                        memStatus: 4,
+                                        conLogMsg: this.$root.getCompanyTitle(mem.comId, '') + ' '
+                                            + mem.memBu2 + ' '
+                                            + mem.memBu3 + ' '
+                                            + mem.memLV2Name + ' '
+                                            + mem.memLV2PositionName + ' '
+                                            + '拒絕' + (this.msg !== '' ? ':' + this.msg : ''),
+                                    };
+                                    this.updateMember(upMember);
+                                }
+                            }
+                        });
+                        if (this.clearMemberAll()) {
+                            if (this.updateContractStatus(4, '', '文件終止')) {
+                                alert('文件終止');
+                                this.$router.go(0);
+                            }
+                            else {
+                                alert('error');
+                                this.$router.go(0);
+                            }
+                        }
                         break;
                 }
             },
-            async checkSameTypeSign(memType) {// todo: checkSameTypeSign 查驗平行簽核是否皆已完成
+            // todo: checkSameTypeSign 查驗平行簽核是否皆已完成
+            async checkSameTypeSign(memType) {
                 try {
                     const response = await this.$api.get(
-                        this.$test ? `/api/?type=contract_member&conId=${this.conId}&mbType=${memType}` : `/api/adm/getMemberContract?ctId=${ctId}&mbType=${type}`
+                        this.$test ? `/api/?type=contract_member&conId=${this.contractData.conId}&memType=${memType}` : `/api/adm/getMemberContract?ctId=${ctId}&mbType=${type}`
                     );
 
                     if (response.status === 200) {
@@ -1333,10 +1711,12 @@
                 }
                 return true;
             },
-            async updateMember(payload) {// todo: updateMember 修改簽核人員簽核狀態
+            // todo: updateMember 修改簽核人員簽核狀態
+            async updateMember(payload) {
+
                 try {
                     const response = await this.$api.put(
-                        this.$test ? '/api/?type=contract_member' : '/api/adm/member/update',
+                        this.$test ? '/api/?type=member_status' : '/api/adm/member/update',
                         payload
                     );
 
@@ -1351,15 +1731,16 @@
                 return true;
 
             },
-            async updateContractSignTime() {
+            async clearMemberAll() {
                 const payload = {
-                    ctId: ctId,
-                    ctDate: dayjs().format('YYYY-MM-DD'),
+                    conId: this.contractData.conId,
+                    memNow: 'null',
+                    memNowPosition: 'null',
+                    memNowStatus: -1,
                 };
-                console.log(payload);
                 try {
                     const response = await this.$api.put(
-                        this.$test ? '/api/?type=contract_time' : '/api/adm/contract/updateCtDate',
+                        this.$test ? '/api/?type=member_status_all' : '/api/adm/member/update',
                         payload
                     );
 
@@ -1374,11 +1755,14 @@
                 return true;
 
             },
-            async updateContractStatus(status) {
+            // todo: updateContractStatus(狀態, 生效日期, log) 修改文件簽核狀態
+            async updateContractStatus(status, date, msg) {
                 try {
                     const payload = {
-                        ctId: ctId,
-                        ctStatus: status,
+                        conId: this.contractData.conId,
+                        conStatus: status,
+                        conDate: date,
+                        conLogMsg: msg,
                     };
 
                     const response = await this.$api.put(
@@ -1399,63 +1783,75 @@
 
             },
 
-            releaseSign() {// todo: releaseSign 發起簽核
-                const payload = {
-                    conId: this.contractData.conId,
-                    conStatus: 1,
-                    conLogMsg: this.iMemberData.comTitle + ' '
-                        + this.$root.getPersonDepartment(this.iMemberData.comId, this.iMemberData.memLV0, this.iMemberData.memLV0Position) + ' '
-                        + this.$root.getPersonBranch(this.iMemberData.comId, this.iMemberData.memLV0, this.iMemberData.memLV0Position) + ' '
-                        + this.$root.getPersonName(this.iMemberData.comId, this.iMemberData.memLV0, this.iMemberData.memLV0Position) + ' '
-                        + this.$root.getPersonPositionName(this.iMemberData.comId, this.iMemberData.memLV0, this.iMemberData.memLV0Position) + ' '
-                        + '發起簽核',
-                };
-
-                this.$api
-                    .put(this.$test ? '/api/?type=contract_status' : '/api/adm/contract/updateStatus', payload)
-                    .then(response => {
-                        if (response.status === 200) {
-                            this.$api
-                                .get(this.$test ? `/api/?type=contract_member&memType=0&conId=${this.contractData.conId}` : `/api/adm/getMemberContract?mbType=0&conId=${this.contractData.conId}`)
-                                .then(response => {
-                                    const data = response.data.data[0];
-                                    const upMember = {
-                                        memId: data.memId,
-                                        memLV0Status: 3,
-                                        memLV0Time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-                                        memLVCStatus: data.memLVC !== '' ? 1 : '',
-                                        memLV1Status: data.memLVC === '' ? 1 : '',
-                                        memNow: data.memLVC === '' ? data.memLV1 : data.memLVC,
-                                        memNowPosition: data.memLVC === '' ? data.memLV1Position : data.memLVCPosition,
-                                        memNowStatus: 0,
-                                        memStatus: 1
-                                    };
-                                    console.log(upMember);
-                                    this.$api
-                                        .put(this.$test ? '/api/?type=contract_member' : '/api/adm/member/update', upMember)
-                                        .then(response => {
-                                            if (response.status === 200) {
-                                                // this.$router.push(`/contract/${this.$route.params.ctp}/sl/${this.contractData.conId}`);
-                                                alert('發起成功');
-                                                window.location.reload();
-                                            }
-                                        })
-                                        .catch(error => {
-                                        });
-                                })
-                                .catch(error => {
-                                    console.error(error);
-                                });
-                        } else {
-                            console.log('err');
+            // todo: releaseSign 發起簽核
+            async releaseSign() {
+                if (this.defaultContract()) {
+                    console.log('ok');
+                    let msg = this.iMemberData.comTitle + ' '
+                        + this.iMemberData.memBu2 + ' '
+                        + this.iMemberData.memBu3 + ' '
+                        + this.iMemberData.memLV0Name + ' '
+                        + this.iMemberData.memLV0PositionName + ' '
+                        + '發起簽核';
+                    if (this.updateContractStatus(1, '', msg)) {
+                        console.log(this.iMemberData);
+                        console.log(this.per);
+                        if (this.iMemberData.comId === this.per.comId && this.iMemberData.memLV0 === this.per.perNo && this.iMemberData.memLV0Position === this.per.perPosition) {
+                            const upMember = {
+                                memId: this.iMemberData.memId,
+                                memLV0Status: 3,
+                                memLV0Time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                                memLVCStatus: 0,
+                                memNow: this.iMemberData.memLVC,
+                                memNowPosition: this.iMemberData.memLVCPosition,
+                                memStatus: 0,
+                                conLogMsg: this.$root.getCompanyTitle(this.iMemberData.comId, '') + ' '
+                                    + this.iMemberData.memBu2 + ' '
+                                    + this.iMemberData.memBu3 + ' '
+                                    + this.iMemberData.memLV0Name + ' '
+                                    + this.iMemberData.memLV0PositionName + ' '
+                                    + '簽核完成',
+                                conLogMsgNext: this.$root.getCompanyTitle(this.iMemberData.comId, '') + ' '
+                                    + this.iMemberData.memBu2 + ' '
+                                    + this.iMemberData.memBu3 + ' '
+                                    + this.iMemberData.memLVCName + ' '
+                                    + this.iMemberData.memLVCPositionName + ' '
+                                    + '待檢視',
+                            };
+                            if (this.updateMember(upMember)) {
+                                alert('發起成功');
+                                this.$router.go(0);
+                            }
                         }
-                        console.log('Edit successful:', response.data.data);
-                    })
-                    .catch(error => {
-                        console.error('Edit failed:', error);
-                    });
-
+                    }
+                }
             },
+
+            // todo: defaultContract 重置文件狀態
+            async defaultContract() {
+                try {
+                    const payload = {
+                        conId: this.contractData.conId,
+                    };
+
+                    const response = await this.$api.put(
+                        this.$test ? '/api/?type=contract_default' : '/api/adm/contract/updateStatus',
+                        payload
+                    );
+
+                    if (response.status === 200) {
+                        console.log('Edit successful:', response.data.data);
+                        return true;
+                    } else {
+                        console.log('err');
+                    }
+                } catch (error) {
+                    console.error('Edit failed:', error);
+                }
+                return false;
+            },
+
+
             async exportPDF() {
                 try {
                     const logoImage = new Image();
@@ -1497,8 +1893,24 @@
                 this.viewFileUrl = 'https://digitaldreams.tw/pdf/doc.pdf';
                 this.viewFile = true;
             },
+
+            // todo: checkMember 確認權限
             checkMember() {
-                return true;
+                let ckMember = false;
+                if (this.iMemberData.comId === this.per.comId && this.iMemberData.memNow === this.per.perNo && this.iMemberData.memNowPosition === this.per.perPosition) {
+                    ckMember = true;
+                }
+                this.mMemberData.forEach(mem => {
+                    if (mem.comId === this.per.comId && mem.memNow === this.per.perNo && mem.memNowPosition === this.per.perPosition) {
+                        ckMember = true;
+                    }
+                });
+                this.uMemberData.forEach(mem => {
+                    if (mem.comId === this.per.comId && mem.memNow === this.per.perNo && mem.memNowPosition === this.per.perPosition) {
+                        ckMember = true;
+                    }
+                });
+                return ckMember;
             },
             handleGlobalClick(event) {
                 const sidebar = this.$refs.sidebar;
