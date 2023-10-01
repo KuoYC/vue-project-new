@@ -76,7 +76,7 @@
                                                                                 <div class="myFont16">申請類型：<span
                                                                                         class="date">
                                                                                     <div class="d-flex m-tb">
-                                                                                        <div v-for="cType in contractType" class="r-c-col">
+                                                                                        <div v-for="cType in contractType" class="form-check-inline">
                                                                                             <input class="form-check-input"
                                                                                                    type="radio"
                                                                                                    v-model="conType"
@@ -115,7 +115,7 @@
                                                                                         class="data">
                                                                                     <div class="d-flex m-tb">
                                                                                         <div v-for="com in companyData"
-                                                                                             class="r-c-col">
+                                                                                             class="form-check-inline">
                                                                                             <input class="form-check-input"
                                                                                                    type="checkbox"
                                                                                                    :value="com.comCode"
@@ -133,7 +133,7 @@
                                                                                         class="data">
                                                                                     <div class="d-flex m-tb">
                                                                                         <div v-for="(wor, worIndex) in workData"
-                                                                                             class="r-c-col">
+                                                                                             class="form-check-inline">
                                                                                             <input class="form-check-input"
                                                                                                    type="checkbox"
                                                                                                    :value="wor.worId"
@@ -363,7 +363,7 @@
                                                                         <template v-if="col.type === 'radio'">
                                                                             <template v-if="col.tip === ''">
                                                                                 <div v-for="item in col.option.split('|')"
-                                                                                     class="r-c-col">
+                                                                                     class="form-check-inline">
                                                                                         <input type="radio"
                                                                                                :value="item"
                                                                                                class="form-check-input"
@@ -378,7 +378,7 @@
                                                                                  style="width: 200px;">
                                                                                 <!-- 以下放edit元件 -->
                                                                                 <div v-for="item in col.option.split('|')"
-                                                                                     class="r-c-col">
+                                                                                     class="form-check-inline">
                                                                                         <input type="radio"
                                                                                                :value="item"
                                                                                                class="form-check-input"
@@ -397,7 +397,7 @@
                                                                         <template v-if="col.type === 'check'">
                                                                             <template v-if="col.tip === ''">
                                                                                 <div v-for="item in col.option.split('|')"
-                                                                                     class="r-c-col">
+                                                                                     class="form-check-inline">
                                                                                     <input type="checkbox"
                                                                                            :value="item"
                                                                                            class="form-check-input"
@@ -412,7 +412,7 @@
                                                                                  style="width: 200px;">
                                                                               <!-- 以下放edit元件 -->
                                                                                 <div v-for="item in col.option.split('|')"
-                                                                                     class="r-c-col">
+                                                                                     class="form-check-inline">
                                                                                         <input type="checkbox"
                                                                                                :value="item"
                                                                                                class="form-check-input"
