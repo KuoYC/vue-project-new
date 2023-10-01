@@ -173,6 +173,7 @@
                                                                             <template v-if="col.type === 'sign'">
                                                                                 <label>維運</label>
                                                                                 <table class="myTable myTableMemberIv">
+                                                                                        <caption>發起維運公司簽核人員資料表</caption>
                                                                                     <thead>
                                                                                     <tr>
                                                                                         <th>公司</th>
@@ -200,6 +201,7 @@
                                                                                 </table>
                                                                                 <table v-if="mMemberData.length !== 0"
                                                                                        class="myTable myTableMemberMv">
+                                                                                        <caption>維運公司簽核人員資料表</caption>
                                                                                         <thead>
                                                                                         <tr>
                                                                                             <th>公司</th>
@@ -256,7 +258,7 @@
                                                                                 <div class="replyBox m-t-20 myFont16">
                                                                       <span>
                                                                         <!-- 這裡放共幾則附檔 -->
-                                                                        <i class="fa fa-paperclip mb-1"></i> <span>{{ fileNum }}則</span>附加檔案 </span>
+                                                                        <i class="fa fa-paperclip mb-1"></i> <span>{{ conFileMeeting.length+conFilePlan.length+conFile.length }}則</span>附加檔案 </span>
                                                                                     <!-- 這裡放附檔 -->
                                                                                     <div>
                                                                                         <a href="javascript:void(0);"
@@ -434,12 +436,12 @@
 
                 <div class="col-6" style="padding-bottom: 20px;">
                     <button v-if="contractData.conStatus === '0' && contractData.comId === per.comId && contractData.perNo === per.perNo && contractData.perPosition === per.perPosition"
-                            @click="releaseSign"
+                            @click="releaseSign()"
                             type="button"
                             class="m-r-5 btn btn-warning btn-border-radius waves-effect myFont16">發起
                     </button>
                     <button v-if="contractData.conStatus === '2' && contractData.comId === per.comId && contractData.perNo === per.perNo && contractData.perPosition === per.perPosition"
-                            @click="releaseSign"
+                            @click="releaseSign()"
                             type="button"
                             class="m-r-5 btn btn-warning btn-border-radius waves-effect myFont16">重新發起
                     </button>
@@ -821,7 +823,6 @@
                 showContact: true,
                 viewFile: false,
                 viewFileUrl: '',
-                fileNum: 0,
                 isSidebarVisible: false,
                 // perNo: Cookies.get('perNo'),
                 // perPosition: Cookies.get('perPosition'),
@@ -862,6 +863,10 @@
                 iMemberList: [],//發起
                 mMemberList: [],//維運
                 uMemberList: [],//使用
+
+                conFileMeeting:[],
+                conFilePlan:[],
+                conFile:[],
             };
         },
         components: {},
@@ -899,23 +904,10 @@
                     .then(([contractResponse, itemResponse, memberResponse, personnelResponse]) => {
                         //contractResponse
                         this.contractData = contractResponse.data.data;
-                        this.conValue = this.contractData && this.contractData.conValue ? JSON.parse(this.contractData.conValue) : null;
-                        let fileNum = 0;
-                        if (this.contractData.conFileMeeting && '' !== this.contractData.conFileMeeting) {
-                            fileNum += 1;
-                        }
-                        if (this.contractData.conFilePlan && '' !== this.contractData.conFilePlan) {
-                            fileNum += 1;
-                        }
-                        if (this.contractData.conFile && '' !== this.contractData.conFile) {
-                            let conFile = this.contractData.conFile.split('|');
-                            fileNum += conFile.length;
-                        }
-                        this.fileNum = fileNum;
-                        // this.contractData.conCompany = this.contractData.conCompany ? this.contractData.conCompany.split('|') : [];
-                        // this.contractData.conWork = this.contractData.conWork ? this.contractData.conWork.split('|') : [];
-                        // this.contractData.ctValue = this.contractData.ctValue ? JSON.parse(this.contractData.ctValue) : [];
-                        // this.templateStyleData = this.contractData.ctValue;
+                        this.conValue = this.contractData?.conValue ? JSON.parse(this.contractData.conValue) : null;
+                        this.conFileMeeting = this.contractData?.conFileMeeting ?JSON.parse(this.contractData.conFileMeeting) : null;
+                        this.conFilePlan = this.contractData?.conFilePlan ?JSON.parse(this.contractData.conFilePlan) : null;
+                        this.conFile = this.contractData?.conFile ?JSON.parse(this.contractData.conFile) : null;
 
                         // itemResopnse
                         this.itemData = itemResponse.data.data;
@@ -924,14 +916,6 @@
                         this.iMemberData = memberResponse.data.data.find(member => member.memType === '0');
                         this.mMemberData = memberResponse.data.data.filter(member => member.memType === '1');
                         this.uMemberData = memberResponse.data.data.filter(member => member.memType === '2');
-
-                        //itemSubsidiaryResponse
-                        // const itemSubsidiaryData = itemSubsidiaryResponse.data.data;
-                        // console.log(itemSubsidiaryData);
-                        // this.itemList.forEach((item) => {
-                        //     item.subsidiariesExes = itemSubsidiaryData.filter(sitem => sitem.ctiId === item.ctiId);
-                        // });
-                        // console.log(this.itemList);
                         personnelResponse
                         this.personData = personnelResponse.data.data;
 
@@ -941,7 +925,8 @@
                     });
             },
 
-            signContract(status) {// todo: signContract 簽核作業
+            signContract(status) {
+                // todo: signContract 簽核作業
                 switch (status) {
                     case 2://退件
                         if (this.iMemberData.comId === this.per.comId && this.iMemberData.memNow === this.per.perNo && this.iMemberData.memNowPosition === this.per.perPosition) {
@@ -1009,8 +994,6 @@
                                 };
                                 this.updateMember(upMember);
                             }
-                            else {
-                            }
                         }
                         this.mMemberData.forEach((mem) => {
                             if (mem.comId === this.per.comId && mem.memNow === this.per.perNo && mem.memNowPosition === this.per.perPosition) {
@@ -1061,8 +1044,6 @@
                                             + '退件' + (this.msg !== '' ? ':' + this.msg : ''),
                                     };
                                     this.updateMember(upMember);
-                                }
-                                else {
                                 }
                             }
                         });
@@ -1116,8 +1097,6 @@
                                             + '退件' + (this.msg !== '' ? ':' + this.msg : ''),
                                     };
                                     this.updateMember(upMember);
-                                }
-                                else {
                                 }
                             }
                         });
@@ -1238,8 +1217,6 @@
                                 if (this.updateMember(upMember)) {
                                     alert('簽核完成');
                                 }
-                            }
-                            else {
                             }
                         }
                         let mMemberSignCheck = false;
@@ -1445,6 +1422,7 @@
                                         });
                                     }
                                     else {
+                                        // 執行文件簽核完成
                                         if (this.updateContractStatus(3, dayjs().format('YYYY-MM-DD'), '文件簽核完成')) {
                                             SignEnd = true;
                                         }
@@ -1478,6 +1456,7 @@
                                     });
                                 }
                                 else {
+                                    // 執行文件簽核完成
                                     if (this.updateContractStatus(3, dayjs().format('YYYY-MM-DD'), '文件簽核完成')) {
                                         SignEnd = true;
                                     }
@@ -1689,11 +1668,11 @@
                         break;
                 }
             },
-            // todo: checkSameTypeSign 查驗平行簽核是否皆已完成
-            async checkSameTypeSign(memType) {
+            async checkSameTypeSign(memberType) {
+                // todo: checkSameTypeSign 查驗平行簽核是否皆已完成
                 try {
                     const response = await this.$api.get(
-                        this.$test ? `/api/?type=contract_member&conId=${this.contractData.conId}&memType=${memType}` : `/api/adm/getMemberContract?ctId=${ctId}&mbType=${type}`
+                        this.$test ? `/api/?type=contract_member&conId=${this.contractData.conId}&memType=${memberType}` : `/api/adm/getMemberContract?ctId=${ctId}&mbType=${type}`
                     );
 
                     if (response.status === 200) {
@@ -1712,9 +1691,8 @@
                 }
                 return true;
             },
-            // todo: updateMember 修改簽核人員簽核狀態
             async updateMember(payload) {
-
+                // todo: updateMember 修改簽核人員簽核狀態
                 try {
                     const response = await this.$api.put(
                         this.$test ? '/api/?type=member_status' : '/api/adm/member/update',
@@ -1729,7 +1707,7 @@
                 } catch (error) {
                     console.error('Edit failed:', error);
                 }
-                return true;
+                return false;
 
             },
             async clearMemberAll() {
@@ -1753,11 +1731,11 @@
                 } catch (error) {
                     console.error('Edit failed:', error);
                 }
-                return true;
+                return false;
 
             },
-            // todo: updateContractStatus(狀態, 生效日期, log) 修改文件簽核狀態
             async updateContractStatus(status, date, msg) {
+                // todo: updateContractStatus(狀態, 生效日期, log) 修改文件簽核狀態
                 try {
                     const payload = {
                         conId: this.contractData.conId,
@@ -1784,8 +1762,8 @@
 
             },
 
-            // todo: releaseSign 發起簽核
             async releaseSign() {
+                // todo: releaseSign 發起簽核
                 if (this.defaultContract()) {
                     console.log('ok');
                     let msg = this.iMemberData.comTitle + ' '
@@ -1828,8 +1806,8 @@
                 }
             },
 
-            // todo: defaultContract 重置文件狀態
             async defaultContract() {
+                // todo: defaultContract 重置文件狀態
                 try {
                     const payload = {
                         conId: this.contractData.conId,
@@ -1895,8 +1873,8 @@
                 this.viewFile = true;
             },
 
-            // todo: checkMember 確認權限
             checkMember() {
+                // todo: checkMember 確認權限
                 let ckMember = false;
                 if (this.iMemberData.comId === this.per.comId && this.iMemberData.memNow === this.per.perNo && this.iMemberData.memNowPosition === this.per.perPosition) {
                     ckMember = true;

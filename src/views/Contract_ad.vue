@@ -271,6 +271,7 @@
                                                                                             </tbody>
                                                                                         </table>
                                                                                     <table v-if="mMemberData.length !== 0" class="myTable myTableMemberM">
+                                                                                        <caption>維運公司簽核人員資料表</caption>
                                                                                         <thead>
                                                                                         <tr>
                                                                                             <th>公司</th>
@@ -304,6 +305,7 @@
                                                                                     </button></p>
                                                                                     <label>使用</label>
                                                                                     <table v-if="uMemberData.length !== 0" class="myTable myTableMemberU">
+                                                                                        <caption>使用公司簽核人員資料表</caption>
                                                                                                 <thead>
                                                                                                 <tr>
                                                                                                     <th>公司</th>
@@ -640,7 +642,7 @@
                     .then(([templateResponse, workResponse, companyResponse, categoryResponse, sourceResponse, distributionResponse]) => {
                         //templateResponse
                         this.templateData = templateResponse.data.data;
-                        this.conValue = this.templateData && this.templateData.temStyle ? JSON.parse(this.templateData.temStyle) : null;
+                        this.conValue = this.templateData?.temStyle ? JSON.parse(this.templateData.temStyle) : null;
                         //workResponse
                         this.workData = workResponse.data.data;
                         //companyResponse
@@ -738,9 +740,7 @@
                 this.$api
                     .post(this.$test ? '/api/?type=contract' : '/api/adm/contract/addNew', payload)
                     .then(response => {
-                        // console.log(response.data);
                         if (response.status === 200) {
-                            // console.log(response.data.conId);
                             this.$router.push(`/contract/${this.$route.params.tem}/sl/${response.data.conId}`);
                         } else {
                             console.log('err');

@@ -269,6 +269,7 @@
                                                                                 </tbody>
                                                                             </table>
                                                                             <table v-if="mMemberData.length !== 0" class="myTable myTableMemberM">
+                                                                                        <caption>維運公司簽核人員資料表</caption>
                                                                                 <thead>
                                                                                 <tr>
                                                                                     <th>公司</th>
@@ -302,6 +303,7 @@
                                                                             </button></p>
                                                                             <label>使用</label>
                                                                             <table v-if="uMemberData.length !== 0" class="myTable myTableMemberU">
+                                                                                        <caption>使用公司簽核人員資料表</caption>
                                                                                 <thead>
                                                                                 <tr>
                                                                                     <th>公司</th>

@@ -196,24 +196,6 @@
                                 <span class="logo-name" style="font-size: 22px;">資訊共用作業系統
                 </span>
                             </div>
-                            <!-- <div class="sidebar-user-details">
-                               <div class="user-name">白昕蕎</div>
-                              <div class="user-role">A123456789</div>
-                              <div class="sidebar-userpic-btn" style="padding-bottom: 30px;">
-                                <a href="profile.html" data-bs-toggle="tooltip" title="Profile">
-                                  <i data-feather="user"></i>
-                                </a>
-                                <a href="email-inbox.html" data-bs-toggle="tooltip" title="Mail">
-                                  <i data-feather="mail"></i>
-                                </a>
-                                <a href="chat.html" data-bs-toggle="tooltip" title="Chat">
-                                  <i data-feather="message-square"></i>
-                                </a>
-                                <a href="auth-login.html" data-bs-toggle="tooltip" title="Log Out">
-                                  <i data-feather="log-out"></i>
-                                </a>
-                              </div>
-                            </div> -->
                         </div>
                         <!-- sidebar個資和品牌 -->
                         <ul class="sidebar-menu">
@@ -314,24 +296,6 @@
             };
         },
         mounted() {
-            //獲取所有的<li>元素
-            // const liElements = document.querySelectorAll('.sidebar-menu .dropdown');
-            // // 為每個 <li> 元素添加點擊事件監聽器
-            // liElements.forEach((li) => {
-            //     li.addEventListener('click', () => {
-            //         // 檢查當前 <li> 是否已經具有 'active'
-            //         if (!li.classList.contains('active')) {
-            //             // 移除所有 <li> 上的 'active'
-            //             liElements.forEach((otherLi) => {
-            //                 otherLi.classList.remove('active');
-            //             });
-            //
-            //             // 將被點擊的 <li> 添加 'active'
-            //             li.classList.add('active');
-            //         }
-            //     });
-            // });
-            // this.fetchTemplateData();
             this.defaultData();
             this.fetchFirst();
             // console.log(this.perNo);
@@ -424,16 +388,6 @@
                 else {
                     return dateString;
                 }
-                // const date = new Date(dateString);
-                // const year = date.getFullYear();
-                // const month = (date.getMonth() + 1).toString().padStart(2, '0');
-                // const day = date.getDate().toString().padStart(2, '0');
-                // const hours = date.getHours().toString().padStart(2, '0');
-                // const minutes = date.getMinutes().toString().padStart(2, '0');
-                // const seconds = date.getSeconds().toString().padStart(2, '0');
-                //
-                // return `${year}-${month}-${day}`;
-                // // return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
             },
             formatDateTime(dateString) {
                 if ('' != dateString) {
@@ -442,15 +396,6 @@
                 else {
                     return dateString;
                 }
-                // const date = new Date(dateString);
-                // const year = date.getFullYear();
-                // const month = (date.getMonth() + 1).toString().padStart(2, '0');
-                // const day = date.getDate().toString().padStart(2, '0');
-                // const hours = date.getHours().toString().padStart(2, '0');
-                // const minutes = date.getMinutes().toString().padStart(2, '0');
-                // const seconds = date.getSeconds().toString().padStart(2, '0');
-                //
-                // return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
             },
 
             getCompanyTitle(company_id, company_code) {
