@@ -299,7 +299,7 @@
                                                                             <template v-if="col.type === 'radio'">
                                                                                 <template v-if="col.tip === ''">
                                                                                     <div v-for="option in col.option.split('|')"
-                                                                                         class="form-check form-check-primary form-check-inline">
+                                                                                         class="form-check form-check-inline">
                                                                                             <input type="radio"
                                                                                                    :value="option"
                                                                                                    class="form-check-input"
@@ -314,7 +314,7 @@
                                                                                      style="width: 200px;">
                                                                                   <!-- 以下放edit元件 -->
                                                                                     <div v-for="option in col.option.split('|')"
-                                                                                         class="form-check form-check-primary form-check-inline">
+                                                                                         class="form-check form-check-inline">
                                                                                             <input type="radio"
                                                                                                    :value="option"
                                                                                                    class="form-check-input"
@@ -333,7 +333,7 @@
                                                                             <template v-if="col.type === 'check'">
                                                                                 <template v-if="col.tip === ''">
                                                                                     <div v-for="option in col.option.split('|')"
-                                                                                         class="form-check form-check-primary form-check-inline">
+                                                                                         class="form-check form-check-inline">
                                                                                             <input type="checkbox"
                                                                                                    :value="option"
                                                                                                    class="form-check-input"
@@ -348,7 +348,7 @@
                                                                                      style="width: 200px;">
                                                                                   <!-- 以下放edit元件 -->
                                                                                     <div v-for="option in col.option.split('|')"
-                                                                                         class="form-check form-check-primary form-check-inline">
+                                                                                         class="form-check form-check-inline">
                                                                                             <input type="checkbox"
                                                                                                    :value="option"
                                                                                                    class="form-check-input"
