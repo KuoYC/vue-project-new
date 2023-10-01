@@ -860,9 +860,9 @@
                 mMemberList: [],//維運
                 uMemberList: [],//使用
 
-                conFileMeeting:[],
-                conFilePlan:[],
-                conFile:[],
+                conFileMeeting: [],
+                conFilePlan: [],
+                conFile: [],
             };
         },
         components: {},
@@ -901,9 +901,9 @@
                         //contractResponse
                         this.contractData = contractResponse.data.data;
                         this.conValue = this.contractData?.conValue ? JSON.parse(this.contractData.conValue) : null;
-                        this.conFileMeeting = this.contractData?.conFileMeeting ?JSON.parse(this.contractData.conFileMeeting) : null;
-                        this.conFilePlan = this.contractData?.conFilePlan ?JSON.parse(this.contractData.conFilePlan) : null;
-                        this.conFile = this.contractData?.conFile ?JSON.parse(this.contractData.conFile) : null;
+                        this.conFileMeeting = this.contractData?.conFileMeeting ? JSON.parse(this.contractData.conFileMeeting) : null;
+                        this.conFilePlan = this.contractData?.conFilePlan ? JSON.parse(this.contractData.conFilePlan) : null;
+                        this.conFile = this.contractData?.conFile ? JSON.parse(this.contractData.conFile) : null;
 
                         // itemResopnse
                         this.itemData = itemResponse.data.data;
@@ -922,7 +922,7 @@
             },
 
             signContract(status) {
-                // todo: signContract 簽核作業
+                // signContract 簽核作業
                 switch (status) {
                     case 2://退件
                         if (this.iMemberData.comId === this.per.comId && this.iMemberData.memNow === this.per.perNo && this.iMemberData.memNowPosition === this.per.perPosition) {
@@ -1043,7 +1043,6 @@
                                 }
                             }
                         });
-
                         this.uMemberData.forEach((mem) => {
                             if (mem.comId === this.per.comId && mem.memNow === this.per.perNo && mem.memNowPosition === this.per.perPosition) {
                                 if (mem.comId === this.per.comId && mem.memLV0 === this.per.perNo && mem.memLV0Position === this.per.perPosition) {
@@ -1096,18 +1095,7 @@
                                 }
                             }
                         });
-
-                        if (this.clearMemberAll()) {
-                            if (this.updateContractStatus(2, '', '文件退回')) {
-                                // 執行文件退回
-                                alert('文件已退回');
-                                this.$router.push(`/contract/${this.$route.params.tem}/list`);
-                            }
-                            else {
-                                alert('error');
-                                this.$router.go(0);
-                            }
-                        }
+                        this.updateContractStatus(2, '', '文件退回');
                         break;
                     case 3://簽核
                         let iMemberSignCheck = false;
@@ -1376,7 +1364,6 @@
                                 }
                             }
                         });
-                        let SignEnd = false;
                         if (iMemberSignCheck) {//發起簽完
                             if (this.checkSameTypeSign(0)) {
                                 if (this.mMemberData.length !== 0) {
@@ -1386,7 +1373,7 @@
                                             memLV0Status: 0,
                                             memNow: mem.memLV0,
                                             memNowPosition: mem.memLV0Position,
-                                            memNowStatus:0,
+                                            memNowStatus: 0,
                                             memStatus: 0,
                                             conLogMsg: this.$root.getCompanyTitle(mem.comId, '') + ' '
                                                 + mem.memBu2 + ' '
@@ -1406,7 +1393,7 @@
                                                 memLV0Status: 0,
                                                 memNow: mem.memLV0,
                                                 memNowPosition: mem.memLV0Position,
-                                                memNowStatus:0,
+                                                memNowStatus: 0,
                                                 memStatus: 0,
                                                 conLogMsg: this.$root.getCompanyTitle(mem.comId, '') + ' '
                                                     + mem.memBu2 + ' '
@@ -1419,14 +1406,7 @@
                                         });
                                     }
                                     else {
-                                        if (this.updateContractStatus(3, dayjs().format('YYYY-MM-DD'), '文件簽核完成')) {
-                                            // 執行文件簽核完成
-                                            SignEnd = true;
-                                        }
-                                        else {
-                                            alert('error');
-                                            this.$router.go(0);
-                                        }
+                                        this.updateContractStatus(3, dayjs().format('YYYY-MM-DD'), '文件簽核完成');
                                     }
                                 }
                             }
@@ -1440,7 +1420,7 @@
                                             memLV0Status: 0,
                                             memNow: mem.memLV0,
                                             memNowPosition: mem.memLV0Position,
-                                            memNowStatus:0,
+                                            memNowStatus: 0,
                                             memStatus: 0,
                                             conLogMsg: this.$root.getCompanyTitle(mem.comId, '') + ' '
                                                 + mem.memBu2 + ' '
@@ -1453,32 +1433,14 @@
                                     });
                                 }
                                 else {
-                                    if (this.updateContractStatus(3, dayjs().format('YYYY-MM-DD'), '文件簽核完成')) {
-                                        // 執行文件簽核完成
-                                        SignEnd = true;
-                                    }
-                                    else {
-                                        alert('error');
-                                        this.$router.go(0);
-                                    }
+                                    this.updateContractStatus(3, dayjs().format('YYYY-MM-DD'), '文件簽核完成');
                                 }
                             }
                         }
                         if (uMemberSignCheck) {//使用簽完
                             if (this.checkSameTypeSign(2)) {
-                                if (this.updateContractStatus(3, dayjs().format('YYYY-MM-DD'), '文件簽核完成')) {
-                                    // 執行文件簽核完成
-                                    SignEnd = true;
-                                }
-                                else {
-                                    alert('error');
-                                    this.$router.go(0);
-                                }
+                                this.updateContractStatus(3, dayjs().format('YYYY-MM-DD'), '文件簽核完成');
                             }
-                        }
-                        if (SignEnd) {
-                            this.clearMemberAll();
-                            alert('文件簽核完成');
                         }
                         this.$router.go(0);
                         break;
@@ -1653,22 +1615,12 @@
                                 }
                             }
                         });
-                        if (this.clearMemberAll()) {
-                            if (this.updateContractStatus(4, '', '文件終止')) {
-                                // 執行文件終止
-                                alert('文件終止');
-                                this.$router.go(0);
-                            }
-                            else {
-                                alert('error');
-                                this.$router.go(0);
-                            }
-                        }
+                        this.updateContractStatus(4, '', '文件終止');
                         break;
                 }
             },
             async checkSameTypeSign(memberType) {
-                // todo: checkSameTypeSign 查驗平行簽核是否皆已完成
+                // checkSameTypeSign 查驗平行簽核是否皆已完成
                 try {
                     const response = await this.$api.get(
                         this.$test ? `/api/?type=contract_member&conId=${this.contractData.conId}&memType=${memberType}` : `/api/adm/getMemberContract?ctId=${ctId}&mbType=${type}`
@@ -1681,7 +1633,6 @@
                                 return false;
                             }
                         });
-                        return true;
                     } else {
                         console.log('err');
                     }
@@ -1691,7 +1642,7 @@
                 return true;
             },
             async updateMember(payload) {
-                // todo: updateMember 修改簽核人員簽核狀態
+                // updateMember 修改簽核人員簽核狀態
                 try {
                     const response = await this.$api.put(
                         this.$test ? '/api/?type=member_status' : '/api/adm/member/update',
@@ -1734,7 +1685,7 @@
 
             },
             async updateContractStatus(status, date, msg) {
-                // todo: updateContractStatus(狀態, 生效日期, log) 修改文件簽核狀態
+                // updateContractStatus(狀態, 生效日期, log) 修改文件簽核狀態
                 try {
                     const payload = {
                         conId: this.contractData.conId,
@@ -1749,8 +1700,26 @@
                     );
 
                     if (response.status === 200) {
+                        switch (status) {
+                            case 1:
+                                return true;
+                            case 2:
+                                this.clearMemberAll();
+                                alert('文件已退回');
+                                this.$router.push(`/contract/${this.$route.params.tem}/list`);
+                                break;
+                            case 3:
+                                this.clearMemberAll();
+                                alert('文件簽核完成');
+                                break;
+                            case 4:
+                                this.clearMemberAll();
+                                alert('文件終止');
+                                this.$router.push(`/contract/${this.$route.params.tem}/list`);
+                                break;
+
+                        }
                         console.log('Edit successful:', response.data.data);
-                        return true;
                     } else {
                         console.log('err');
                     }
@@ -1762,7 +1731,7 @@
             },
 
             async releaseSign() {
-                // todo: releaseSign 發起簽核
+                // releaseSign 發起簽核
                 if (this.defaultContract()) {
                     console.log('ok');
                     let msg = this.iMemberData.comTitle + ' '
@@ -1772,8 +1741,6 @@
                         + this.iMemberData.memLV0PositionName + ' '
                         + '發起簽核';
                     if (this.updateContractStatus(1, '', msg)) {
-                        console.log(this.iMemberData);
-                        console.log(this.per);
                         if (this.iMemberData.comId === this.per.comId && this.iMemberData.memLV0 === this.per.perNo && this.iMemberData.memLV0Position === this.per.perPosition) {
                             const upMember = {
                                 memId: this.iMemberData.memId,
@@ -1806,7 +1773,7 @@
             },
 
             async defaultContract() {
-                // todo: defaultContract 重置文件狀態
+                // defaultContract 重置文件狀態
                 try {
                     const payload = {
                         conId: this.contractData.conId,
@@ -1873,7 +1840,7 @@
             },
 
             checkMember() {
-                // todo: checkMember 確認權限
+                // checkMember 確認權限
                 let ckMember = false;
                 if (this.iMemberData.comId === this.per.comId && this.iMemberData.memNow === this.per.perNo && this.iMemberData.memNowPosition === this.per.perPosition) {
                     ckMember = true;
