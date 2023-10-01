@@ -35,3 +35,7 @@
     margin-bottom: 5px;
   }
 
+  .r-c-col {
+    display: inline-block;
+    padding-right: 10px;
+  }

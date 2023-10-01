@@ -65,7 +65,7 @@
                                                                             <!-- 這裡放承辦單位 -->
                                                                             <div class="myFont16">申請類型：<span
                                                                                     class="date">
-                                                                                <div v-for="cType in contractType" class="form-check-inline">
+                                                                                <div v-for="cType in contractType" class="r-c-col">
                                                                                     <input class="form-check-input"
                                                                                            type="radio" :id="'type_'+ cType.value">
                                                                                     <label class="form-check-label"
@@ -92,7 +92,7 @@
                                                                             <div class="myFont16">使用公司：<span
                                                                                     class="data">
                                                                                 <div v-for="(company, com) in companyData"
-                                                                                     class="form-check-inline">
+                                                                                     class="r-c-col">
                                                                                     <input class="form-check-input"
                                                                                            type="checkbox"
                                                                                            :id="'com_'+com">
@@ -106,7 +106,7 @@
                                                                             <div class="myFont16">作業種類：<span
                                                                                     class="data">
                                                                                 <div v-for="(work, wor) in workData"
-                                                                                     class="form-check-inline">
+                                                                                     class="r-c-col">
                                                                                     <input class="form-check-input"
                                                                                            type="radio"
                                                                                            :id="'wor_'+wor">
@@ -151,6 +151,7 @@
                                                                     <template v-if="col.type === 'work_area'">
                                                                             <div class="table-responsive">
                                                                                 <table class="myTable myTableItem">
+                                                                                <caption>作業項目資料表</caption>
                                                                                     <thead>
                                                                                     <tr>
                                                                                         <th class="text-center"
@@ -195,7 +196,7 @@
                                                                                         </td>
                                                                                         <td>
                                                                                 <div v-for="(company, com) in companyData"
-                                                                                     class="form-check-inline">
+                                                                                     class="r-c-col">
                                                                                     <input class="form-check-input"
                                                                                            type="checkbox"
                                                                                            :id="'com_'+com">
@@ -230,6 +231,7 @@
                                                                                 <label>維運</label>
                                                                                 <div class="table-responsive">
                                                                                     <table class="myTable myTableMemberI">
+                                                                                        <caption>發起維運公司簽核人員資料表</caption>
                                                                                         <thead>
                                                                                         <tr>
                                                                                                 <th>公司</th>
@@ -282,6 +284,7 @@
                                                                                 </div>
                                                                                 <div class="table-responsive">
                                                                                     <table class="myTable myTableMemberM">
+                                                                                        <caption>維運公司簽核人員資料表</caption>
                                                                                         <thead>
                                                                                         <tr>
                                                                                             <th>公司</th>
@@ -363,6 +366,7 @@
                                                                                 <label>使用</label>
                                                                                 <div class="table-responsive">
                                                                                     <table class="myTable myTableMemberU">
+                                                                                        <caption>使用公司簽核人員資料表</caption>
                                                                                         <thead>
                                                                                         <tr>
                                                                                                 <th>公司</th>
@@ -459,7 +463,7 @@
                                                                     <template v-if="col.type === 'radio'">
                                                                         <template v-if="col.tip === ''">
                                                                             <div v-for="option in col.option.split('|')"
-                                                                                 class="form-check-inline">
+                                                                                 class="r-c-col">
                                                                                     <input type="radio" :value="option"
                                                                                            class="form-check-input"
                                                                                            :id="'radio_'+parentIndex+'_'+childIndex">
@@ -473,7 +477,7 @@
                                                                              style="width: 200px;">
                                                                           <!-- 以下放edit元件 -->
                                                                             <div v-for="option in col.option.split('|')"
-                                                                                 class="form-check-inline">
+                                                                                 class="r-c-col">
                                                                                     <input type="radio" :value="option"
                                                                                            class="form-check-input"
                                                                                            :id="'radio_'+parentIndex+'_'+childIndex">
@@ -491,7 +495,7 @@
                                                                     <template v-if="col.type === 'check'">
                                                                         <template v-if="col.tip === ''">
                                                                             <div v-for="option in col.option.split('|')"
-                                                                                 class="form-check-inline">
+                                                                                 class="r-c-col">
                                                                                     <input type="checkbox"
                                                                                            :value="option"
                                                                                            class="form-check-input"
@@ -506,7 +510,7 @@
                                                                              style="width: 200px;">
                                                                           <!-- 以下放edit元件 -->
                                                                             <div v-for="option in col.option.split('|')"
-                                                                                 class="form-check-inline">
+                                                                                 class="r-c-col">
                                                                                     <input type="checkbox"
                                                                                            :value="option"
                                                                                            class="form-check-input"
