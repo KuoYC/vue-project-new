@@ -76,39 +76,11 @@
                                                                                 <div class="myFont16">申請類型：<span
                                                                                         class="date">
                                                                                     <div class="d-flex m-tb">
-                                                                                        <div class="form-check form-check-inline">
-                                                                                            <input class="form-check-input"
-                                                                                                   type="radio"
-                                                                                                   v-model="conType"
-                                                                                                   value="0"
-                                                                                                   id="type_0">
-                                                                                            <label class="form-check-label"
-                                                                                                   for="type_0">
-                                                                                                新增
-                                                                                            </label>
-                                                                                        </div>
-                                                                                        <div class="form-check form-check-inline">
-                                                                                            <input class="form-check-input"
-                                                                                                   type="radio"
-                                                                                                   v-model="conType"
-                                                                                                   value="1"
-                                                                                                   id="type_1">
-                                                                                            <label class="form-check-label"
-                                                                                                   for="type_1">
-                                                                                                變更
-                                                                                            </label>
-                                                                                        </div>
-                                                                                        <div class="form-check form-check-inline">
-                                                                                            <input class="form-check-input"
-                                                                                                   type="radio"
-                                                                                                   v-model="conType"
-                                                                                                   value="2"
-                                                                                                   id="type_2">
-                                                                                            <label class="form-check-label"
-                                                                                                   for="type_2">
-                                                                                                終止
-                                                                                            </label>
-                                                                                        </div>
+                                                                                        <select v-model="conType" class="form-control form-select" style="width: auto;">
+                                                                                          <option value="0">新增</option>
+                                                                                          <option value="1">變更</option>
+                                                                                          <option value="2">終止</option>
+                                                                                        </select>
                                                                                     </div>
                                                                                 </span></div>
                                                                                 <!-- 這裡放計劃框架 -->
