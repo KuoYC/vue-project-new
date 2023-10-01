@@ -80,7 +80,7 @@
                                                                             <!-- 這裡放承辦單位 -->
                                                                             <div class="myFont16">申請類型：<span
                                                                                     class="date">
-                                                                                <div v-for="cType in contractType" class="form-check form-check-primary form-check-inline">
+                                                                                <div v-for="cType in contractType" class="form-check-inline">
                                                                                     <input class="form-check-input"
                                                                                            type="radio" :id="'type_'+ cType.value">
                                                                                     <label class="form-check-label"
@@ -111,7 +111,7 @@
                                                                             <div class="myFont16">使用公司：<span
                                                                                     class="data">
                                                                                 <div v-for="(company, com) in companyData"
-                                                                                     class="form-check form-check-primary form-check-inline">
+                                                                                     class="form-check-inline">
                                                                                     <input class="form-check-input"
                                                                                            type="checkbox"
                                                                                            :id="'com_'+com">
@@ -125,7 +125,7 @@
                                                                             <div class="myFont16">作業種類：<span
                                                                                     class="data">
                                                                                 <div v-for="(work, wor) in workData"
-                                                                                     class="form-check form-check-primary form-check-inline">
+                                                                                     class="form-check-inline">
                                                                                     <input class="form-check-input"
                                                                                            type="radio"
                                                                                            :id="'wor_'+wor">
@@ -169,7 +169,7 @@
 
                                                                     <template v-if="element.type === 'work_area'">
                                                                             <div class="table-responsive">
-                                                                                <table class="myTableOne">
+                                                                                <table class="myTable myTableItem">
                                                                                     <thead>
                                                                                     <tr>
                                                                                         <th class="text-center"
@@ -215,7 +215,7 @@
                                                                                         </td>
                                                                                         <td>
                                                                                 <div v-for="(company, com) in companyData"
-                                                                                     class="form-check form-check-primary form-check-inline">
+                                                                                     class="form-check-inline">
                                                                                     <input class="form-check-input"
                                                                                            type="checkbox"
                                                                                            :id="'com_'+com">
@@ -248,32 +248,18 @@
                                                                     </template>
                                                                     <template v-if="element.type === 'sign'">
                                                                                 <label>維運</label>
-                                                                                <select class="form-control">
-                                                                                    <!-- 選項列表 -->
-                                                                                    <option>請選擇窗口</option>
-                                                                                    <option>窗口A</option>
-                                                                                    <option>窗口B</option>
-                                                                                    <option>窗口C</option>
-                                                                                </select>
-
                                                                                 <div class="table-responsive">
-                                                                                    <table class="myTableOne">
+                                                                                    <table class="myTable myTableMemberI">
                                                                                         <thead>
                                                                                         <tr>
-                                                                                            <th class="text-center"
-                                                                                                scope="col">公司</th>
-                                                                                            <th class="text-center"
-                                                                                                scope="col">部門</th>
-                                                                                            <th class="text-center"
-                                                                                                scope="col">部門主管</th>
-                                                                                            <th class="text-center"
-                                                                                                scope="col">科別</th>
-                                                                                            <th class="text-center"
-                                                                                                scope="col">科別主管</th>
-                                                                                            <th class="text-center"
-                                                                                                scope="col">承辦人</th>
-                                                                                            <th class="text-center"
-                                                                                                scope="col">承辦人連絡電話</th>
+                                                                                                <th>公司</th>
+                                                                                                <th>部門</th>
+                                                                                                <th>科別</th>
+                                                                                                <th>承辦人</th>
+                                                                                                <th>科別主管</th>
+                                                                                                <th>部門主管</th>
+                                                                                                <th>窗口</th>
+                                                                                                <th>承辦人連絡電話</th>
                                                                                         </tr>
                                                                                         </thead>
                                                                                         <tbody>
@@ -285,12 +271,12 @@
                                                                                                 X部門
                                                                                             </td>
                                                                                             <td>
-                                                                                                <select class="form-select">
-                                                                                                    <option value="">部門主管</option>
-                                                                                                </select>
+                                                                                                X科別
                                                                                             </td>
                                                                                             <td>
-                                                                                                X科別
+                                                                                                <select class="form-select">
+                                                                                                    <option value="">承辦人</option>
+                                                                                                </select>
                                                                                             </td>
                                                                                             <td>
                                                                                                 <select class="form-select">
@@ -299,7 +285,58 @@
                                                                                             </td>
                                                                                             <td>
                                                                                                 <select class="form-select">
+                                                                                                    <option value="">部門主管</option>
+                                                                                                </select>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <select class="form-select">
+                                                                                                    <option value="">窗口</option>
+                                                                                                </select>
+                                                                                            </td>
+                                                                                            <td class="text-center">
+                                                                                                02-2222-2222#222
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </div>
+                                                                                <div class="table-responsive">
+                                                                                    <table class="myTable myTableMemberM">
+                                                                                        <thead>
+                                                                                        <tr>
+                                                                                            <th>公司</th>
+                                                                                            <th>部門</th>
+                                                                                            <th>科別</th>
+                                                                                            <th>承辦人</th>
+                                                                                            <th>科別主管</th>
+                                                                                            <th>部門主管</th>
+                                                                                            <th>承辦人連絡電話</th>
+                                                                                        </tr>
+                                                                                        </thead>
+                                                                                        <tbody>
+                                                                                        <tr>
+                                                                                            <td>
+                                                                                                X公司
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                X部門
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                X科別
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <select class="form-select">
                                                                                                     <option value="">承辦人</option>
+                                                                                                </select>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <select class="form-select">
+                                                                                                    <option value="">科別主管</option>
+                                                                                                </select>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <select class="form-select">
+                                                                                                    <option value="">部門主管</option>
                                                                                                 </select>
                                                                                             </td>
                                                                                             <td class="text-center">
@@ -339,65 +376,58 @@
                                                                                         </tbody>
                                                                                     </table>
                                                                                 </div>
-                                                                                    <p><button
-                                                                                            class="btn btn-success btn-icon">
-                                                                                        <vue-feather type="plus"></vue-feather>
-                                                                                    </button></p>
+                                                                                <p><button
+                                                                                        class="btn btn-success btn-icon">
+                                                                                <vue-feather type="plus"></vue-feather>
+                                                                                </button></p>
                                                                                 <label>使用</label>
-                                                                                    <div class="table-responsive">
-                                                                                        <table class="myTableOne">
-                                                                                            <thead>
-                                                                                            <tr>
-                                                                                                <th class="text-center"
-                                                                                                    scope="col">公司</th>
-                                                                                                <th class="text-center"
-                                                                                                    scope="col">部門</th>
-                                                                                                <th class="text-center"
-                                                                                                    scope="col">部門主管</th>
-                                                                                                <th class="text-center"
-                                                                                                    scope="col">科別</th>
-                                                                                                <th class="text-center"
-                                                                                                    scope="col">科別主管</th>
-                                                                                                <th class="text-center"
-                                                                                                    scope="col">承辦人</th>
-                                                                                                <th class="text-center"
-                                                                                                    scope="col">承辦人連絡電話</th>
-                                                                                            </tr>
-                                                                                            </thead>
-                                                                                            <tbody>
-                                                                                            <tr>
-                                                                                                <td>
-                                                                                                    <a style="color: red;">X</a>
-                                                                                                    X公司
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    X部門
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <select class="form-select">
-                                                                                                        <option value="">部門主管</option>
-                                                                                                    </select>
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    X科別
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <select class="form-select">
-                                                                                                        <option value="">科別主管</option>
-                                                                                                    </select>
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <select class="form-select">
-                                                                                                        <option value="">承辦人</option>
-                                                                                                    </select>
-                                                                                                </td>
-                                                                                                <td class="text-center">
-                                                                                                    02-2222-2222#222
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                            </tbody>
-                                                                                        </table>
-                                                                                    </div>
+                                                                                <div class="table-responsive">
+                                                                                    <table class="myTable myTableMemberU">
+                                                                                        <thead>
+                                                                                        <tr>
+                                                                                                <th>公司</th>
+                                                                                                <th>部門</th>
+                                                                                                <th>科別</th>
+                                                                                                <th>承辦人</th>
+                                                                                                <th>科別主管</th>
+                                                                                                <th>部門主管</th>
+                                                                                                <th>承辦人連絡電話</th>
+                                                                                        </tr>
+                                                                                        </thead>
+                                                                                        <tbody>
+                                                                                        <tr>
+                                                                                            <td>
+                                                                                                <a style="color: red;">X</a>
+                                                                                                X公司
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                X部門
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                X科別
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <select class="form-select">
+                                                                                                    <option value="">承辦人</option>
+                                                                                                </select>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <select class="form-select">
+                                                                                                    <option value="">科別主管</option>
+                                                                                                </select>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <select class="form-select">
+                                                                                                    <option value="">部門主管</option>
+                                                                                                </select>
+                                                                                            </td>
+                                                                                            <td class="text-center">
+                                                                                                02-2222-2222#222
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </div>
                                                                                 <p><button
                                                                                         class="btn btn-success btn-icon">
                                                                                     <vue-feather type="plus"></vue-feather>
@@ -449,7 +479,7 @@
                                                                     <template v-if="element.type === 'radio'">
                                                                         <template v-if="element.tip === ''">
                                                                             <div v-for="option in element.option.split('|')"
-                                                                                 class="form-check form-check-primary form-check-inline">
+                                                                                 class="form-check-inline">
                                                                                     <input type="radio" :value="option"
                                                                                            class="form-check-input"
                                                                                            :id="'radio_'+parentIndex+'_'+childIndex">
@@ -463,7 +493,7 @@
                                                                              style="width: 200px;">
                                                                           <!-- 以下放edit元件 -->
                                                                             <div v-for="option in element.option.split('|')"
-                                                                                 class="form-check form-check-primary form-check-inline">
+                                                                                 class="form-check-inline">
                                                                                     <input type="radio" :value="option"
                                                                                            class="form-check-input"
                                                                                            :id="'radio_'+parentIndex+'_'+childIndex">
@@ -481,7 +511,7 @@
                                                                     <template v-if="element.type === 'check'">
                                                                         <template v-if="element.tip === ''">
                                                                             <div v-for="option in element.option.split('|')"
-                                                                                 class="form-check form-check-primary form-check-inline">
+                                                                                 class="form-check-inline">
                                                                                     <input type="checkbox"
                                                                                            :value="option"
                                                                                            class="form-check-input"
@@ -496,7 +526,7 @@
                                                                              style="width: 200px;">
                                                                           <!-- 以下放edit元件 -->
                                                                             <div v-for="option in element.option.split('|')"
-                                                                                 class="form-check form-check-primary form-check-inline">
+                                                                                 class="form-check-inline">
                                                                                     <input type="checkbox"
                                                                                            :value="option"
                                                                                            class="form-check-input"
