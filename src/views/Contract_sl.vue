@@ -1734,17 +1734,17 @@
              * TODO: 發起簽核 releaseSign
              */
             async releaseSign() {
-                // releaseSign 發起簽核
+                // 文件發起人必須與登入人資料一致
                 if (this.iMemberData.comId === this.per.comId && this.iMemberData.memLV0 === this.per.perNo && this.iMemberData.memLV0Position === this.per.perPosition) {
                     try {
-                        await this.defaultContract();
+                        await this.defaultContract();//重置文件資訊與簽核人員資料
                         let msg = this.iMemberData.comTitle + ' '
                             + this.iMemberData.memBu2 + ' '
                             + this.iMemberData.memBu3 + ' '
                             + this.iMemberData.memLV0Name + ' '
                             + this.iMemberData.memLV0PositionName + ' '
                             + '發起簽核';
-                        await this.updateContractStatus(1, '', msg);
+                        await this.updateContractStatus(1, '', msg);//修改文件狀態為進行中
                         let upMember = {
                             memId: this.iMemberData.memId,
                             memLV0Status: 3,
@@ -1767,7 +1767,7 @@
                                 + this.iMemberData.memLVCPositionName + ' '
                                 + '待檢視',
                         };
-                        await this.updateMember(upMember);
+                        await this.updateMember(upMember);//修改簽核組別資訊
                         alert('發起成功');
                         this.$router.go(0);
 
