@@ -1704,16 +1704,16 @@
                             case 1:
                                 return true;
                             case 2:
-                                this.clearMemberAll();
+                                await this.clearMemberAll();
                                 alert('文件已退回');
                                 this.$router.push(`/contract/${this.$route.params.tem}/list`);
                                 break;
                             case 3:
-                                this.clearMemberAll();
+                                await this.clearMemberAll();
                                 alert('文件簽核完成');
                                 break;
                             case 4:
-                                this.clearMemberAll();
+                                await this.clearMemberAll();
                                 alert('文件終止');
                                 this.$router.push(`/contract/${this.$route.params.tem}/list`);
                                 break;
@@ -1730,50 +1730,59 @@
 
             },
 
+            /**
+             * TODO: 發起簽核 releaseSign
+             */
             async releaseSign() {
                 // releaseSign 發起簽核
-                if (this.defaultContract()) {
-                    console.log('ok');
-                    let msg = this.iMemberData.comTitle + ' '
-                        + this.iMemberData.memBu2 + ' '
-                        + this.iMemberData.memBu3 + ' '
-                        + this.iMemberData.memLV0Name + ' '
-                        + this.iMemberData.memLV0PositionName + ' '
-                        + '發起簽核';
-                    if (this.updateContractStatus(1, '', msg)) {
-                        if (this.iMemberData.comId === this.per.comId && this.iMemberData.memLV0 === this.per.perNo && this.iMemberData.memLV0Position === this.per.perPosition) {
-                            const upMember = {
-                                memId: this.iMemberData.memId,
-                                memLV0Status: 3,
-                                memLV0Time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-                                memLVCStatus: 0,
-                                memNow: this.iMemberData.memLVC,
-                                memNowPosition: this.iMemberData.memLVCPosition,
-                                memStatus: 0,
-                                conLogMsg: this.$root.getCompanyTitle(this.iMemberData.comId, '') + ' '
-                                    + this.iMemberData.memBu2 + ' '
-                                    + this.iMemberData.memBu3 + ' '
-                                    + this.iMemberData.memLV0Name + ' '
-                                    + this.iMemberData.memLV0PositionName + ' '
-                                    + '簽核完成',
-                                conLogMsgNext: this.$root.getCompanyTitle(this.iMemberData.comId, '') + ' '
-                                    + this.iMemberData.memBu2 + ' '
-                                    + this.iMemberData.memBu3 + ' '
-                                    + this.iMemberData.memLVCName + ' '
-                                    + this.iMemberData.memLVCPositionName + ' '
-                                    + '待檢視',
-                            };
-                            if (this.updateMember(upMember)) {
-                                alert('發起成功');
-                                this.$router.go(0);
-                            }
-                        }
+                if (this.iMemberData.comId === this.per.comId && this.iMemberData.memLV0 === this.per.perNo && this.iMemberData.memLV0Position === this.per.perPosition) {
+                    try {
+                        await this.defaultContract();
+                        let msg = this.iMemberData.comTitle + ' '
+                            + this.iMemberData.memBu2 + ' '
+                            + this.iMemberData.memBu3 + ' '
+                            + this.iMemberData.memLV0Name + ' '
+                            + this.iMemberData.memLV0PositionName + ' '
+                            + '發起簽核';
+                        await this.updateContractStatus(1, '', msg);
+                        let upMember = {
+                            memId: this.iMemberData.memId,
+                            memLV0Status: 3,
+                            memLV0Time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                            memLVCStatus: 0,
+                            memNow: this.iMemberData.memLVC,
+                            memNowPosition: this.iMemberData.memLVCPosition,
+                            memNowStatus: 0,
+                            memStatus: 0,
+                            conLogMsg: this.$root.getCompanyTitle(this.iMemberData.comId, '') + ' '
+                                + this.iMemberData.memBu2 + ' '
+                                + this.iMemberData.memBu3 + ' '
+                                + this.iMemberData.memLV0Name + ' '
+                                + this.iMemberData.memLV0PositionName + ' '
+                                + '簽核完成',
+                            conLogMsgNext: this.$root.getCompanyTitle(this.iMemberData.comId, '') + ' '
+                                + this.iMemberData.memBu2 + ' '
+                                + this.iMemberData.memBu3 + ' '
+                                + this.iMemberData.memLVCName + ' '
+                                + this.iMemberData.memLVCPositionName + ' '
+                                + '待檢視',
+                        };
+                        await this.updateMember(upMember);
+                        alert('發起成功');
+                        this.$router.go(0);
+
+                    } catch (error) {
+                        throw error;
                     }
+                }
+                else {
+                    alert('您並非發起人');
                 }
             },
 
             async defaultContract() {
                 // defaultContract 重置文件狀態
+                // 修改文件狀態為草稿模式，並重置所有簽核人員訊息狀態與時間
                 try {
                     const payload = {
                         conId: this.contractData.conId,

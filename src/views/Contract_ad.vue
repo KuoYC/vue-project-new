@@ -57,7 +57,7 @@
                                                                             <!-- 這裡放權限控管及資料管制 -->
                                                                             <span class="date myFont16">
                                                                         <template v-if="col.type === 'subject'">
-                                                                            <h4><b style="font-weight: 600;"><input
+                                                                            <h4><b style="font-weight: 600;"><input v-model="conTitle"
                                                                                     type="text" class="form-control"
                                                                                     placeholder="文件名稱"/></b></h4>
                                                                             <div class="flex-grow-1">

@@ -56,7 +56,7 @@
                                                                             <span class="date myFont16">
                                                                         <template v-if="col.type === 'subject'">
                                                                             <h4><b style="font-weight: 600;"><input
-                                                                                    type="text" class="form-control"
+                                                                                    type="text" v-model="conTitle" class="form-control"
                                                                                     placeholder="文件名稱"/></b></h4>
                                                                             <div class="flex-grow-1">
                                                                                 <!-- 這裡放承辦單位 -->
@@ -637,6 +637,7 @@
                 Promise.all(apiRequests)
                     .then(([contractResponse, memberResponse, itemResponse, workResponse, companyResponse, categoryResponse, sourceResponse, distributionResponse, personnelResponse]) => {
                         //contractResponse
+                        console.log(this.contractData);
                         this.contractData = contractResponse.data.data;
                         this.conTitle = contractResponse.data.data.conTitle;
                         this.conType = contractResponse.data.data.conType;
