@@ -761,7 +761,7 @@
                 <div class="p-15 border-bottom">
                     <h6 class="font-medium m-b-10">文件架構</h6>
                     <ul class="contact-list">
-                        <li v-for="(item, index) in contractData.conValue" class="nav-item">
+                        <li v-for="(item, index) in conValue" class="nav-item">
                             <a class="nav-link myFont16" href="javascript:void(0);"
                                @click="scrollToElement('my' + index)">
                                 {{ item.areaTitle }}
