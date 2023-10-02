@@ -164,9 +164,6 @@
                                                                                         </template>
                                                                                     </select>
                                                                                 </div>
-                                                                            <!--<option v-for="option in col.option.split('|')" :value="option">-->
-                                                                            <!--{{ option }}-->
-                                                                            <!--</option>-->
                                                                         </template>
                                                                         <template v-if="col.type.startsWith('word')">
                                                                             <div class="replyBox m-t-20 myFont16">

@@ -140,9 +140,6 @@
                                                                                 </template>
                                                                             </template>
                                     </div>
-                                                                            <!--<option v-for="option in element.option.split('|')" :value="option">-->
-                                                                            <!--{{ option }}-->
-                                                                            <!--</option>-->
                                                                         </select>
                                                                     </template>
                                                                     <template v-if="element.type.startsWith('word')">
@@ -154,7 +151,6 @@
                                     </div>
                                                                             </template>
                                                                         </template>
-                                                                        <!--<label>{{ element.option }}</label>-->
                                                                     </template>
 
                                                                     <template v-if="element.type === 'work_area'">

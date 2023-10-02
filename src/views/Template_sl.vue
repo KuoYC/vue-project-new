@@ -131,9 +131,6 @@
                                                                                 </template>
                                                                             </template>
                                     </div>
-                                                                            <!--<option v-for="option in col.option.split('|')" :value="option">-->
-                                                                            <!--{{ option }}-->
-                                                                            <!--</option>-->
                                                                         </select>
                                                                     </template>
                                                                     <template v-if="col.type.startsWith('word')">
