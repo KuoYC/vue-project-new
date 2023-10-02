@@ -660,9 +660,6 @@
                 return Math.random().toString(36).substr(2, 9);
             },
             createContract() {
-                let checkForm = true;
-                let error_msg = '';
-                console.log(this.iMemberData);
                 const memberList = [];
                 memberList.push(this.iMemberData);
                 this.mMemberData.forEach(member => {
@@ -706,7 +703,7 @@
                     itemList: itemList,
                     memberList: memberList,
                 };
-                console.log(JSON.stringify(payload));
+                // console.log(JSON.stringify(payload));
                 this.$api
                     .post(this.$test ? '/api/?type=contract' : '/api/adm/contract/addNew', payload)
                     .then(response => {
