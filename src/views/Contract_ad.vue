@@ -57,8 +57,7 @@
                                                                             <!-- 這裡放權限控管及資料管制 -->
                                                                             <span class="date myFont16">
                                                                         <template v-if="col.type === 'subject'">
-                                                                            <h4><b style="font-weight: 600;"><input
-                                                                                    v-model="conTitle"
+                                                                            <h4><b style="font-weight: 600;"><input v-model="conTitle"
                                                                                     type="text" class="form-control"
                                                                                     placeholder="文件名稱"/></b></h4>
                                                                             <div class="flex-grow-1">
@@ -77,8 +76,7 @@
                                                                                 <div class="myFont16">申請類型：<span
                                                                                         class="date">
                                                                                     <div class="d-flex m-tb">
-                                                                                        <div v-for="cType in contractType"
-                                                                                             class="form-check-inline">
+                                                                                        <div v-for="cType in contractType" class="form-check-inline">
                                                                                             <input class="form-check-input"
                                                                                                    type="radio"
                                                                                                    v-model="conType"
@@ -248,8 +246,7 @@
                                                                                             </tr>
                                                                                             </tbody>
                                                                                         </table>
-                                                                                    <table v-if="mMemberData.length !== 0"
-                                                                                           class="myTable myTableMemberM">
+                                                                                    <table v-if="mMemberData.length !== 0" class="myTable myTableMemberM">
                                                                                         <caption>維運公司簽核人員資料表</caption>
                                                                                         <thead>
                                                                                         <tr>
@@ -280,12 +277,10 @@
                                                                                     <p><button
                                                                                             @click="addMemberMData"
                                                                                             class="btn btn-success btn-icon">
-                                                                                        <vue-feather
-                                                                                                type="plus"></vue-feather>
+                                                                                        <vue-feather type="plus"></vue-feather>
                                                                                     </button></p>
                                                                                     <label>使用</label>
-                                                                                    <table v-if="uMemberData.length !== 0"
-                                                                                           class="myTable myTableMemberU">
+                                                                                    <table v-if="uMemberData.length !== 0" class="myTable myTableMemberU">
                                                                                         <caption>使用公司簽核人員資料表</caption>
                                                                                                 <thead>
                                                                                                 <tr>
@@ -315,8 +310,7 @@
                                                                                             </table>
                                                                                     <p><button @click="addMemberUData"
                                                                                                class="btn btn-success btn-icon">
-                                                                                        <vue-feather
-                                                                                                type="plus"></vue-feather>
+                                                                                        <vue-feather type="plus"></vue-feather>
                                                                                     </button></p>
                                                                         </template>
 
@@ -552,7 +546,7 @@
                 sourceData: [//選單類型
                     {souId: '0', catId: '0', souTitle: ''},
                 ],
-                contractType: [{text: '新增', value: 0}, {text: '變更', value: 1}, {text: '終止', value: 2},],
+                contractType:[{text:'新增', value:0}, {text:'變更', value:1}, {text:'終止', value:2}, ],
 
                 conTitle: '',
                 conType: '0',//申請類別
@@ -762,19 +756,11 @@
                 }
             },
             addMemberMData() {
-                this.mMemberData.push(
-                    this.createMemberData('1', Cookies.get('perBu1Code')),);
-            },
-            addMemberUData() {
-                this.uMemberData.push(
-                    this.createMemberData('2', ''),);
-            },
-            createMemberData(memType, memBu1Code) {
-                const memberData = {
+                this.mMemberData.push({
                     uniqueId: this.generateUniqueId(),
                     memId: '0',
-                    memType: memType,
-                    memBu1Code: memBu1Code,
+                    memType: '1',
+                    memBu1Code: Cookies.get('perBu1Code'),
                     memBu2Code: '',
                     memBu2: '',
                     memBu3Code: '',
@@ -800,11 +786,41 @@
                     memLV2Position: '',
                     memLV2PositionName: '',
                     memPhone: '',
-                };
-                return memberData;
-
+                },);
             },
-
+            addMemberUData() {
+                this.uMemberData.push({
+                    uniqueId: this.generateUniqueId(),
+                    memId: '0',
+                    memType: '2',
+                    memBu1Code: '',
+                    memBu2Code: '',
+                    memBu2: '',
+                    memBu3Code: '',
+                    memBu3: '',
+                    LV0: '',
+                    memLV0: '',
+                    memLV0Name: '',
+                    memLV0Position: '',
+                    memLV0PositionName: '',
+                    LVC: '',
+                    memLVC: '',
+                    memLVCName: '',
+                    memLVCPosition: '',
+                    memLVCPositionName: '',
+                    LV1: '',
+                    memLV1: '',
+                    memLV1Name: '',
+                    memLV1Position: '',
+                    memLV1PositionName: '',
+                    LV2: '',
+                    memLV2: '',
+                    memLV2Name: '',
+                    memLV2Position: '',
+                    memLV2PositionName: '',
+                    memPhone: '',
+                },);
+            },
             removeMemberMData(uniqueId) {
                 const index = this.mMemberData.findIndex(item => item.uniqueId === uniqueId);
                 if (index !== -1) {
