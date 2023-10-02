@@ -22,7 +22,9 @@
                                                         <div class="vew-mail-header">
                                                             <div class="author-box-name d-flex justify-content-between"
                                                                  style="margin-bottom: 20px;">
-                                                                <h4 class="myCardTitle" href="#"><i class="material-icons m-r-5">library_books</i>{{ area.areaTitle }}</h4>
+                                                                <h4 class="myCardTitle" href="#"><i
+                                                                        class="material-icons m-r-5">library_books</i>{{
+                                                                    area.areaTitle }}</h4>
                                                                 <div v-if="parentIndex === 0">
                                                                     <!-- 這裡放創文日期 -->
                                                                     <div class="myFont16Title">
@@ -34,32 +36,45 @@
                                                                 </div>
                                                             </div>
                                                             <hr>
-                                                            <template v-for="(col, childIndex) in area.colItem" class="row">
+                                                            <template v-for="(col, childIndex) in area.colItem"
+                                                                      class="row">
                                                                 <div :class="['col-lg-' + col.width + ' sub-item']">
                                                                     <div class="d-flex mb-4 mt-2">
                                                                         <div class="flex-grow-1">
                                                                             <hr v-if="childIndex !== 0"/>
-                                                                            <div class="author-box-name d-flex" style="margin-bottom: 20px;">
-                                                                                <span v-if="col.name !== ''" class="myFont16 d-flex align-center" style="background-color:#6777ef ;color: white;border-radius: 6px;padding: 0.3rem 0.8rem;font-weight: 400;">
-                                                                                    <i class="material-icons" style="margin-right: 8px;">label_outline</i>{{ col.name }}
+                                                                            <div class="author-box-name d-flex"
+                                                                                 style="margin-bottom: 20px;">
+                                                                                <span v-if="col.name !== ''"
+                                                                                      class="myFont16 d-flex align-center"
+                                                                                      style="background-color:#6777ef ;color: white;border-radius: 6px;padding: 0.3rem 0.8rem;font-weight: 400;">
+                                                                                    <i class="material-icons"
+                                                                                       style="margin-right: 8px;">label_outline</i>{{ col.name }}
                                                                                 </span>
                                                                             </div>
                                                                             <!-- 這裡放權限控管及資料管制 -->
                                                                             <span class="date myFont16">
                                                                         <template v-if="col.type === 'subject'">
-                                                                            <h4><b style="font-weight: 600;"><input type="text" v-model="conTitle" class="form-control" placeholder="文件名稱"/></b></h4>
+                                                                            <h4><b style="font-weight: 600;"><input
+                                                                                    type="text" v-model="conTitle"
+                                                                                    class="form-control"
+                                                                                    placeholder="文件名稱"/></b></h4>
                                                                             <div class="flex-grow-1">
                                                                                 <!-- 這裡放承辦單位 -->
-                                                                                <div class="myFont16">承辦單位：<span class="data">{{ this.contractData.perBu1}}  {{ this.contractData.perBu2 }}</span></div>
+                                                                                <div class="myFont16">承辦單位：<span
+                                                                                        class="data">{{ this.contractData.perBu1}}  {{ this.contractData.perBu2 }}</span></div>
                                                                                 <!-- 這裡放承辦人 -->
-                                                                                <div class="myFont16">承辦人：<span class="data">{{ this.contractData.perName }}</span></div>
+                                                                                <div class="myFont16">承辦人：<span
+                                                                                        class="data">{{ this.contractData.perName }}</span></div>
                                                                                 <!-- 這裡放聯絡電話 -->
-                                                                                <div class="myFont16">聯絡電話：<span class="data">{{ this.contractData.perPhon1 }} {{ this.contractData.perPhon2 }} {{ this.contractData.perPhon3 }}</span></div>
+                                                                                <div class="myFont16">聯絡電話：<span
+                                                                                        class="data">{{ this.contractData.perPhon1 }} {{ this.contractData.perPhon2 }} {{ this.contractData.perPhon3 }}</span></div>
                                                                                 <br>
                                                                                 <!-- 這裡放承辦單位 -->
-                                                                                <div class="myFont16">申請類型：<span class="date">
+                                                                                <div class="myFont16">申請類型：<span
+                                                                                        class="date">
                                                                                     <div class="d-flex m-tb">
-                                                                                        <div v-for="cType in contractType" class="form-check form-check-inline">
+                                                                                        <div v-for="cType in contractType"
+                                                                                             class="form-check form-check-inline">
                                                                                             <input class="form-check-input"
                                                                                                    type="radio"
                                                                                                    v-model="conType"
@@ -73,13 +88,16 @@
                                                                                     </div>
                                                                                 </span></div>
                                                                                 <!-- 這裡放計劃框架 -->
-                                                                                <div class="myFont16">計劃框架：<span class="data">{{ contractData.temTitle }}</span>
+                                                                                <div class="myFont16">計劃框架：<span
+                                                                                        class="data">{{ contractData.temTitle }}</span>
                                                                                 </div>
                                                                                 <!-- 這裡放管理維運公司 -->
-                                                                                <div class="myFont16">管理維運公司：<span class="data">{{ this.$root.getCompanyTitle(contractData.comId, '')}}</span>
+                                                                                <div class="myFont16">管理維運公司：<span
+                                                                                        class="data">{{ this.$root.getCompanyTitle(contractData.comId, '')}}</span>
                                                                                 </div>
                                                                                 <!-- 這裡放生效日期 -->
-                                                                                <div class="myFont16">生效日期：<span class="data">
+                                                                                <div class="myFont16">生效日期：<span
+                                                                                        class="data">
                                                                                     <div class="d-flex m-tb">
                                                                                     <DatePicker v-model="conDate"
                                                                                                 format="yyyy-MM-dd"
@@ -91,9 +109,11 @@
                                                                                 </span>
                                                                                 </div>
                                                                                 <!-- 這裡放使用公司 -->
-                                                                                <div class="myFont16">使用公司：<span class="data">
+                                                                                <div class="myFont16">使用公司：<span
+                                                                                        class="data">
                                                                                     <div class="d-flex m-tb">
-                                                                                        <div v-for="com in companyData" class="form-check form-check-inline">
+                                                                                        <div v-for="com in companyData"
+                                                                                             class="form-check form-check-inline">
                                                                                             <input class="form-check-input"
                                                                                                    type="checkbox"
                                                                                                    :value="com.comCode"
@@ -107,9 +127,11 @@
                                                                                     </div>
                                                                                 </span></div>
                                                                                 <!-- 這裡放作業種類 -->
-                                                                                <div class="myFont16">作業種類：<span class="data">
+                                                                                <div class="myFont16">作業種類：<span
+                                                                                        class="data">
                                                                                     <div class="d-flex m-tb">
-                                                                                        <div v-for="(wor, worIndex) in workData" class="form-check form-check-inline">
+                                                                                        <div v-for="(wor, worIndex) in workData"
+                                                                                             class="form-check form-check-inline">
                                                                                             <input class="form-check-input"
                                                                                                    type="checkbox"
                                                                                                    :value="wor.worId"
@@ -127,10 +149,14 @@
                                                                         <template v-if="col.type.startsWith('list')">
                                                                                 <!-- 選項列表 -->
                                                                                 <div class="replyBox m-t-20 myFont16">
-                                                                                    <select v-model="col.value" class="form-control">
-                                                                                        <option disabled value="">請選擇</option>
-                                                                                        <template v-for="sou in sourceData">
-                                                                                            <template v-if="parseInt(sou.catId) === parseInt(col.id)">
+                                                                                    <select v-model="col.value"
+                                                                                            class="form-control">
+                                                                                        <option disabled
+                                                                                                value="">請選擇</option>
+                                                                                        <template
+                                                                                                v-for="sou in sourceData">
+                                                                                            <template
+                                                                                                    v-if="parseInt(sou.catId) === parseInt(col.id)">
                                                                                                 <option :value="sou.souTitle">
                                                                                                     {{ sou.souTitle }}
                                                                                                 </option>
@@ -142,7 +168,8 @@
                                                                         <template v-if="col.type.startsWith('word')">
                                                                             <div class="replyBox m-t-20 myFont16">
                                                                                 <template v-for="cat in categoryData">
-                                                                                    <template v-if="parseInt(cat.catId) === parseInt(col.id)">
+                                                                                    <template
+                                                                                            v-if="parseInt(cat.catId) === parseInt(col.id)">
                                                                                         <label class="form-label">{{ cat.catWord }}</label>
                                                                                     </template>
                                                                                 </template>
@@ -182,7 +209,9 @@
                                                                                 </tbody>
                                                                             </table>
                                                                             <p>
-                                                                                <vue-feather type="plus" class="btn btn-success btn-icon" @click="addItemData"></vue-feather>
+                                                                                <vue-feather type="plus"
+                                                                                             class="btn btn-success btn-icon"
+                                                                                             @click="addItemData"></vue-feather>
                                                                             </p>
                                                                         </template>
                                                                         <template v-if="col.type === 'sign'">
@@ -216,7 +245,8 @@
                                                                                 </tr>
                                                                                 </tbody>
                                                                             </table>
-                                                                            <table v-if="mMemberData.length !== 0" class="myTable myTableMemberM">
+                                                                            <table v-if="mMemberData.length !== 0"
+                                                                                   class="myTable myTableMemberM">
                                                                                 <caption>維運公司簽核人員資料表</caption>
                                                                                 <thead>
                                                                                 <tr>
@@ -244,9 +274,12 @@
                                                                                     </tr>
                                                                                 </tbody>
                                                                             </table>
-                                                                            <p><vue-feather type="plus" class="btn btn-success btn-icon" @click="addMemberMData"></vue-feather></p>
+                                                                            <p><vue-feather type="plus"
+                                                                                            class="btn btn-success btn-icon"
+                                                                                            @click="addMemberMData"></vue-feather></p>
                                                                             <label>使用</label>
-                                                                            <table v-if="uMemberData.length !== 0" class="myTable myTableMemberU">
+                                                                            <table v-if="uMemberData.length !== 0"
+                                                                                   class="myTable myTableMemberU">
                                                                                 <caption>使用公司簽核人員資料表</caption>
                                                                                 <thead>
                                                                                 <tr>
@@ -274,7 +307,9 @@
                                                                                     </tr>
                                                                                 </tbody>
                                                                             </table>
-                                                                            <p><vue-feather type="plus" class="btn btn-success btn-icon" @click="addMemberUData"></vue-feather></p>
+                                                                            <p><vue-feather type="plus"
+                                                                                            class="btn btn-success btn-icon"
+                                                                                            @click="addMemberUData"></vue-feather></p>
                                                                         </template>
 
                                                                         <template v-if="col.type === 'file_area'">
@@ -319,7 +354,8 @@
                                                                         </template>
                                                                         <template v-if="col.type === 'radio'">
                                                                             <template v-if="col.tip === ''">
-                                                                                <div v-for="item in col.option.split('|')" class="form-check form-check-inline">
+                                                                                <div v-for="item in col.option.split('|')"
+                                                                                     class="form-check form-check-inline">
                                                                                         <input type="radio"
                                                                                                :value="item"
                                                                                                class="form-check-input"
@@ -333,7 +369,8 @@
                                                                             <div class="myToolTipContainer d-flex"
                                                                                  style="width: 200px;">
                                                                                 <!-- 以下放edit元件 -->
-                                                                                <div v-for="item in col.option.split('|')" class="form-check form-check-inline">
+                                                                                <div v-for="item in col.option.split('|')"
+                                                                                     class="form-check form-check-inline">
                                                                                         <input type="radio"
                                                                                                :value="item"
                                                                                                class="form-check-input"
@@ -349,7 +386,8 @@
                                                                         </template>
                                                                         <template v-if="col.type === 'check'">
                                                                             <template v-if="col.tip === ''">
-                                                                                <div v-for="item in col.option.split('|')" class="form-check form-check-inline">
+                                                                                <div v-for="item in col.option.split('|')"
+                                                                                     class="form-check form-check-inline">
                                                                                     <input type="checkbox"
                                                                                            :value="item"
                                                                                            class="form-check-input"
@@ -363,7 +401,8 @@
                                                                             <div class="myToolTipContainer d-flex"
                                                                                  style="width: 200px;">
                                                                               <!-- 以下放edit元件 -->
-                                                                                <div v-for="item in col.option.split('|')" class="form-check form-check-inline">
+                                                                                <div v-for="item in col.option.split('|')"
+                                                                                     class="form-check form-check-inline">
                                                                                         <input type="checkbox"
                                                                                                :value="item"
                                                                                                class="form-check-input"
@@ -379,7 +418,8 @@
                                                                         </template>
                                                                         <template v-if="col.type === 'text'">
                                                                             <template v-if="col.tip === ''">
-                                                                                <input type="text" class="form-control"/>
+                                                                                <input type="text"
+                                                                                       class="form-control"/>
                                                                             </template>
                                                                             <template v-else>
                                                                             <div class="myToolTipContainer d-flex"
@@ -511,8 +551,8 @@
                 sourceData: [//選單類型
                     {souId: '0', catId: '0', souTitle: ''},
                 ],
-                contractType:[{text:'新增', value:0}, {text:'變更', value:1}, {text:'終止', value:2}, ],
-                contractData:[],
+                contractType: [{text: '新增', value: 0}, {text: '變更', value: 1}, {text: '終止', value: 2},],
+                contractData: [],
                 conId: 0,
                 conTitle: '',
                 conType: '0',//申請類別
@@ -726,7 +766,7 @@
                 this.uMemberData.push(
                     this.createMemberData('2', ''),);
             },
-            createMemberData(memType, memBu1Code){
+            createMemberData(memType, memBu1Code) {
                 const memberData = {
                     uniqueId: this.generateUniqueId(),
                     memId: '0',
