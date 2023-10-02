@@ -910,29 +910,7 @@
                             + this.iMemberData.memLV0PositionName + ' '
                             + '發起簽核';
                         await this.updateContractStatus(1, '', msg);//修改文件狀態為進行中
-                        let upMember = {
-                            conId: this.iMemberData.conId,
-                            memId: this.iMemberData.memId,
-                            memLV0Status: 3,
-                            memLV0Time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-                            memLVCStatus: 0,
-                            memNow: this.iMemberData.memLVC,
-                            memNowPosition: this.iMemberData.memLVCPosition,
-                            memNowStatus: 0,
-                            memStatus: 0,
-                            conLogMsg: this.$root.getCompanyTitle(this.iMemberData.comId, '') + ' '
-                                + this.iMemberData.memBu2 + ' '
-                                + this.iMemberData.memBu3 + ' '
-                                + this.iMemberData.memLV0Name + ' '
-                                + this.iMemberData.memLV0PositionName + ' '
-                                + '簽核完成',
-                            conLogMsgNext: this.$root.getCompanyTitle(this.iMemberData.comId, '') + ' '
-                                + this.iMemberData.memBu2 + ' '
-                                + this.iMemberData.memBu3 + ' '
-                                + this.iMemberData.memLVCName + ' '
-                                + this.iMemberData.memLVCPositionName + ' '
-                                + '待檢視',
-                        };
+                        const upMember = this.createUpMember(this.iMemberData, '0', 3, true);
                         await this.updateMember(upMember);//修改簽核組別資訊
                         alert('發起成功');
                         this.$router.go(0);
@@ -989,14 +967,28 @@
                         await this.updateMember(upMember);
                         if (iMemberEnd) {
                             if (this.mMemberData.length > 0) {
-                                await this.mMemberStart();
-                                alert('簽核完成');
-                                this.$router.go(0);
+                                for (let mem of this.mMemberData) {
+                                    upMember = this.createUpMember(mem, '0', 0, false);
+                                    try {
+                                        await this.updateMember(upMember);
+                                        alert('簽核完成');
+                                        this.$router.go(0);
+                                    } catch (error) {
+                                        console.error('Edit failed:', error);
+                                    }
+                                }
                             }
                             else if (this.uMemberData.length > 0) {
-                                await this.uMemberStart();
-                                alert('簽核完成');
-                                this.$router.go(0);
+                                for (let mem of this.uMemberData) {
+                                    upMember = this.createUpMember(mem, '0', 0, false);
+                                    try {
+                                        await this.updateMember(upMember);
+                                        alert('簽核完成');
+                                        this.$router.go(0);
+                                    } catch (error) {
+                                        console.error('Edit failed:', error);
+                                    }
+                                }
                             }
                             else {
                                 try {
@@ -1013,8 +1005,16 @@
                             const mMemberParallel = await this.checkParallelTypeSign(1);
                             if (mMemberParallel) {
                                 if (this.uMemberData.length > 0) {
-                                    await this.uMemberStart();
-                                    alert('簽核完成');
+                                    for (let mem of this.uMemberData) {
+                                        upMember = this.createUpMember(mem, '0', 0, false);
+                                        try {
+                                            await this.updateMember(upMember);
+                                            alert('簽核完成');
+                                            this.$router.go(0);
+                                        } catch (error) {
+                                            console.error('Edit failed:', error);
+                                        }
+                                    }
                                     this.$router.go(0);
                                 }
                                 else {
@@ -1136,72 +1136,13 @@
                 }
                 this.$router.go(0);
             },
-            //開始維運簽核
-            async mMemberStart() {
-                try {
-                    for (const mem of this.mMemberData) {
-                        const upMember = {
-                            conId: mem.conId,
-                            memId: mem.memId,
-                            memLV0Status: 0,
-                            memNow: mem.memLV0,
-                            memNowPosition: mem.memLV0Position,
-                            memNowStatus: 0,
-                            memStatus: 0,
-                            conLogMsg: this.$root.getCompanyTitle(mem.comId, '') + ' ' +
-                                mem.memBu2 + ' ' +
-                                mem.memBu3 + ' ' +
-                                mem.memLV0Name + ' ' +
-                                mem.memLV0PositionName + ' ' +
-                                '待檢視',
-                        };
-                        try {
-                            await this.updateMember(upMember);
-                        } catch (error) {
-                            console.error('Edit failed:', error);
-                        }
-                    }
-                } catch (error) {
-                    console.error('Edit failed:', error);
-                }
-            },
-            //開始使用簽核
-            async uMemberStart() {
-                try {
-                    for (const mem of this.uMemberData) {
-                        const upMember = {
-                            conId: mem.conId,
-                            memId: mem.memId,
-                            memLV0Status: 0,
-                            memNow: mem.memLV0,
-                            memNowPosition: mem.memLV0Position,
-                            memNowStatus: 0,
-                            memStatus: 0,
-                            conLogMsg: this.$root.getCompanyTitle(mem.comId, '') + ' ' +
-                                mem.memBu2 + ' ' +
-                                mem.memBu3 + ' ' +
-                                mem.memLV0Name + ' ' +
-                                mem.memLV0PositionName + ' ' +
-                                '待檢視',
-                        };
-                        try {
-                            await this.updateMember(upMember);
-                        } catch (error) {
-                            console.error('Edit failed:', error);
-                        }
-                    }
-                } catch (error) {
-                    console.error('Edit failed:', error);
-                }
-            },
-
 
             // 產生執行資料
-            createUpMember(mem, isLV, signType, first) {//signType :3簽核 2退件 4拒絕
+            createUpMember(mem, isLV, signType, first) {//signType :0 開始待檢視 3簽核 2退件 4拒絕
                 const conId = mem.conId;
                 const memId = mem.memId;
-                const time = dayjs().format('YYYY-MM-DD HH:mm:ss');
-                const msg = 3 === signType ? this.msg : null;
+                const time = signType === 0 ? null : dayjs().format('YYYY-MM-DD HH:mm:ss');
+                const msg = signType === 0 || signType === 3 ? null : this.msg;
                 const comTitle = this.$root.getCompanyTitle(mem.comId, '');
                 const memBu2 = mem.memBu2;
                 const memBu3 = mem.memBu3;
@@ -1214,7 +1155,7 @@
                 let nextLogMsg = null;
                 let memStatus = null;
                 if (signType === 3) {
-                    conLogMsg = `${comTitle} ${memBu2} ${memBu3} ${positionName} 已簽核 ${msg !== '' ? ':' + msg : ''}`
+                    conLogMsg = `${comTitle} ${memBu2} ${memBu3} ${positionName} 簽核完成 ${msg !== '' ? ':' + msg : ''}`
                     switch (isLV) {
                         case '0':
                             nextLV = first ? mem.memLVC : mem.memLV1;
@@ -1251,6 +1192,12 @@
                     else if (signType === 4) {
                         conLogMsg = `${comTitle} ${memBu2} ${memBu3} ${positionName} 拒絕 ${msg !== '' ? ':' + msg : ''}`
                     }
+                    else if (signType === 0) {
+                        nextLV = mem.memLV0;
+                        nextLVPosition = mem.memLV0Position;
+                        nextLVStatus = 0;
+                        conLogMsg = `${comTitle} ${memBu2} ${memBu3} ${positionName} 待檢視`
+                    }
                     memStatus = signType;
                 }
 
@@ -1264,7 +1211,7 @@
                     [`memLV${nextLV}Status`]: signType === 3 && '' !== nextLV ? 0 : null,
                     memNow: nextLV,
                     memNowPosition: nextLVPosition,
-                    memNowStatus:nextLVStatus,
+                    memNowStatus: nextLVStatus,
                     memStatus: memStatus,
                     conLogMsg: conLogMsg,
                     conLogMsgNext: `${nextMsg}`,
