@@ -938,7 +938,7 @@
                         this.$router.go(0);
 
                     } catch (error) {
-                        throw error;
+                        console.error('Edit failed:', error);
                     }
                 }
                 else {
@@ -1193,21 +1193,19 @@
                                 alert('簽核完成');
                                 this.$router.go(0);
                             }
+                            else if (this.uMemberData.length > 0) {
+                                await this.uMemberStart();
+                                alert('簽核完成');
+                                this.$router.go(0);
+                            }
                             else {
-                                if (this.uMemberData.length > 0) {
-                                    await this.uMemberStart();
-                                    alert('簽核完成');
+                                try {
+                                    await this.updateContractStatus(3, dayjs().format('YYYY-MM-DD'), '文件簽核完成');
+                                    await this.clearMemberAll();
+                                    alert('文件簽核完成');
                                     this.$router.go(0);
-                                }
-                                else {
-                                    try {
-                                        await this.updateContractStatus(3, dayjs().format('YYYY-MM-DD'), '文件簽核完成');
-                                        await this.clearMemberAll();
-                                        alert('文件簽核完成');
-                                        this.$router.go(0);
-                                    } catch (error) {
-                                        console.error('Edit failed:', error);
-                                    }
+                                } catch (error) {
+                                    console.error('Edit failed:', error);
                                 }
                             }
                         }
