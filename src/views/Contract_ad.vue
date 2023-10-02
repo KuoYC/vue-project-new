@@ -212,10 +212,7 @@
                                                                                         </tr>
                                                                                         </tbody>
                                                                                     </table>
-                                                                            <p><button @click="addItemData"
-                                                                                       class="btn btn-success btn-icon">
-                                                                                <vue-feather type="plus"></vue-feather>
-                                                                            </button></p>
+                                                                            <p><vue-feather type="plus" @click="addItemData" class="btn btn-success btn-icon"></vue-feather></p>
                                                                         </template>
                                                                         <template v-if="col.type === 'sign'">
                                                                                     <label>維運</label>
@@ -277,12 +274,7 @@
                                                                                             </tr>
                                                                                         </tbody>
                                                                                     </table>
-                                                                                    <p><button
-                                                                                            @click="addMemberMData"
-                                                                                            class="btn btn-success btn-icon">
-                                                                                        <vue-feather
-                                                                                                type="plus"></vue-feather>
-                                                                                    </button></p>
+                                                                                    <p><vue-feather type="plus" class="btn btn-success btn-icon" @click="addMemberMData"></vue-feather></p>
                                                                                     <label>使用</label>
                                                                                     <table v-if="uMemberData.length !== 0"
                                                                                            class="myTable myTableMemberU">
@@ -313,11 +305,7 @@
                                                                                                     </tr>
                                                                                                 </tbody>
                                                                                             </table>
-                                                                                    <p><button @click="addMemberUData"
-                                                                                               class="btn btn-success btn-icon">
-                                                                                        <vue-feather
-                                                                                                type="plus"></vue-feather>
-                                                                                    </button></p>
+                                                                                    <p><vue-feather type="plus" class="btn btn-success btn-icon" @click="addMemberUData"></vue-feather></p>
                                                                         </template>
 
                                                                         <template v-if="col.type === 'file_area'">
@@ -498,7 +486,6 @@
                 <div class="setting-panel-header">管理面板
                 </div>
                 <div class="p-15 border-bottom">
-                    <!--<h6 class="font-medium m-b-10">簽核文件</h6>-->
                     <div class="col-lg-12">
                         <div class="m-l-20">
                             <button type="button" @click="createContract"
