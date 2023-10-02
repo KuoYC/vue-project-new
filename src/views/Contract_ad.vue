@@ -756,44 +756,19 @@
                 }
             },
             addMemberMData() {
-                this.mMemberData.push({
-                    uniqueId: this.generateUniqueId(),
-                    memId: '0',
-                    memType: '1',
-                    memBu1Code: Cookies.get('perBu1Code'),
-                    memBu2Code: '',
-                    memBu2: '',
-                    memBu3Code: '',
-                    memBu3: '',
-                    LV0: '',
-                    memLV0: '',
-                    memLV0Name: '',
-                    memLV0Position: '',
-                    memLV0PositionName: '',
-                    LVC: '',
-                    memLVC: '',
-                    memLVCName: '',
-                    memLVCPosition: '',
-                    memLVCPositionName: '',
-                    LV1: '',
-                    memLV1: '',
-                    memLV1Name: '',
-                    memLV1Position: '',
-                    memLV1PositionName: '',
-                    LV2: '',
-                    memLV2: '',
-                    memLV2Name: '',
-                    memLV2Position: '',
-                    memLV2PositionName: '',
-                    memPhone: '',
-                },);
+                this.mMemberData.push(
+                    this.createMemberData('1', Cookies.get('perBu1Code')),);
             },
             addMemberUData() {
-                this.uMemberData.push({
+                this.uMemberData.push(
+                    this.createMemberData('2', ''),);
+            },
+            createMemberData(memType, memBu1Code){
+                const memberData = {
                     uniqueId: this.generateUniqueId(),
                     memId: '0',
-                    memType: '2',
-                    memBu1Code: '',
+                    memType: memType,
+                    memBu1Code: memBu1Code,
                     memBu2Code: '',
                     memBu2: '',
                     memBu3Code: '',
@@ -819,8 +794,11 @@
                     memLV2Position: '',
                     memLV2PositionName: '',
                     memPhone: '',
-                },);
+                };
+                return memberData;
+
             },
+
             removeMemberMData(uniqueId) {
                 const index = this.mMemberData.findIndex(item => item.uniqueId === uniqueId);
                 if (index !== -1) {
