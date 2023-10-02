@@ -142,7 +142,6 @@
                                     </div>
                                                                             </template>
                                                                         </template>
-                                                                        <!--<label>{{ col.option }}</label>-->
                                                                     </template>
 
                                                                     <template v-if="col.type === 'work_area'">
