@@ -28,18 +28,18 @@
                                                                 <!-- 這裡放創文日期 -->
                                                                 <div class="myFont16" style="font-weight: 400;">
                                                                     文件序號：<span
-                                                                        class="date float-end" style="font-style: italic; color: #e3e3e3;">文件建檔後產生</span></div>
+                                                                        class="data float-end" style="font-style: italic; color: #e3e3e3;">文件建檔後產生</span></div>
                                                                 <div class="myFont16" style="font-weight: 400;">
                                                                     建檔日期：<span
-                                                                        class="date float-end" style="font-style: italic; color: #e3e3e3;">文件建檔後產生</span></div>
+                                                                        class="data float-end" style="font-style: italic; color: #e3e3e3;">文件建檔後產生</span></div>
                                                                 <!-- 這裡放計劃框架 -->
                                                                 <div class="myFont16" style="font-weight: 400;">
                                                                     生效日期：<span
-                                                                        class="date float-end" style="font-style: italic; color: #e3e3e3;">簽核完成後產生</span></div>
+                                                                        class="data float-end" style="font-style: italic; color: #e3e3e3;">簽核完成後產生</span></div>
                                                                 <!-- 這裡放計劃框架 -->
                                                                 <div class="myFont16" style="font-weight: 400;">
                                                                     計劃框架：<span
-                                                                        class="date float-end">{{ tpName }}</span></div>
+                                                                        class="data float-end">{{ tpName }}</span></div>
                                                             </div>
                                                         </div>
                                                         <hr>
@@ -56,7 +56,7 @@
                                   <i class="material-icons" style="margin-right: 8px;">label_outline</i>{{ col.name }}</span>
                                                                             </div>
                                                                             <!-- 這裡放權限控管及資料管制 -->
-                                                                            <span class="date myFont16">
+                                                                            <span class="data myFont16">
                                                                     <template v-if="col.type === 'subject'">
                                                                         <h4><b style="font-weight: 600;"><input
                                                                                 type="text" class="form-control"
@@ -64,7 +64,7 @@
                                                                         <div class="flex-grow-1">
                                                                             <!-- 這裡放承辦單位 -->
                                                                             <div class="myFont16">申請類型：<span
-                                                                                    class="date">
+                                                                                    class="data">
                                                                                 <div v-for="cType in contractType" class="form-check-inline">
                                                                                     <input class="form-check-input"
                                                                                            type="radio" :id="'type_'+ cType.value">
@@ -80,7 +80,7 @@
                                                                             </div>
                                                                             <!-- 這裡放承辦單位 -->
                                                                             <div class="myFont16">承辦單位：<span
-                                                                                    class="date" style="font-style: italic; color: #e3e3e3;">依發起人單位顯示</span></div>
+                                                                                    class="data" style="font-style: italic; color: #e3e3e3;">依發起人單位顯示</span></div>
                                                                             <!-- 這裡放承辦人 -->
                                                                             <div class="myFont16">承辦人：<span
                                                                                     class="data" style="font-style: italic; color: #e3e3e3;">依發起人顯示</span></div>

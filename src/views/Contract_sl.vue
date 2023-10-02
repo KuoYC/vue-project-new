@@ -30,11 +30,11 @@
                                                                     <!-- 這裡放創文日期 -->
                                                                     <div class="myFont16Title">
                                                                         文件序號：<span
-                                                                            class="date float-end myFont16">{{ contractData.conSerial }}</span>
+                                                                            class="data float-end myFont16">{{ contractData.conSerial }}</span>
                                                                     </div>
                                                                     <div class="myFont16Title">
                                                                         建檔日期：<span
-                                                                            class="date float-end myFont16">{{ this.$root.formatDate(contractData.conCreateTime)}}</span>
+                                                                            class="data float-end myFont16">{{ this.$root.formatDate(contractData.conCreateTime)}}</span>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -53,13 +53,13 @@
                                              style="margin-right: 8px;">label_outline</i>{{ col.name }}</span>
                                                                             </div>
                                                                             <!-- 這裡放權限控管及資料管制 -->
-                                                                            <span class="date myFont16">
+                                                                            <span class="data myFont16">
                                                                             <template v-if="col.type === 'subject'">
                                                                                 <h4><b style="font-weight: 600;">{{ contractData.conTitle }}</b></h4>
                                                                                 <div class="flex-grow-1">
                                                                                     <!-- 這裡放承辦單位 -->
                                                                                     <div class="myFont16Title">承辦單位：<span
-                                                                                            class="date myFont16">{{ contractData.perBu2}}  {{ contractData.perBu3}}</span></div>
+                                                                                            class="data myFont16">{{ contractData.perBu2}}  {{ contractData.perBu3}}</span></div>
                                                                                     <!-- 這裡放承辦人 -->
                                                                                     <div class="myFont16Title">承辦人：<span
                                                                                             class="data myFont16">{{ contractData.perName}}</span></div>
@@ -76,11 +76,11 @@
                                                                                     <!-- 這裡放承辦單位 -->
                                                                                     <div class="myFont16Title">申請類型：
                                                                                         <span v-if="contractData.conType === '0'"
-                                                                                              class="date myFont16">新增</span>
+                                                                                              class="data myFont16">新增</span>
                                                                                         <span v-if="contractData.conType === '1'"
-                                                                                              class="date myFont16">變更</span>
+                                                                                              class="data myFont16">變更</span>
                                                                                         <span v-if="contractData.conType === '2'"
-                                                                                              class="date myFont16">終止</span>
+                                                                                              class="data myFont16">終止</span>
                                                                                     </div>
                                                                                     <!-- 這裡放管理維運公司 -->
                                                                                     <div class="myFont16Title">管理維運公司：<span

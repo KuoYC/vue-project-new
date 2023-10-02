@@ -27,14 +27,14 @@
                                                                     area.areaTitle }}</h4>
                                                                 <div v-if="parentIndex === 0">
                                                                     <!-- 這裡放創文日期 -->
-                                                                    <div class="" style="font-weight: 400;">
+                                                                    <div class="myFont16" style="font-weight: 400;">
                                                                         文件序號：<span
-                                                                            class="date float-end"
+                                                                            class="data float-end"
                                                                             style="font-style: italic; color: #e3e3e3;">文件建檔後產生</span>
                                                                     </div>
-                                                                    <div class="" style="font-weight: 400;">
+                                                                    <div class="myFont16" style="font-weight: 400;">
                                                                         建檔日期：<span
-                                                                            class="date float-end"
+                                                                            class="data float-end"
                                                                             style="font-style: italic; color: #e3e3e3;">文件建檔後產生</span>
                                                                     </div>
                                                                 </div>
@@ -49,13 +49,13 @@
                                                                             <div class="author-box-name d-flex"
                                                                                  style="margin-bottom: 20px;">
                                                                         <span v-if="col.name !== ''"
-                                                                              class=" d-flex align-center"
+                                                                              class="myFont16 d-flex align-center"
                                                                               style="background-color:#6777ef ;color: white;border-radius: 6px;padding: 0.3rem 0.8rem;font-weight: 400;">
                                                                           <i class="material-icons"
                                                                              style="margin-right: 8px;">label_outline</i>{{ col.name }}</span>
                                                                             </div>
                                                                             <!-- 這裡放權限控管及資料管制 -->
-                                                                            <span class="date ">
+                                                                            <span class="data myFont16">
                                                                         <template v-if="col.type === 'subject'">
                                                                             <h4><b style="font-weight: 600;"><input
                                                                                     v-model="conTitle"
@@ -63,19 +63,19 @@
                                                                                     placeholder="文件名稱"/></b></h4>
                                                                             <div class="flex-grow-1">
                                                                                 <!-- 這裡放承辦單位 -->
-                                                                                <div class="">承辦單位：<span
+                                                                                <div class="myFont16">承辦單位：<span
                                                                                         class="data">{{ this.per.perBu1}}  {{ this.per.perBu2 }}</span></div>
                                                                                 <!-- 這裡放承辦人 -->
-                                                                                <div class="">承辦人：<span
+                                                                                <div class="myFont16">承辦人：<span
                                                                                         class="data">{{ this.per.perName }}</span></div>
                                                                                 <!-- 這裡放聯絡電話 -->
-                                                                                <div class="">聯絡電話：<span
+                                                                                <div class="myFont16">聯絡電話：<span
                                                                                         class="data">{{ this.per.perPhon1 }} {{ this.per.perPhon2 }} {{ this.per.perPhon3 }}</span>
                                                                                 </div>
                                                                                 <br>
                                                                                 <!-- 這裡放承辦單位 -->
-                                                                                <div class="">申請類型：<span
-                                                                                        class="date">
+                                                                                <div class="myFont16">申請類型：<span
+                                                                                        class="data">
                                                                                     <div class="d-flex m-tb">
                                                                                         <div v-for="cType in contractType"
                                                                                              class="form-check-inline">
@@ -92,15 +92,15 @@
                                                                                     </div>
                                                                                 </span></div>
                                                                                 <!-- 這裡放計劃框架 -->
-                                                                                <div class="">計劃框架：<span
+                                                                                <div class="myFont16">計劃框架：<span
                                                                                         class="data">{{ templateData.temTitle }}</span>
                                                                                 </div>
                                                                                 <!-- 這裡放管理維運公司 -->
-                                                                                <div class="">管理維運公司：<span
+                                                                                <div class="myFont16">管理維運公司：<span
                                                                                         class="data">{{ this.$root.getCompanyTitle(per.comId, '')}}</span>
                                                                                 </div>
                                                                                 <!-- 這裡放生效日期 -->
-                                                                                <div class="">生效日期：<span
+                                                                                <div class="myFont16">生效日期：<span
                                                                                         class="data">
                                                                                     <div class="d-flex m-tb">
                                                                                     <DatePicker v-model="conDate"
@@ -113,7 +113,7 @@
                                                                                 </span>
                                                                                 </div>
                                                                                 <!-- 這裡放使用公司 -->
-                                                                                <div class="">使用公司：<span
+                                                                                <div class="myFont16">使用公司：<span
                                                                                         class="data">
                                                                                     <div class="d-flex m-tb">
                                                                                         <div v-for="com in companyData"
@@ -131,7 +131,7 @@
                                                                                     </div>
                                                                                 </span></div>
                                                                                 <!-- 這裡放作業種類 -->
-                                                                                <div class="">作業種類：<span
+                                                                                <div class="myFont16">作業種類：<span
                                                                                         class="data">
                                                                                     <div class="d-flex m-tb">
                                                                                         <div v-for="(wor, worIndex) in workData"
@@ -152,7 +152,7 @@
                                                                         </template>
                                                                         <template v-if="col.type.startsWith('list')">
                                                                                 <!-- 選項列表 -->
-                                                                                <div class="replyBox m-t-20 ">
+                                                                                <div class="replyBox m-t-20 myFont16">
                                                                                     <select v-model="col.value"
                                                                                             class="form-control">
                                                                                         <template
@@ -170,7 +170,7 @@
                                                                                 </div>
                                                                         </template>
                                                                         <template v-if="col.type.startsWith('word')">
-                                                                            <div class="replyBox m-t-20 ">
+                                                                            <div class="replyBox m-t-20 myFont16">
                                                                                 <template v-for="cat in categoryData">
                                                                                     <template
                                                                                             v-if="parseInt(cat.catId) === parseInt(col.id)">
@@ -309,7 +309,7 @@
                                                                         </template>
 
                                                                         <template v-if="col.type === 'file_area'">
-                                                                            <div class="replyBox m-t-20 ">
+                                                                            <div class="replyBox m-t-20 myFont16">
                                                                                 <span>
                                                                                     <!-- 這裡放共幾則附檔 -->
                                                                                     <i class="fa fa-paperclip mb-1"></i> <span>3則</span>附加檔案 </span>
@@ -468,7 +468,7 @@
                 </div>
                 <div class="col-6" style="padding-bottom: 20px;">
                     <button type="button" @click="createContract"
-                            class="m-r-5 btn btn-info btn-border-radius waves-effect ">儲存
+                            class="m-r-5 btn btn-info btn-border-radius waves-effect myFont16">儲存
                     </button>
                 </div>
             </div>
@@ -489,7 +489,7 @@
                     <div class="col-lg-12">
                         <div class="m-l-20">
                             <button type="button" @click="createContract"
-                                    class="m-r-5 btn btn-info btn-border-radius waves-effect ">儲存
+                                    class="m-r-5 btn btn-info btn-border-radius waves-effect myFont16">儲存
                             </button>
                         </div>
                     </div>
@@ -498,7 +498,7 @@
                     <h6 class="font-medium m-b-10">文件架構</h6>
                     <ul class="contact-list">
                         <li v-for="(item, index) in conValue" class="nav-item" ref="tp">
-                            <a class="nav-link " href="javascript:void(0);"
+                            <a class="nav-link myFont16" href="javascript:void(0);"
                                @click="scrollToElement('my' + index)">
                                 {{ item.areaTitle }}
                             </a>
