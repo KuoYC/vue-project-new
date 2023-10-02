@@ -485,7 +485,6 @@
                 <div class="setting-panel-header">管理面板
                 </div>
                 <div class="p-15 border-bottom">
-                    <!--<h6 class="font-medium m-b-10">簽核文件</h6>-->
                     <div class="col-lg-12">
                         <div class="m-l-20">
                             <button type="button" @click="updateContract"
@@ -679,7 +678,6 @@
 
                         //personnelResponse
                         this.personnelData = personnelResponse.data.data;
-                        // console.log(this.personnelData);
                     })
                     .catch(error => {
                         console.error(error);
