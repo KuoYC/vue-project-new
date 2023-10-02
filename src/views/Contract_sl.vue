@@ -1214,7 +1214,7 @@
                     memNowStatus: nextLVStatus,
                     memStatus: memStatus,
                     conLogMsg: conLogMsg,
-                    conLogMsgNext: `${nextMsg}`,
+                    conLogMsgNext: `${nextLogMsg}`,
                 };
             },
             //取得姓名與職稱
