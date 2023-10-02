@@ -626,31 +626,7 @@
                         this.distributionData = distributionResponse.data.data;
 
                         //設定發起人
-                        this.iMemberData = {
-                            uniqueId: this.generateUniqueId(),
-                            memId: '0',
-                            memType: '0',
-                            memBu1Code: this.per.perBu1Code,
-                            memBu2Code: this.per.perBu2Code,
-                            memBu2: this.per.perBu2,
-                            memBu3Code: this.per.perBu3Code,
-                            memBu3: this.per.perBu3,
-                            LV0: this.per.perNo + '|' + this.per.perPosition,
-                            memLV0: this.per.perNo,
-                            memLV0Name: this.per.perName,
-                            memLV0Position: this.per.perPosition,
-                            memLV0PositionName: this.per.perPositionName,
-                            LVC: '',
-                            memLVC: '',
-                            memLVCPosition: '',
-                            LV1: '',
-                            memLV1: '',
-                            memLV1Position: '',
-                            LV2: '',
-                            memLV2: '',
-                            memLV2Position: '',
-                            memPhone: this.per.perPhone2 + ' ' + this.per.perPhone3,
-                        };
+                        this.iMemberData = this.createMemberData('0', this.per.perBu1Code, this.per.perBu2Code, this.per.perBu2, this.per.perBu3Code, this.per.perBu3, this.per.perNo + '|' + this.per.perPosition, this.per.perNo, this.per.perName, this.per.perPosition, this.per.perPositionName, this.per.perPhone2 + ' ' + this.per.perPhone3);
                     })
                     .catch(error => {
                         console.error(error);
@@ -753,21 +729,21 @@
                 this.uMemberData.push(
                     this.createMemberData('2', ''),);
             },
-            createMemberData(memType, memBu1Code) {
+            createMemberData(memType, memBu1Code, memBu2Code = '', memBu2 = '', memBu3Code = '', memBu3 = '', LV0 = '', memLV0 = '', memLV0Name = '', memLV0Position = '', memLV0PositionName = '', memPhone = '') {
                 const memberData = {
                     uniqueId: this.generateUniqueId(),
                     memId: '0',
                     memType: memType,
                     memBu1Code: memBu1Code,
-                    memBu2Code: '',
-                    memBu2: '',
-                    memBu3Code: '',
-                    memBu3: '',
-                    LV0: '',
-                    memLV0: '',
-                    memLV0Name: '',
-                    memLV0Position: '',
-                    memLV0PositionName: '',
+                    memBu2Code: memBu2Code,
+                    memBu2: memBu2,
+                    memBu3Code: memBu3Code,
+                    memBu3: memBu3,
+                    LV0: LV0,
+                    memLV0: memLV0,
+                    memLV0Name: memLV0Name,
+                    memLV0Position: memLV0Position,
+                    memLV0PositionName: memLV0PositionName,
                     LVC: '',
                     memLVC: '',
                     memLVCName: '',
@@ -783,7 +759,7 @@
                     memLV2Name: '',
                     memLV2Position: '',
                     memLV2PositionName: '',
-                    memPhone: '',
+                    memPhone: memPhone,
                 };
                 return memberData;
 
