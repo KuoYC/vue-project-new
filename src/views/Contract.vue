@@ -148,7 +148,6 @@
             },
             fetchFirst() {
                 const apiRequests = [
-                    /** todo: api **/
                     this.$api.get(this.$test ? `/api/?type=contract&action=0&temId=${this.$route.params.tem}&perNo=${this.per.perNo}&perPosition=${this.per.perPosition}&perBu1Code=${this.per.perBu1Code}` : `/api/adm/contract/List?ctpId=${this.$route.params.ctp}`),
                     this.$api.get(this.$test ? `/api/?type=template&temId=${this.$route.params.tem}` : `/api/iform/template/${this.$route.params.tem}`),
                 ];
@@ -189,7 +188,6 @@
                 } else if (action === 'up') {
                     this.$router.push(`/contract/${this.$route.params.tem}/up/${conId}`);
                 } else if (action === 'dl') {
-                    /** todo:api**/
                     this.$api
                         .delete(this.$test ? '/api/api/?type=contract' : '/api/adm/contract/delete'
                             , {params: {ctId: templateId}})
