@@ -745,9 +745,6 @@
                     disId: 0,//
                     iteTypeNote: '',//
                     iteDescription: '',
-                    iteFileMeeting: '',//
-                    iteFilePlan: '',//
-                    iteFile: [],//
                     iteWord: '',
                     iteNote: '',
                 },);

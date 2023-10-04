@@ -8,7 +8,7 @@
                 @drop="handleDrop"
                 @click="triggerFileInput"
         >
-            <p>拖放文件到此處或點擊選擇文件</p>
+            <p>{{ this.titleString }}</p>
             <div v-if="selectedFiles.length > 0">
                 <p>已選擇文件:</p>
                 <ul>
@@ -20,7 +20,7 @@
                 type="file"
                 ref="fileInput"
                 style="display: none;"
-                multiple
+                :multiple="multiple"
                 @change="handleFileSelect"
         />
         <!--<button @click="triggerFileInput">選擇文件</button>-->
@@ -31,7 +31,9 @@
     export default {
         name: "FileUpload",
         props: {
+            titleString: String,
             fileType: String, // 文件类型属性，用于区分不同的文件上传区域
+            multiple: Boolean, // 是否支持多文件上传
         },
         data() {
             return {
@@ -58,16 +60,22 @@
 <style scoped>
     .file-upload {
         text-align: center;
-        margin: 20px;
+        margin: 20px 0px;
     }
 
     .drop-area {
         border: 2px dashed #ccc;
-        padding: 20px;
+        padding: 20px 0px;
         cursor: pointer;
     }
 
     button {
         margin-top: 10px;
+    }
+
+    li {
+        list-style: none;
+        display: inline-block;
+        padding-right:  10px;
     }
 </style>

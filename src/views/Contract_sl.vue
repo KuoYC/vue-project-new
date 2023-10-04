@@ -254,13 +254,9 @@
                                                                                 <div class="replyBox m-t-20 myFont16">
                                                                       <span>
                                                                         <!-- 這裡放共幾則附檔 -->
-                                                                        <i class="fa fa-paperclip mb-1"></i> <span>{{ conFileMeeting.length+conFilePlan.length+conFile.length }}則</span>附加檔案 </span>
+                                                                        <i class="fa fa-paperclip mb-1"></i> <span>{{ conFile.length }}則</span>附加檔案 </span>
                                                                                     <!-- 這裡放附檔 -->
                                                                                     <div>
-                                                                                        <a href="javascript:void(0);"
-                                                                                           @click="openViewFile(contractData.conFileMeeting)">{{ contractData.conFileMeeting}}</a> |
-                                                                                        <a href="javascript:void(0);"
-                                                                                           @click="openViewFile(contractData.conFileMeeting)">{{ contractData.conFileMeeting}}</a> |
                                                                                         <a v-for="option in contractData.conFile.splice('|')"
                                                                                            href="javascript:void(0);"
                                                                                            @click="openViewFile(option)">{{ option }}</a> |
@@ -837,8 +833,6 @@
                 mMemberList: [],//維運
                 uMemberList: [],//使用
 
-                conFileMeeting: [],
-                conFilePlan: [],
                 conFile: [],
             };
         },

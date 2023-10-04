@@ -212,7 +212,9 @@
                                                                                         </tr>
                                                                                         </tbody>
                                                                                     </table>
-                                                                            <p><vue-feather type="plus" @click="addItemData" class="btn btn-success btn-icon"></vue-feather></p>
+                                                                            <p><vue-feather type="plus"
+                                                                                            @click="addItemData"
+                                                                                            class="btn btn-success btn-icon"></vue-feather></p>
                                                                         </template>
                                                                         <template v-if="col.type === 'sign'">
                                                                                     <label>維運</label>
@@ -274,7 +276,9 @@
                                                                                             </tr>
                                                                                         </tbody>
                                                                                     </table>
-                                                                                    <p><vue-feather type="plus" class="btn btn-success btn-icon" @click="addMemberMData"></vue-feather></p>
+                                                                                    <p><vue-feather type="plus"
+                                                                                                    class="btn btn-success btn-icon"
+                                                                                                    @click="addMemberMData"></vue-feather></p>
                                                                                     <label>使用</label>
                                                                                     <table v-if="uMemberData.length !== 0"
                                                                                            class="myTable myTableMemberU">
@@ -305,7 +309,9 @@
                                                                                                     </tr>
                                                                                                 </tbody>
                                                                                             </table>
-                                                                                    <p><vue-feather type="plus" class="btn btn-success btn-icon" @click="addMemberUData"></vue-feather></p>
+                                                                                    <p><vue-feather type="plus"
+                                                                                                    class="btn btn-success btn-icon"
+                                                                                                    @click="addMemberUData"></vue-feather></p>
                                                                         </template>
 
                                                                         <template v-if="col.type === 'file_area'">
@@ -314,6 +320,26 @@
                                                                                     <!-- 這裡放共幾則附檔 -->
                                                                                     <i class="fa fa-paperclip mb-1"></i> <span>3則</span>附加檔案 </span>
                                                                                 <!-- 這裡放附檔 -->
+                                                                                <div class="row">
+                                                                                    <FileUpload
+                                                                                            :titleString="'會議記錄-拖放文件到此處或點擊選擇文件'"
+                                                                                            :multiple="true"
+                                                                                            @file-selected="handleMeetingFilesSelected"
+                                                                                            class="col-4"
+                                                                                    />
+                                                                                    <FileUpload
+                                                                                            :titleString="'專案規劃報告-拖放文件到此處或點擊選擇文件'"
+                                                                                            :multiple="true"
+                                                                                            @file-selected="handlePlanFilesSelected"
+                                                                                            class="col-4"
+                                                                                    />
+                                                                                    <FileUpload
+                                                                                            :titleString="'其他-拖放文件到此處或點擊選擇文件'"
+                                                                                            :multiple="true"
+                                                                                            @file-selected="handleOtherFilesSelected"
+                                                                                            class="col-4"
+                                                                                    />
+                                                                                </div>
                                                                                 <div>
                                                                                     <a href="#">顧問報告.pdf</a> |
                                                                                     <a href="#">顧問報告.pdf</a> |
@@ -516,6 +542,7 @@
     import Item from '@/components/Item.vue';
     import Member from '@/components/Member.vue';
     import DatePicker from '@vuepic/vue-datepicker';
+    import FileUpload from '@/components/FileUpload.vue';
 
     import '@vuepic/vue-datepicker/dist/main.css';
 
@@ -555,6 +582,9 @@
                 conWork: [],//作業種類
                 conCompany: [],//使用公司
                 timeData: [],
+                filMeetingFiles: [], // 存储会议记录文件
+                filPlanFiles: [],    // 存储專案規劃報告文件
+                folOtherFiles: [],   // 存储其他文件
 
                 personnelData: [],
 
@@ -592,6 +622,7 @@
             Item,
             Member,
             DatePicker,
+            FileUpload,
         },
         methods: {
             defaultData() {
@@ -665,23 +696,62 @@
                 });
 
 
-                const payload = {
-                    temId: this.temId,
-                    perNo: this.per.perNo,
-                    perPosition: this.per.perPosition,
-                    comId: this.per.comId,
-                    conTitle: this.conTitle,
-                    conType: this.conType,
-                    conDate: this.conDate,
-                    conWork: this.conWork.join('|'),
-                    conCompany: this.conCompany.join('|'),
-                    conValue: JSON.stringify(this.conValue),
-                    itemList: itemList,
-                    memberList: memberList,
-                };
+                const formData = new FormData();
+                this.filMeetingFiles.forEach(file => {
+                    formData.append('contractFiles[]', file);
+                });
+                this.filPlanFiles.forEach(file => {
+                    formData.append('contractFiles[]', file);
+                });
+                this.folOtherFiles.forEach(file => {
+                    formData.append('contractFiles[]', file);
+                });
+                // const payload = {
+                //     temId: this.temId,
+                //     perNo: this.per.perNo,
+                //     perPosition: this.per.perPosition,
+                //     comId: this.per.comId,
+                //     conTitle: this.conTitle,
+                //     conType: this.conType,
+                //     conDate: this.conDate,
+                //     conWork: this.conWork.join('|'),
+                //     conCompany: this.conCompany.join('|'),
+                //     conValue: JSON.stringify(this.conValue),
+                //     itemList: itemList,
+                //     memberList: memberList,
+                // };
+                formData.append('temId', this.temId);
+                formData.append('perNo', this.per.perNo);
+                formData.append('perPosition', this.per.perPosition);
+                formData.append('comId', this.per.comId);
+                formData.append('conTitle', this.conTitle);
+                formData.append('conType', this.conType);
+                formData.append('conDate', this.conDate);
+                formData.append('conWork', this.conWork.join('|'));
+                formData.append('conCompany', this.conCompany.join('|'));
+                formData.append('conValue', JSON.stringify(this.conValue));
+                formData.append('itemList', JSON.stringify(itemList));
+                formData.append('memberList', JSON.stringify(memberList));
+
                 // console.log(JSON.stringify(payload));
+                // this.$api
+                //     .post(this.$test ? '/api/?type=contract' : '/api/adm/contract/addNew', payload)
+                //     .then(response => {
+                //         if (response.status === 200) {
+                //             this.$router.push(`/contract/${this.$route.params.tem}/sl/${response.data.conId}`);
+                //         } else {
+                //             console.log('err');
+                //         }
+                //     })
+                //     .catch(error => {
+                //         console.error('Edit failed:', error);
+                //     });
                 this.$api
-                    .post(this.$test ? '/api/?type=contract' : '/api/adm/contract/addNew', payload)
+                    .post(this.$test ? '/api/?type=contract' : '/api/adm/contract/addNew', formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data', // 设置请求头为 multipart/form-data
+                        },
+                    })
                     .then(response => {
                         if (response.status === 200) {
                             this.$router.push(`/contract/${this.$route.params.tem}/sl/${response.data.conId}`);
@@ -708,9 +778,6 @@
                     disId: 0,//
                     iteTypeNote: '',//
                     iteDescription: '',
-                    iteFileMeeting: '',//
-                    iteFilePlan: '',//
-                    iteFile: [],//
                     iteWord: '',
                     iteNote: '',
                 },);
@@ -735,15 +802,15 @@
                     memId: '0',
                     memType: memType,
                     memBu1Code: memBu1Code,
-                    memBu2Code: first ? this.per.perBu2Code :'',
-                    memBu2: first ? this.per.perBu2 :'',
-                    memBu3Code: first ? this.per.perBu3Code :'',
-                    memBu3: first ? this.per.perBu3 :'',
-                    LV0: first ? this.per.perNo + '|' + this.per.perPosition :'',
+                    memBu2Code: first ? this.per.perBu2Code : '',
+                    memBu2: first ? this.per.perBu2 : '',
+                    memBu3Code: first ? this.per.perBu3Code : '',
+                    memBu3: first ? this.per.perBu3 : '',
+                    LV0: first ? this.per.perNo + '|' + this.per.perPosition : '',
                     memLV0: first ? this.per.perNo : '',
                     memLV0Name: first ? this.per.perName : '',
                     memLV0Position: first ? this.per.perPosition : '',
-                    memLV0PositionName: first ? this.per.perPositionName :'',
+                    memLV0PositionName: first ? this.per.perPositionName : '',
                     LVC: '',
                     memLVC: '',
                     memLVCName: '',
@@ -759,7 +826,7 @@
                     memLV2Name: '',
                     memLV2Position: '',
                     memLV2PositionName: '',
-                    memPhone: first ? this.per.perPhone2 + ' ' + this.per.perPhone3 :'',
+                    memPhone: first ? this.per.perPhone2 + ' ' + this.per.perPhone3 : '',
                 };
                 return memberData;
 
@@ -777,6 +844,21 @@
                     this.uMemberData.splice(index, 1);
                 }
             },
+
+            //File
+            handleMeetingFilesSelected(files) {
+                // 存储会议记录文件
+                this.filMeetingFiles = files;
+            },
+            handlePlanFilesSelected(files) {
+                // 存储專案規劃報告文件
+                this.filPlanFiles = files;
+            },
+            handleOtherFilesSelected(files) {
+                // 存储其他文件
+                this.filOtherFiles = files;
+            },
+
 
             //右方管理面板
             handleGlobalClick(event) {

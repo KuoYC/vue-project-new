@@ -1,5 +1,15 @@
 <template>
-    <template v-if="per === null || per === ''">
+    <template v-if="$route.path === '/sso/login'">
+        <div class="auth-container d-flex">
+            <router-view></router-view>
+        </div>
+    </template>
+    <template v-else-if="$route.path === '/admin'">
+        <div class="auth-container d-flex">
+            <router-view></router-view>
+        </div>
+    </template>
+    <template v-else-if="(per === null || per === '') && (adm === null || adm === '')">
         <div class="auth-container d-flex">
 
             <div class="container mx-auto align-self-center">
@@ -26,7 +36,7 @@
                                     <div class="col-12">
                                         <div class="mb-4">
                                             <label class="form-label">密碼</label>
-                                            <input type="password" class="form-control">
+                                            <input type="password" v-model="password" class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-12">
@@ -43,7 +53,12 @@
 
                                     <div class="col-12">
                                         <div class="mb-4">
-                                            <button @click="toLogin()" class="btn btn-secondary w-100">登 入</button>
+                                            <button @click="toLogin()" class="btn btn-success w-100">登 入</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="mb-4">
+                                            <button @click="toSSOLogin()" class="btn btn-success w-100" disabled>SSO 登 入</button>
                                         </div>
                                     </div>
 
@@ -80,7 +95,7 @@
                         <vue-feather type="maximize"></vue-feather>
                     </a>
                     </li>
-                    <li class="dropdown dropdown-list-toggle"><a href="#" data-bs-toggle="dropdown"
+                    <li class="dropdown dropdown-list-toggle" style="display: none;"><a href="#" data-bs-toggle="dropdown"
                                                                  class="nav-link d-flex notification-toggle nav-link-lg">
                         <vue-feather type="bell"></vue-feather>
                     </a>
@@ -284,8 +299,10 @@
         },
         data() {
             return {
-                perNo: '00886666',
+                perNo: '',//00886666
+                password:'',
                 per: Cookies.get('per') ? JSON.parse(Cookies.get('per')) : null,
+                adm: Cookies.get('adm') ? JSON.parse(Cookies.get('adm')) : null,
                 templateData: [],
                 personnelData: [
                     // {perId:0, perAccount:'', perNo:'', perName:'', perPar:'', perNick:'', perPosition:'', perPositionName:'', perEmail:'', perPhone1:'', perPhone2:'', perPhone3:'', perBu1Code:'', perBu1:'', perBu2Code:'', perBu2:'', perBu3Code:'', perBu3:'', perMobile:''}
@@ -348,15 +365,35 @@
                 window.location.href = '/'
             },
             toLogin() {
+                if (this.password === '5678') {
+                    this.$api
+                        .get(this.$test ? `/api/?type=personnel&perNo=${this.perNo}` : `/api/iform/personnel&perEmail=${this.perEmail}`)
+                        .then(response => {
+                            if (response.data.data.length > 0) {
+                                this.roleData = response.data.data;
+                                Cookies.set('per', JSON.stringify(this.roleData[0]));
+                                this.per = JSON.stringify(this.roleData[0]);
+                                this.getRole();
+                                window.location.href = '/'
+                            } else {
+                                alert('查無此帳號');
+                            }
+                        })
+                        .catch(error => {
+                            console.error(error);
+                        });
+                }
+            },
+            toSSOLogin(){
                 this.$api
-                    .get(this.$test ? `/api/?type=personnel&perNo=${this.perNo}` : `/api/iform/personnel&perEmail=${this.perEmail}`)
+                    .get(this.$test ? `/api/?type=sso_login` : `/api/iform/sso_login`)
                     .then(response => {
-                        this.roleData = response.data.data;
-
-                        Cookies.set('per', JSON.stringify(this.roleData[0]));
-                        this.per = JSON.stringify(this.roleData[0]);
-                        this.getRole();
-                        window.location.href = '/'
+                        if (response.data.data.length > 0) {
+                            const redirect = response.data.data.url;
+                            window.location.href = redirect;
+                        } else {
+                            alert('查無此帳號');
+                        }
                     })
                     .catch(error => {
                         console.error(error);
