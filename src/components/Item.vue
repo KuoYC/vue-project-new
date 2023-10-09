@@ -27,7 +27,7 @@
         </td>
         <td>
             <!--本項目使用公司-->
-            <div v-for="com in companyData"
+            <div v-for="com in companyData" :key="com.comCode"
                  class="form-check form-check-primary form-check-inline">
                 <input :disabled="!companyUse.includes(com.comCode)"
                        :name="'com_'+item.uniqueId"

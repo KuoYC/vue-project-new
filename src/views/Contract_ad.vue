@@ -340,11 +340,6 @@
                                                                                             class="col-4"
                                                                                     />
                                                                                 </div>
-                                                                                <div>
-                                                                                    <a href="#">顧問報告.pdf</a> |
-                                                                                    <a href="#">顧問報告.pdf</a> |
-                                                                                    <a href="#">顧問報告.pdf</a> |
-                                                                                </div>
                                                                             </div>
                                                                         </template>
 
@@ -494,6 +489,7 @@
                 </div>
                 <div class="col-6" style="padding-bottom: 20px;">
                     <button type="button" @click="createContract"
+                            :disabled="conTitle === '' || conCompany.length === 0 || conWork.length === 0"
                             class="m-r-5 btn btn-info btn-border-radius waves-effect myFont16">儲存
                     </button>
                 </div>
@@ -543,6 +539,7 @@
     import Member from '@/components/Member.vue';
     import DatePicker from '@vuepic/vue-datepicker';
     import FileUpload from '@/components/FileUpload.vue';
+    import cloneDeep from 'lodash/cloneDeep';
 
     import '@vuepic/vue-datepicker/dist/main.css';
 
@@ -570,7 +567,7 @@
 
                 conTitle: '',
                 conType: '0',//申請類別
-                conDate: null,//生效日期
+                conDate: '',//生效日期
                 // conSerial:'xxxxxxx',//序號
                 account: '',
                 templateData: {
@@ -584,7 +581,7 @@
                 timeData: [],
                 filMeetingFiles: [], // 存储会议记录文件
                 filPlanFiles: [],    // 存储專案規劃報告文件
-                folOtherFiles: [],   // 存储其他文件
+                filOtherFiles: [],   // 存储其他文件
 
                 personnelData: [],
 
@@ -675,15 +672,13 @@
                 this.uMemberData.forEach(member => {
                     memberList.push(member);
                 });
-                const itemList = [];
-                this.itemData.forEach(item => {
-                    itemList.push(item);
-                });
-                itemList.forEach(item => {
-                    item.iteSubsidiaries = item.iteSubsidiaries.join('|');
+                const itemList = cloneDeep(this.itemData);
+                itemList.forEach(ite => {
+                    ite.iteSubsidiaries = ite.iteSubsidiaries ? ite.iteSubsidiaries.join('|') : ite.iteSubsidiaries;
                 });
 
-                this.conValue.forEach(area => {
+                const conValue = cloneDeep(this.conValue);
+                conValue.forEach(area => {
                     area.colItem.forEach(col => {
                         if (col.type?.startsWith('word')) {
                             this.categoryData.forEach(cat => {
@@ -698,18 +693,17 @@
 
                 const formData = new FormData();
                 this.filMeetingFiles.forEach(file => {
-                    formData.append('contractFiles[]', file);
+                    formData.append('conFileMeeting[]', file);
                 });
                 this.filPlanFiles.forEach(file => {
-                    formData.append('contractFiles[]', file);
+                    formData.append('conFilePlan[]', file);
                 });
-                this.folOtherFiles.forEach(file => {
-                    formData.append('contractFiles[]', file);
+                this.filOtherFiles.forEach(file => {
+                    formData.append('conFile[]', file);
                 });
                 // const payload = {
                 //     temId: this.temId,
-                //     perNo: this.per.perNo,
-                //     perPosition: this.per.perPosition,
+                //     perKey: this.per.perKey,
                 //     comId: this.per.comId,
                 //     conTitle: this.conTitle,
                 //     conType: this.conType,
@@ -720,6 +714,8 @@
                 //     itemList: itemList,
                 //     memberList: memberList,
                 // };
+                const conWork = cloneDeep(this.conWork);
+                const conCompany = cloneDeep(this.conCompany);
                 formData.append('temId', this.temId);
                 formData.append('perNo', this.per.perNo);
                 formData.append('perPosition', this.per.perPosition);
@@ -727,9 +723,9 @@
                 formData.append('conTitle', this.conTitle);
                 formData.append('conType', this.conType);
                 formData.append('conDate', this.conDate);
-                formData.append('conWork', this.conWork.join('|'));
-                formData.append('conCompany', this.conCompany.join('|'));
-                formData.append('conValue', JSON.stringify(this.conValue));
+                formData.append('conWork', conWork.join('|'));
+                formData.append('conCompany', conCompany.join('|'));
+                formData.append('conValue', JSON.stringify(conValue));
                 formData.append('itemList', JSON.stringify(itemList));
                 formData.append('memberList', JSON.stringify(memberList));
 
@@ -754,6 +750,7 @@
                     })
                     .then(response => {
                         if (response.status === 200) {
+                            console.log(response);
                             this.$router.push(`/contract/${this.$route.params.tem}/sl/${response.data.conId}`);
                         } else {
                             console.log('err');
@@ -806,25 +803,17 @@
                     memBu2: first ? this.per.perBu2 : '',
                     memBu3Code: first ? this.per.perBu3Code : '',
                     memBu3: first ? this.per.perBu3 : '',
-                    LV0: first ? this.per.perNo + '|' + this.per.perPosition : '',
-                    memLV0: first ? this.per.perNo : '',
+                    memLV0Key: first ? this.per.perKey : '',
                     memLV0Name: first ? this.per.perName : '',
-                    memLV0Position: first ? this.per.perPosition : '',
                     memLV0PositionName: first ? this.per.perPositionName : '',
-                    LVC: '',
-                    memLVC: '',
+                    memLVCKey: '',
                     memLVCName: '',
-                    memLVCPosition: '',
                     memLVCPositionName: '',
-                    LV1: '',
-                    memLV1: '',
+                    memLV1Key: '',
                     memLV1Name: '',
-                    memLV1Position: '',
                     memLV1PositionName: '',
-                    LV2: '',
-                    memLV2: '',
+                    memLV2Key: '',
                     memLV2Name: '',
-                    memLV2Position: '',
                     memLV2PositionName: '',
                     memPhone: first ? this.per.perPhone2 + ' ' + this.per.perPhone3 : '',
                 };

@@ -50,8 +50,22 @@
             },
             handleDrop(event) {
                 event.preventDefault();
-                this.selectedFiles = Array.from(event.dataTransfer.files);
-                this.$emit("file-selected", this.selectedFiles); // 触发自定义事件
+                const acceptedFileTypes = [".pdf", ".docx", ".xlsx"];
+                const droppedFiles = Array.from(event.dataTransfer.files);
+
+                // 验证每个拖放的文件
+                const validFiles = droppedFiles.filter((file) => {
+                    const fileExtension = `.${file.name.split(".").pop()}`;
+                    return acceptedFileTypes.includes(fileExtension);
+                });
+
+                if (validFiles.length > 0) {
+                    this.selectedFiles = validFiles;
+                    this.$emit("file-selected", this.selectedFiles);
+                } else {
+                    // 不是允许的文件类型，你可以进行适当的提示或处理
+                    console.warn("只允許.pdf .docx .xlsx這三種檔案上傳");
+                }
             },
         },
     };

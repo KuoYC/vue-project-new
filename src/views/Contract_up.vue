@@ -531,6 +531,8 @@
     import Member from '@/components/Member.vue';
     import DatePicker from '@vuepic/vue-datepicker';
     import '@vuepic/vue-datepicker/dist/main.css';
+    import cloneDeep from 'lodash/cloneDeep';
+
 
     export default {
         name: "Contract_up",
@@ -639,10 +641,6 @@
                         const memberList = memberResponse.data.data;
                         memberList.forEach(member => {
                             member.uniqueId = this.generateUniqueId();
-                            member.LV0 = member.memLV0 + '|' + member.memLV0Position;
-                            member.LVC = member.memLVC + '|' + member.memLVCPosition;
-                            member.LV1 = member.memLV1 + '|' + member.memLV1Position;
-                            member.LV2 = member.memLV2 + '|' + member.memLV2Position;
                         });
                         console.log(memberList);
 
@@ -692,18 +690,14 @@
                 this.uMemberData.forEach(member => {
                     memberList.push(member);
                 });
-                const itemList = [];
-                this.itemData.forEach(item => {
-                    itemList.push(item);
-                });
+                const itemList = cloneDeep(this.itemData);
                 itemList.forEach(item => {
                     item.iteSubsidiaries = item.iteSubsidiaries.join('|');
                 });
                 const payload = {
                     conId: this.contractData.conId,
                     temId: this.contractData.temId,
-                    perNo: this.contractData.perNo,
-                    perPosition: this.contractData.perPosition,
+                    perKey: this.contractData.perKey,
                     comId: this.contractData.comId,
                     conTitle: this.conTitle,
                     conType: this.conType,
@@ -773,25 +767,17 @@
                     memBu2: '',
                     memBu3Code: '',
                     memBu3: '',
-                    LV0: '',
-                    memLV0: '',
+                    memLV0Key: '',
                     memLV0Name: '',
-                    memLV0Position: '',
                     memLV0PositionName: '',
-                    LVC: '',
-                    memLVC: '',
+                    memLVCKey: '',
                     memLVCName: '',
-                    memLVCPosition: '',
                     memLVCPositionName: '',
-                    LV1: '',
-                    memLV1: '',
+                    memLV1Key: '',
                     memLV1Name: '',
-                    memLV1Position: '',
                     memLV1PositionName: '',
-                    LV2: '',
-                    memLV2: '',
+                    memLV2Key: '',
                     memLV2Name: '',
-                    memLV2Position: '',
                     memLV2PositionName: '',
                     memPhone: '',
                 };

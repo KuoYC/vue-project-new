@@ -53,42 +53,42 @@
         </select>
     </td>
     <td>
-        <select v-model="member.LV0" class="form-select" :disabled="lv_disabled" ref="lv0" @change="LV0Change">
+        <select v-model="member.memLV0Key" class="form-select" :disabled="lv_disabled" ref="lv0" @change="LV0Change">
             <option value="">承辦人</option>
-            <option v-for="per in personnel3Data" :value="per.perNo + '|' + per.perPosition" :key="per.perId"
-                    :no="per.perNo" :perName="per.perName" :position="per.perPosition"
+            <option v-for="per in personnel3Data" :value="per.perKey" :key="per.perId"
+                    :perName="per.perName"
                     :positionName="per.perPositionName" :bu1="per.perBu1" :bu2="per.perBu2" :bu3="per.perBu3"
-                    :phone="per.perPhone1 + ' ' +per.perPhone2 + ' ' + per.perPhone3">
+                    :phone="per.perPhone2 + ' ' + per.perPhone3">
                 {{ per.perName + ' ' + per.perPositionName }}
             </option>
         </select>
     </td>
     <td>
-        <select v-model="member.LV1" class="form-select" :disabled="member.LV0 === ''" ref="lv1" @change="LV1Change">
+        <select v-model="member.memLV1Key" class="form-select" :disabled="member.LV0 === ''" ref="lv1" @change="LV1Change">
             <option value="">科別主管</option>
-            <option v-for="per in personnel2Data" :value="per.perNo + '|' + per.perPosition" :key="per.perId"
-                    :no="per.perNo" :perName="per.perName" :position="per.perPosition"
+            <option v-for="per in personnel2Data" :value="per.perKey" :key="per.perId"
+                    :perName="per.perName"
                     :positionName="per.perPositionName" :bu1="per.perBu1" :bu2="per.perBu2" :bu3="per.perBu3">
                 {{ per.perName + ' ' + per.perPositionName }}
             </option>
         </select>
     </td>
     <td>
-        <select v-model="member.LV2" class="form-select" :disabled="member.LV1 === '' || member.memLV0 === ''" ref="lv2"
+        <select v-model="member.memLV2Key" class="form-select" :disabled="member.memLV1Key === '' || member.memLV0Key === ''" ref="lv2"
                 @change="LV2Change">
             <option value="">部門主管</option>
-            <option v-for="per in personnel1Data" :value="per.perNo + '|' + per.perPosition" :key="per.perId"
-                    :no="per.perNo" :perName="per.perName" :position="per.perPosition"
+            <option v-for="per in personnel1Data" :value="per.perKey" :key="per.perId"
+                    :perName="per.perName"
                     :positionName="per.perPositionName" :bu1="per.perBu1" :bu2="per.perBu2" :bu3="per.perBu3">
                 {{ per.perName + ' ' + per.perPositionName }}
             </option>
         </select>
     </td>
     <td v-if="member.memType === '0'">
-        <select v-model="member.LVC" class="form-select" ref="lvc" @change="LVCChange">
+        <select v-model="member.memLVCKey" class="form-select" ref="lvc" @change="LVCChange">
             <option value="">窗口</option>
-            <option v-for="cot in contactData" :value="cot.perNo + '|' + cot.perPosition"
-                    :no="cot.perNo" :perName="cot.perName" :position="cot.perPosition"
+            <option v-for="cot in contactData" :value="cot.perKey"
+                    :perName="cot.perName"
                     :positionName="cot.perPositionName">
                 {{ cot.perName + ' ' + cot.perPositionName }}
             </option>
@@ -96,7 +96,7 @@
     </td>
     <td class="text-center">
         <template
-                v-if="typeof member.memPhone !== 'undefined' && typeof member.memPhone !== ''">
+                v-if="typeof member.memPhone !== 'undefined' && member.memPhone !== ''">
             {{ member.memPhone }}
         </template>
     </td>
@@ -168,17 +168,13 @@
                 this.$emit('remove-member', this.member.uniqueId);
             },
             LVCChange() {
-                if (this.member.LVC !== '') {
+                if (this.member.memLVCKey !== '') {
                     const mem = this.$refs.lvc.querySelector('option:checked');
-                    this.member.memLVC = mem.getAttribute('no');
                     this.member.memLVCName = mem.getAttribute('perName');
-                    this.member.memLVCPosition = mem.getAttribute('position');
                     this.member.memLVCPositionName = mem.getAttribute('positionName');
                 }
                 else {
-                    this.member.memLVC = '';
                     this.member.memLVCName = '';
-                    this.member.memLVCPosition = '';
                     this.member.memLVCPositionName = '';
                 }
             },
@@ -189,9 +185,7 @@
                 // this.member.memLV0Position= mem[1];
 
                 const mem = this.$refs.lv0.querySelector('option:checked');
-                this.member.memLV0 = mem.getAttribute('no');
                 this.member.memLV0Name = mem.getAttribute('perName');
-                this.member.memLV0Position = mem.getAttribute('position');
                 this.member.memLV0PositionName = mem.getAttribute('positionName');
                 this.member.memPhone = mem.getAttribute('phone');
             },
@@ -202,9 +196,7 @@
                 // this.member.memLV0Position= mem[1];
 
                 const mem = this.$refs.lv1.querySelector('option:checked');
-                this.member.memLV1 = mem.getAttribute('no');
                 this.member.memLV1Name = mem.getAttribute('perName');
-                this.member.memLV1Position = mem.getAttribute('position');
                 this.member.memLV1PositionName = mem.getAttribute('positionName');
             },
             LV2Change() {
@@ -214,9 +206,7 @@
                 // this.member.memLV0Position= mem[1];
 
                 const mem = this.$refs.lv2.querySelector('option:checked');
-                this.member.memLV2 = mem.getAttribute('no');
                 this.member.memLV2Name = mem.getAttribute('perName');
-                this.member.memLV2Position = mem.getAttribute('position');
                 this.member.memLV2PositionName = mem.getAttribute('positionName');
             },
             Bu1Change(){

@@ -14,6 +14,7 @@
                                 <router-link :to="'/template/ad'"
                                    class="nav-link rounded-pill note-link d-flex align-items-center px-2 px-md-3 mr-0 mr-md-2">
                                     <vue-feather type="plus" stroke="red"></vue-feather>
+                                    <span class="d-md-block" style="color: red;">新增樣板</span>
                                 </router-link>
                             </li>
                         </ul>

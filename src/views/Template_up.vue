@@ -616,7 +616,7 @@
                             <button @click="updateTemplate"
                                     :disabled="tpData === '' || tpData.length === 0 || tpName === ''"
                                     type="button"
-                                    class="m-r-5 btn btn-danger btn-border-radius waves-effect myFont16">完成送出
+                                    class="m-r-5 btn btn-success btn-border-radius waves-effect myFont16">完成送出
                             </button>
                         </div>
                     </div>

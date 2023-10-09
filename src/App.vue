@@ -40,18 +40,6 @@
                                         </div>
                                     </div>
                                     <div class="col-12">
-                                        <div class="mb-3">
-                                            <div class="form-check form-check-primary form-check-inline">
-                                                <input class="form-check-input me-3" type="checkbox"
-                                                       id="form-check-default">
-                                                <label class="form-check-label" for="form-check-default">
-                                                    記住我
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-12">
                                         <div class="mb-4">
                                             <button @click="toLogin()" class="btn btn-success w-100">登 入</button>
                                         </div>
@@ -168,7 +156,7 @@
                             <!-- 目前啟用的身份 -->
                             <template v-for="rol in roleData">
                                 <template
-                                        v-if="rol.perNo === per.perNo && rol.perPosition === per.perPosition && rol.perBu1Code === per.perBu1Code">
+                                        v-if="rol.perKey === per.perKey">
                                     <div class="dropdown-title d-flex dropdown-item auth-active">
                                         <vue-feather type="user-check"></vue-feather>
                                         <span style="margin-left: 5px;">{{ rol.comTitle }}/{{ rol.perBu2 }}/{{ rol.perBu3 }}</span>
@@ -178,7 +166,7 @@
                                         v-else>
                                     <!-- 其他可切換的身份 -->
                                     <div class="dropdown-title d-flex dropdown-item"
-                                         @click="toChangeLogin(rol.perNo, rol.perPosition, rol.perBu1Code)">
+                                         @click="toChangeLogin(rol.perKey)">
                                         <vue-feather type="user"></vue-feather>
                                         <span style="margin-left: 5px;">{{ rol.comTitle }}/{{ rol.perBu2}}/{{ rol.perBu3}}</span>
                                     </div>
@@ -299,7 +287,7 @@
         },
         data() {
             return {
-                perNo: '',//00886666
+                perKey: '',//00886666
                 password:'',
                 per: Cookies.get('per') ? JSON.parse(Cookies.get('per')) : null,
                 adm: Cookies.get('adm') ? JSON.parse(Cookies.get('adm')) : null,
@@ -399,8 +387,8 @@
                         console.error(error);
                     });
             },
-            toChangeLogin(perNo, perPosition, perBu1Code) {
-                const newPer = this.roleData.find(per => per.perNo === perNo && per.perPosition === perPosition && per.perBu1Code === perBu1Code);
+            toChangeLogin(perKey) {
+                const newPer = this.roleData.find(per => per.perKey === perKey);
                 Cookies.set('per', JSON.stringify(newPer));
                 this.per = Cookies.get('per') ? JSON.parse(Cookies.get('per')) : null;
                 this.$router.push('/');

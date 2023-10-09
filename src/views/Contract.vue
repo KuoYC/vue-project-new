@@ -15,6 +15,7 @@
                                 <router-link :to="`/contract/${this.$route.params.tem}/ad`"
                                    class="nav-link rounded-pill note-link d-flex align-items-center px-2 px-md-3 mr-0 mr-md-2">
                                     <vue-feather type="plus" stroke="red"></vue-feather>
+                                    <span class="d-md-block" style="color: red;">新增簽單</span>
                                 </router-link>
                             </li>
                             <li class="nav-item">
@@ -59,6 +60,7 @@
                                 <th scope="col">承辦單位</th>
                                 <!--<th scope="col">目前流程</th>-->
                                 <th scope="col">更新時間</th>
+                                <th scope="col">建檔時間</th>
                                 <th scope="col">操作</th>
                             </tr>
                             </thead>
@@ -68,7 +70,8 @@
                                 <th scope="row">{{ con.conTitle }}</th>
                                 <td>{{ con.comTitle + '/' + con.perBu2 + '/' + con.perBu3}}</td>
                                 <!--<td>後會 資訊處</td>-->
-                                <td>{{ con.conUpdateTime}}</td>
+                                <td>{{ this.$root.formatDateTime(con.conUpdateTime) }}</td>
+                                <td>{{ this.$root.formatDateTime(con.conCreateTime) }}</td>
                                 <th scope="col">
                                     <div class="action-btns">
                                         <a href="javascript:void(0);" @click="actionTo('sl', con.conId)"
@@ -125,30 +128,10 @@
         },
         methods: {
             defaultData() {
-                // this.contractData = [
-                //     {
-                //         conId: 0,
-                //         temId: 0,
-                //         perNo: '',
-                //         perPosition: '',
-                //         comId: 0,
-                //         conSerial: '',
-                //         conTitle: '',
-                //         conType: 0,
-                //         conDate: '9999-99-99',
-                //         conWord: '',
-                //         conWork: '',
-                //         conValue: '',
-                //         conLog: '',
-                //         conStatus: 0,
-                //         conUpdateTime: '9999-99-99 99:99:99',
-                //         conCreateTime: '9999-99-99 99:99:99'
-                //     }
-                // ];
             },
             fetchFirst() {
                 const apiRequests = [
-                    this.$api.get(this.$test ? `/api/?type=contract&action=0&temId=${this.$route.params.tem}&perNo=${this.per.perNo}&perPosition=${this.per.perPosition}&perBu1Code=${this.per.perBu1Code}` : `/api/adm/contract/List?ctpId=${this.$route.params.ctp}`),
+                    this.$api.get(this.$test ? `/api/?type=contract&action=0&temId=${this.$route.params.tem}&perKey=${this.per.perKey}&perBu1Code=${this.per.perBu1Code}` : `/api/adm/contract/List?ctpId=${this.$route.params.ctp}`),
                     this.$api.get(this.$test ? `/api/?type=template&temId=${this.$route.params.tem}` : `/api/iform/template/${this.$route.params.tem}`),
                 ];
                 Promise.all(apiRequests)

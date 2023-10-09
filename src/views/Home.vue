@@ -551,10 +551,10 @@
                     // this.companyData = this.$root.getCompanyData();
                     const apiRequests = [
                         this.$api.get(this.$test ? '/api/?type=company' : '/api/iform/company'),
-                        this.$api.get(this.$test ? `/api/?type=contract&action=2&conStatus=1&perNo=${this.per.perNo}&perPosition=${this.per.perPosition}&perBu1Code=${this.per.perBu1Code}` : '/api/iform/company'),
-                        this.$api.get(this.$test ? `/api/?type=contract&action=3&conStatus=1&perNo=${this.per.perNo}&perPosition=${this.per.perPosition}&perBu1Code=${this.per.perBu1Code}` : '/api/iform/company'),
-                        this.$api.get(this.$test ? `/api/?type=contract&action=5&conStatus=1&perNo=${this.per.perNo}&perPosition=${this.per.perPosition}&perBu1Code=${this.per.perBu1Code}` : '/api/iform/company'),
-                        this.$api.get(this.$test ? `/api/?type=contract&action=1&conStatus=1&perNo=${this.per.perNo}&perPosition=${this.per.perPosition}&perBu1Code=${this.per.perBu1Code}` : '/api/iform/company'),
+                        this.$api.get(this.$test ? `/api/?type=contract&action=2&conStatus=1&perKey=${this.per.perKey}&perBu1Code=${this.per.perBu1Code}` : '/api/iform/company'),
+                        this.$api.get(this.$test ? `/api/?type=contract&action=3&conStatus=1&perKey=${this.per.perKey}&perBu1Code=${this.per.perBu1Code}` : '/api/iform/company'),
+                        this.$api.get(this.$test ? `/api/?type=contract&action=5&conStatus=1&perKey=${this.per.perKey}&perBu1Code=${this.per.perBu1Code}` : '/api/iform/company'),
+                        this.$api.get(this.$test ? `/api/?type=contract&action=1&conStatus=1&perKey=${this.per.perKey}&perBu1Code=${this.per.perBu1Code}` : '/api/iform/company'),
                     ];
                     Promise.all(apiRequests)
                         .then(([companyResponse, contractResponse, contractSignResponse, contractOverResponse, contractViewResponse]) => {

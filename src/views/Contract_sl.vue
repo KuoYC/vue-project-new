@@ -254,12 +254,30 @@
                                                                                 <div class="replyBox m-t-20 myFont16">
                                                                       <span>
                                                                         <!-- 這裡放共幾則附檔 -->
-                                                                        <i class="fa fa-paperclip mb-1"></i> <span>{{ conFile.length }}則</span>附加檔案 </span>
+                                                                        <i class="fa fa-paperclip mb-1"></i> <span>{{ conFile.length + conFileMeeting.length + conFilePlan.length }}則</span>附加檔案 </span>
                                                                                     <!-- 這裡放附檔 -->
                                                                                     <div>
-                                                                                        <a v-for="option in contractData.conFile.splice('|')"
-                                                                                           href="javascript:void(0);"
-                                                                                           @click="openViewFile(option)">{{ option }}</a> |
+                                                                                        <template v-if="conFileMeeting">
+                                                                                            <template
+                                                                                                    v-for="(option, index) in conFileMeeting">
+                                                                                                <a href="javascript:void(0);"
+                                                                                                   @click="openViewFile(contractData.filePath+option)">會議記錄 {{ index+1 }}</a> |
+                                                                                            </template>
+                                                                                        </template>
+                                                                                        <template v-if="conFilePlan">
+                                                                                            <template
+                                                                                                    v-for="(option, index) in conFilePlan">
+                                                                                                <a href="javascript:void(0);"
+                                                                                                   @click="openViewFile(contractData.filePath+option)">專規劃報告 {{ index+1 }}</a> |
+                                                                                            </template>
+                                                                                        </template>
+                                                                                        <template v-if="conFile">
+                                                                                            <template
+                                                                                                    v-for="(option, index) in conFile">
+                                                                                                <a href="javascript:void(0);"
+                                                                                                   @click="openViewFile(contractData.filePath+option)">其他附件 {{ index+1 }}</a> |
+                                                                                            </template>
+                                                                                        </template>
                                                                                     </div>
                                                                                 </div>
                                                                             </template>
@@ -420,42 +438,44 @@
                                     取消檢視
                                 </button>
                             </div>
-                            <embed :src="viewFileUrl" width="100%" height="95%"/>
+                            <vue-office-pdf v-if="viewFilePDF" :src="viewFileUrl" style="width: 100%;height: 95%;"/>
+                            <vue-office-docx v-if="viewFileDOCK" :src="viewFileUrl" style="width: 100%;height: 95%;"/>
+                            <vue-office-excel v-if="viewFileXLSE" :src="viewFileUrl" style="width: 100%;height: 95%;"/>
                         </div>
                     </template>
                 </div>
 
 
                 <div class="col-6" style="padding-bottom: 20px;">
-                    <button v-if="contractData.conStatus === '0' && contractData.comId === per.comId && contractData.perNo === per.perNo && contractData.perPosition === per.perPosition"
-                            @click="releaseSign()"
+                    <button v-if="contractData.conStatus === '0' && contractData.comId === per.comId && contractData.perKey === per.perKey"
+                            @click="releaseSign(0)"
                             type="button"
                             class="m-r-5 btn btn-warning btn-border-radius waves-effect myFont16">發起
                     </button>
-                    <button v-if="contractData.conStatus === '2' && contractData.comId === per.comId && contractData.perNo === per.perNo && contractData.perPosition === per.perPosition"
-                            @click="releaseSign()"
+                    <button v-if="contractData.conStatus === '2' && contractData.comId === per.comId && contractData.perKey === per.perKey"
+                            @click="releaseSign(2)"
                             type="button"
                             class="m-r-5 btn btn-warning btn-border-radius waves-effect myFont16">重新發起
                     </button>
                     <button v-if="contractData.conStatus === '1' && checkMember()" type="button"
                             @click="signContract()"
-                            class="m-r-5 btn btn-info btn-border-radius waves-effect myFont16">簽核
+                            class="m-r-5 btn btn-success btn-border-radius waves-effect myFont16">簽核
+                    </button>
+                    <button v-if="contractData.conStatus === '1' && checkMember()" type="button"
+                            @click="backContract()"
+                            :disabled="msg === ''"
+                            class="m-r-5 btn btn-info btn-border-radius waves-effect myFont16">退回
+                    </button>
+                    <button v-if="contractData.conStatus === '1' && checkMember()" type="button"
+                            @click="rejectContract()"
+                            :disabled="msg === ''"
+                            class="m-r-5 btn btn-danger btn-border-radius waves-effect myFont16">拒絕
                     </button>
                     <div v-if="contractData.conStatus === '1' && checkMember()" class="form-group">
                         <div class="input-group mb-3">
                             <input
                                     type="text" class="form-control" v-model="msg"
-                                    placeholder="理由"/>
-                            <div class="input-group-append">
-                                <button v-if="checkMember()" type="button" @click="rejectContract()"
-                                        class="btn btn-danger btn-border-radius waves-effect myFont16">拒絕
-                                </button>
-                            </div>
-                            <div class="input-group-append">
-                                <button v-if="checkMember()" type="button" @click="backContract()"
-                                        class="btn btn-danger btn-border-radius waves-effect myFont16">退回
-                                </button>
-                            </div>
+                                    placeholder="退回或拒絕請填寫源由"/>
                         </div>
                     </div>
                     <button type="button" class="btn btn-danger btn-border-radius waves-effect myFont16"
@@ -746,11 +766,37 @@
                 <div class="p-15 border-bottom">
                     <div class="col-lg-12">
                         <div class="m-l-20">
-                            <button type="button"
-                                    class="m-r-5 btn btn-info btn-border-radius waves-effect myFont16">簽核
+                            <button v-if="contractData.conStatus === '0' && contractData.comId === per.comId && contractData.perKey === per.perKey"
+                                    @click="releaseSign(0)"
+                                    type="button"
+                                    class="m-r-5 btn btn-warning btn-border-radius waves-effect myFont16">發起
                             </button>
-                            <button type="button" class="btn btn-danger btn-border-radius waves-effect myFont16">拒絕
+                            <button v-if="contractData.conStatus === '2' && contractData.comId === per.comId && contractData.perKey === per.perKey"
+                                    @click="releaseSign(2)"
+                                    type="button" class="btn btn-warning btn-border-radius waves-effect myFont16">重新發起
                             </button>
+                            <button v-if="contractData.conStatus === '1' && checkMember()"
+                                    @click="signContract()"
+                                    type="button" class="m-r-5 btn btn-success btn-border-radius waves-effect myFont16">
+                                簽核
+                            </button>
+                            <button
+                                    v-if="contractData.conStatus === '1' && checkMember()"
+                                    @click="backContract()"
+                                    :disabled="msg === ''"
+                                    type="button" class="m-r-5 btn btn-info btn-border-radius waves-effect myFont16">退回
+                            </button>
+                            <button
+                                    v-if="contractData.conStatus === '1' && checkMember()"
+                                    @click="rejectContract()"
+                                    :disabled="msg === ''"
+                                    type="button" class="m-r-5 btn btn-danger btn-border-radius waves-effect myFont16">
+                                拒絕
+                            </button>
+                            <input v-if="contractData.conStatus === '1' && checkMember()"
+                                   type="text" class="form-control" v-model="msg"
+                                   placeholder="退回或拒絕請填寫源由"/>
+
                         </div>
                     </div>
                 </div>
@@ -805,6 +851,11 @@
     import html2canvas from 'html2canvas';
     import html2pdf from 'html2pdf.js';
     import jsPDF from 'jspdf';
+    import VueOfficeDocx from '@vue-office/docx';
+    import '@vue-office/docx/lib/index.css';
+    import VueOfficeExcel from '@vue-office/excel';
+    import '@vue-office/excel/lib/index.css';
+    import VueOfficePdf from '@vue-office/pdf';
 
     export default {
         name: "Contract_sl",
@@ -813,7 +864,10 @@
                 per: JSON.parse(Cookies.get('per')),
                 showContact: true,
                 viewFile: false,
-                viewFileUrl: '',
+                viewFileUrl:'',
+                viewFilePDF: false,
+                viewFileDOCK: false,
+                viewFileXLSE: false,
                 isSidebarVisible: false,
                 msg: '',//理由
                 contractData: {},
@@ -833,10 +887,16 @@
                 mMemberList: [],//維運
                 uMemberList: [],//使用
 
+                conFileMeeting: [],
+                conFilePlan: [],
                 conFile: [],
             };
         },
-        components: {},
+        components: {
+            VueOfficeDocx,
+            VueOfficeExcel,
+            VueOfficePdf,
+        },
         watch: {
             '$route': {
                 handler(newRoute, oldRoute) {
@@ -872,9 +932,9 @@
                         //contractResponse
                         this.contractData = contractResponse.data.data;
                         this.conValue = this.contractData?.conValue ? JSON.parse(this.contractData.conValue) : null;
-                        this.conFileMeeting = this.contractData?.conFileMeeting ? JSON.parse(this.contractData.conFileMeeting) : null;
-                        this.conFilePlan = this.contractData?.conFilePlan ? JSON.parse(this.contractData.conFilePlan) : null;
-                        this.conFile = this.contractData?.conFile ? JSON.parse(this.contractData.conFile) : null;
+                        this.conFileMeeting = this.contractData?.conFileMeeting ? this.contractData.conFileMeeting.split('|') : null;
+                        this.conFilePlan = this.contractData?.conFilePlan ? this.contractData.conFilePlan.split('|') : null;
+                        this.conFile = this.contractData?.conFile ? this.contractData.conFile.split('|') : null;
 
                         // itemResopnse
                         this.itemData = itemResponse.data.data;
@@ -892,9 +952,9 @@
                     });
             },
             // 發起簽核 releaseSign
-            async releaseSign() {
+            async releaseSign(action = 0) {
                 // 文件發起人必須與登入人資料一致
-                if (this.iMemberData.comId === this.per.comId && this.iMemberData.memLV0 === this.per.perNo && this.iMemberData.memLV0Position === this.per.perPosition) {
+                if (this.iMemberData.comId === this.per.comId && this.iMemberData.memLV0Key === this.per.perKey) {
                     try {
                         await this.defaultContract();//重置文件資訊與簽核人員資料
                         let msg = this.iMemberData.comTitle + ' '
@@ -902,7 +962,7 @@
                             + this.iMemberData.memBu3 + ' '
                             + this.iMemberData.memLV0Name + ' '
                             + this.iMemberData.memLV0PositionName + ' '
-                            + '發起簽核';
+                            + (action === 2 ? '重新發起簽核' : '發起簽核');
                         await this.updateContractStatus(1, '', msg);//修改文件狀態為進行中
                         const upMember = this.createUpMember(this.iMemberData, '0', 3, true);
                         await this.updateMember(upMember);//修改簽核組別資訊
@@ -922,7 +982,7 @@
             async signContract() {
                 let iMemberEnd = false;//維運平行簽核
                 let upMember = null;
-                if (this.iMemberData.comId === this.per.comId && this.iMemberData.memNow === this.per.perNo && this.iMemberData.memNowPosition === this.per.perPosition) {
+                if (this.iMemberData.comId === this.per.comId && this.iMemberData.memNowKey === this.per.perKey) {
                     const isLV = this.getMemberLV(this.iMemberData);
                     if (isLV) {
                         upMember = this.createUpMember(this.iMemberData, isLV, 3, true);
@@ -933,7 +993,7 @@
                 }
                 let mMemberEnd = false;
                 this.mMemberData.forEach((mem) => {
-                    if (mem.comId === this.per.comId && mem.memNow === this.per.perNo && mem.memNowPosition === this.per.perPosition) {
+                    if (mem.comId === this.per.comId && mem.memNowKey === this.per.perKey) {
                         const isLV = this.getMemberLV(mem);
                         if (isLV) {
                             upMember = this.createUpMember(mem, isLV, 3, false);
@@ -946,7 +1006,7 @@
 
                 let uMemberEnd = false;
                 this.uMemberData.forEach((mem) => {
-                    if (mem.comId === this.per.comId && mem.memNow === this.per.perNo && mem.memNowPosition === this.per.perPosition) {
+                    if (mem.comId === this.per.comId && mem.memNowKey === this.per.perKey) {
                         const isLV = this.getMemberLV(mem);
                         if (isLV) {
                             upMember = this.createUpMember(mem, isLV, 3, false);
@@ -1057,14 +1117,14 @@
             // rejectContract 拒絕
             async rejectContract() {
                 let upMember = null;
-                if (this.iMemberData.memNow === this.per.perNo && this.iMemberData.memNowPosition === this.per.perPosition) {
+                if (this.iMemberData.memNowKey === this.per.perKey) {
                     const isLV = this.getMemberLV(this.iMemberData);
                     if (isLV) {
                         upMember = this.createUpMember(this.iMemberData, isLV, 4, true);
                     }
                 }
                 this.mMemberData.forEach((mem) => {
-                    if (mem.memNow === this.per.perNo && mem.memNowPosition === this.per.perPosition) {
+                    if (mem.memNowKey === this.per.perKey) {
                         const isLV = this.getMemberLV(mem);
                         if (isLV) {
                             upMember = this.createUpMember(mem, isLV, 4, false);
@@ -1072,7 +1132,7 @@
                     }
                 });
                 this.uMemberData.forEach((mem) => {
-                    if (mem.memNow === this.per.perNo && mem.memNowPosition === this.per.perPosition) {
+                    if (mem.memNowKey === this.per.perKey) {
                         const isLV = this.getMemberLV(mem);
                         if (isLV) {
                             upMember = this.createUpMember(mem, isLV, 4, false);
@@ -1095,14 +1155,14 @@
             // backContract 退回
             async backContract() {
                 let upMember = null;
-                if (this.iMemberData.comId === this.per.comId && this.iMemberData.memNow === this.per.perNo && this.iMemberData.memNowPosition === this.per.perPosition) {
+                if (this.iMemberData.comId === this.per.comId && this.iMemberData.memNowKey === this.per.perKey) {
                     const isLV = this.getMemberLV(this.iMemberData);
                     if (isLV) {
                         upMember = this.createUpMember(this.iMemberData, isLV, 2, true);
                     }
                 }
                 this.mMemberData.forEach((mem) => {
-                    if (mem.comId === this.per.comId && mem.memNow === this.per.perNo && mem.memNowPosition === this.per.perPosition) {
+                    if (mem.comId === this.per.comId && mem.memNowKey === this.per.perKey) {
                         const isLV = this.getMemberLV(mem);
                         if (isLV) {
                             upMember = this.createUpMember(mem, isLV, 2, false);
@@ -1110,7 +1170,7 @@
                     }
                 });
                 this.uMemberData.forEach((mem) => {
-                    if (mem.comId === this.per.comId && mem.memNow === this.per.perNo && mem.memNowPosition === this.per.perPosition) {
+                    if (mem.comId === this.per.comId && mem.memNowKey === this.per.perKey) {
                         const isLV = this.getMemberLV(mem);
                         if (isLV) {
                             upMember = this.createUpMember(mem, isLV, 2, false);
@@ -1143,8 +1203,8 @@
                 const positionName = this.getLVPositionName(mem, isLV);
                 const positionNameNext = this.getLVPositionNameNext(mem, isLV, first);
                 let conLogMsg = null;
-                let nextLV = null;
-                let nextLVPosition = null;
+                let isNext = null;
+                let nextLVKey = null;
                 let nextLVStatus = null;
                 let nextLogMsg = null;
                 let memStatus = null;
@@ -1152,29 +1212,29 @@
                     conLogMsg = `${comTitle} ${memBu2} ${memBu3} ${positionName} 簽核完成 ${msg !== '' ? ':' + msg : ''}`
                     switch (isLV) {
                         case '0':
-                            nextLV = first ? mem.memLVC : mem.memLV1;
-                            nextLVPosition = first ? mem.memLVCPosition : mem.memLV1Position;
+                            isNext = first ? 'C' : '1';
+                            nextLVKey = first ? mem.memLVCKey : mem.memLV1Key;
                             nextLVStatus = 0;
                             nextLogMsg = `${comTitle} ${memBu2} ${memBu3} ${positionNameNext} 待檢視`;
                             memStatus = 1;
                             break;
                         case 'C':
-                            nextLV = mem.memLV1;
-                            nextLVPosition = mem.memLV1Position;
+                            isNext = '1';
+                            nextLVKey = mem.memLV1Key;
                             nextLVStatus = 0;
                             nextLogMsg = `${comTitle} ${memBu2} ${memBu3} ${positionNameNext} 待檢視`;
                             memStatus = 1;
                             break;
                         case '1':
-                            nextLV = mem.memLV2;
-                            nextLVPosition = mem.memLV2Position;
+                            isNext = '2';
+                            nextLVKey = mem.memLV2Key;
                             nextLVStatus = 0;
                             nextLogMsg = `${comTitle} ${memBu2} ${memBu3} ${positionNameNext} 待檢視`;
                             memStatus = 1;
                             break;
                         case '2':
-                            nextLV = 'null';
-                            nextLVPosition = 'null';
+                            isNext = '';
+                            nextLVKey = 'null';
                             nextLVStatus = -1;
                             memStatus = signType;
                     }
@@ -1187,8 +1247,7 @@
                         conLogMsg = `${comTitle} ${memBu2} ${memBu3} ${positionName} 拒絕 ${msg !== '' ? ':' + msg : ''}`
                     }
                     else if (signType === 0) {
-                        nextLV = mem.memLV0;
-                        nextLVPosition = mem.memLV0Position;
+                        nextLVKey = mem.memLV0Key;
                         nextLVStatus = 0;
                         conLogMsg = `${comTitle} ${memBu2} ${memBu3} ${positionName} 待檢視`
                     }
@@ -1202,9 +1261,8 @@
                     [`memLV${isLV}Status`]: signType,
                     [`memLV${isLV}Time`]: time,
                     [`memLV${isLV}Msg`]: msg,
-                    [`memLV${nextLV}Status`]: signType === 3 && '' !== nextLV ? 0 : null,
-                    memNow: nextLV,
-                    memNowPosition: nextLVPosition,
+                    [`memLV${isNext}Status`]: signType === 3 && '' !== isNext ? 0 : null,
+                    memNowKey: nextLVKey,
                     memNowStatus: nextLVStatus,
                     memStatus: memStatus,
                     conLogMsg: conLogMsg,
@@ -1241,16 +1299,16 @@
             },
             //取得對應等級
             getMemberLV(mem) {
-                if (mem.comId === this.per.comId && mem.memLV0 === this.per.perNo && mem.memLV0Position === this.per.perPosition) {
+                if (mem.memLV0Key === this.per.perKey) {
                     return '0';
                 }
-                if (mem.comId === this.per.comId && mem.memLVC === this.per.perNo && mem.memLVCPosition === this.per.perPosition) {
+                if (mem.memLVCKey === this.per.perKey) {
                     return 'C';
                 }
-                if (mem.memLV1 === this.per.perNo && mem.memLV1Position === this.per.perPosition) {
+                if (mem.memLV1Key === this.per.perKey) {
                     return '1';
                 }
-                if (mem.memLV2 === this.per.perNo && mem.memLV2Position === this.per.perPosition) {
+                if (mem.memLV2Key === this.per.perKey) {
                     return '2';
                 }
                 return null; // 如果都不满足条件，则返回 null
@@ -1398,27 +1456,45 @@
                 }
             },
             closeViewFile() {
+                this.viewFilePDF = false;
+                this.viewFileDOCK = false;
+                this.viewFileXLSE = false;
                 this.viewFile = false;
                 this.viewFileUrl = '';
             },
             openViewFile(url) {
-                this.viewFileUrl = 'https://digitaldreams.tw/pdf/doc.pdf';
-                this.viewFile = true;
+                this.viewFilePDF = false;
+                this.viewFileDOCK = false;
+                this.viewFileXLSE = false;
+
+                if (url.endsWith(".pdf")) {
+                    this.viewFilePDF = true;
+                }
+                if (url.endsWith(".docx")) {
+                    this.viewFileDOCK = true;
+                }
+                if (url.endsWith(".xlsx")) {
+                    this.viewFileXLSE = true;
+                }
+                if (this.viewFilePDF || this.viewFileDOCK || this.viewFileXLSE) {
+                    this.viewFileUrl = url;
+                    this.viewFile = true;
+                }
             },
 
             // checkMember 確認權限
             checkMember() {
                 let ckMember = false;
-                if (this.iMemberData.comId === this.per.comId && this.iMemberData.memNow === this.per.perNo && this.iMemberData.memNowPosition === this.per.perPosition) {
+                if (this.iMemberData.memNowKey === this.per.perKey) {
                     ckMember = true;
                 }
                 this.mMemberData.forEach(mem => {
-                    if (mem.comId === this.per.comId && mem.memNow === this.per.perNo && mem.memNowPosition === this.per.perPosition) {
+                    if (mem.comId === this.per.comId && mem.memNowKey === this.per.perKey) {
                         ckMember = true;
                     }
                 });
                 this.uMemberData.forEach(mem => {
-                    if (mem.comId === this.per.comId && mem.memNow === this.per.perNo && mem.memNowPosition === this.per.perPosition) {
+                    if (mem.comId === this.per.comId && mem.memNowKey === this.per.perKey) {
                         ckMember = true;
                     }
                 });
