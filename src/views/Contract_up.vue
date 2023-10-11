@@ -55,7 +55,7 @@
                                                                             <span class="data myFont16">
                                                                         <template v-if="col.type === 'subject'">
                                                                             <h4><b style="font-weight: 600;"><input
-                                                                                    type="text" v-model="conTitle"
+                                                                                    type="text" v-model="contractData.conTitle"
                                                                                     class="form-control"
                                                                                     placeholder="文件名稱"/></b></h4>
                                                                             <div class="flex-grow-1">
@@ -77,7 +77,7 @@
                                                                                              class="form-check-inline">
                                                                                             <input class="form-check-input"
                                                                                                    type="radio"
-                                                                                                   v-model="conType"
+                                                                                                   v-model="contractData.conType"
                                                                                                    :value="cType.value"
                                                                                                    :id="'type_' + cType.value">
                                                                                             <label class="form-check-label"
@@ -99,7 +99,7 @@
                                                                                 <div class="myFont16">生效日期：<span
                                                                                         class="data">
                                                                                     <div class="d-flex m-tb">
-                                                                                    <DatePicker v-model="conDate"
+                                                                                    <DatePicker v-model="contractData.conDate"
                                                                                                 format="yyyy-MM-dd"
                                                                                                 locale="zh-tw"
                                                                                                 :enable-time-picker="false"
@@ -599,9 +599,9 @@
                 distributionData: [],
                 manner: [],
                 conId: 0,
-                conTitle: '',
-                conType: '0',//申請類別
-                conDate: null,//生效日期
+                // conTitle: '',
+                // conType: '0',//申請類別
+                // conDate: null,//生效日期
                 // conSerial:'xxxxxxx',//序號
                 account: '',
                 // templateData: {
@@ -703,9 +703,9 @@
 
                         //contractResponse
                         this.contractData = contractResponse.data.data;
-                        this.conTitle = contractResponse.data.data.conTitle;
-                        this.conType = contractResponse.data.data.conType;
-                        this.conDate = contractResponse.data.data.conDate;
+                        // this.conTitle = contractResponse.data.data.conTitle;
+                        // this.conType = contractResponse.data.data.conType;
+                        // this.conDate = contractResponse.data.data.conDate;
                         this.conWork = contractResponse.data.data.conWork.split('|');
                         this.conCompany = contractResponse.data.data.conCompany.split('|');
                         this.conFileMeeting = this.contractData?.conFileMeeting ? this.contractData.conFileMeeting.split('|') : null;
@@ -829,20 +829,20 @@
 
                 const dataToAppend = {
                     conId: this.contractData.conId,
-                    temId:this.contractData.temId,
-                    perKey:this.contractData.perKey,
-                    comId:this.contractData.comId,
-                    conTitle:this.conTitle,
-                    conType:this.conType,
-                    conDate:this.conDate,
-                    conWork:conWork.join('|'),
-                    conCompany:conCompany.join('|'),
-                    conValue:JSON.stringify(conValue),
-                    itemList:JSON.stringify(itemList),
-                    memberList:JSON.stringify(memberList),
-                    delFileMeeting:Object.keys(delFileMeeting).join('|'),
-                    delFilePlan:Object.keys(delFilePlan).join('|'),
-                    delFile:Object.keys(delFile).join('|'),
+                    temId: this.contractData.temId,
+                    perKey: this.contractData.perKey,
+                    comId: this.contractData.comId,
+                    conTitle: this.contractData.conTitle,
+                    conType: this.contractData.conType,
+                    conDate: this.contractData.conDate,
+                    conWork: conWork.join('|'),
+                    conCompany: conCompany.join('|'),
+                    conValue: JSON.stringify(conValue),
+                    itemList: JSON.stringify(itemList),
+                    memberList: JSON.stringify(memberList),
+                    delFileMeeting: Object.keys(delFileMeeting).join('|'),
+                    delFilePlan: Object.keys(delFilePlan).join('|'),
+                    delFile: Object.keys(delFile).join('|'),
                 };
                 // formData.append('conId', this.contractData.conId);
                 // formData.append('temId', this.contractData.temId);
