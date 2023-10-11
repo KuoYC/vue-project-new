@@ -665,18 +665,11 @@
                         console.error(error);
                     });
             },
-            generateUniqueId() {
-                return Math.random().toString(36).substr(2, 9);
-            },
             createContract() {
                 const memberList = [];
                 memberList.push(this.iMemberData);
-                this.mMemberData.forEach(member => {
-                    memberList.push(member);
-                });
-                this.uMemberData.forEach(member => {
-                    memberList.push(member);
-                });
+                this.$root.addDataPush(memberList, this.mMemberData);
+                this.$root.addDataPush(memberList, this.uMemberData);
                 const itemList = cloneDeep(this.itemData);
                 itemList.forEach(ite => {
                     ite.iteSubsidiaries = ite.iteSubsidiaries ? ite.iteSubsidiaries.join('|') : ite.iteSubsidiaries;
@@ -697,15 +690,9 @@
 
 
                 const formData = new FormData();
-                this.filMeetingFiles.forEach(file => {
-                    formData.append('conFileMeeting[]', file);
-                });
-                this.filPlanFiles.forEach(file => {
-                    formData.append('conFilePlan[]', file);
-                });
-                this.filOtherFiles.forEach(file => {
-                    formData.append('conFile[]', file);
-                });
+                this.$root.addFilesToFormData(formData, this.filMeetingFiles, 'conFileMeeting[]');
+                this.$root.addFilesToFormData(formData, this.filPlanFiles, 'conFilePlan[]');
+                this.$root.addFilesToFormData(formData, this.filOtherFiles, 'conFile[]');
                 const dataToAppend = {
                     temId: this.temId,
                     perKey: this.per.perKey,
@@ -722,6 +709,9 @@
                 for (const key in dataToAppend) {
                     formData.append(key, dataToAppend[key]);
                 }
+
+
+
                 this.$api
                     .post(this.$test ? '/api/?type=contract_create' : '/api/adm/contract/addNew', formData, {
                         headers: {
@@ -748,7 +738,7 @@
                     p: '0',
                 }));
                 this.itemData.push({
-                    uniqueId: this.generateUniqueId(),
+                    uniqueId: this.$root.generateUniqueId(),
                     iteId: 0,
                     conId: 0,//
                     iteTitle: '',
@@ -801,7 +791,7 @@
             },
             createMemberData(memType, memBu1Code, first = false) {
                 const memberData = {
-                    uniqueId: this.generateUniqueId(),
+                    uniqueId: this.$root.generateUniqueId(),
                     memId: '0',
                     memType: memType,
                     memBu1Code: memBu1Code,

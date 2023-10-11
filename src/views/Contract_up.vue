@@ -705,9 +705,6 @@
 
                         //contractResponse
                         this.contractData = contractResponse.data.data;
-                        // this.conTitle = contractResponse.data.data.conTitle;
-                        // this.conType = contractResponse.data.data.conType;
-                        // this.conDate = contractResponse.data.data.conDate;
                         this.conWork = contractResponse.data.data.conWork.split('|');
                         this.conCompany = contractResponse.data.data.conCompany.split('|');
                         this.conFileMeeting = this.contractData?.conFileMeeting ? this.contractData.conFileMeeting.split('|') : null;
@@ -717,7 +714,7 @@
                         // memberResponse
                         const memberList = memberResponse.data.data;
                         memberList.forEach(member => {
-                            member.uniqueId = this.generateUniqueId();
+                            member.uniqueId = this.$root.generateUniqueId();
                         });
 
                         this.iMemberData = memberList.find(member => member.memType === '0');
@@ -726,14 +723,9 @@
 
                         //itemResponse
                         const itemList = itemResponse.data.data;
-                        // const iteProportion = this.companyData.map(company => ({
-                        //     comId: company.comId,
-                        //     p: '0',
-                        // }));
-                        // console.log(iteProportion);
 
                         itemList.forEach(item => {
-                            item.uniqueId = this.generateUniqueId();
+                            item.uniqueId = this.$root.generateUniqueId();
                             item.iteSubsidiaries = item.iteSubsidiaries.split('|');
                             item.iteProportion = JSON.parse(item.iteProportion);
                             if (!item.iteProportion || item.iteProportion === '') {
@@ -757,7 +749,6 @@
                             }
                         });
                         this.itemData = itemList;
-                        // console.log(this.itemData);
 
                         //personnelResponse
                         this.personnelData = personnelResponse.data.data;
@@ -766,18 +757,11 @@
                         console.error(error);
                     });
             },
-            generateUniqueId() {
-                return Math.random().toString(36).substr(2, 9);
-            },
             updateContract() {
                 const memberList = [];
                 memberList.push(this.iMemberData);
-                this.mMemberData.forEach(member => {
-                    memberList.push(member);
-                });
-                this.uMemberData.forEach(member => {
-                    memberList.push(member);
-                });
+                this.$root.addDataPush(memberList, this.mMemberData);
+                this.$root.addDataPush(memberList, this.uMemberData);
                 const itemList = cloneDeep(this.itemData);
                 itemList.forEach(ite => {
                     ite.iteSubsidiaries = ite.iteSubsidiaries ? ite.iteSubsidiaries.join('|') : ite.iteSubsidiaries;
@@ -799,18 +783,9 @@
 
 
                 const formData = new FormData();
-                this.filMeetingFiles.forEach(file => {
-                    formData.append('conFileMeeting[]', file);
-                });
-                this.filPlanFiles.forEach(file => {
-                    formData.append('conFilePlan[]', file);
-                });
-                this.filOtherFiles.forEach(file => {
-                    formData.append('conFile[]', file);
-                });
-                const delFileMeeting = cloneDeep(this.delFileMeeting);
-                const delFilePlan = cloneDeep(this.delFilePlan);
-                const delFile = cloneDeep(this.delFile);
+                this.$root.addFilesToFormData(formData, this.filMeetingFiles, 'conFileMeeting[]');
+                this.$root.addFilesToFormData(formData, this.filPlanFiles, 'conFilePlan[]');
+                this.$root.addFilesToFormData(formData, this.filOtherFiles, 'conFile[]');
 
                 const dataToAppend = {
                     conId: this.contractData.conId,
@@ -825,31 +800,35 @@
                     conValue: JSON.stringify(conValue),
                     itemList: JSON.stringify(itemList),
                     memberList: JSON.stringify(memberList),
-                    delFileMeeting: Object.keys(delFileMeeting).join('|'),
-                    delFilePlan: Object.keys(delFilePlan).join('|'),
-                    delFile: Object.keys(delFile).join('|'),
+                    delFileMeeting: this.delFileMeeting ? Object.keys(cloneDeep(this.delFileMeeting)).join('|') : null,
+                    delFilePlan: this.delFilePlan ? Object.keys(cloneDeep(this.delFilePlan)).join('|') : null,
+                    delFile: this.delFile ? Object.keys(cloneDeep(this.delFile)).join('|') : null,
                 };
                 for (const key in dataToAppend) {
                     formData.append(key, dataToAppend[key]);
                 }
-                this.$api
-                    .post(this.$test ? '/api/?type=contract_update' : '/api/adm/contract/addNew', formData, {
-                        headers: {
-                            'Content-Type': 'multipart/form-data', // 设置请求头为 multipart/form-data
-                        },
-                    })
-                    .then(response => {
-                        console.log(response.data);
-                        if (response.status === 200) {
-                            console.log(response);
-                            this.$router.push(`/contract/${this.$route.params.tem}/sl/${this.conId}`);
-                        } else {
-                            console.log('err');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Edit failed:', error);
-                    });
+                for (const [key, value] of formData.entries()) {
+                    console.log(key, value);
+                }
+
+                // this.$api
+                //     .post(this.$test ? '/api/?type=contract_update' : '/api/adm/contract/addNew', formData, {
+                //         headers: {
+                //             'Content-Type': 'multipart/form-data', // 设置请求头为 multipart/form-data
+                //         },
+                //     })
+                //     .then(response => {
+                //         console.log(response.data);
+                //         if (response.status === 200) {
+                //             console.log(response);
+                //             this.$router.push(`/contract/${this.$route.params.tem}/sl/${this.conId}`);
+                //         } else {
+                //             console.log('err');
+                //         }
+                //     })
+                //     .catch(error => {
+                //         console.error('Edit failed:', error);
+                //     });
 
 
             },
@@ -859,7 +838,7 @@
                     p: '0',
                 }));
                 this.itemData.push({
-                    uniqueId: this.generateUniqueId(),
+                    uniqueId: this.$root.generateUniqueId(),
                     iteId: 0,
                     conId: 0,//
                     iteTitle: '',
@@ -912,7 +891,7 @@
             },
             createMemberData(memType, memBu1Code) {
                 const memberData = {
-                    uniqueId: this.generateUniqueId(),
+                    uniqueId: this.$root.generateUniqueId(),
                     memId: '0',
                     memType: memType,
                     memBu1Code: memBu1Code,

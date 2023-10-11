@@ -422,6 +422,19 @@
                     return dateString;
                 }
             },
+            addFilesToFormData(formData, files, key) {
+                files.forEach(file => {
+                    formData.append(key, file);
+                });
+            },
+            addDataPush(box, data) {
+                data.forEach(dt => {
+                    box.push(dt);
+                });
+            },
+            generateUniqueId() {
+                return Math.random().toString(36).substr(2, 9);
+            },
 
             getCompanyTitle(company_id, company_code) {
                 let company = '';
