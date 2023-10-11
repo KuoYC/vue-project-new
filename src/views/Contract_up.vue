@@ -747,6 +747,78 @@
                         console.error(error);
                     });
             },
+            updateContract() {
+                const memberList = [];
+                memberList.push(this.iMemberData);
+                this.$root.addDataPush(memberList, this.mMemberData);
+                this.$root.addDataPush(memberList, this.uMemberData);
+                const itemList = cloneDeep(this.itemData);
+                itemList.forEach(ite => {
+                    ite.iteSubsidiaries = ite.iteSubsidiaries ? ite.iteSubsidiaries.join('|') : ite.iteSubsidiaries;
+                    ite.iteProportion = JSON.stringify(ite.iteProportion);
+                });
+
+                const conValue = cloneDeep(this.conValue);
+                conValue.forEach(area => {
+                    area.colItem.forEach(col => {
+                        if (col.type?.startsWith('word')) {
+                            this.categoryData.forEach(cat => {
+                                if (parseInt(cat.catId) === parseInt(col.id)) {
+                                    col.value = cat.catWord;
+                                }
+                            });
+                        }
+                    });
+                });
+
+
+                const formData = new FormData();
+                this.$root.addFilesToFormData(formData, this.filMeetingFiles, 'conFileMeeting[]');
+                this.$root.addFilesToFormData(formData, this.filPlanFiles, 'conFilePlan[]');
+                this.$root.addFilesToFormData(formData, this.filOtherFiles, 'conFile[]');
+
+                const dataToAppend = {
+                    conId: this.contractData.conId,
+                    temId: this.contractData.temId,
+                    perKey: this.contractData.perKey,
+                    comId: this.contractData.comId,
+                    conTitle: this.contractData.conTitle,
+                    conType: this.contractData.conType,
+                    conDate: this.contractData.conDate,
+                    conWork: cloneDeep(this.conWork).join('|'),
+                    conCompany: cloneDeep(this.conCompany).join('|'),
+                    conValue: JSON.stringify(conValue),
+                    itemList: JSON.stringify(itemList),
+                    memberList: JSON.stringify(memberList),
+                    delFileMeeting: this.delFileMeeting ? Object.keys(cloneDeep(this.delFileMeeting)).join('|') : null,
+                    delFilePlan: this.delFilePlan ? Object.keys(cloneDeep(this.delFilePlan)).join('|') : null,
+                    delFile: this.delFile ? Object.keys(cloneDeep(this.delFile)).join('|') : null,
+                };
+                for (const key in dataToAppend) {
+                    formData.append(key, dataToAppend[key]);
+                }
+
+                this.$api
+                    .post(this.$test ? '/api/?type=contract_update' : '/api/adm/contract/addNew', formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data', // 设置请求头为 multipart/form-data
+                        },
+                    })
+                    .then(response => {
+                        console.log(response.data);
+                        if (response.status === 200) {
+                            console.log(response);
+                            this.$router.push(`/contract/${this.$route.params.tem}/sl/${this.conId}`);
+                        } else {
+                            console.log('err');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Edit failed:', error);
+                    });
+
+
+            },
             addItemData() {
                 const iteProportion = this.companyData.map(company => ({
                     comId: company.comId,
