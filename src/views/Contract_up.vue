@@ -55,7 +55,8 @@
                                                                             <span class="data myFont16">
                                                                         <template v-if="col.type === 'subject'">
                                                                             <h4><b style="font-weight: 600;"><input
-                                                                                    type="text" v-model="contractData.conTitle"
+                                                                                    type="text"
+                                                                                    v-model="contractData.conTitle"
                                                                                     class="form-control"
                                                                                     placeholder="文件名稱"/></b></h4>
                                                                             <div class="flex-grow-1">
@@ -99,12 +100,13 @@
                                                                                 <div class="myFont16">生效日期：<span
                                                                                         class="data">
                                                                                     <div class="d-flex m-tb">
-                                                                                    <DatePicker v-model="contractData.conDate"
-                                                                                                format="yyyy-MM-dd"
-                                                                                                locale="zh-tw"
-                                                                                                :enable-time-picker="false"
-                                                                                                placeholder="未填寫將以簽核完成日為依據"
-                                                                                                style="width: auto;"/>
+                                                                                    <DatePicker
+                                                                                            v-model="contractData.conDate"
+                                                                                            format="yyyy-MM-dd"
+                                                                                            locale="zh-tw"
+                                                                                            :enable-time-picker="false"
+                                                                                            placeholder="未填寫將以簽核完成日為依據"
+                                                                                            style="width: auto;"/>
                                                                                     </div>
                                                                                 </span>
                                                                                 </div>
@@ -320,19 +322,19 @@
                                                                                     <FileUpload
                                                                                             :titleString="'會議記錄-拖放文件到此處或點擊選擇文件'"
                                                                                             :multiple="true"
-                                                                                            @file-selected="handleMeetingFilesSelected"
+                                                                                            @file-selected="files=>handleFilesSelected(files, 'meeting')"
                                                                                             class="col-4"
                                                                                     />
                                                                                     <FileUpload
                                                                                             :titleString="'專案規劃報告-拖放文件到此處或點擊選擇文件'"
                                                                                             :multiple="true"
-                                                                                            @file-selected="handlePlanFilesSelected"
+                                                                                            @file-selected="files=>handleFilesSelected(files, 'plan')"
                                                                                             class="col-4"
                                                                                     />
                                                                                     <FileUpload
                                                                                             :titleString="'其他-拖放文件到此處或點擊選擇文件'"
                                                                                             :multiple="true"
-                                                                                            @file-selected="handleOtherFilesSelected"
+                                                                                            @file-selected="files=>handleFilesSelected(files, 'other')"
                                                                                             class="col-4"
                                                                                     />
                                                                                 </div>
@@ -341,24 +343,24 @@
                                                                                         <template
                                                                                                 v-for="(option, index) in conFileMeeting">
                                                                                             <a href="javascript:void(0);"
-                                                                                               :class="{'delFile': isFileInDelFileMeeting(option)}"
-                                                                                               @click="deleteFileMeeting(option)">會議記錄 {{ index+1 }}</a> |
+                                                                                               :class="{'delFile': isFileInDelFile(option, 'meeting')}"
+                                                                                               @click="deleteFile(option, 'meeting')">會議記錄 {{ index+1 }}</a> |
                                                                                         </template>
                                                                                     </template>
                                                                                     <template v-if="conFilePlan">
                                                                                         <template
                                                                                                 v-for="(option, index) in conFilePlan">
                                                                                             <a href="javascript:void(0);"
-                                                                                               :class="{'delFile': isFileInDelFilePlan(option)}"
-                                                                                               @click="deleteFilePlan(option)">專規劃報告 {{ index+1 }}</a> |
+                                                                                               :class="{'delFile': isFileInDelFile(option, 'plan')}"
+                                                                                               @click="deleteFile(option, 'plan')">專規劃報告 {{ index+1 }}</a> |
                                                                                         </template>
                                                                                     </template>
                                                                                     <template v-if="conFile">
                                                                                         <template
                                                                                                 v-for="(option, index) in conFile">
                                                                                             <a href="javascript:void(0);"
-                                                                                               :class="{'delFile': isFileInDelFile(option)}"
-                                                                                               @click="deleteFile(option)">其他附件 {{ index+1 }}</a> |
+                                                                                               :class="{'delFile': isFileInDelFile(option, 'other')}"
+                                                                                               @click="deleteFile(option, 'other')">其他附件 {{ index+1 }}</a> |
                                                                                         </template>
                                                                                     </template>
                                                                                 </div>
@@ -977,54 +979,56 @@
             },
 
             //File
-            handleMeetingFilesSelected(files) {
-                // 存储会议记录文件
-                this.filMeetingFiles = files;
-            },
-            handlePlanFilesSelected(files) {
-                // 存储專案規劃報告文件
-                this.filPlanFiles = files;
-            },
-            handleOtherFilesSelected(files) {
-                // 存储其他文件
-                this.filOtherFiles = files;
-            },
-
-            deleteFileMeeting(fileString) {
-                if (this.delFileMeeting && this.isFileInDelFileMeeting(fileString)) {
-                    delete this.delFileMeeting[fileString];
+            handleFilesSelected(files, type) {
+                switch (type) {
+                    case 'meeting':
+                        this.filMeetingFiles = files;
+                        break;
+                    case 'plan':
+                        this.filPlanFiles = files;
+                        break;
+                    case 'other':
+                        this.filOtherFiles = files;
+                        break;
                 }
-                else {
-                    this.delFileMeeting[fileString] = true;
-                }
-                console.log(this.delFileMeeting);
             },
-            isFileInDelFileMeeting(fileString) {
-                return this.delFileMeeting.hasOwnProperty(fileString);
-            },
-            deleteFilePlan(fileString) {
-                if (this.delFilePlan && this.isFileInDelFilePlan(fileString)) {
-                    delete this.delFilePlan[fileString];
+            deleteFile(fileString, type) {
+                switch (type) {
+                    case 'meeting':
+                        if (this.delFileMeeting && this.isFileInDelFile(fileString, type)) {
+                            delete this.delFileMeeting[fileString];
+                        }
+                        else {
+                            this.delFileMeeting[fileString] = true;
+                        }
+                        break;
+                    case 'plan':
+                        if (this.delFilePlan && this.isFileInDelFile(fileString, type)) {
+                            delete this.delFilePlan[fileString];
+                        }
+                        else {
+                            this.delFilePlan[fileString] = true;
+                        }
+                        break;
+                    case 'other':
+                        if (this.delFile && this.isFileInDelFile(fileString, type)) {
+                            delete this.delFile[fileString];
+                        }
+                        else {
+                            this.delFile[fileString] = true;
+                        }
+                        break;
                 }
-                else {
-                    this.delFilePlan[fileString] = true;
-                }
-                console.log(this.delFilePlan);
             },
-            isFileInDelFilePlan(fileString) {
-                return this.delFilePlan.hasOwnProperty(fileString);
-            },
-            deleteFile(fileString) {
-                if (this.delFile && this.isFileInDelFile(fileString)) {
-                    delete this.delFile[fileString];
+            isFileInDelFile(fileString, type) {
+                switch (type) {
+                    case 'meeting':
+                        return this.delFileMeeting.hasOwnProperty(fileString);
+                    case 'plan':
+                        return this.delFilePlan.hasOwnProperty(fileString);
+                    case 'other':
+                        return this.delFile.hasOwnProperty(fileString);
                 }
-                else {
-                    this.delFile[fileString] = true;
-                }
-                console.log(this.delFile);
-            },
-            isFileInDelFile(fileString) {
-                return this.delFile.hasOwnProperty(fileString);
             },
 
 
