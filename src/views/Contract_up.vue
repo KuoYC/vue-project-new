@@ -22,9 +22,7 @@
                                                         <div class="vew-mail-header">
                                                             <div class="author-box-name d-flex justify-content-between"
                                                                  style="margin-bottom: 20px;">
-                                                                <h4 class="myCardTitle" href="#"><i
-                                                                        class="material-icons m-r-5">library_books</i>{{
-                                                                    area.areaTitle }}</h4>
+                                                                <h4 class="myCardTitle" href="#"><i class="material-icons m-r-5">library_books</i>{{ area.areaTitle }}</h4>
                                                                 <div v-if="parentIndex === 0">
                                                                     <!-- 這裡放創文日期 -->
                                                                     <div class="myFont16Title">
@@ -36,29 +34,21 @@
                                                                 </div>
                                                             </div>
                                                             <hr>
-                                                            <template v-for="(col, childIndex) in area.colItem"
-                                                                      class="row">
+                                                            <template v-for="(col, childIndex) in area.colItem" class="row">
                                                                 <div :class="['col-lg-' + col.width + ' sub-item']">
                                                                     <div class="d-flex mb-4 mt-2">
                                                                         <div class="flex-grow-1">
                                                                             <hr v-if="childIndex !== 0"/>
                                                                             <div class="author-box-name d-flex"
                                                                                  style="margin-bottom: 20px;">
-                                                                                <span v-if="col.name !== ''"
-                                                                                      class="myFont16 d-flex align-center"
-                                                                                      style="background-color:#6777ef ;color: white;border-radius: 6px;padding: 0.3rem 0.8rem;font-weight: 400;">
-                                                                                    <i class="material-icons"
-                                                                                       style="margin-right: 8px;">label_outline</i>{{ col.name }}
+                                                                                <span v-if="col.name !== ''" class="myFont16 d-flex align-center" style="background-color:#6777ef ;color: white;border-radius: 6px;padding: 0.3rem 0.8rem;font-weight: 400;">
+                                                                                    <i class="material-icons" style="margin-right: 8px;">label_outline</i>{{ col.name }}
                                                                                 </span>
                                                                             </div>
                                                                             <!-- 這裡放權限控管及資料管制 -->
                                                                             <span class="data myFont16">
                                                                         <template v-if="col.type === 'subject'">
-                                                                            <h4><b style="font-weight: 600;"><input
-                                                                                    type="text"
-                                                                                    v-model="contractData.conTitle"
-                                                                                    class="form-control"
-                                                                                    placeholder="文件名稱"/></b></h4>
+                                                                            <h4><b style="font-weight: 600;"><input type="text" v-model="contractData.conTitle" class="form-control" placeholder="文件名稱"/></b></h4>
                                                                             <div class="flex-grow-1">
                                                                                 <!-- 這裡放承辦單位 -->
                                                                                 <div class="myFont16">承辦單位：<span
@@ -76,29 +66,19 @@
                                                                                     <div class="d-flex m-tb">
                                                                                         <div v-for="cType in contractType"
                                                                                              class="form-check-inline">
-                                                                                            <input class="form-check-input"
-                                                                                                   type="radio"
-                                                                                                   v-model="contractData.conType"
-                                                                                                   :value="cType.value"
-                                                                                                   :id="'type_' + cType.value">
-                                                                                            <label class="form-check-label"
-                                                                                                   :for="'type_' + cType.value">
+                                                                                            <input class="form-check-input" type="radio" v-model="contractData.conType" :value="cType.value" :id="'type_' + cType.value">
+                                                                                            <label class="form-check-label" :for="'type_' + cType.value">
                                                                                                 {{ cType.text }}
                                                                                             </label>
                                                                                         </div>
                                                                                     </div>
                                                                                 </span></div>
                                                                                 <!-- 這裡放計劃框架 -->
-                                                                                <div class="myFont16">計劃框架：<span
-                                                                                        class="data">{{ contractData.temTitle }}</span>
-                                                                                </div>
+                                                                                <div class="myFont16">計劃框架：<span class="data">{{ contractData.temTitle }}</span></div>
                                                                                 <!-- 這裡放管理維運公司 -->
-                                                                                <div class="myFont16">管理維運公司：<span
-                                                                                        class="data">{{ this.$root.getCompanyTitle(contractData.comId, '')}}</span>
-                                                                                </div>
+                                                                                <div class="myFont16">管理維運公司：<span class="data">{{ this.$root.getCompanyTitle(contractData.comId, '')}}</span></div>
                                                                                 <!-- 這裡放生效日期 -->
-                                                                                <div class="myFont16">生效日期：<span
-                                                                                        class="data">
+                                                                                <div class="myFont16">生效日期：<span class="data">
                                                                                     <div class="d-flex m-tb">
                                                                                     <DatePicker
                                                                                             v-model="contractData.conDate"
@@ -111,18 +91,11 @@
                                                                                 </span>
                                                                                 </div>
                                                                                 <!-- 這裡放使用公司 -->
-                                                                                <div class="myFont16">使用公司：<span
-                                                                                        class="data">
+                                                                                <div class="myFont16">使用公司：<span class="data">
                                                                                     <div class="d-flex m-tb">
-                                                                                        <div v-for="com in companyData"
-                                                                                             class="form-check-inline">
-                                                                                            <input class="form-check-input"
-                                                                                                   type="checkbox"
-                                                                                                   :value="com.comCode"
-                                                                                                   v-model="conCompany"
-                                                                                                   :id="'com_'+com.comCode">
-                                                                                            <label class="form-check-label"
-                                                                                                   :for="'com_'+com.comCode">
+                                                                                        <div v-for="com in companyData" class="form-check-inline">
+                                                                                            <input class="form-check-input" type="checkbox" :value="com.comCode" v-model="conCompany" :id="'com_'+com.comCode">
+                                                                                            <label class="form-check-label" :for="'com_'+com.comCode">
                                                                                                 {{ com.comTitle }}
                                                                                             </label>
                                                                                         </div>
@@ -132,15 +105,9 @@
                                                                                 <div class="myFont16">作業種類：<span
                                                                                         class="data">
                                                                                     <div class="d-flex m-tb">
-                                                                                        <div v-for="(wor, worIndex) in workData"
-                                                                                             class="form-check-inline">
-                                                                                            <input class="form-check-input"
-                                                                                                   type="checkbox"
-                                                                                                   :value="wor.worId"
-                                                                                                   v-model="conWork"
-                                                                                                   :id="'wor_'+wor.worId">
-                                                                                            <label class="form-check-label"
-                                                                                                   :for="'wor_'+wor.worId">
+                                                                                        <div v-for="(wor, worIndex) in workData" class="form-check-inline">
+                                                                                            <input class="form-check-input" type="checkbox" :value="wor.worId" v-model="conWork" :id="'wor_'+wor.worId">
+                                                                                            <label class="form-check-label" :for="'wor_'+wor.worId">
                                                                                                 {{ wor.worTitle }}
                                                                                             </label>
                                                                                         </div>
@@ -151,14 +118,10 @@
                                                                         <template v-if="col.type.startsWith('list')">
                                                                                 <!-- 選項列表 -->
                                                                                 <div class="replyBox m-t-20 myFont16">
-                                                                                    <select v-model="col.value"
-                                                                                            class="form-control">
-                                                                                        <option disabled
-                                                                                                value="">請選擇</option>
-                                                                                        <template
-                                                                                                v-for="sou in sourceData">
-                                                                                            <template
-                                                                                                    v-if="parseInt(sou.catId) === parseInt(col.id)">
+                                                                                    <select v-model="col.value" class="form-control">
+                                                                                        <option disabled value="">請選擇</option>
+                                                                                        <template v-for="sou in sourceData">
+                                                                                            <template v-if="parseInt(sou.catId) === parseInt(col.id)">
                                                                                                 <option :value="sou.souTitle">
                                                                                                     {{ sou.souTitle }}
                                                                                                 </option>
@@ -170,8 +133,7 @@
                                                                         <template v-if="col.type.startsWith('word')">
                                                                             <div class="replyBox m-t-20 myFont16">
                                                                                 <template v-for="cat in categoryData">
-                                                                                    <template
-                                                                                            v-if="parseInt(cat.catId) === parseInt(col.id)">
+                                                                                    <template v-if="parseInt(cat.catId) === parseInt(col.id)">
                                                                                         <label class="form-label">{{ cat.catWord }}</label>
                                                                                     </template>
                                                                                 </template>
@@ -210,9 +172,7 @@
                                                                                 </tbody>
                                                                             </table>
                                                                             <p>
-                                                                                <vue-feather type="plus"
-                                                                                             class="btn btn-success btn-icon"
-                                                                                             @click="addItemData"></vue-feather>
+                                                                                <vue-feather type="plus" class="btn btn-success btn-icon" @click="addItemData"></vue-feather>
                                                                             </p>
                                                                         </template>
                                                                         <template v-if="col.type === 'sign'">
@@ -246,8 +206,7 @@
                                                                                 </tr>
                                                                                 </tbody>
                                                                             </table>
-                                                                            <table v-if="mMemberData.length !== 0"
-                                                                                   class="myTable myTableMemberM">
+                                                                            <table v-if="mMemberData.length !== 0" class="myTable myTableMemberM">
                                                                                 <caption>維運公司簽核人員資料表</caption>
                                                                                 <thead>
                                                                                 <tr>
@@ -275,12 +234,9 @@
                                                                                     </tr>
                                                                                 </tbody>
                                                                             </table>
-                                                                            <p><vue-feather type="plus"
-                                                                                            class="btn btn-success btn-icon"
-                                                                                            @click="addMember('M')"></vue-feather></p>
+                                                                            <p><vue-feather type="plus" class="btn btn-success btn-icon" @click="addMember('M')"></vue-feather></p>
                                                                             <label>使用</label>
-                                                                            <table v-if="uMemberData.length !== 0"
-                                                                                   class="myTable myTableMemberU">
+                                                                            <table v-if="uMemberData.length !== 0" class="myTable myTableMemberU">
                                                                                 <caption>使用公司簽核人員資料表</caption>
                                                                                 <thead>
                                                                                 <tr>
@@ -308,15 +264,11 @@
                                                                                     </tr>
                                                                                 </tbody>
                                                                             </table>
-                                                                            <p><vue-feather type="plus"
-                                                                                            class="btn btn-success btn-icon"
-                                                                                            @click="addMember('U')"></vue-feather></p>
+                                                                            <p><vue-feather type="plus" class="btn btn-success btn-icon" @click="addMember('U')"></vue-feather></p>
                                                                         </template>
                                                                         <template v-if="col.type === 'file_area'">
                                                                             <div class="replyBox m-t-20 myFont16">
-                                                                                <span>
-                                                                                    <!-- 這裡放共幾則附檔 -->
-                                                                                    <i class="fa fa-paperclip mb-1"></i> <span>3則</span>附加檔案 </span>
+                                                                                <span><i class="fa fa-paperclip mb-1"></i> <span>{{ conFile.length + conFileMeeting.length + conFilePlan.length }}則</span>附加檔案 </span>
                                                                                 <!-- 這裡放附檔 -->
                                                                                 <div class="row">
                                                                                     <FileUpload
@@ -340,24 +292,21 @@
                                                                                 </div>
                                                                                 <div>
                                                                                     <template v-if="conFileMeeting">
-                                                                                        <template
-                                                                                                v-for="(option, index) in conFileMeeting">
+                                                                                        <template v-for="(option, index) in conFileMeeting">
                                                                                             <a href="javascript:void(0);"
                                                                                                :class="{'delFile': isFileInDelFile(option, 'meeting')}"
                                                                                                @click="deleteFile(option, 'meeting')">會議記錄 {{ index+1 }}</a> |
                                                                                         </template>
                                                                                     </template>
                                                                                     <template v-if="conFilePlan">
-                                                                                        <template
-                                                                                                v-for="(option, index) in conFilePlan">
+                                                                                        <template v-for="(option, index) in conFilePlan">
                                                                                             <a href="javascript:void(0);"
                                                                                                :class="{'delFile': isFileInDelFile(option, 'plan')}"
                                                                                                @click="deleteFile(option, 'plan')">專規劃報告 {{ index+1 }}</a> |
                                                                                         </template>
                                                                                     </template>
                                                                                     <template v-if="conFile">
-                                                                                        <template
-                                                                                                v-for="(option, index) in conFile">
+                                                                                        <template v-for="(option, index) in conFile">
                                                                                             <a href="javascript:void(0);"
                                                                                                :class="{'delFile': isFileInDelFile(option, 'other')}"
                                                                                                @click="deleteFile(option, 'other')">其他附件 {{ index+1 }}</a> |
@@ -372,8 +321,7 @@
                                                                             <template v-if="col.tip === ''">
                                                                             <select class="form-control">
                                                                                 <!-- 選項列表 -->
-                                                                                <option v-for="option in col.option.split('|')"
-                                                                                        :value="option">
+                                                                                <option v-for="option in col.option.split('|')" :value="option">
                                                                                     {{ option }}
                                                                                 </option>
                                                                             </select>
@@ -384,8 +332,7 @@
                                                                                   <!-- 以下放edit元件 -->
                                                                                     <select class="form-control">
                                                                                         <!-- 選項列表 -->
-                                                                                        <option v-for="option in col.option.split('|')"
-                                                                                                :value="option">
+                                                                                        <option v-for="option in col.option.split('|')" :value="option">
                                                                                             {{ option }}
                                                                                         </option>
                                                                                     </select>
@@ -396,30 +343,18 @@
                                                                         </template>
                                                                         <template v-if="col.type === 'radio'">
                                                                             <template v-if="col.tip === ''">
-                                                                                <div v-for="item in col.option.split('|')"
-                                                                                     class="form-check-inline">
-                                                                                        <input type="radio"
-                                                                                               :value="item"
-                                                                                               class="form-check-input"
-                                                                                               :id="'radio_'+parentIndex+'_'+childIndex">
-
-                                                                                        <label class="form-check-label"
-                                                                                               :for="'radio_'+parentIndex+'_'+childIndex">{{ item }}</label>
+                                                                                <div v-for="item in col.option.split('|')" class="form-check-inline">
+                                                                                    <input type="radio" :value="item" class="form-check-input" :id="'radio_'+parentIndex+'_'+childIndex">
+                                                                                    <label class="form-check-label" :for="'radio_'+parentIndex+'_'+childIndex">{{ item }}</label>
                                                                                 </div>
                                                                             </template>
                                                                             <template v-else>
                                                                             <div class="myToolTipContainer d-flex"
                                                                                  style="width: 200px;">
                                                                                 <!-- 以下放edit元件 -->
-                                                                                <div v-for="item in col.option.split('|')"
-                                                                                     class="form-check-inline">
-                                                                                        <input type="radio"
-                                                                                               :value="item"
-                                                                                               class="form-check-input"
-                                                                                               :id="'radio_'+parentIndex+'_'+childIndex">
-
-                                                                                        <label class="form-check-label"
-                                                                                               :for="'radio_'+parentIndex+'_'+childIndex">{{ item }}</label>
+                                                                                <div v-for="item in col.option.split('|')" class="form-check-inline">
+                                                                                    <input type="radio" :value="item" class="form-check-input" :id="'radio_'+parentIndex+'_'+childIndex">
+                                                                                    <label class="form-check-label" :for="'radio_'+parentIndex+'_'+childIndex">{{ item }}</label>
                                                                                 </div>
                                                                                 <!-- 以上放edit元件 -->
                                                                                 <div class="help-tip"><p>{{ col.tip }}</p></div>
@@ -428,30 +363,17 @@
                                                                         </template>
                                                                         <template v-if="col.type === 'check'">
                                                                             <template v-if="col.tip === ''">
-                                                                                <div v-for="item in col.option.split('|')"
-                                                                                     class="form-check-inline">
-                                                                                    <input type="checkbox"
-                                                                                           :value="item"
-                                                                                           class="form-check-input"
-                                                                                           :id="'radio_'+parentIndex+'_'+childIndex">
-
-                                                                                    <label class="form-check-label"
-                                                                                           :for="'radio_'+parentIndex+'_'+childIndex">{{ item }}</label>
+                                                                                <div v-for="item in col.option.split('|')" class="form-check-inline">
+                                                                                    <input type="checkbox" :value="item" class="form-check-input" :id="'radio_'+parentIndex+'_'+childIndex">
+                                                                                    <label class="form-check-label" :for="'radio_'+parentIndex+'_'+childIndex">{{ item }}</label>
                                                                                 </div>
                                                                             </template>
                                                                             <template v-else>
-                                                                            <div class="myToolTipContainer d-flex"
-                                                                                 style="width: 200px;">
+                                                                            <div class="myToolTipContainer d-flex" style="width: 200px;">
                                                                               <!-- 以下放edit元件 -->
-                                                                                <div v-for="item in col.option.split('|')"
-                                                                                     class="form-check-inline">
-                                                                                        <input type="checkbox"
-                                                                                               :value="item"
-                                                                                               class="form-check-input"
-                                                                                               :id="'radio_'+parentIndex+'_'+childIndex">
-
-                                                                                        <label class="form-check-label"
-                                                                                               :for="'radio_'+parentIndex+'_'+childIndex">{{ item }}</label>
+                                                                                <div v-for="item in col.option.split('|')" class="form-check-inline">
+                                                                                    <input type="checkbox" :value="item" class="form-check-input" :id="'radio_'+parentIndex+'_'+childIndex">
+                                                                                    <label class="form-check-label" :for="'radio_'+parentIndex+'_'+childIndex">{{ item }}</label>
                                                                                 </div>
                                                                                 <!-- 以上放edit元件 -->
                                                                                 <div class="help-tip"><p>{{ col.tip }}</p></div>
@@ -460,16 +382,14 @@
                                                                         </template>
                                                                         <template v-if="col.type === 'text'">
                                                                             <template v-if="col.tip === ''">
-                                                                                <input type="text"
-                                                                                       class="form-control"/>
+                                                                                <input type="text" class="form-control"/>
                                                                             </template>
                                                                             <template v-else>
-                                                                            <div class="myToolTipContainer d-flex"
-                                                                                 style="width: 200px;">
-                                                                              <!-- 以下放edit元件 -->
-                                                                            <input type="text" class="form-control"/>
-                                                                                <!-- 以上放edit元件 -->
-                                                                            <div class="help-tip"><p>{{ col.tip }}</p></div>
+                                                                            <div class="myToolTipContainer d-flex" style="width: 200px;">
+                                                                                  <!-- 以下放edit元件 -->
+                                                                                <input type="text" class="form-control"/>
+                                                                                    <!-- 以上放edit元件 -->
+                                                                                <div class="help-tip"><p>{{ col.tip }}</p></div>
                                                                             </div>
                                                                             </template>
                                                                         </template>
@@ -478,8 +398,7 @@
                                                                             <textarea class="form-control"></textarea>
                                                                             </template>
                                                                             <template v-else>
-                                                                            <div class="myToolTipContainer d-flex"
-                                                                                 style="width: 200px;">
+                                                                            <div class="myToolTipContainer d-flex" style="width: 200px;">
                                                                               <!-- 以下放edit元件 -->
                                                                             <textarea class="form-control"></textarea>
                                                                                 <!-- 以上放edit元件 -->
@@ -807,28 +726,25 @@
                 for (const key in dataToAppend) {
                     formData.append(key, dataToAppend[key]);
                 }
-                for (const [key, value] of formData.entries()) {
-                    console.log(key, value);
-                }
 
-                // this.$api
-                //     .post(this.$test ? '/api/?type=contract_update' : '/api/adm/contract/addNew', formData, {
-                //         headers: {
-                //             'Content-Type': 'multipart/form-data', // 设置请求头为 multipart/form-data
-                //         },
-                //     })
-                //     .then(response => {
-                //         console.log(response.data);
-                //         if (response.status === 200) {
-                //             console.log(response);
-                //             this.$router.push(`/contract/${this.$route.params.tem}/sl/${this.conId}`);
-                //         } else {
-                //             console.log('err');
-                //         }
-                //     })
-                //     .catch(error => {
-                //         console.error('Edit failed:', error);
-                //     });
+                this.$api
+                    .post(this.$test ? '/api/?type=contract_update' : '/api/adm/contract/addNew', formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data', // 设置请求头为 multipart/form-data
+                        },
+                    })
+                    .then(response => {
+                        console.log(response.data);
+                        if (response.status === 200) {
+                            console.log(response);
+                            this.$router.push(`/contract/${this.$route.params.tem}/sl/${this.conId}`);
+                        } else {
+                            console.log('err');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Edit failed:', error);
+                    });
 
 
             },
