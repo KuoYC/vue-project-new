@@ -277,7 +277,7 @@
                                                                                     </table>
                                                                                     <p><vue-feather type="plus"
                                                                                                     class="btn btn-success btn-icon"
-                                                                                                    @click="addMember('M')"></vue-feather></p>
+                                                                                                    @click="addMember('M', per.perBu1Code)"></vue-feather></p>
                                                                                     <label>使用</label>
                                                                                     <table v-if="uMemberData.length !== 0"
                                                                                            class="myTable myTableMemberU">
@@ -310,7 +310,7 @@
                                                                                             </table>
                                                                                     <p><vue-feather type="plus"
                                                                                                     class="btn btn-success btn-icon"
-                                                                                                    @click="addMember('U')"></vue-feather></p>
+                                                                                                    @click="addMember('U', per.perBu1Code)"></vue-feather></p>
                                                                         </template>
 
                                                                         <template v-if="col.type === 'file_area'">
@@ -540,11 +540,15 @@
     import DatePicker from '@vuepic/vue-datepicker';
     import FileUpload from '@/components/FileUpload.vue';
     import cloneDeep from 'lodash/cloneDeep';
+    import { memberMixin } from '@/mixins/memberMixin.js';
+    import { itemMixin } from '@/mixins/itemMixin.js';
+    import { fileMixin } from '@/mixins/fileMixin.js';
 
     import '@vuepic/vue-datepicker/dist/main.css';
 
     export default {
         name: "Contract_ad",
+        mixins: [memberMixin, itemMixin, fileMixin],
         data() {
             return {
                 per: JSON.parse(Cookies.get('per')),
@@ -650,7 +654,29 @@
                         this.manner = mannerResponse.data.data;
 
                         //設定發起人
-                        this.iMemberData = this.createMemberData('0', this.per.perBu1Code, true);
+                        this.iMemberData = {
+                            uniqueId: this.$root.generateUniqueId(),
+                            memId: '0',
+                            memType: '0',
+                            memBu1Code: this.per.perBu1Code,
+                            memBu2Code: this.per.perBu2Code,
+                            memBu2: this.per.perBu2,
+                            memBu3Code: this.per.perBu3Code,
+                            memBu3: this.per.perBu3,
+                            memLV0Key: this.per.perKey,
+                            memLV0Name: this.per.perName,
+                            memLV0PositionName: this.per.perPositionName,
+                            memLVCKey: '',
+                            memLVCName: '',
+                            memLVCPositionName: '',
+                            memLV1Key: '',
+                            memLV1Name: '',
+                            memLV1PositionName: '',
+                            memLV2Key: '',
+                            memLV2Name: '',
+                            memLV2PositionName: '',
+                            memPhone: this.per.perPhone2 + ' ' + this.per.perPhone3,
+                        };
                     })
                     .catch(error => {
                         console.error(error);
@@ -722,102 +748,6 @@
                     });
 
 
-            },
-            addItemData() {
-                const iteProportion = this.companyData.map(company => ({
-                    comId: company.comId,
-                    p: '0',
-                }));
-                this.itemData.push({
-                    uniqueId: this.$root.generateUniqueId(),
-                    iteId: 0,
-                    conId: 0,//
-                    iteTitle: '',
-                    worId: 0,//
-                    iteTime: '',
-                    iteSubsidiaries: [],//
-                    iteControl: '',
-                    disId: 0,//
-                    manId: 0,//
-                    iteProportion: iteProportion,
-                    iteTypeNote: '',//
-                    iteDescription: '',
-                    iteWord: '',
-                    iteNote: '',
-                },);
-            },
-            removeItemData(uniqueId) {
-                const index = this.itemData.findIndex(item => item.uniqueId === uniqueId);
-                if (index !== -1) {
-                    this.itemData.splice(index, 1);
-                }
-            },
-            addMember(type) {
-                const memberData = this.createMemberData(type === 'M' ? '1' : '2', type === 'M' ? Cookies.get('perBu1Code') : '');
-
-                if (type === 'M') {
-                    this.mMemberData.push(memberData);
-                } else if (type === 'U') {
-                    this.uMemberData.push(memberData);
-                }
-            },
-
-            removeMember(uniqueId, type) {
-                let memberArray;
-                if (type === 'M') {
-                    memberArray = this.mMemberData;
-                } else if (type === 'U') {
-                    memberArray = this.uMemberData;
-                }
-
-                if (memberArray) {
-                    const index = memberArray.findIndex(item => item.uniqueId === uniqueId);
-                    if (index !== -1) {
-                        memberArray.splice(index, 1);
-                    }
-                }
-            },
-
-
-
-
-
-            createMemberData(memType, memBu1Code, first = false) {
-                const memberData = {
-                    uniqueId: this.$root.generateUniqueId(),
-                    memId: '0',
-                    memType: memType,
-                    memBu1Code: memBu1Code,
-                    memBu2Code: first ? this.per.perBu2Code : '',
-                    memBu2: first ? this.per.perBu2 : '',
-                    memBu3Code: first ? this.per.perBu3Code : '',
-                    memBu3: first ? this.per.perBu3 : '',
-                    memLV0Key: first ? this.per.perKey : '',
-                    memLV0Name: first ? this.per.perName : '',
-                    memLV0PositionName: first ? this.per.perPositionName : '',
-                    memLVCKey: '',
-                    memLVCName: '',
-                    memLVCPositionName: '',
-                    memLV1Key: '',
-                    memLV1Name: '',
-                    memLV1PositionName: '',
-                    memLV2Key: '',
-                    memLV2Name: '',
-                    memLV2PositionName: '',
-                    memPhone: first ? this.per.perPhone2 + ' ' + this.per.perPhone3 : '',
-                };
-                return memberData;
-
-            },
-
-            //File
-            handleFilesSelected(files, type) {
-                const propertyMap = {
-                    'meeting': 'filMeetingFiles',
-                    'plan': 'filPlanFiles',
-                    'other': 'filOtherFiles',
-                };
-                this[propertyMap[type]] = files;
             },
 
 

@@ -234,7 +234,7 @@
                                                                                     </tr>
                                                                                 </tbody>
                                                                             </table>
-                                                                            <p><vue-feather type="plus" class="btn btn-success btn-icon" @click="addMember('M')"></vue-feather></p>
+                                                                            <p><vue-feather type="plus" class="btn btn-success btn-icon" @click="addMember('M', contractData.perBu1Code)"></vue-feather></p>
                                                                             <label>使用</label>
                                                                             <table v-if="uMemberData.length !== 0" class="myTable myTableMemberU">
                                                                                 <caption>使用公司簽核人員資料表</caption>
@@ -494,10 +494,13 @@
     import '@vuepic/vue-datepicker/dist/main.css';
     import FileUpload from '@/components/FileUpload.vue';
     import cloneDeep from 'lodash/cloneDeep';
-
+    import { memberMixin } from '@/mixins/memberMixin.js';
+    import { itemMixin } from '@/mixins/itemMixin.js';
+    import { fileMixin } from '@/mixins/fileMixin.js';
 
     export default {
         name: "Contract_up",
+        mixins: [memberMixin, itemMixin, fileMixin],
         data() {
             return {
                 per: JSON.parse(Cookies.get('per')),
@@ -748,95 +751,7 @@
 
 
             },
-            addItemData() {
-                const iteProportion = this.companyData.map(company => ({
-                    comId: company.comId,
-                    p: '0',
-                }));
-                this.itemData.push({
-                    uniqueId: this.$root.generateUniqueId(),
-                    iteId: 0,
-                    conId: 0,//
-                    iteTitle: '',
-                    worId: 0,//
-                    iteTime: '',
-                    iteSubsidiaries: [],//
-                    iteControl: '',
-                    disId: 0,//
-                    manId: 0,//
-                    iteProportion: iteProportion,
-                    iteTypeNote: '',//
-                    iteDescription: '',
-                    iteWord: '',
-                    iteNote: '',
-                },);
-            },
-            removeItemData(uniqueId) {
-                const index = this.itemData.findIndex(item => item.uniqueId === uniqueId);
-                if (index !== -1) {
-                    this.itemData.splice(index, 1);
-                }
-            },
-            addMember(type) {
-                const memberData = this.createMemberData(type === 'M' ? '1' : '2', type === 'M' ? this.contractData.perBu1Code : '');
-                type === 'M' ? this.mMemberData.push(memberData) : this.uMemberData.push(memberData);
-            },
 
-            removeMember(uniqueId, type) {
-                let memberArray;
-                if (type === 'M') {
-                    memberArray = this.mMemberData;
-                } else if (type === 'U') {
-                    memberArray = this.uMemberData;
-                }
-
-                const memberIndex = memberArray.findIndex(item => item.uniqueId === uniqueId);
-                if (memberIndex !== -1) {
-                    memberArray.splice(memberIndex, 1);
-                }
-            },
-            createMemberData(memType, memBu1Code) {
-                const memberData = {
-                    uniqueId: this.$root.generateUniqueId(),
-                    memId: '0',
-                    memType: memType,
-                    memBu1Code: memBu1Code,
-                    memBu2Code: '',
-                    memBu2: '',
-                    memBu3Code: '',
-                    memBu3: '',
-                    memLV0Key: '',
-                    memLV0Name: '',
-                    memLV0PositionName: '',
-                    memLVCKey: '',
-                    memLVCName: '',
-                    memLVCPositionName: '',
-                    memLV1Key: '',
-                    memLV1Name: '',
-                    memLV1PositionName: '',
-                    memLV2Key: '',
-                    memLV2Name: '',
-                    memLV2PositionName: '',
-                    memPhone: '',
-                };
-                return memberData;
-
-            },
-
-            //File
-            handleFilesSelected(files, type) {
-                switch (type) {
-                    case 'meeting':
-                        this.filMeetingFiles = files;
-                        break;
-                    case 'plan':
-                        this.filPlanFiles = files;
-                        break;
-                    case 'other':
-                        this.filOtherFiles = files;
-                        break;
-                }
-            },
             deleteFile(fileString, type) {
                 switch (type) {
                     case 'meeting':
