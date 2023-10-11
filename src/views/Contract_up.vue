@@ -778,31 +778,21 @@
                 }
             },
             addMember(type) {
-                switch (type) {
-                    case 'M':
-                        this.mMemberData.push(
-                            this.createMemberData('1', this.contractData.perBu1Code),);
-                        break;
-                    case 'U':
-                        this.uMemberData.push(
-                            this.createMemberData('2', ''),);
-                        break;
-                }
+                const memberData = this.createMemberData(type === 'M' ? '1' : '2', type === 'M' ? this.contractData.perBu1Code : '');
+                type === 'M' ? this.mMemberData.push(memberData) : this.uMemberData.push(memberData);
             },
+
             removeMember(uniqueId, type) {
-                switch (type) {
-                    case 'M':
-                        const m_index = this.mMemberData.findIndex(item => item.uniqueId === uniqueId);
-                        if (m_index !== -1) {
-                            this.mMemberData.splice(m_index, 1);
-                        }
-                        break;
-                    case 'U':
-                        const u_index = this.uMemberData.findIndex(item => item.uniqueId === uniqueId);
-                        if (u_index !== -1) {
-                            this.uMemberData.splice(u_index, 1);
-                        }
-                        break;
+                let memberArray;
+                if (type === 'M') {
+                    memberArray = this.mMemberData;
+                } else if (type === 'U') {
+                    memberArray = this.uMemberData;
+                }
+
+                const memberIndex = memberArray.findIndex(item => item.uniqueId === uniqueId);
+                if (memberIndex !== -1) {
+                    memberArray.splice(memberIndex, 1);
                 }
             },
             createMemberData(memType, memBu1Code) {
