@@ -812,17 +812,12 @@
 
             //File
             handleFilesSelected(files, type) {
-                switch (type) {
-                    case 'meeting':
-                        this.filMeetingFiles = files;
-                        break;
-                    case 'plan':
-                        this.filPlanFiles = files;
-                        break;
-                    case 'other':
-                        this.filOtherFiles = files;
-                        break;
-                }
+                const propertyMap = {
+                    'meeting': 'filMeetingFiles',
+                    'plan': 'filPlanFiles',
+                    'other': 'filOtherFiles',
+                };
+                this[propertyMap[type]] = files;
             },
 
 

@@ -848,32 +848,30 @@
                     this.itemData.splice(index, 1);
                 }
             },
+
             addMember(type) {
-                switch (type) {
-                    case 'M':
-                        this.mMemberData.push(
-                            this.createMemberData('1', this.contractData.perBu1Code),);
-                        break;
-                    case 'U':
-                        this.uMemberData.push(
-                            this.createMemberData('2', ''),);
-                        break;
+                const memberData = this.createMemberData(type === 'M' ? '1' : '2', type === 'M' ? this.contractData.perBu1Code : '');
+
+                if (type === 'M') {
+                    this.mMemberData.push(memberData);
+                } else if (type === 'U') {
+                    this.uMemberData.push(memberData);
                 }
             },
+
             removeMember(uniqueId, type) {
-                switch (type) {
-                    case 'M':
-                        const m_index = this.mMemberData.findIndex(item => item.uniqueId === uniqueId);
-                        if (m_index !== -1) {
-                            this.mMemberData.splice(m_index, 1);
-                        }
-                        break;
-                    case 'U':
-                        const u_index = this.uMemberData.findIndex(item => item.uniqueId === uniqueId);
-                        if (u_index !== -1) {
-                            this.uMemberData.splice(u_index, 1);
-                        }
-                        break;
+                let memberArray;
+                if (type === 'M') {
+                    memberArray = this.mMemberData;
+                } else if (type === 'U') {
+                    memberArray = this.uMemberData;
+                }
+
+                if (memberArray) {
+                    const index = memberArray.findIndex(item => item.uniqueId === uniqueId);
+                    if (index !== -1) {
+                        memberArray.splice(index, 1);
+                    }
                 }
             },
             createMemberData(memType, memBu1Code) {
@@ -906,55 +904,34 @@
 
             //File
             handleFilesSelected(files, type) {
-                switch (type) {
-                    case 'meeting':
-                        this.filMeetingFiles = files;
-                        break;
-                    case 'plan':
-                        this.filPlanFiles = files;
-                        break;
-                    case 'other':
-                        this.filOtherFiles = files;
-                        break;
-                }
+                const propertyMap = {
+                    'meeting': 'filMeetingFiles',
+                    'plan': 'filPlanFiles',
+                    'other': 'filOtherFiles',
+                };
+                this[propertyMap[type]] = files;
             },
             deleteFile(fileString, type) {
-                switch (type) {
-                    case 'meeting':
-                        if (this.delFileMeeting && this.isFileInDelFile(fileString, type)) {
-                            delete this.delFileMeeting[fileString];
-                        }
-                        else {
-                            this.delFileMeeting[fileString] = true;
-                        }
-                        break;
-                    case 'plan':
-                        if (this.delFilePlan && this.isFileInDelFile(fileString, type)) {
-                            delete this.delFilePlan[fileString];
-                        }
-                        else {
-                            this.delFilePlan[fileString] = true;
-                        }
-                        break;
-                    case 'other':
-                        if (this.delFile && this.isFileInDelFile(fileString, type)) {
-                            delete this.delFile[fileString];
-                        }
-                        else {
-                            this.delFile[fileString] = true;
-                        }
-                        break;
+                const propertyMap = {
+                    'meeting': 'delFileMeeting',
+                    'plan': 'delFilePlan',
+                    'other': 'delFile',
+                };
+
+                if (this[propertyMap[type]] && this.isFileInDelFile(fileString, type)) {
+                    delete this[propertyMap[type]][fileString];
+                }
+                else {
+                    this[propertyMap[type]][fileString] = true;
                 }
             },
             isFileInDelFile(fileString, type) {
-                switch (type) {
-                    case 'meeting':
-                        return this.delFileMeeting.hasOwnProperty(fileString);
-                    case 'plan':
-                        return this.delFilePlan.hasOwnProperty(fileString);
-                    case 'other':
-                        return this.delFile.hasOwnProperty(fileString);
-                }
+                const propertyMap = {
+                    'meeting': 'delFileMeeting',
+                    'plan': 'delFilePlan',
+                    'other': 'delFile',
+                };
+                return this[propertyMap[type]].hasOwnProperty(fileString);
             },
 
 
