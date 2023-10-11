@@ -133,7 +133,8 @@
                                                                                     </tr>
                                                                                     </thead>
                                                                                     <tbody>
-                                                                                    <tr v-for="(ite, iteIndex) in itemData">
+                                                                                    <template v-for="(ite, iteIndex) in itemData">
+                                                                                    <tr>
                                                                                         <td>
                                                                                             {{ iteIndex+1 }}
                                                                                         </td>
@@ -160,9 +161,21 @@
                                                                                         </td>
                                                                                         <td>
                                                                                             <!--分攤比例原則-->
-                                                                                            {{ ite.disTitle}}
+                                                                                            {{ ite.disTitle}}<br>{{ ite.manTitle}}
+                                                                                            <p v-if="'' !== ite.iteTypeNote">{{ ite.iteTypeNote }}</p>
                                                                                         </td>
                                                                                     </tr>
+                                                                                        <tr v-if="'1' === ite.manType && typeof ite.iteProportion === 'object'">
+                                                                                            <td colspan="7">
+                                                                                                預計比例：
+                                                                                                <template v-for="pp in ite.iteProportion">
+                                                                                                    <span v-if="pp.p !== '0'" style="padding-right: 10px;">
+                                                                                                        {{ this.$root.getCompanyTitle(pp.comId, '')}}：{{pp.p}}
+                                                                                                    </span>
+                                                                                                </template>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </template>
                                                                                     </tbody>
                                                                                 </table>
                                                                             </template>
@@ -935,6 +948,9 @@
 
                         // itemResopnse
                         this.itemData = itemResponse.data.data;
+                        this.itemData.forEach((item)=>{
+                            item.iteProportion = item.iteProportion && '' !== item.iteProportion ? JSON.parse(item.iteProportion) : item.iteProportion;
+                        });
 
                         // memberResponse
                         this.iMemberData = memberResponse.data.data.find(member => member.memType === '0');
