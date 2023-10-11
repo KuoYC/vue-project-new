@@ -808,21 +808,6 @@
                 this.filOtherFiles.forEach(file => {
                     formData.append('conFile[]', file);
                 });
-
-                // const payload = {
-                //     conId: this.contractData.conId,
-                //     temId: this.contractData.temId,
-                //     perKey: this.contractData.perKey,
-                //     comId: this.contractData.comId,
-                //     conTitle: this.conTitle,
-                //     conType: this.conType,
-                //     conDate: this.conDate,
-                //     conWork: this.conWork.join('|'),
-                //     conCompany: this.conCompany.join('|'),
-                //     conValue: JSON.stringify(this.conValue),
-                //     itemList: itemList,
-                //     memberList: memberList,
-                // };
                 const delFileMeeting = cloneDeep(this.delFileMeeting);
                 const delFilePlan = cloneDeep(this.delFilePlan);
                 const delFile = cloneDeep(this.delFile);
@@ -844,39 +829,9 @@
                     delFilePlan: Object.keys(delFilePlan).join('|'),
                     delFile: Object.keys(delFile).join('|'),
                 };
-                // formData.append('conId', this.contractData.conId);
-                // formData.append('temId', this.contractData.temId);
-                // formData.append('perKey', this.contractData.perKey);
-                // formData.append('comId', this.contractData.comId);
-                // formData.append('conTitle', this.conTitle);
-                // formData.append('conType', this.conType);
-                // formData.append('conDate', this.conDate);
-                // formData.append('conWork', conWork.join('|'));
-                // formData.append('conCompany', conCompany.join('|'));
-                // formData.append('conValue', JSON.stringify(conValue));
-                // formData.append('itemList', JSON.stringify(itemList));
-                // formData.append('memberList', JSON.stringify(memberList));
                 for (const key in dataToAppend) {
                     formData.append(key, dataToAppend[key]);
                 }
-
-                // formData.append('delFileMeeting', Object.keys(delFileMeeting).join('|'));
-                // formData.append('delFilePlan', Object.keys(delFilePlan).join('|'));
-                // formData.append('delFile', Object.keys(delFile).join('|'));
-                // this.$api
-                //     .put(this.$test ? '/api/?type=contract' : '/api/adm/contract/addNew', payload)
-                //     .then(response => {
-                //         console.log(response.data);
-                //         if (response.status === 200) {
-                //             console.log(response);
-                //             this.$router.push(`/contract/${this.$route.params.tem}/sl/${this.conId}`);
-                //         } else {
-                //             console.log('err');
-                //         }
-                //     })
-                //     .catch(error => {
-                //         console.error('Edit failed:', error);
-                //     });
                 this.$api
                     .post(this.$test ? '/api/?type=contract_update' : '/api/adm/contract/addNew', formData, {
                         headers: {

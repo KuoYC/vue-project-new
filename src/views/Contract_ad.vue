@@ -706,19 +706,6 @@
                 this.filOtherFiles.forEach(file => {
                     formData.append('conFile[]', file);
                 });
-                // const payload = {
-                //     temId: this.temId,
-                //     perKey: this.per.perKey,
-                //     comId: this.per.comId,
-                //     conTitle: this.conTitle,
-                //     conType: this.conType,
-                //     conDate: this.conDate,
-                //     conWork: this.conWork.join('|'),
-                //     conCompany: this.conCompany.join('|'),
-                //     conValue: JSON.stringify(this.conValue),
-                //     itemList: itemList,
-                //     memberList: memberList,
-                // };
                 const dataToAppend = {
                     temId: this.temId,
                     perKey: this.per.perKey,
@@ -735,32 +722,6 @@
                 for (const key in dataToAppend) {
                     formData.append(key, dataToAppend[key]);
                 }
-
-                // formData.append('temId', this.temId);
-                // formData.append('perKey', this.per.perKey);
-                // formData.append('comId', this.per.comId);
-                // formData.append('conTitle', this.conTitle);
-                // formData.append('conType', this.conType);
-                // formData.append('conDate', this.conDate);
-                // formData.append('conWork', conWork.join('|'));
-                // formData.append('conCompany', conCompany.join('|'));
-                // formData.append('conValue', JSON.stringify(conValue));
-                // formData.append('itemList', JSON.stringify(itemList));
-                // formData.append('memberList', JSON.stringify(memberList));
-
-                // console.log(JSON.stringify(payload));
-                // this.$api
-                //     .post(this.$test ? '/api/?type=contract' : '/api/adm/contract/addNew', payload)
-                //     .then(response => {
-                //         if (response.status === 200) {
-                //             this.$router.push(`/contract/${this.$route.params.tem}/sl/${response.data.conId}`);
-                //         } else {
-                //             console.log('err');
-                //         }
-                //     })
-                //     .catch(error => {
-                //         console.error('Edit failed:', error);
-                //     });
                 this.$api
                     .post(this.$test ? '/api/?type=contract_create' : '/api/adm/contract/addNew', formData, {
                         headers: {
