@@ -557,6 +557,441 @@
     <!-- 浮動控制版 -->
 </template>
 
+<script>
+    import Cookies from 'js-cookie'
+    import Item from '@/components/Item.vue';
+    import Member from '@/components/Member.vue';
+    import DatePicker from '@vuepic/vue-datepicker';
+    import '@vuepic/vue-datepicker/dist/main.css';
+    import FileUpload from '@/components/FileUpload.vue';
+    import cloneDeep from 'lodash/cloneDeep';
+
+
+    export default {
+        name: "Contract_up",
+        data() {
+            return {
+                per: JSON.parse(Cookies.get('per')),
+                isSidebarVisible: false,//管理面板使用
+
+                workData: [//作業種類
+                    {worId: '0', worTitle: ''},
+                ],
+                companyData: [//公司
+                    {comId: '0', comTitle: '', comCode: ''},
+                ],
+                categoryData: [//選單類型
+                    {catId: '0', catTitle: '', catType: '', catWord: ''},
+                ],
+                sourceData: [//選單類型
+                    {souId: '0', catId: '0', souTitle: ''},
+                ],
+                contractType: [{text: '新增', value: 0}, {text: '變更', value: 1}, {text: '終止', value: 2},],
+                contractData: [],
+                distributionData: [],
+                manner: [],
+                conId: 0,
+                // conTitle: '',
+                // conType: '0',//申請類別
+                // conDate: null,//生效日期
+                // conSerial:'xxxxxxx',//序號
+                account: '',
+                // templateData: {
+                //     temId: '',
+                //     temTitle: '',
+                //     temStyle: '',
+                // }, // 存放樣板資料的陣列
+                conValue: [],//temStyle
+                conWork: [],//作業種類
+                conCompany: [],//使用公司
+                itemData: [],//作業項目
+                timeData: [],
+
+                personnelData: [],
+
+                iMemberData: {},//發起
+                mMemberData: [],//維運
+                uMemberData: [],//使用
+
+
+                dpFormat: {
+                    inputFormat: 'yyyy/MM/dd',
+                    // weekdays: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
+                    // months: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+                },
+
+                filMeetingFiles: [], // 存储会议记录文件
+                filPlanFiles: [],    // 存储專案規劃報告文件
+                filOtherFiles: [],   // 存储其他文件
+
+                conFileMeeting: [],
+                conFilePlan: [],
+                conFile: [],
+
+                delFileMeeting: {},
+                delFilePlan: {},
+                delFile: {},
+
+
+            };
+        },
+        watch: {
+            '$route': {
+                handler(newRoute, oldRoute) {
+                    this.defaultData();
+                    this.fetchFirst();
+                },
+                immediate: true,
+            }
+        },
+        mounted() {
+            // 添加全局點擊事件監聽器
+            window.addEventListener('click', this.handleGlobalClick);//管理面板使用
+        },
+        beforeUnmount() {
+            // 在組建銷毀之前移除事件監聽器
+            window.removeEventListener('click', this.handleGlobalClick);//管理面板使用
+        },
+        components: {
+            Item,
+            Member,
+            DatePicker,
+            FileUpload,
+        },
+        methods: {
+            defaultData() {
+            },
+            fetchFirst() {
+                this.conId = this.$route.params.id; // 取得路由參數 id
+                // this.temId = this.$route.params.tem;
+                const apiRequests = [
+                    this.$api.get(this.$test ? '/api/?type=work' : ''),
+                    this.$api.get(this.$test ? '/api/?type=company' : ''),
+                    this.$api.get(this.$test ? '/api/?type=category' : ''),
+                    this.$api.get(this.$test ? '/api/?type=source' : ''),
+                    this.$api.get(this.$test ? '/api/?type=distribution' : ''),
+                    this.$api.get(this.$test ? '/api/?type=manner' : ''),
+                    this.$api.get(this.$test ? `/api/?type=contract&conId=${this.$route.params.id}` : `/api/adm/contractTemplate/${this.$route.params.ctp}`),
+                    this.$api.get(this.$test ? `/api/?type=contract_member&conId=${this.$route.params.id}` : `/api/adm/contractTemplate/${this.$route.params.ctp}`),
+                    this.$api.get(this.$test ? `/api/?type=contract_item&conId=${this.$route.params.id}` : `/api/adm/contractTemplate/${this.$route.params.ctp}`),
+                    this.$api.get(this.$test ? '/api/?type=personnel' : '/api/comm/getPersonnelList'),
+                ];
+
+                Promise.all(apiRequests)
+                    .then(([workResponse, companyResponse, categoryResponse, sourceResponse, distributionResponse, mannerResponse, contractResponse, memberResponse, itemResponse, personnelResponse]) => {
+                        //workResponse
+                        this.workData = workResponse.data.data;
+                        //companyResponse
+                        this.companyData = companyResponse.data.data;
+                        //categoryResponse
+                        this.categoryData = categoryResponse.data.data;
+                        //sourceResponse
+                        this.sourceData = sourceResponse.data.data;
+                        this.timeData = this.sourceData.filter(item => parseInt(item.catId) === 1);
+                        //distributionResponse
+                        this.distributionData = distributionResponse.data.data;
+                        //mannerResponse
+                        this.manner = mannerResponse.data.data;
+
+                        //contractResponse
+                        this.contractData = contractResponse.data.data;
+                        this.conWork = contractResponse.data.data.conWork.split('|');
+                        this.conCompany = contractResponse.data.data.conCompany.split('|');
+                        this.conFileMeeting = this.contractData?.conFileMeeting ? this.contractData.conFileMeeting.split('|') : null;
+                        this.conFilePlan = this.contractData?.conFilePlan ? this.contractData.conFilePlan.split('|') : null;
+                        this.conFile = this.contractData?.conFile ? this.contractData.conFile.split('|') : null;
+                        this.conValue = JSON.parse(contractResponse.data.data.conValue);
+                        // memberResponse
+                        const memberList = memberResponse.data.data;
+                        memberList.forEach(member => {
+                            member.uniqueId = this.$root.generateUniqueId();
+                        });
+
+                        this.iMemberData = memberList.find(member => member.memType === '0');
+                        this.mMemberData = memberList.filter(member => member.memType === '1');
+                        this.uMemberData = memberList.filter(member => member.memType === '2');
+
+                        //itemResponse
+                        const itemList = itemResponse.data.data;
+
+                        itemList.forEach(item => {
+                            item.uniqueId = this.$root.generateUniqueId();
+                            item.iteSubsidiaries = item.iteSubsidiaries.split('|');
+                            item.iteProportion = JSON.parse(item.iteProportion);
+                            if (!item.iteProportion || item.iteProportion === '') {
+                                item.iteProportion = this.companyData.map(company => ({
+                                    comId: company.comId,
+                                    p: '0',
+                                }));
+                            } else {
+                                // 檢查哪些 this.companyData.comId 不在 item.iteProportion 中
+                                const missingCompanyIds = this.companyData
+                                    .map(company => company.comId)
+                                    .filter(comId => !item.iteProportion.some(pp => pp.comId === comId));
+
+                                // 將缺少的公司添加到 item.iteProportion 中
+                                missingCompanyIds.forEach(comId => {
+                                    item.iteProportion.push({
+                                        comId: comId,
+                                        p: '0',
+                                    });
+                                });
+                            }
+                        });
+                        this.itemData = itemList;
+
+                        //personnelResponse
+                        this.personnelData = personnelResponse.data.data;
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            },
+            updateContract() {
+                const memberList = [];
+                memberList.push(this.iMemberData);
+                this.$root.addDataPush(memberList, this.mMemberData);
+                this.$root.addDataPush(memberList, this.uMemberData);
+                const itemList = cloneDeep(this.itemData);
+                itemList.forEach(ite => {
+                    ite.iteSubsidiaries = ite.iteSubsidiaries ? ite.iteSubsidiaries.join('|') : ite.iteSubsidiaries;
+                    ite.iteProportion = JSON.stringify(ite.iteProportion);
+                });
+
+                const conValue = cloneDeep(this.conValue);
+                conValue.forEach(area => {
+                    area.colItem.forEach(col => {
+                        if (col.type?.startsWith('word')) {
+                            this.categoryData.forEach(cat => {
+                                if (parseInt(cat.catId) === parseInt(col.id)) {
+                                    col.value = cat.catWord;
+                                }
+                            });
+                        }
+                    });
+                });
+
+
+                const formData = new FormData();
+                this.$root.addFilesToFormData(formData, this.filMeetingFiles, 'conFileMeeting[]');
+                this.$root.addFilesToFormData(formData, this.filPlanFiles, 'conFilePlan[]');
+                this.$root.addFilesToFormData(formData, this.filOtherFiles, 'conFile[]');
+
+                const dataToAppend = {
+                    conId: this.contractData.conId,
+                    temId: this.contractData.temId,
+                    perKey: this.contractData.perKey,
+                    comId: this.contractData.comId,
+                    conTitle: this.contractData.conTitle,
+                    conType: this.contractData.conType,
+                    conDate: this.contractData.conDate,
+                    conWork: cloneDeep(this.conWork).join('|'),
+                    conCompany: cloneDeep(this.conCompany).join('|'),
+                    conValue: JSON.stringify(conValue),
+                    itemList: JSON.stringify(itemList),
+                    memberList: JSON.stringify(memberList),
+                    delFileMeeting: this.delFileMeeting ? Object.keys(cloneDeep(this.delFileMeeting)).join('|') : null,
+                    delFilePlan: this.delFilePlan ? Object.keys(cloneDeep(this.delFilePlan)).join('|') : null,
+                    delFile: this.delFile ? Object.keys(cloneDeep(this.delFile)).join('|') : null,
+                };
+                for (const key in dataToAppend) {
+                    formData.append(key, dataToAppend[key]);
+                }
+
+                this.$api
+                    .post(this.$test ? '/api/?type=contract_update' : '/api/adm/contract/addNew', formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data', // 设置请求头为 multipart/form-data
+                        },
+                    })
+                    .then(response => {
+                        console.log(response.data);
+                        if (response.status === 200) {
+                            console.log(response);
+                            this.$router.push(`/contract/${this.$route.params.tem}/sl/${this.conId}`);
+                        } else {
+                            console.log('err');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Edit failed:', error);
+                    });
+
+
+            },
+            addItemData() {
+                const iteProportion = this.companyData.map(company => ({
+                    comId: company.comId,
+                    p: '0',
+                }));
+                this.itemData.push({
+                    uniqueId: this.$root.generateUniqueId(),
+                    iteId: 0,
+                    conId: 0,//
+                    iteTitle: '',
+                    worId: 0,//
+                    iteTime: '',
+                    iteSubsidiaries: [],//
+                    iteControl: '',
+                    disId: 0,//
+                    manId: 0,//
+                    iteProportion: iteProportion,
+                    iteTypeNote: '',//
+                    iteDescription: '',
+                    iteWord: '',
+                    iteNote: '',
+                },);
+            },
+            removeItemData(uniqueId) {
+                const index = this.itemData.findIndex(item => item.uniqueId === uniqueId);
+                if (index !== -1) {
+                    this.itemData.splice(index, 1);
+                }
+            },
+            addMember(type) {
+                switch (type) {
+                    case 'M':
+                        this.mMemberData.push(
+                            this.createMemberData('1', this.contractData.perBu1Code),);
+                        break;
+                    case 'U':
+                        this.uMemberData.push(
+                            this.createMemberData('2', ''),);
+                        break;
+                }
+            },
+            removeMember(uniqueId, type) {
+                switch (type) {
+                    case 'M':
+                        const m_index = this.mMemberData.findIndex(item => item.uniqueId === uniqueId);
+                        if (m_index !== -1) {
+                            this.mMemberData.splice(m_index, 1);
+                        }
+                        break;
+                    case 'U':
+                        const u_index = this.uMemberData.findIndex(item => item.uniqueId === uniqueId);
+                        if (u_index !== -1) {
+                            this.uMemberData.splice(u_index, 1);
+                        }
+                        break;
+                }
+            },
+            createMemberData(memType, memBu1Code) {
+                const memberData = {
+                    uniqueId: this.$root.generateUniqueId(),
+                    memId: '0',
+                    memType: memType,
+                    memBu1Code: memBu1Code,
+                    memBu2Code: '',
+                    memBu2: '',
+                    memBu3Code: '',
+                    memBu3: '',
+                    memLV0Key: '',
+                    memLV0Name: '',
+                    memLV0PositionName: '',
+                    memLVCKey: '',
+                    memLVCName: '',
+                    memLVCPositionName: '',
+                    memLV1Key: '',
+                    memLV1Name: '',
+                    memLV1PositionName: '',
+                    memLV2Key: '',
+                    memLV2Name: '',
+                    memLV2PositionName: '',
+                    memPhone: '',
+                };
+                return memberData;
+
+            },
+
+            //File
+            handleFilesSelected(files, type) {
+                switch (type) {
+                    case 'meeting':
+                        this.filMeetingFiles = files;
+                        break;
+                    case 'plan':
+                        this.filPlanFiles = files;
+                        break;
+                    case 'other':
+                        this.filOtherFiles = files;
+                        break;
+                }
+            },
+            deleteFile(fileString, type) {
+                switch (type) {
+                    case 'meeting':
+                        if (this.delFileMeeting && this.isFileInDelFile(fileString, type)) {
+                            delete this.delFileMeeting[fileString];
+                        }
+                        else {
+                            this.delFileMeeting[fileString] = true;
+                        }
+                        break;
+                    case 'plan':
+                        if (this.delFilePlan && this.isFileInDelFile(fileString, type)) {
+                            delete this.delFilePlan[fileString];
+                        }
+                        else {
+                            this.delFilePlan[fileString] = true;
+                        }
+                        break;
+                    case 'other':
+                        if (this.delFile && this.isFileInDelFile(fileString, type)) {
+                            delete this.delFile[fileString];
+                        }
+                        else {
+                            this.delFile[fileString] = true;
+                        }
+                        break;
+                }
+            },
+            isFileInDelFile(fileString, type) {
+                switch (type) {
+                    case 'meeting':
+                        return this.delFileMeeting.hasOwnProperty(fileString);
+                    case 'plan':
+                        return this.delFilePlan.hasOwnProperty(fileString);
+                    case 'other':
+                        return this.delFile.hasOwnProperty(fileString);
+                }
+            },
+
+
+            //右方管理面板
+            handleGlobalClick(event) {
+                const sidebar = this.$refs.sidebar;
+                if (this.isSidebarVisible && !sidebar.contains(event.target)) {
+                    // 如果側邊欄可見且點擊事件不在側邊欄內部，則隱藏側邊欄
+                    this.isSidebarVisible = false;
+                }
+            },
+            sidebarClick() {
+                if (!this.isSidebarVisible) {
+                    this.isSidebarVisible = true;
+                }
+                else {
+                    this.isSidebarVisible = false;
+                }
+            },
+            scrollToElement(el) {
+                // 取得要捲動到的目標元素
+                const targetElement = document.getElementById(el);
+
+                if (targetElement) {
+                    // 計算滾動目標位置（目標元素的頂部位置減去 70 像素）
+                    const targetScrollPosition = targetElement.offsetTop - 70;
+
+                    // 使用 scrollIntoView() 方法捲動到目標位置
+                    window.scrollTo({
+                        top: targetScrollPosition,
+                        behavior: "smooth", // 可以使用 "smooth" 实现平滑滚动
+                    });
+                }
+            },
+        },
+    };
+</script>
 
 <style scoped>
     .textBox {
