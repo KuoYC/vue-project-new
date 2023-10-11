@@ -731,9 +731,11 @@
 <script>
     import draggable from 'vuedraggable';
     import Template from "./Template";
+    import { controlBoxMixin } from '@/mixins/controlBoxMixin.js';
 
     export default {
         name: "Template_ad",
+        mixins: [controlBoxMixin],
         components: {
             Template,
             draggable
@@ -1045,21 +1047,6 @@
                     .catch(error => {
                         console.error('Edit failed:', error);
                     });
-            },
-            handleGlobalClick(event) {
-                const sidebar = this.$refs.sidebar;
-                if (this.isSidebarVisible && !sidebar.contains(event.target)) {
-                    // 如果側邊欄可見且點擊事件不在側邊欄內部，則隱藏側邊欄
-                    this.isSidebarVisible = false;
-                }
-            },
-            sidebarClick(){
-                if (!this.isSidebarVisible) {
-                    this.isSidebarVisible = true;
-                }
-                else {
-                    this.isSidebarVisible = false;
-                }
             },
         },
     };
