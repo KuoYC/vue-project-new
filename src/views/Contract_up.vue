@@ -823,27 +823,46 @@
                 // };
                 const conWork = cloneDeep(this.conWork);
                 const conCompany = cloneDeep(this.conCompany);
-                console.log(itemList);
-                formData.append('conId', this.contractData.conId);
-                formData.append('temId', this.contractData.temId);
-                formData.append('perKey', this.contractData.perKey);
-                formData.append('comId', this.contractData.comId);
-                formData.append('conTitle', this.conTitle);
-                formData.append('conType', this.conType);
-                formData.append('conDate', this.conDate);
-                formData.append('conWork', conWork.join('|'));
-                formData.append('conCompany', conCompany.join('|'));
-                formData.append('conValue', JSON.stringify(conValue));
-                formData.append('itemList', JSON.stringify(itemList));
-                formData.append('memberList', JSON.stringify(memberList));
-
-
                 const delFileMeeting = cloneDeep(this.delFileMeeting);
                 const delFilePlan = cloneDeep(this.delFilePlan);
                 const delFile = cloneDeep(this.delFile);
-                formData.append('delFileMeeting', Object.keys(delFileMeeting).join('|'));
-                formData.append('delFilePlan', Object.keys(delFilePlan).join('|'));
-                formData.append('delFile', Object.keys(delFile).join('|'));
+
+                const dataToAppend = {
+                    conId: this.contractData.conId,
+                    temId:this.contractData.temId,
+                    perKey:this.contractData.perKey,
+                    comId:this.contractData.comId,
+                    conTitle:this.conTitle,
+                    conType:this.conType,
+                    conDate:this.conDate,
+                    conWork:conWork.join('|'),
+                    conCompany:conCompany.join('|'),
+                    conValue:JSON.stringify(conValue),
+                    itemList:JSON.stringify(itemList),
+                    memberList:JSON.stringify(memberList),
+                    delFileMeeting:Object.keys(delFileMeeting).join('|'),
+                    delFilePlan:Object.keys(delFilePlan).join('|'),
+                    delFile:Object.keys(delFile).join('|'),
+                };
+                // formData.append('conId', this.contractData.conId);
+                // formData.append('temId', this.contractData.temId);
+                // formData.append('perKey', this.contractData.perKey);
+                // formData.append('comId', this.contractData.comId);
+                // formData.append('conTitle', this.conTitle);
+                // formData.append('conType', this.conType);
+                // formData.append('conDate', this.conDate);
+                // formData.append('conWork', conWork.join('|'));
+                // formData.append('conCompany', conCompany.join('|'));
+                // formData.append('conValue', JSON.stringify(conValue));
+                // formData.append('itemList', JSON.stringify(itemList));
+                // formData.append('memberList', JSON.stringify(memberList));
+                for (const key in dataToAppend) {
+                    formData.append(key, dataToAppend[key]);
+                }
+
+                // formData.append('delFileMeeting', Object.keys(delFileMeeting).join('|'));
+                // formData.append('delFilePlan', Object.keys(delFilePlan).join('|'));
+                // formData.append('delFile', Object.keys(delFile).join('|'));
                 // this.$api
                 //     .put(this.$test ? '/api/?type=contract' : '/api/adm/contract/addNew', payload)
                 //     .then(response => {
