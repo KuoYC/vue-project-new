@@ -195,21 +195,20 @@
                                                                                         </tr>
                                                                                         </thead>
                                                                                         <tbody>
-                                                                                        <tr v-for="(item, item_index) in itemData">
-                                                                                            <Item
-                                                                                                    :key="item.uniqueId"
-                                                                                                    :idx="item_index"
-                                                                                                    :item="item"
-                                                                                                    :workData="workData"
-                                                                                                    :workUse="conWork"
-                                                                                                    :timeData="timeData"
-                                                                                                    :distributionData="distributionData"
-                                                                                                    :companyData="companyData"
-                                                                                                    :companyUse="conCompany"
-                                                                                                    @remove-item="removeItemData"
-                                                                                                    ref="ItemComp"
+                                                                                            <Item v-for="(item, item_index) in itemData"
+                                                                                                  :key="item.uniqueId"
+                                                                                                  :idx="item_index"
+                                                                                                  :item="item"
+                                                                                                  :workData="workData"
+                                                                                                  :workUse="conWork"
+                                                                                                  :timeData="timeData"
+                                                                                                  :distributionData="distributionData"
+                                                                                                  :manner="manner"
+                                                                                                  :companyData="companyData"
+                                                                                                  :companyUse="conCompany"
+                                                                                                  @remove-item="removeItemData"
+                                                                                                  ref="ItemComp"
                                                                                             />
-                                                                                        </tr>
                                                                                         </tbody>
                                                                                     </table>
                                                                             <p><vue-feather type="plus"
@@ -511,6 +510,7 @@
                     <div class="col-lg-12">
                         <div class="m-l-20">
                             <button type="button" @click="createContract"
+                                    :disabled="conTitle === '' || conCompany.length === 0 || conWork.length === 0"
                                     class="m-r-5 btn btn-info btn-border-radius waves-effect myFont16">儲存
                             </button>
                         </div>
@@ -564,6 +564,8 @@
                     {souId: '0', catId: '0', souTitle: ''},
                 ],
                 contractType: [{text: '新增', value: 0}, {text: '變更', value: 1}, {text: '終止', value: 2},],
+                distributionData: [],
+                manner: [],
 
                 conTitle: '',
                 conType: '0',//申請類別
@@ -634,10 +636,11 @@
                     this.$api.get(this.$test ? '/api/?type=category' : ''),
                     this.$api.get(this.$test ? '/api/?type=source' : ''),
                     this.$api.get(this.$test ? '/api/?type=distribution' : ''),
+                    this.$api.get(this.$test ? '/api/?type=manner' : ''),
                 ];
 
                 Promise.all(apiRequests)
-                    .then(([templateResponse, workResponse, companyResponse, categoryResponse, sourceResponse, distributionResponse]) => {
+                    .then(([templateResponse, workResponse, companyResponse, categoryResponse, sourceResponse, distributionResponse, mannerResponse]) => {
                         //templateResponse
                         this.templateData = templateResponse.data.data;
                         this.conValue = this.templateData?.temStyle ? JSON.parse(this.templateData.temStyle) : null;
@@ -652,6 +655,8 @@
                         this.timeData = this.sourceData.filter(item => parseInt(item.catId) === 1);
                         //distributionResponse
                         this.distributionData = distributionResponse.data.data;
+                        //mannerResponse
+                        this.manner = mannerResponse.data.data;
 
                         //設定發起人
                         this.iMemberData = this.createMemberData('0', this.per.perBu1Code, true);
@@ -717,8 +722,7 @@
                 const conWork = cloneDeep(this.conWork);
                 const conCompany = cloneDeep(this.conCompany);
                 formData.append('temId', this.temId);
-                formData.append('perNo', this.per.perNo);
-                formData.append('perPosition', this.per.perPosition);
+                formData.append('perKey', this.per.perKey);
                 formData.append('comId', this.per.comId);
                 formData.append('conTitle', this.conTitle);
                 formData.append('conType', this.conType);
@@ -743,7 +747,7 @@
                 //         console.error('Edit failed:', error);
                 //     });
                 this.$api
-                    .post(this.$test ? '/api/?type=contract' : '/api/adm/contract/addNew', formData, {
+                    .post(this.$test ? '/api/?type=contract_create' : '/api/adm/contract/addNew', formData, {
                         headers: {
                             'Content-Type': 'multipart/form-data', // 设置请求头为 multipart/form-data
                         },
@@ -763,6 +767,10 @@
 
             },
             addItemData() {
+                const iteProportion = this.companyData.map(company => ({
+                    comId: company.comId,
+                    p: '0',
+                }));
                 this.itemData.push({
                     uniqueId: this.generateUniqueId(),
                     iteId: 0,
@@ -773,6 +781,8 @@
                     iteSubsidiaries: [],//
                     iteControl: '',
                     disId: 0,//
+                    manId: 0,//
+                    iteProportion: iteProportion,
                     iteTypeNote: '',//
                     iteDescription: '',
                     iteWord: '',

@@ -191,21 +191,20 @@
                                                                                 </tr>
                                                                                 </thead>
                                                                                 <tbody>
-                                                                                <tr v-for="(item, item_index) in itemData">
-                                                                                    <Item
-                                                                                            :key="item.uniqueId"
-                                                                                            :idx="item_index"
-                                                                                            :item="item"
-                                                                                            :workData="workData"
-                                                                                            :workUse="conWork"
-                                                                                            :timeData="timeData"
-                                                                                            :distributionData="distributionData"
-                                                                                            :companyData="companyData"
-                                                                                            :companyUse="conCompany"
-                                                                                            @remove-item="removeItemData"
-                                                                                            ref="ItemComp"
+                                                                                    <Item v-for="(item, item_index) in itemData"
+                                                                                          :key="item.uniqueId"
+                                                                                          :idx="item_index"
+                                                                                          :item="item"
+                                                                                          :workData="workData"
+                                                                                          :workUse="conWork"
+                                                                                          :timeData="timeData"
+                                                                                          :distributionData="distributionData"
+                                                                                          :manner="manner"
+                                                                                          :companyData="companyData"
+                                                                                          :companyUse="conCompany"
+                                                                                          @remove-item="removeItemData"
+                                                                                          ref="ItemComp"
                                                                                     />
-                                                                                </tr>
                                                                                 </tbody>
                                                                             </table>
                                                                             <p>
@@ -311,18 +310,59 @@
                                                                                             class="btn btn-success btn-icon"
                                                                                             @click="addMemberUData"></vue-feather></p>
                                                                         </template>
-
                                                                         <template v-if="col.type === 'file_area'">
                                                                             <div class="replyBox m-t-20 myFont16">
                                                                                 <span>
                                                                                     <!-- 這裡放共幾則附檔 -->
                                                                                     <i class="fa fa-paperclip mb-1"></i> <span>3則</span>附加檔案 </span>
                                                                                 <!-- 這裡放附檔 -->
-                                                                                <div>
-                                                                                    <a href="#">顧問報告.pdf</a> |
-                                                                                    <a href="#">顧問報告.pdf</a> |
-                                                                                    <a href="#">顧問報告.pdf</a> |
+                                                                                <div class="row">
+                                                                                    <FileUpload
+                                                                                            :titleString="'會議記錄-拖放文件到此處或點擊選擇文件'"
+                                                                                            :multiple="true"
+                                                                                            @file-selected="handleMeetingFilesSelected"
+                                                                                            class="col-4"
+                                                                                    />
+                                                                                    <FileUpload
+                                                                                            :titleString="'專案規劃報告-拖放文件到此處或點擊選擇文件'"
+                                                                                            :multiple="true"
+                                                                                            @file-selected="handlePlanFilesSelected"
+                                                                                            class="col-4"
+                                                                                    />
+                                                                                    <FileUpload
+                                                                                            :titleString="'其他-拖放文件到此處或點擊選擇文件'"
+                                                                                            :multiple="true"
+                                                                                            @file-selected="handleOtherFilesSelected"
+                                                                                            class="col-4"
+                                                                                    />
                                                                                 </div>
+                                                                                <div>
+                                                                                    <template v-if="conFileMeeting">
+                                                                                        <template
+                                                                                                v-for="(option, index) in conFileMeeting">
+                                                                                            <a href="javascript:void(0);"
+                                                                                               :class="{'delFile': isFileInDelFileMeeting(option)}"
+                                                                                               @click="deleteFileMeeting(option)">會議記錄 {{ index+1 }}</a> |
+                                                                                        </template>
+                                                                                    </template>
+                                                                                    <template v-if="conFilePlan">
+                                                                                        <template
+                                                                                                v-for="(option, index) in conFilePlan">
+                                                                                            <a href="javascript:void(0);"
+                                                                                               :class="{'delFile': isFileInDelFilePlan(option)}"
+                                                                                               @click="deleteFilePlan(option)">專規劃報告 {{ index+1 }}</a> |
+                                                                                        </template>
+                                                                                    </template>
+                                                                                    <template v-if="conFile">
+                                                                                        <template
+                                                                                                v-for="(option, index) in conFile">
+                                                                                            <a href="javascript:void(0);"
+                                                                                               :class="{'delFile': isFileInDelFile(option)}"
+                                                                                               @click="deleteFile(option)">其他附件 {{ index+1 }}</a> |
+                                                                                        </template>
+                                                                                    </template>
+                                                                                </div>
+
                                                                             </div>
                                                                         </template>
 
@@ -531,6 +571,7 @@
     import Member from '@/components/Member.vue';
     import DatePicker from '@vuepic/vue-datepicker';
     import '@vuepic/vue-datepicker/dist/main.css';
+    import FileUpload from '@/components/FileUpload.vue';
     import cloneDeep from 'lodash/cloneDeep';
 
 
@@ -555,6 +596,8 @@
                 ],
                 contractType: [{text: '新增', value: 0}, {text: '變更', value: 1}, {text: '終止', value: 2},],
                 contractData: [],
+                distributionData: [],
+                manner: [],
                 conId: 0,
                 conTitle: '',
                 conType: '0',//申請類別
@@ -584,6 +627,20 @@
                     // weekdays: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
                     // months: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
                 },
+
+                filMeetingFiles: [], // 存储会议记录文件
+                filPlanFiles: [],    // 存储專案規劃報告文件
+                filOtherFiles: [],   // 存储其他文件
+
+                conFileMeeting: [],
+                conFilePlan: [],
+                conFile: [],
+
+                delFileMeeting: {},
+                delFilePlan: {},
+                delFile: {},
+
+
             };
         },
         watch: {
@@ -607,6 +664,7 @@
             Item,
             Member,
             DatePicker,
+            FileUpload,
         },
         methods: {
             defaultData() {
@@ -615,50 +673,22 @@
                 this.conId = this.$route.params.id; // 取得路由參數 id
                 // this.temId = this.$route.params.tem;
                 const apiRequests = [
-                    this.$api.get(this.$test ? `/api/?type=contract&conId=${this.$route.params.id}` : `/api/adm/contractTemplate/${this.$route.params.ctp}`),
-                    this.$api.get(this.$test ? `/api/?type=contract_member&conId=${this.$route.params.id}` : `/api/adm/contractTemplate/${this.$route.params.ctp}`),
-                    this.$api.get(this.$test ? `/api/?type=contract_item&conId=${this.$route.params.id}` : `/api/adm/contractTemplate/${this.$route.params.ctp}`),
                     this.$api.get(this.$test ? '/api/?type=work' : ''),
                     this.$api.get(this.$test ? '/api/?type=company' : ''),
                     this.$api.get(this.$test ? '/api/?type=category' : ''),
                     this.$api.get(this.$test ? '/api/?type=source' : ''),
                     this.$api.get(this.$test ? '/api/?type=distribution' : ''),
+                    this.$api.get(this.$test ? '/api/?type=manner' : ''),
+                    this.$api.get(this.$test ? `/api/?type=contract&conId=${this.$route.params.id}` : `/api/adm/contractTemplate/${this.$route.params.ctp}`),
+                    this.$api.get(this.$test ? `/api/?type=contract_member&conId=${this.$route.params.id}` : `/api/adm/contractTemplate/${this.$route.params.ctp}`),
+                    this.$api.get(this.$test ? `/api/?type=contract_item&conId=${this.$route.params.id}` : `/api/adm/contractTemplate/${this.$route.params.ctp}`),
                     this.$api.get(this.$test ? '/api/?type=personnel' : '/api/comm/getPersonnelList'),
                 ];
 
                 Promise.all(apiRequests)
-                    .then(([contractResponse, memberResponse, itemResponse, workResponse, companyResponse, categoryResponse, sourceResponse, distributionResponse, personnelResponse]) => {
-                        //contractResponse
-                        console.log(this.contractData);
-                        this.contractData = contractResponse.data.data;
-                        this.conTitle = contractResponse.data.data.conTitle;
-                        this.conType = contractResponse.data.data.conType;
-                        this.conDate = contractResponse.data.data.conDate;
-                        this.conWork = contractResponse.data.data.conWork.split('|');
-                        this.conCompany = contractResponse.data.data.conCompany.split('|');
-                        this.conValue = JSON.parse(contractResponse.data.data.conValue);
-                        // memberResponse
-                        const memberList = memberResponse.data.data;
-                        memberList.forEach(member => {
-                            member.uniqueId = this.generateUniqueId();
-                        });
-                        console.log(memberList);
-
-                        this.iMemberData = memberList.find(member => member.memType === '0');
-                        this.mMemberData = memberList.filter(member => member.memType === '1');
-                        this.uMemberData = memberList.filter(member => member.memType === '2');
-
-                        //itemResponse
-                        const itemList = itemResponse.data.data;
-                        itemList.forEach(item => {
-                            item.uniqueId = this.generateUniqueId();
-                            item.iteSubsidiaries = item.iteSubsidiaries.split('|');
-                        });
-                        this.itemData = itemList;
-
+                    .then(([workResponse, companyResponse, categoryResponse, sourceResponse, distributionResponse, mannerResponse, contractResponse, memberResponse, itemResponse, personnelResponse]) => {
                         //workResponse
                         this.workData = workResponse.data.data;
-                        console.log(workResponse.data.data);
                         //companyResponse
                         this.companyData = companyResponse.data.data;
                         //categoryResponse
@@ -668,6 +698,64 @@
                         this.timeData = this.sourceData.filter(item => parseInt(item.catId) === 1);
                         //distributionResponse
                         this.distributionData = distributionResponse.data.data;
+                        //mannerResponse
+                        this.manner = mannerResponse.data.data;
+
+                        //contractResponse
+                        this.contractData = contractResponse.data.data;
+                        this.conTitle = contractResponse.data.data.conTitle;
+                        this.conType = contractResponse.data.data.conType;
+                        this.conDate = contractResponse.data.data.conDate;
+                        this.conWork = contractResponse.data.data.conWork.split('|');
+                        this.conCompany = contractResponse.data.data.conCompany.split('|');
+                        this.conFileMeeting = this.contractData?.conFileMeeting ? this.contractData.conFileMeeting.split('|') : null;
+                        this.conFilePlan = this.contractData?.conFilePlan ? this.contractData.conFilePlan.split('|') : null;
+                        this.conFile = this.contractData?.conFile ? this.contractData.conFile.split('|') : null;
+                        this.conValue = JSON.parse(contractResponse.data.data.conValue);
+                        // memberResponse
+                        const memberList = memberResponse.data.data;
+                        memberList.forEach(member => {
+                            member.uniqueId = this.generateUniqueId();
+                        });
+
+                        this.iMemberData = memberList.find(member => member.memType === '0');
+                        this.mMemberData = memberList.filter(member => member.memType === '1');
+                        this.uMemberData = memberList.filter(member => member.memType === '2');
+
+                        //itemResponse
+                        const itemList = itemResponse.data.data;
+                        // const iteProportion = this.companyData.map(company => ({
+                        //     comId: company.comId,
+                        //     p: '0',
+                        // }));
+                        // console.log(iteProportion);
+
+                        itemList.forEach(item => {
+                            item.uniqueId = this.generateUniqueId();
+                            item.iteSubsidiaries = item.iteSubsidiaries.split('|');
+                            item.iteProportion = JSON.parse(item.iteProportion);
+                            if (!item.iteProportion || item.iteProportion === '') {
+                                item.iteProportion = this.companyData.map(company => ({
+                                    comId: company.comId,
+                                    p: '0',
+                                }));
+                            } else {
+                                // 檢查哪些 this.companyData.comId 不在 item.iteProportion 中
+                                const missingCompanyIds = this.companyData
+                                    .map(company => company.comId)
+                                    .filter(comId => !item.iteProportion.some(pp => pp.comId === comId));
+
+                                // 將缺少的公司添加到 item.iteProportion 中
+                                missingCompanyIds.forEach(comId => {
+                                    item.iteProportion.push({
+                                        comId: comId,
+                                        p: '0',
+                                    });
+                                });
+                            }
+                        });
+                        this.itemData = itemList;
+                        // console.log(this.itemData);
 
                         //personnelResponse
                         this.personnelData = personnelResponse.data.data;
@@ -680,8 +768,6 @@
                 return Math.random().toString(36).substr(2, 9);
             },
             updateContract() {
-                let checkForm = true;
-                let error_msg = '';
                 const memberList = [];
                 memberList.push(this.iMemberData);
                 this.mMemberData.forEach(member => {
@@ -691,26 +777,94 @@
                     memberList.push(member);
                 });
                 const itemList = cloneDeep(this.itemData);
-                itemList.forEach(item => {
-                    item.iteSubsidiaries = item.iteSubsidiaries.join('|');
+                itemList.forEach(ite => {
+                    ite.iteSubsidiaries = ite.iteSubsidiaries ? ite.iteSubsidiaries.join('|') : ite.iteSubsidiaries;
+                    ite.iteProportion = JSON.stringify(ite.iteProportion);
                 });
-                const payload = {
-                    conId: this.contractData.conId,
-                    temId: this.contractData.temId,
-                    perKey: this.contractData.perKey,
-                    comId: this.contractData.comId,
-                    conTitle: this.conTitle,
-                    conType: this.conType,
-                    conDate: this.conDate,
-                    conWork: this.conWork.join('|'),
-                    conCompany: this.conCompany.join('|'),
-                    conValue: JSON.stringify(this.conValue),
-                    itemList: itemList,
-                    memberList: memberList,
-                };
-                console.log(payload);
+
+                const conValue = cloneDeep(this.conValue);
+                conValue.forEach(area => {
+                    area.colItem.forEach(col => {
+                        if (col.type?.startsWith('word')) {
+                            this.categoryData.forEach(cat => {
+                                if (parseInt(cat.catId) === parseInt(col.id)) {
+                                    col.value = cat.catWord;
+                                }
+                            });
+                        }
+                    });
+                });
+
+
+                const formData = new FormData();
+                this.filMeetingFiles.forEach(file => {
+                    formData.append('conFileMeeting[]', file);
+                });
+                this.filPlanFiles.forEach(file => {
+                    formData.append('conFilePlan[]', file);
+                });
+                this.filOtherFiles.forEach(file => {
+                    formData.append('conFile[]', file);
+                });
+
+                // const payload = {
+                //     conId: this.contractData.conId,
+                //     temId: this.contractData.temId,
+                //     perKey: this.contractData.perKey,
+                //     comId: this.contractData.comId,
+                //     conTitle: this.conTitle,
+                //     conType: this.conType,
+                //     conDate: this.conDate,
+                //     conWork: this.conWork.join('|'),
+                //     conCompany: this.conCompany.join('|'),
+                //     conValue: JSON.stringify(this.conValue),
+                //     itemList: itemList,
+                //     memberList: memberList,
+                // };
+                const conWork = cloneDeep(this.conWork);
+                const conCompany = cloneDeep(this.conCompany);
+                console.log(itemList);
+                formData.append('conId', this.contractData.conId);
+                formData.append('temId', this.contractData.temId);
+                formData.append('perKey', this.contractData.perKey);
+                formData.append('comId', this.contractData.comId);
+                formData.append('conTitle', this.conTitle);
+                formData.append('conType', this.conType);
+                formData.append('conDate', this.conDate);
+                formData.append('conWork', conWork.join('|'));
+                formData.append('conCompany', conCompany.join('|'));
+                formData.append('conValue', JSON.stringify(conValue));
+                formData.append('itemList', JSON.stringify(itemList));
+                formData.append('memberList', JSON.stringify(memberList));
+
+
+                const delFileMeeting = cloneDeep(this.delFileMeeting);
+                const delFilePlan = cloneDeep(this.delFilePlan);
+                const delFile = cloneDeep(this.delFile);
+                formData.append('delFileMeeting', Object.keys(delFileMeeting).join('|'));
+                formData.append('delFilePlan', Object.keys(delFilePlan).join('|'));
+                formData.append('delFile', Object.keys(delFile).join('|'));
+                // this.$api
+                //     .put(this.$test ? '/api/?type=contract' : '/api/adm/contract/addNew', payload)
+                //     .then(response => {
+                //         console.log(response.data);
+                //         if (response.status === 200) {
+                //             console.log(response);
+                //             this.$router.push(`/contract/${this.$route.params.tem}/sl/${this.conId}`);
+                //         } else {
+                //             console.log('err');
+                //         }
+                //     })
+                //     .catch(error => {
+                //         console.error('Edit failed:', error);
+                //     });
+                console.log(Object.keys(delFileMeeting).join('|'));
                 this.$api
-                    .put(this.$test ? '/api/?type=contract' : '/api/adm/contract/addNew', payload)
+                    .post(this.$test ? '/api/?type=contract_update' : '/api/adm/contract/addNew', formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data', // 设置请求头为 multipart/form-data
+                        },
+                    })
                     .then(response => {
                         console.log(response.data);
                         if (response.status === 200) {
@@ -727,6 +881,10 @@
 
             },
             addItemData() {
+                const iteProportion = this.companyData.map(company => ({
+                    comId: company.comId,
+                    p: '0',
+                }));
                 this.itemData.push({
                     uniqueId: this.generateUniqueId(),
                     iteId: 0,
@@ -737,6 +895,8 @@
                     iteSubsidiaries: [],//
                     iteControl: '',
                     disId: 0,//
+                    manId: 0,//
+                    iteProportion: iteProportion,
                     iteTypeNote: '',//
                     iteDescription: '',
                     iteWord: '',
@@ -797,6 +957,58 @@
                 }
             },
 
+            //File
+            handleMeetingFilesSelected(files) {
+                // 存储会议记录文件
+                this.filMeetingFiles = files;
+            },
+            handlePlanFilesSelected(files) {
+                // 存储專案規劃報告文件
+                this.filPlanFiles = files;
+            },
+            handleOtherFilesSelected(files) {
+                // 存储其他文件
+                this.filOtherFiles = files;
+            },
+
+            deleteFileMeeting(fileString) {
+                if (this.delFileMeeting && this.isFileInDelFileMeeting(fileString)) {
+                    delete this.delFileMeeting[fileString];
+                }
+                else {
+                    this.delFileMeeting[fileString] = true;
+                }
+                console.log(this.delFileMeeting);
+            },
+            isFileInDelFileMeeting(fileString) {
+                return this.delFileMeeting.hasOwnProperty(fileString);
+            },
+            deleteFilePlan(fileString) {
+                if (this.delFilePlan && this.isFileInDelFilePlan(fileString)) {
+                    delete this.delFilePlan[fileString];
+                }
+                else {
+                    this.delFilePlan[fileString] = true;
+                }
+                console.log(this.delFilePlan);
+            },
+            isFileInDelFilePlan(fileString) {
+                return this.delFilePlan.hasOwnProperty(fileString);
+            },
+            deleteFile(fileString) {
+                if (this.delFile && this.isFileInDelFile(fileString)) {
+                    delete this.delFile[fileString];
+                }
+                else {
+                    this.delFile[fileString] = true;
+                }
+                console.log(this.delFile);
+            },
+            isFileInDelFile(fileString) {
+                return this.delFile.hasOwnProperty(fileString);
+            },
+
+
             //右方管理面板
             handleGlobalClick(event) {
                 const sidebar = this.$refs.sidebar;
@@ -837,5 +1049,9 @@
         border-style: dashed;
         border-color: darkgray;
         border-width: thin;
+    }
+
+    .delFile {
+        text-decoration: line-through;
     }
 </style>

@@ -478,9 +478,6 @@
                                     placeholder="退回或拒絕請填寫源由"/>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-danger btn-border-radius waves-effect myFont16"
-                            @click="openViewFile">open
-                    </button>
                 </div>
 
             </div>
