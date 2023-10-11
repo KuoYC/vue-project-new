@@ -550,19 +550,10 @@
                 per: JSON.parse(Cookies.get('per')),
                 isSidebarVisible: false,//管理面板使用
                 temId: 0,
-
-                workData: [//作業種類
-                    {worId: '0', worTitle: ''},
-                ],
-                companyData: [//公司
-                    {comId: '0', comTitle: '', comCode: ''},
-                ],
-                categoryData: [//選單類型
-                    {catId: '0', catTitle: '', catType: '', catWord: ''},
-                ],
-                sourceData: [//選單類型
-                    {souId: '0', catId: '0', souTitle: ''},
-                ],
+                workData: [],//作業種類
+                companyData: [],//公司
+                categoryData: [],//選單類型
+                sourceData: [],//選單類型
                 contractType: [{text: '新增', value: 0}, {text: '變更', value: 1}, {text: '終止', value: 2},],
                 distributionData: [],
                 manner: [],
