@@ -939,6 +939,22 @@
                         break;
                 }
             },
+            removeMember(uniqueId, type) {
+                switch (type) {
+                    case 'M':
+                        const m_index = this.mMemberData.findIndex(item => item.uniqueId === uniqueId);
+                        if (m_index !== -1) {
+                            this.mMemberData.splice(m_index, 1);
+                        }
+                        break;
+                    case 'U':
+                        const u_index = this.uMemberData.findIndex(item => item.uniqueId === uniqueId);
+                        if (u_index !== -1) {
+                            this.uMemberData.splice(u_index, 1);
+                        }
+                        break;
+                }
+            },
             createMemberData(memType, memBu1Code) {
                 const memberData = {
                     uniqueId: this.generateUniqueId(),
@@ -965,22 +981,6 @@
                 };
                 return memberData;
 
-            },
-            removeMember(uniqueId, type) {
-                switch (type) {
-                    case 'M':
-                        const m_index = this.mMemberData.findIndex(item => item.uniqueId === uniqueId);
-                        if (m_index !== -1) {
-                            this.mMemberData.splice(m_index, 1);
-                        }
-                        break;
-                    case 'U':
-                        const u_index = this.uMemberData.findIndex(item => item.uniqueId === uniqueId);
-                        if (u_index !== -1) {
-                            this.uMemberData.splice(u_index, 1);
-                        }
-                        break;
-                }
             },
 
             //File

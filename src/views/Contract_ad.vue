@@ -269,7 +269,7 @@
                                                                                                         :lv_disabled="false"
                                                                                                         :companyData="companyData"
                                                                                                         :companyUse="conCompany"
-                                                                                                        @remove-member="removeMemberMData"
+                                                                                                        @remove-member="uniqueId=>removeMember(uniqueId, 'M')"
                                                                                                         ref="mMemberComp"
                                                                                                 />
                                                                                             </tr>
@@ -277,7 +277,7 @@
                                                                                     </table>
                                                                                     <p><vue-feather type="plus"
                                                                                                     class="btn btn-success btn-icon"
-                                                                                                    @click="addMemberMData"></vue-feather></p>
+                                                                                                    @click="addMember('M')"></vue-feather></p>
                                                                                     <label>使用</label>
                                                                                     <table v-if="uMemberData.length !== 0"
                                                                                            class="myTable myTableMemberU">
@@ -302,7 +302,7 @@
                                                                                                                 :lv_disabled="false"
                                                                                                                 :companyData="companyData"
                                                                                                                 :companyUse="conCompany"
-                                                                                                                @remove-member="removeMemberUData"
+                                                                                                                @remove-member="uniqueId=>removeMember(uniqueId, 'U')"
                                                                                                                 ref="uMemberComp"
                                                                                                         />
                                                                                                     </tr>
@@ -310,7 +310,7 @@
                                                                                             </table>
                                                                                     <p><vue-feather type="plus"
                                                                                                     class="btn btn-success btn-icon"
-                                                                                                    @click="addMemberUData"></vue-feather></p>
+                                                                                                    @click="addMember('U')"></vue-feather></p>
                                                                         </template>
 
                                                                         <template v-if="col.type === 'file_area'">
@@ -323,19 +323,19 @@
                                                                                     <FileUpload
                                                                                             :titleString="'會議記錄-拖放文件到此處或點擊選擇文件'"
                                                                                             :multiple="true"
-                                                                                            @file-selected="handleMeetingFilesSelected"
+                                                                                            @file-selected="files=>handleFilesSelected(files, 'meeting')"
                                                                                             class="col-4"
                                                                                     />
                                                                                     <FileUpload
                                                                                             :titleString="'專案規劃報告-拖放文件到此處或點擊選擇文件'"
                                                                                             :multiple="true"
-                                                                                            @file-selected="handlePlanFilesSelected"
+                                                                                            @file-selected="files=>handleFilesSelected(files, 'plan')"
                                                                                             class="col-4"
                                                                                     />
                                                                                     <FileUpload
                                                                                             :titleString="'其他-拖放文件到此處或點擊選擇文件'"
                                                                                             :multiple="true"
-                                                                                            @file-selected="handleOtherFilesSelected"
+                                                                                            @file-selected="files=>handleFilesSelected(files, 'other')"
                                                                                             class="col-4"
                                                                                     />
                                                                                 </div>
@@ -719,19 +719,34 @@
                 //     itemList: itemList,
                 //     memberList: memberList,
                 // };
-                const conWork = cloneDeep(this.conWork);
-                const conCompany = cloneDeep(this.conCompany);
-                formData.append('temId', this.temId);
-                formData.append('perKey', this.per.perKey);
-                formData.append('comId', this.per.comId);
-                formData.append('conTitle', this.conTitle);
-                formData.append('conType', this.conType);
-                formData.append('conDate', this.conDate);
-                formData.append('conWork', conWork.join('|'));
-                formData.append('conCompany', conCompany.join('|'));
-                formData.append('conValue', JSON.stringify(conValue));
-                formData.append('itemList', JSON.stringify(itemList));
-                formData.append('memberList', JSON.stringify(memberList));
+                const dataToAppend = {
+                    temId: this.temId,
+                    perKey: this.per.perKey,
+                    comId: this.per.comId,
+                    conTitle: this.conTitle,
+                    conType: this.conType,
+                    conDate: this.conDate,
+                    conWork: cloneDeep(this.conWork).join('|'),
+                    conCompany: cloneDeep(this.conCompany).join('|'),
+                    conValue: JSON.stringify(conValue),
+                    itemList: JSON.stringify(itemList),
+                    memberList: JSON.stringify(memberList),
+                };
+                for (const key in dataToAppend) {
+                    formData.append(key, dataToAppend[key]);
+                }
+
+                // formData.append('temId', this.temId);
+                // formData.append('perKey', this.per.perKey);
+                // formData.append('comId', this.per.comId);
+                // formData.append('conTitle', this.conTitle);
+                // formData.append('conType', this.conType);
+                // formData.append('conDate', this.conDate);
+                // formData.append('conWork', conWork.join('|'));
+                // formData.append('conCompany', conCompany.join('|'));
+                // formData.append('conValue', JSON.stringify(conValue));
+                // formData.append('itemList', JSON.stringify(itemList));
+                // formData.append('memberList', JSON.stringify(memberList));
 
                 // console.log(JSON.stringify(payload));
                 // this.$api
@@ -795,13 +810,33 @@
                     this.itemData.splice(index, 1);
                 }
             },
-            addMemberMData() {
-                this.mMemberData.push(
-                    this.createMemberData('1', Cookies.get('perBu1Code')),);
+            addMember(type) {
+                switch (type) {
+                    case 'M':
+                        this.mMemberData.push(
+                            this.createMemberData('1', Cookies.get('perBu1Code')),);
+                        break;
+                    case 'U':
+                        this.uMemberData.push(
+                            this.createMemberData('2', ''),);
+                        break;
+                }
             },
-            addMemberUData() {
-                this.uMemberData.push(
-                    this.createMemberData('2', ''),);
+            removeMember(uniqueId, type) {
+                switch (type) {
+                    case 'M':
+                        const m_index = this.mMemberData.findIndex(item => item.uniqueId === uniqueId);
+                        if (m_index !== -1) {
+                            this.mMemberData.splice(m_index, 1);
+                        }
+                        break;
+                    case 'U':
+                        const u_index = this.uMemberData.findIndex(item => item.uniqueId === uniqueId);
+                        if (u_index !== -1) {
+                            this.uMemberData.splice(u_index, 1);
+                        }
+                        break;
+                }
             },
             createMemberData(memType, memBu1Code, first = false) {
                 const memberData = {
@@ -831,31 +866,19 @@
 
             },
 
-            removeMemberMData(uniqueId) {
-                const index = this.mMemberData.findIndex(item => item.uniqueId === uniqueId);
-                if (index !== -1) {
-                    this.mMemberData.splice(index, 1);
-                }
-            },
-            removeMemberUData(uniqueId) {
-                const index = this.uMemberData.findIndex(item => item.uniqueId === uniqueId);
-                if (index !== -1) {
-                    this.uMemberData.splice(index, 1);
-                }
-            },
-
             //File
-            handleMeetingFilesSelected(files) {
-                // 存储会议记录文件
-                this.filMeetingFiles = files;
-            },
-            handlePlanFilesSelected(files) {
-                // 存储專案規劃報告文件
-                this.filPlanFiles = files;
-            },
-            handleOtherFilesSelected(files) {
-                // 存储其他文件
-                this.filOtherFiles = files;
+            handleFilesSelected(files, type) {
+                switch (type) {
+                    case 'meeting':
+                        this.filMeetingFiles = files;
+                        break;
+                    case 'plan':
+                        this.filPlanFiles = files;
+                        break;
+                    case 'other':
+                        this.filOtherFiles = files;
+                        break;
+                }
             },
 
 
