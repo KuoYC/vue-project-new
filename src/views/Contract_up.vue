@@ -269,7 +269,7 @@
                                                                                                 :lv_disabled="false"
                                                                                                 :companyData="companyData"
                                                                                                 :companyUse="conCompany"
-                                                                                                @remove-member="removeMemberMData"
+                                                                                                @remove-member="uniqueId => removeMember(uniqueId, 'M')"
                                                                                                 ref="mMemberComp"
                                                                                         />
                                                                                     </tr>
@@ -277,7 +277,7 @@
                                                                             </table>
                                                                             <p><vue-feather type="plus"
                                                                                             class="btn btn-success btn-icon"
-                                                                                            @click="addMemberMData"></vue-feather></p>
+                                                                                            @click="addMember('M')"></vue-feather></p>
                                                                             <label>使用</label>
                                                                             <table v-if="uMemberData.length !== 0"
                                                                                    class="myTable myTableMemberU">
@@ -302,7 +302,7 @@
                                                                                                 :lv_disabled="false"
                                                                                                 :companyData="companyData"
                                                                                                 :companyUse="conCompany"
-                                                                                                @remove-member="removeMemberUData"
+                                                                                                @remove-member="uniqueId=>removeMember(uniqueId, 'U')"
                                                                                                 ref="uMemberComp"
                                                                                         />
                                                                                     </tr>
@@ -310,7 +310,7 @@
                                                                             </table>
                                                                             <p><vue-feather type="plus"
                                                                                             class="btn btn-success btn-icon"
-                                                                                            @click="addMemberUData"></vue-feather></p>
+                                                                                            @click="addMember('U')"></vue-feather></p>
                                                                         </template>
                                                                         <template v-if="col.type === 'file_area'">
                                                                             <div class="replyBox m-t-20 myFont16">
@@ -823,8 +823,6 @@
                 //     itemList: itemList,
                 //     memberList: memberList,
                 // };
-                const conWork = cloneDeep(this.conWork);
-                const conCompany = cloneDeep(this.conCompany);
                 const delFileMeeting = cloneDeep(this.delFileMeeting);
                 const delFilePlan = cloneDeep(this.delFilePlan);
                 const delFile = cloneDeep(this.delFile);
@@ -837,8 +835,8 @@
                     conTitle: this.contractData.conTitle,
                     conType: this.contractData.conType,
                     conDate: this.contractData.conDate,
-                    conWork: conWork.join('|'),
-                    conCompany: conCompany.join('|'),
+                    conWork: cloneDeep(this.conWork).join('|'),
+                    conCompany: cloneDeep(this.conCompany).join('|'),
                     conValue: JSON.stringify(conValue),
                     itemList: JSON.stringify(itemList),
                     memberList: JSON.stringify(memberList),
@@ -879,7 +877,6 @@
                 //     .catch(error => {
                 //         console.error('Edit failed:', error);
                 //     });
-                console.log(Object.keys(delFileMeeting).join('|'));
                 this.$api
                     .post(this.$test ? '/api/?type=contract_update' : '/api/adm/contract/addNew', formData, {
                         headers: {
@@ -930,13 +927,17 @@
                     this.itemData.splice(index, 1);
                 }
             },
-            addMemberMData() {
-                this.mMemberData.push(
-                    this.createMemberData('1', this.contractData.perBu1Code),);
-            },
-            addMemberUData() {
-                this.uMemberData.push(
-                    this.createMemberData('2', ''),);
+            addMember(type) {
+                switch (type) {
+                    case 'M':
+                        this.mMemberData.push(
+                            this.createMemberData('1', this.contractData.perBu1Code),);
+                        break;
+                    case 'U':
+                        this.uMemberData.push(
+                            this.createMemberData('2', ''),);
+                        break;
+                }
             },
             createMemberData(memType, memBu1Code) {
                 const memberData = {
@@ -965,16 +966,20 @@
                 return memberData;
 
             },
-            removeMemberMData(uniqueId) {
-                const index = this.mMemberData.findIndex(item => item.uniqueId === uniqueId);
-                if (index !== -1) {
-                    this.mMemberData.splice(index, 1);
-                }
-            },
-            removeMemberUData(uniqueId) {
-                const index = this.uMemberData.findIndex(item => item.uniqueId === uniqueId);
-                if (index !== -1) {
-                    this.uMemberData.splice(index, 1);
+            removeMember(uniqueId, type) {
+                switch (type) {
+                    case 'M':
+                        const m_index = this.mMemberData.findIndex(item => item.uniqueId === uniqueId);
+                        if (m_index !== -1) {
+                            this.mMemberData.splice(m_index, 1);
+                        }
+                        break;
+                    case 'U':
+                        const u_index = this.uMemberData.findIndex(item => item.uniqueId === uniqueId);
+                        if (u_index !== -1) {
+                            this.uMemberData.splice(u_index, 1);
+                        }
+                        break;
                 }
             },
 
