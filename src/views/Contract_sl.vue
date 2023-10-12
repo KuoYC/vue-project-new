@@ -445,13 +445,19 @@
                     <template v-if="viewFile">
                         <div id="myPdfViewer" class="col-6" style="height: 100vh; position: sticky; top:100px;">
                             <div class="card-header d-flex justify-content-end">
+                                <a :download="viewFileUrl" :href="viewFileUrl" target="_blank"
+                                        class="btn btn-icon icon-left btn-primary myFont16"
+                                        style="border-radius: 6px;">
+                                    下載檔案
+                                </a>
                                 <button type="button" id="closePdfViewer" @click="closeViewFile"
                                         class="btn btn-icon icon-left btn-primary myFont16"
                                         style="border-radius: 6px;">
                                     取消檢視
                                 </button>
                             </div>
-                            <vue-office-pdf v-if="viewFilePDF" :src="viewFileUrl" style="width: 100%;height: 95%;"/>
+                            <embed v-if="viewFilePDF" :src="viewFileUrl" width="100%" height="95%"/>
+                            <!--<vue-office-pdf v-if="viewFilePDF" :src="viewFileUrl" style="width: 100%;height: 95%;"/>-->
                             <vue-office-docx v-if="viewFileDOCK" :src="viewFileUrl" style="width: 100%;height: 95%;"/>
                             <vue-office-excel v-if="viewFileXLSE" :src="viewFileUrl" style="width: 100%;height: 95%;"/>
                         </div>
@@ -978,7 +984,7 @@
                             + this.iMemberData.memLV0Name + ' '
                             + this.iMemberData.memLV0PositionName + ' '
                             + (action === 2 ? '重新發起簽核' : '發起簽核');
-                        await this.updateContractStatus(1, '', msg);//修改文件狀態為進行中
+                        await this.updateContractStatus(1, null, msg);//修改文件狀態為進行中
                         const upMember = this.createUpMember(this.iMemberData, '0', 3, true);
                         await this.updateMember(upMember);//修改簽核組別資訊
                         alert('發起成功');
@@ -1157,7 +1163,7 @@
                 if (upMember) {
                     try {
                         await this.updateMember(upMember);
-                        await this.updateContractStatus(4, '', '文件終止');
+                        await this.updateContractStatus(4, null, '文件終止');
                         await this.clearMemberAll();
                         alert('文件終止');
                         this.$router.push(`/contract/${this.$route.params.tem}/list`);
@@ -1195,7 +1201,7 @@
                 if (upMember) {
                     try {
                         await this.updateMember(upMember);
-                        await this.updateContractStatus(2, '', '文件退回');
+                        await this.updateContractStatus(2, null, '文件退回');
                         await this.clearMemberAll();
                         alert('文件已退回');
                         this.$router.push(`/contract/${this.$route.params.tem}/list`);
@@ -1224,7 +1230,7 @@
                 let nextLogMsg = null;
                 let memStatus = null;
                 if (signType === 3) {
-                    conLogMsg = `${comTitle} ${memBu2} ${memBu3} ${positionName} 簽核完成 ${msg !== '' ? ':' + msg : ''}`
+                    conLogMsg = `${comTitle} ${memBu2} ${memBu3} ${positionName} 簽核完成 ${msg !== null ? ':' + msg : ''}`
                     switch (isLV) {
                         case '0':
                             isNext = first ? 'C' : '1';
@@ -1249,17 +1255,17 @@
                             break;
                         case '2':
                             isNext = '';
-                            nextLVKey = 'null';
+                            nextLVKey = '';
                             nextLVStatus = -1;
                             memStatus = signType;
                     }
                 }
                 else {
                     if (signType === 2) {
-                        conLogMsg = `${comTitle} ${memBu2} ${memBu3} ${positionName} 退件 ${msg !== '' ? ':' + msg : ''}`
+                        conLogMsg = `${comTitle} ${memBu2} ${memBu3} ${positionName} 退件 ${msg !== '' ? ':' + msg : null}`
                     }
                     else if (signType === 4) {
-                        conLogMsg = `${comTitle} ${memBu2} ${memBu3} ${positionName} 拒絕 ${msg !== '' ? ':' + msg : ''}`
+                        conLogMsg = `${comTitle} ${memBu2} ${memBu3} ${positionName} 拒絕 ${msg !== '' ? ':' + msg : null}`
                     }
                     else if (signType === 0) {
                         nextLVKey = mem.memLV0Key;
@@ -1373,8 +1379,8 @@
             async clearMemberAll() {
                 const payload = {
                     conId: this.contractData.conId,
-                    memNow: 'null',
-                    memNowPosition: 'null',
+                    memNow: '',
+                    memNowPosition: '',
                     memNowStatus: -1,
                 };
                 try {
@@ -1482,15 +1488,16 @@
                 this.viewFileDOCK = false;
                 this.viewFileXLSE = false;
 
-                if (url.endsWith(".pdf")) {
-                    this.viewFilePDF = true;
-                }
                 if (url.endsWith(".docx")) {
                     this.viewFileDOCK = true;
                 }
-                if (url.endsWith(".xlsx")) {
+                else if (url.endsWith(".xlsx")) {
                     this.viewFileXLSE = true;
                 }
+                else if (url.endsWith(".pdf") || url.endsWith(".jpg") || url.endsWith(".png") || url.endsWith(".gif")) {
+                    this.viewFilePDF = true;
+                }
+
                 if (this.viewFilePDF || this.viewFileDOCK || this.viewFileXLSE) {
                     this.viewFileUrl = url;
                     this.viewFile = true;

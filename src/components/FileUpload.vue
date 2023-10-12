@@ -16,6 +16,7 @@
                 </ul>
             </div>
         </div>
+        <button v-if="selectedFiles.length > 0" @click="clearSelection">清空</button>
         <input
                 type="file"
                 ref="fileInput"
@@ -50,7 +51,7 @@
             },
             handleDrop(event) {
                 event.preventDefault();
-                const acceptedFileTypes = [".pdf", ".docx", ".xlsx"];
+                const acceptedFileTypes = [".pdf", ".docx", ".xlsx", ".jpg", ".png", ".git"];
                 const droppedFiles = Array.from(event.dataTransfer.files);
 
                 // 验证每个拖放的文件
@@ -66,6 +67,10 @@
                     // 不是允许的文件类型，你可以进行适当的提示或处理
                     console.warn("只允許.pdf .docx .xlsx這三種檔案上傳");
                 }
+            },
+            clearSelection() {
+                this.selectedFiles = []; // 清空已选文件
+                this.$emit("file-selected", this.selectedFiles); // 触发自定义事件
             },
         },
     };
