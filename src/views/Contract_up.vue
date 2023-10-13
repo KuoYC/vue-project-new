@@ -295,21 +295,21 @@
                                                                                         <template v-for="(option, index) in conFileMeeting">
                                                                                             <a href="javascript:void(0);"
                                                                                                :class="{'delFile': isFileInDelFile(option, 'meeting')}"
-                                                                                               @click="deleteFile(option, 'meeting')">會議記錄 {{ index+1 }}</a> |
+                                                                                               @click="deleteFile(option, 'meeting')"><vue-feather type="trash-2" size="18" style="margin-bottom:-3px;"></vue-feather> 會議記錄 {{ index+1 }}</a> |
                                                                                         </template>
                                                                                     </template>
                                                                                     <template v-if="conFilePlan">
                                                                                         <template v-for="(option, index) in conFilePlan">
                                                                                             <a href="javascript:void(0);"
                                                                                                :class="{'delFile': isFileInDelFile(option, 'plan')}"
-                                                                                               @click="deleteFile(option, 'plan')">專規劃報告 {{ index+1 }}</a> |
+                                                                                               @click="deleteFile(option, 'plan')"><vue-feather type="trash-2" size="18" style="margin-bottom:-3px;"></vue-feather> 專規劃報告 {{ index+1 }}</a> |
                                                                                         </template>
                                                                                     </template>
                                                                                     <template v-if="conFile">
                                                                                         <template v-for="(option, index) in conFile">
                                                                                             <a href="javascript:void(0);"
                                                                                                :class="{'delFile': isFileInDelFile(option, 'other')}"
-                                                                                               @click="deleteFile(option, 'other')">其他附件 {{ index+1 }}</a> |
+                                                                                               @click="deleteFile(option, 'other')"><vue-feather type="trash-2" size="18" style="margin-bottom:-3px;"></vue-feather> 其他附件 {{ index+1 }}</a> |
                                                                                         </template>
                                                                                     </template>
                                                                                 </div>
@@ -650,22 +650,22 @@
                         itemList.forEach(item => {
                             item.uniqueId = this.$root.generateUniqueId();
                             item.iteSubsidiaries = item.iteSubsidiaries.split('|');
-                            item.iteProportion = JSON.parse(item.iteProportion);
+                            item.iteProportion = '' !== item.iteProportion ? JSON.parse(item.iteProportion) : '';
                             if (!item.iteProportion || item.iteProportion === '') {
                                 item.iteProportion = this.companyData.map(company => ({
-                                    comId: company.comId,
+                                    comCode: company.comCode,
                                     p: '0',
                                 }));
                             } else {
                                 // 檢查哪些 this.companyData.comId 不在 item.iteProportion 中
                                 const missingCompanyIds = this.companyData
                                     .map(company => company.comId)
-                                    .filter(comId => !item.iteProportion.some(pp => pp.comId === comId));
+                                    .filter(comCode => !item.iteProportion.some(pp => pp.comCode === comCode));
 
                                 // 將缺少的公司添加到 item.iteProportion 中
-                                missingCompanyIds.forEach(comId => {
+                                missingCompanyIds.forEach(comCode => {
                                     item.iteProportion.push({
-                                        comId: comId,
+                                        comCode: comCode,
                                         p: '0',
                                     });
                                 });

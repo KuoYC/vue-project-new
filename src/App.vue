@@ -196,8 +196,7 @@
                         <div class="sidebar-user" style="padding-top: 30px;margin-bottom: 30px;">
                             <div class="sidebar-user-picture" style="margin-right: 0;">
                                 <!-- <img alt="image" src="/assets/img/person-304893_1280.png"> -->
-                                <span class="logo-name" style="font-size: 22px;">資訊共用作業系統
-                </span>
+                                <span class="logo-name" style="font-size: 22px;">資訊共用作業系統</span>
                             </div>
                         </div>
                         <!-- sidebar個資和品牌 -->

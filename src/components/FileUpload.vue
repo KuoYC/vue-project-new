@@ -9,14 +9,8 @@
                 @click="triggerFileInput"
         >
             <p>{{ this.titleString }}</p>
-            <div v-if="selectedFiles.length > 0">
-                <p>已選擇文件:</p>
-                <ul>
-                    <li v-for="file in selectedFiles" :key="file.name">{{ file.name }}</li>
-                </ul>
-            </div>
         </div>
-        <button v-if="selectedFiles.length > 0" @click="clearSelection">清空</button>
+        <!--<button v-if="selectedFiles.length > 0" @click="clearSelection">清空</button>-->
         <input
                 type="file"
                 ref="fileInput"
@@ -25,6 +19,11 @@
                 @change="handleFileSelect"
         />
         <!--<button @click="triggerFileInput">選擇文件</button>-->
+        <div v-if="selectedFiles.length > 0">
+            <ul>
+                <li v-for="file in selectedFiles" :key="file.name">{{ file.name }}</li>
+            </ul>
+        </div>
     </div>
 </template>
 
@@ -79,12 +78,12 @@
 <style scoped>
     .file-upload {
         text-align: center;
-        margin: 20px 0px;
+        margin: 10px 0px;
     }
 
     .drop-area {
         border: 2px dashed #ccc;
-        padding: 20px 0px;
+        padding: 10px 0px;
         cursor: pointer;
     }
 
@@ -94,7 +93,7 @@
 
     li {
         list-style: none;
-        display: inline-block;
+        /*display: inline-block;*/
         padding-right:  10px;
     }
 </style>

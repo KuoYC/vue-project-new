@@ -562,6 +562,7 @@
                 contractType: [{text: '新增', value: 0}, {text: '變更', value: 1}, {text: '終止', value: 2},],
                 distributionData: [],
                 manner: [],
+                contact:[],
 
                 conTitle: '',
                 conType: '0',//申請類別
@@ -633,10 +634,11 @@
                     this.$api.get(this.$test ? '/api/?type=source' : ''),
                     this.$api.get(this.$test ? '/api/?type=distribution' : ''),
                     this.$api.get(this.$test ? '/api/?type=manner' : ''),
+                    this.$api.get(this.$test ? '/api/?type=contact' : ''),
                 ];
 
                 Promise.all(apiRequests)
-                    .then(([templateResponse, workResponse, companyResponse, categoryResponse, sourceResponse, distributionResponse, mannerResponse]) => {
+                    .then(([templateResponse, workResponse, companyResponse, categoryResponse, sourceResponse, distributionResponse, mannerResponse, contactResponse]) => {
                         //templateResponse
                         this.templateData = templateResponse.data.data;
                         this.conValue = this.templateData?.temStyle ? JSON.parse(this.templateData.temStyle) : null;
@@ -653,6 +655,8 @@
                         this.distributionData = distributionResponse.data.data;
                         //mannerResponse
                         this.manner = mannerResponse.data.data;
+                        //contactResponse
+                        this.contact = contactResponse.data.data;
 
                         //設定發起人
                         this.iMemberData = {

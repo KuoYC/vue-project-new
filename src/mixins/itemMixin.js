@@ -4,7 +4,7 @@ export const itemMixin = {
     methods: {
         addItemData() {
             const iteProportion = this.companyData.map(company => ({
-                comId: company.comId,
+                comCode: company.comCode,
                 p: '0',
             }));
             this.itemData.push({

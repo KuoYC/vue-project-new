@@ -62,19 +62,19 @@
                     {{ man.manTitle }}
                 </option>
             </select>
-            <input type="text" v-model="item.iteTypeNote" class="form-control" placeholder="分攤方式描述"/>
+            <input v-if="getManType('2')" type="text" v-model="item.iteTypeNote" class="form-control" placeholder="分攤方式描述"/>
         </td>
     </tr>
-    <tr v-if="getManType()">
+    <tr v-if="getManType('1')">
         <td colspan="7">
             <div v-for="(pp, index) in item.iteProportion" :key="index" class="form-check form-check-primary form-check-inline">
                 <div class="input-group">
                     <div class="input-group-prepend">
                         <div class="input-group-text">
-                            {{ this.$root.getCompanyTitle(pp.comId, '')}}
+                            {{ this.$root.getCompanyTitle('', pp.comCode)}}
                         </div>
                     </div>
-                    <input type="text" v-model="pp.p" class="form-control">
+                    <input type="text" v-model="pp.p" :disabled="!item.iteSubsidiaries.includes(pp.comCode)" class="form-control">
                 </div>
             </div>
         </td>
@@ -174,9 +174,9 @@
                 //     ite.p = '0');
                 // }
             },
-            getManType(){
+            getManType(type){
                 const man = this.manner.find(item => item.manId === this.item.manId);
-                if (man && man.manType === '1') {
+                if (man && man.manType === type) {
                     return true;
                 }
                 return false;
