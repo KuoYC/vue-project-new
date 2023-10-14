@@ -12,10 +12,10 @@ app.use(store); // 將 Vuex Store 連接到 Vue 實例
 app.config.globalProperties.$cookies = Cookies;
 app.component(VueFeather.name, VueFeather);
 
-const test = true;
+const test = false;
 const api = axios.create({
-    // baseURL: test ? 'https://ju-house.com/' : 'http://cathayhong.site:8080/',
-    baseURL: test ? 'http://www.api.ks/' : 'http://cathayhong.site:8080/',
+    baseURL: test ? 'https://ju-house.com/' : 'http://10.75.37.42:8080/',
+    // baseURL: test ? 'http://www.api.ks/' : 'http://cathayhong.site:8080/',
     // 其他設定...
 })
 

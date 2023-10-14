@@ -46,7 +46,7 @@
                                     </div>
                                     <div class="col-12">
                                         <div class="mb-4">
-                                            <button @click="toSSOLogin()" class="btn btn-success w-100" disabled>SSO 登 入</button>
+                                            <button @click="toSSOLogin()" class="btn btn-success w-100">SSO 登 入</button>
                                         </div>
                                     </div>
 
@@ -373,13 +373,14 @@
             },
             toSSOLogin(){
                 this.$api
-                    .get(this.$test ? `/api/?type=sso_login` : `/api/iform/sso_login`)
+                    .get(this.$test ? `/api/?type=sso_login` : `/api/iform/saml?returnUrl=https://contract.cathayholdings.com/sso/login`)
                     .then(response => {
-                        if (response.data.data.length > 0) {
-                            const redirect = response.data.data.url;
+                        console.log(response.data.data.redirectUrl);
+                        if (response.data.data?.redirectUrl) {
+                            const redirect = response.data.data.redirectUrl;
                             window.location.href = redirect;
                         } else {
-                            alert('查無此帳號');
+                            alert('error');
                         }
                     })
                     .catch(error => {
