@@ -14,7 +14,7 @@ app.component(VueFeather.name, VueFeather);
 
 const test = false;
 const api = axios.create({
-    baseURL: test ? 'https://ju-house.com/' : 'http://10.75.37.42:8080/',
+    baseURL: test ? 'https://ju-house.com/' : 'https://10.75.37.42:8080/',
     // baseURL: test ? 'http://www.api.ks/' : 'http://cathayhong.site:8080/',
     // 其他設定...
 })
