@@ -375,7 +375,6 @@
                 this.$api
                     .get(this.$test ? `/api/?type=sso_login` : `/api/iform/saml?returnUrl=https://contract.cathayholdings.com/sso/login`)
                     .then(response => {
-                        console.log(response.data.data.redirectUrl);
                         if (response.data.data?.redirectUrl) {
                             const redirect = response.data.data.redirectUrl;
                             window.location.href = redirect;
