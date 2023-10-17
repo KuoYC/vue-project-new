@@ -84,16 +84,16 @@
             </option>
         </select>
     </td>
-    <td v-if="member.memType === '0'">
-        <select v-model="member.memLVCKey" class="form-select" ref="lvc" @change="LVCChange">
-            <option value="">窗口</option>
-            <option v-for="cot in contactData" :value="cot.perKey"
-                    :perName="cot.perName"
-                    :positionName="cot.perPositionName">
-                {{ cot.perName + ' ' + cot.perPositionName }}
-            </option>
-        </select>
-    </td>
+    <!--<td v-if="member.memType === '0'">-->
+        <!--<select v-model="member.memLVCKey" class="form-select" ref="lvc" @change="LVCChange">-->
+            <!--<option value="">窗口</option>-->
+            <!--<option v-for="cot in contactData" :value="cot.perKey"-->
+                    <!--:perName="cot.perName"-->
+                    <!--:positionName="cot.perPositionName">-->
+                <!--{{ cot.perName + ' ' + cot.perPositionName }}-->
+            <!--</option>-->
+        <!--</select>-->
+    <!--</td>-->
     <td class="text-center">
         <template
                 v-if="typeof member.memPhone !== 'undefined' && member.memPhone !== ''">
@@ -167,17 +167,17 @@
             removeMember() {
                 this.$emit('remove-member', this.member.uniqueId);
             },
-            LVCChange() {
-                if (this.member.memLVCKey !== '') {
-                    const mem = this.$refs.lvc.querySelector('option:checked');
-                    this.member.memLVCName = mem.getAttribute('perName');
-                    this.member.memLVCPositionName = mem.getAttribute('positionName');
-                }
-                else {
-                    this.member.memLVCName = '';
-                    this.member.memLVCPositionName = '';
-                }
-            },
+            // LVCChange() {
+            //     if (this.member.memLVCKey !== '') {
+            //         const mem = this.$refs.lvc.querySelector('option:checked');
+            //         this.member.memLVCName = mem.getAttribute('perName');
+            //         this.member.memLVCPositionName = mem.getAttribute('positionName');
+            //     }
+            //     else {
+            //         this.member.memLVCName = '';
+            //         this.member.memLVCPositionName = '';
+            //     }
+            // },
             LV0Change() {
 
                 // const mem = this.member.LV0.split("|");

@@ -22,9 +22,8 @@
                                                         <div class="vew-mail-header">
                                                             <div class="author-box-name d-flex justify-content-between"
                                                                  style="margin-bottom: 20px;">
-                                                                <h4 class="myCardTitle" href="#"><i
-                                                                        class="material-icons m-r-5">library_books</i>{{
-                                                                    area.areaTitle }}</h4>
+                                                                <h4 class="myCardTitle" href="#">
+                                                                    <vue-feather type="book" size="20" class="m-r-5"></vue-feather>{{ area.areaTitle }}</h4>
                                                                 <div v-if="parentIndex === 0">
                                                                     <!-- 這裡放創文日期 -->
                                                                     <div class="myFont16" style="font-weight: 400;">
@@ -51,8 +50,8 @@
                                                                         <span v-if="col.name !== ''"
                                                                               class="myFont16 d-flex align-center"
                                                                               style="background-color:#6777ef ;color: white;border-radius: 6px;padding: 0.3rem 0.8rem;font-weight: 400;">
-                                                                          <i class="material-icons"
-                                                                             style="margin-right: 8px;">label_outline</i>{{ col.name }}</span>
+                                                                            <vue-feather type="tag" size="20" style="transform: rotate(135deg);" class="m-r-10"></vue-feather>
+                                                                            {{ col.name }}</span>
                                                                             </div>
                                                                             <!-- 這裡放權限控管及資料管制 -->
                                                                             <span class="data myFont16">
@@ -227,7 +226,6 @@
                                                                                                 <th>承辦人</th>
                                                                                                 <th>科別主管</th>
                                                                                                 <th>部門主管</th>
-                                                                                                <th>窗口</th>
                                                                                                 <th>承辦人連絡電話</th>
                                                                                             </tr>
                                                                                             </thead>
@@ -311,6 +309,33 @@
                                                                                     <p><vue-feather type="plus"
                                                                                                     class="btn btn-success btn-icon"
                                                                                                     @click="addMember('U', per.perBu1Code)"></vue-feather></p>
+
+                                                                                <div class="myFont16">維運窗口：<span
+                                                                                        class="data">
+                                                                                    <div class="d-flex m-tb">
+                                                                                        <div v-for="con in contactData"
+                                                                                             class="form-check-inline">
+                                                                                            <label v-if="con.comId.includes(per.comId)" class="form-check-label">
+                                                                                                    <vue-feather v-if="con.perKey === iMemberData.memLVCKey" type="key" size="20" style="margin-bottom: -4px;"></vue-feather>
+                                                                                                {{ con.perName + ' ' + con.perPositionName }}
+                                                                                            </label>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </span></div>
+                                                                                <div class="myFont16">使用窗口：<span
+                                                                                        class="data">
+                                                                                    <div class="d-flex m-tb">
+                                                                                        <template v-for="com in conCompany">
+                                                                                            <template v-for="con in contactData">
+                                                                                            <div v-if="con.comCode.includes(com)" class="form-check-inline">
+                                                                                                <label class="form-check-label">
+                                                                                                    {{ con.perName + ' ' + con.perPositionName }}
+                                                                                                </label>
+                                                                                            </div>
+                                                                                            </template>
+                                                                                        </template>
+                                                                                    </div>
+                                                                                </span></div>
                                                                         </template>
 
                                                                         <template v-if="col.type === 'file_area'">
@@ -562,7 +587,7 @@
                 contractType: [{text: '新增', value: 0}, {text: '變更', value: 1}, {text: '終止', value: 2},],
                 distributionData: [],
                 manner: [],
-                contact:[],
+                contactData:[],
 
                 conTitle: '',
                 conType: '0',//申請類別
@@ -656,7 +681,7 @@
                         //mannerResponse
                         this.manner = mannerResponse.data.data;
                         //contactResponse
-                        this.contact = contactResponse.data.data;
+                        this.contactData = contactResponse.data.data;
 
                         //設定發起人
                         this.iMemberData = {

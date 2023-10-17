@@ -4,7 +4,7 @@
             <router-view></router-view>
         </div>
     </template>
-    <template v-else-if="$route.path === '/admin'">
+    <template v-else-if="$route.path === '/admin_login'">
         <div class="auth-container d-flex">
             <router-view></router-view>
         </div>
@@ -253,6 +253,30 @@
                                 <a href="#" class="nav-link">
                                     <vue-feather type="check-circle"></vue-feather>
                                     <span>費用分攤表</span></a>
+                            </li>
+                            <li class="dropdown" :class="$route.path.startsWith(`/info`) ? 'active' : ''">
+                                <a href="#" class="menu-toggle nav-link has-dropdown">
+                                    <vue-feather type="settings"></vue-feather>
+                                    <span>內部資料管理</span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a :class="$route.path.startsWith(`/info/category`) ? 'nav-link active' : 'nav-link'" href="#">選單設定</a></li>
+                                    <li><a :class="$route.path.startsWith(`/info/source`) ? 'nav-link active' : 'nav-link'" href="#">選單內容設定</a></li>
+                                    <li><a :class="$route.path.startsWith(`/info/company`) ? 'nav-link active' : 'nav-link'" href="#">公司管理</a></li>
+                                    <li><a :class="$route.path.startsWith(`/info/contact`) ? 'nav-link active' : 'nav-link'" href="#">窗口設定</a></li>
+                                    <li><a :class="$route.path.startsWith(`/info/proportion`) ? 'nav-link active' : 'nav-link'" href="#">分攤比例設定</a></li>
+                                    <li><a :class="$route.path.startsWith(`/info/switch`) ? 'nav-link active' : 'nav-link'" href="#">全站開關控制</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown" :class="$route.path.startsWith(`/control`) ? 'active' : ''">
+                                <a href="#" class="menu-toggle nav-link has-dropdown">
+                                    <vue-feather type="users"></vue-feather>
+                                    <span>帳戶管理</span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a :class="$route.path.startsWith(`/control/per_purview`) ? 'nav-link active' : 'nav-link'" href="#">員工使用權限設定</a></li>
+                                    <li><a :class="$route.path.startsWith(`/control/per_group`) ? 'nav-link active' : 'nav-link'" href="#">員工群組管理</a></li>
+                                    <li><a :class="$route.path.startsWith(`/control/admin`) ? 'nav-link active' : 'nav-link'" href="#">帳號管理</a></li>
+                                    <li><a :class="$route.path.startsWith(`/control/group`) ? 'nav-link active' : 'nav-link'" href="#">帳號群組管理</a></li>
+                                </ul>
                             </li>
                         </ul>
                     </div>

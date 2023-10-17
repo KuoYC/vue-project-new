@@ -57,7 +57,7 @@
 
 <script>
     export default {
-        name: "Admin",
+        name: "Admin_login",
         data(){
             return{
                 adminAccount: '',

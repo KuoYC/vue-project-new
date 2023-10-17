@@ -23,8 +23,7 @@
                                                              style="margin-bottom: 20px;">
                                                             <h4 class="myCardTitle" href="#"
                                                                 @mouseover="showDeleteButton"
-                                                                @mouseout="hideDeleteButton"><i
-                                                                    class="material-icons m-r-5">library_books</i><a
+                                                                @mouseout="hideDeleteButton"><vue-feather type="book" size="20" class="m-r-5"></vue-feather><a
                                                                     style="color: red; display: none;"
                                                                     class="m-clean"
                                                                     @click="deleteArea(parentIndex)">X</a>{{
@@ -62,7 +61,7 @@
                                                                                  style="margin-bottom: 20px;">
                                 <span v-if="element.name !== ''" class="myFont16 d-flex align-center"
                                       style="background-color:#6777ef ;color: white;border-radius: 6px;padding: 0.3rem 0.8rem;font-weight: 400;">
-                                  <i class="material-icons" style="margin-right: 8px;">label_outline</i>{{ element.name }}</span>
+                                  <vue-feather type="tag" size="20" style="transform: rotate(135deg);" class="m-r-10"></vue-feather>{{ element.name }}</span>
                                                                             </div>
                                                                             <!-- 這裡放權限控管及資料管制 -->
                                                                             <span class="data myFont16">

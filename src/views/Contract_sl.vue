@@ -22,9 +22,8 @@
                                                         <div class="vew-mail-header">
                                                             <div class="author-box-name d-flex justify-content-between"
                                                                  style="margin-bottom: 20px;">
-                                                                <h4 class="myCardTitle" href="#"><i
-                                                                        class="material-icons m-r-5">library_books</i>{{
-                                                                    area.areaTitle }}
+                                                                <h4 class="myCardTitle" href="#">
+                                                                    <vue-feather type="book" size="20" class="m-r-5"></vue-feather>{{                                                                    area.areaTitle }}
                                                                 </h4>
                                                                 <div v-if="parentIndex === 0">
                                                                     <!-- 這裡放創文日期 -->
@@ -49,8 +48,7 @@
                                                                                  style="margin-bottom: 20px;">
                                         <span v-if="col.name !== ''" class="myFont16 d-flex align-center"
                                               style="background-color:#6777ef ;color: white;border-radius: 6px;padding: 0.3rem 0.8rem;font-weight: 400;">
-                                          <i class="material-icons"
-                                             style="margin-right: 8px;">label_outline</i>{{ col.name }}</span>
+                                          <vue-feather type="tag" size="20" style="transform: rotate(135deg);" class="m-r-10"></vue-feather>{{ col.name }}</span>
                                                                             </div>
                                                                             <!-- 這裡放權限控管及資料管制 -->
                                                                             <span class="data myFont16">
@@ -190,7 +188,6 @@
                                                                                         <th>科別</th>
                                                                                         <th>部門主管</th>
                                                                                         <th>科別主管</th>
-                                                                                        <th v-if="showContact">窗口</th>
                                                                                         <th>承辦人</th>
                                                                                         <th>承辦人連絡電話</th>
                                                                                     </tr>
@@ -202,7 +199,6 @@
                                                                                         <td>{{ iMemberData.memBu3 }}</td>
                                                                                         <td>{{ iMemberData.memLV2Name }}</td>
                                                                                         <td>{{ iMemberData.memLV1Name }}</td>
-                                                                                        <td v-if="showContact">{{ iMemberData.memLVCName }}</td>
                                                                                         <td>{{ iMemberData.memLV0Name }}</td>
                                                                                         <td>{{ iMemberData.memPhone }}</td>
                                                                                     </tr>
@@ -261,6 +257,35 @@
                                                                                             </tr>
                                                                                             </tbody>
                                                                                         </table>
+
+                                                                                <p></p>
+                                                                                <div class="myFont16">維運窗口：<span
+                                                                                        class="data">
+                                                                                    <div class="d-flex m-tb">
+                                                                                        <div v-for="con in contactData"
+                                                                                             class="form-check-inline">
+                                                                                            <label v-if="con.comId.includes(per.comId)" class="form-check-label">
+                                                                                                    <vue-feather v-if="con.perKey === iMemberData.memLVCKey" type="key" size="20" style="margin-bottom: -4px;"></vue-feather>
+                                                                                                {{ con.perName + ' ' + con.perPositionName }}
+                                                                                            </label>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </span></div>
+                                                                                <div class="myFont16">使用窗口：<span
+                                                                                        class="data">
+                                                                                    <div class="d-flex m-tb">
+                                                                                        <template v-for="com in conCompany">
+                                                                                            <template v-for="con in contactData">
+                                                                                            <div v-if="con.comCode.includes(com)" class="form-check-inline">
+                                                                                                <label class="form-check-label">
+                                                                                                    {{ con.perName + ' ' + con.perPositionName }}
+                                                                                                </label>
+                                                                                            </div>
+                                                                                            </template>
+                                                                                        </template>
+                                                                                    </div>
+                                                                                </span></div>
+
                                                                             </template>
 
                                                                             <template v-if="col.type === 'file_area'">
@@ -480,17 +505,17 @@
                             @click="signContract()"
                             class="m-r-5 btn btn-success btn-border-radius waves-effect myFont16">簽核
                     </button>
-                    <button v-if="contractData.conStatus === '1' && checkMember()" type="button"
+                    <button v-if="contractData.conStatus === '1' && checkMember() && iMemberData.memLVCStatus !== '0'" type="button"
                             @click="backContract()"
                             :disabled="msg === ''"
                             class="m-r-5 btn btn-info btn-border-radius waves-effect myFont16">退回
                     </button>
-                    <button v-if="contractData.conStatus === '1' && checkMember()" type="button"
+                    <button v-if="contractData.conStatus === '1' && checkMember() && iMemberData.memLVCStatus !== '0'" type="button"
                             @click="rejectContract()"
                             :disabled="msg === ''"
                             class="m-r-5 btn btn-danger btn-border-radius waves-effect myFont16">拒絕
                     </button>
-                    <div v-if="contractData.conStatus === '1' && checkMember()" class="form-group">
+                    <div v-if="contractData.conStatus === '1' && checkMember() && iMemberData.memLVCStatus !== '0'" class="form-group">
                         <div class="input-group mb-3">
                             <input
                                     type="text" class="form-control" v-model="msg"
@@ -507,7 +532,7 @@
     <div class="col-12 myRwd" id="myView">
         <div class="card">
             <div class="card-header justify-content-between">
-                <h4 class="myCardTitle" href="#"><i class="material-icons m-r-5">list</i>本案傳遞流程
+                <h4 class="myCardTitle" href="#"><vue-feather type="list" size="20" class="m-r-5"></vue-feather>本案傳遞流程
                 </h4>
                 <button type="button" id="addBtn" class="btn btn-icon icon-left btn-primary myFont16"
                         style="border-radius: 6px;">
@@ -553,8 +578,8 @@
                     <tr>
                         <td>2</td>
                         <th scope="row"><span class="badge badge-primary">窗口</span></th>
-                        <td>{{ iMemberData.comTitle}} {{ iMemberData.memBu2 }} {{ iMemberData.memBu3 }} {{
-                            iMemberData.memLVCName }} {{ iMemberData.memLVCPositionName }}
+                        <td>{{ iMemberData.comTitle}} <template v-if="iMemberData.memLVCKey !== ''">{{ iMemberData.memBu2 }} {{ iMemberData.memBu3 }} {{
+                            iMemberData.memLVCName }} {{ iMemberData.memLVCPositionName }}</template>
                         </td>
                         <td style="text-align: right;">
                             <a :class="iMemberData.memLVCStatus === '0' || iMemberData.memLVCStatus === '1' ? 'text-job text-danger myFont16' : 'text-job myFont16'"
@@ -797,19 +822,19 @@
                                 簽核
                             </button>
                             <button
-                                    v-if="contractData.conStatus === '1' && checkMember()"
+                                    v-if="contractData.conStatus === '1' && checkMember() && iMemberData.memLVCStatus !== '0'"
                                     @click="backContract()"
                                     :disabled="msg === ''"
                                     type="button" class="m-r-5 btn btn-info btn-border-radius waves-effect myFont16">退回
                             </button>
                             <button
-                                    v-if="contractData.conStatus === '1' && checkMember()"
+                                    v-if="contractData.conStatus === '1' && checkMember() && iMemberData.memLVCStatus !== '0'"
                                     @click="rejectContract()"
                                     :disabled="msg === ''"
                                     type="button" class="m-r-5 btn btn-danger btn-border-radius waves-effect myFont16">
                                 拒絕
                             </button>
-                            <input v-if="contractData.conStatus === '1' && checkMember()"
+                            <input v-if="contractData.conStatus === '1' && checkMember() && iMemberData.memLVCStatus !== '0'"
                                    type="text" class="form-control" v-model="msg"
                                    placeholder="退回或拒絕請填寫源由"/>
 
@@ -880,7 +905,6 @@
         data() {
             return {
                 per: JSON.parse(Cookies.get('per')),
-                showContact: true,
                 viewFile: false,
                 viewFileUrl:'',
                 viewFilePDF: false,
@@ -895,6 +919,7 @@
                 mMemberData: [],//維運
                 uMemberData: [],//使用
                 personData: [],
+                contactData: [],
 
 
                 templateStyleData: [],
@@ -944,9 +969,13 @@
                     this.$api.get(this.$test ? `/api/?type=contract_item&conId=${conId}` : `/api/adm/getContractItem?conId=${conId}`),
                     this.$api.get(this.$test ? `/api/?type=contract_member&conId=${conId}` : `/api/adm/getMemberContract?conId=${conId}`),
                     this.$api.get(this.$test ? '/api/?type=personnel' : '/api/comm/getPersonnelList'),
+                    this.$api.get(this.$test ? '/api/?type=contact' : ''),
                 ];
                 Promise.all(apiRequests)
-                    .then(([contractResponse, itemResponse, memberResponse, personnelResponse]) => {
+                    .then(([contractResponse, itemResponse, memberResponse, personnelResponse, contactResponse]) => {
+                        //contactResponse
+                        this.contactData = contactResponse.data.data;
+
                         //contractResponse
                         this.contractData = contractResponse.data.data;
                         this.conValue = this.contractData?.conValue ? JSON.parse(this.contractData.conValue) : null;
@@ -1003,7 +1032,7 @@
             async signContract() {
                 let iMemberEnd = false;//維運平行簽核
                 let upMember = null;
-                if (this.iMemberData.comId === this.per.comId && this.iMemberData.memNowKey === this.per.perKey) {
+                if (this.iMemberData.comId === this.per.comId && (this.iMemberData.memNowKey === this.per.perKey || (this.iMemberData.memNowKey === '' && this.iMemberData.memLVCKey === '' && this.contactData.some(contact => contact.perKey.includes(this.per.perKey))))) {
                     const isLV = this.getMemberLV(this.iMemberData);
                     if (isLV) {
                         upMember = this.createUpMember(this.iMemberData, isLV, 3, true);
@@ -1229,17 +1258,23 @@
                 let nextLVStatus = null;
                 let nextLogMsg = null;
                 let memStatus = null;
+                let memLVCKey = null;
+                let memLVCName = null;
+                let memLVCPositionName = null;
                 if (signType === 3) {
                     conLogMsg = `${comTitle} ${memBu2} ${memBu3} ${positionName} 簽核完成 ${msg !== null ? ':' + msg : ''}`
                     switch (isLV) {
                         case '0':
                             isNext = first ? 'C' : '1';
-                            nextLVKey = first ? mem.memLVCKey : mem.memLV1Key;
+                            nextLVKey = first ? '' : mem.memLV1Key;
                             nextLVStatus = 0;
                             nextLogMsg = `${comTitle} ${memBu2} ${memBu3} ${positionNameNext} 待檢視`;
                             memStatus = 1;
                             break;
                         case 'C':
+                            memLVCKey = this.per.perKey;
+                            memLVCName = this.per.perName;
+                            memLVCPositionName = this.per.perPositionName;
                             isNext = '1';
                             nextLVKey = mem.memLV1Key;
                             nextLVStatus = 0;
@@ -1283,6 +1318,9 @@
                     [`memLV${isLV}Time`]: time,
                     [`memLV${isLV}Msg`]: msg,
                     [`memLV${isNext}Status`]: signType === 3 && '' !== isNext ? 0 : null,
+                    memLVCKey: memLVCKey,
+                    memLVCName: memLVCName,
+                    memLVCPositionName: memLVCPositionName,
                     memNowKey: nextLVKey,
                     memNowStatus: nextLVStatus,
                     memStatus: memStatus,
@@ -1323,7 +1361,7 @@
                 if (mem.memLV0Key === this.per.perKey) {
                     return '0';
                 }
-                if (mem.memLVCKey === this.per.perKey) {
+                if (mem.memNowKey === '') {
                     return 'C';
                 }
                 if (mem.memLV1Key === this.per.perKey) {
@@ -1507,7 +1545,7 @@
             // checkMember 確認權限
             checkMember() {
                 let ckMember = false;
-                if (this.iMemberData.memNowKey === this.per.perKey) {
+                if (this.iMemberData.memNowKey === this.per.perKey || (this.iMemberData.memNowKey === '' && this.iMemberData.memLVCKey === '' && this.contactData.some(contact => contact.perKey.includes(this.per.perKey)))) {
                     ckMember = true;
                 }
                 this.mMemberData.forEach(mem => {
