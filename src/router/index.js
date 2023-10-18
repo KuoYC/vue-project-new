@@ -62,7 +62,7 @@ const routes = [
     { path: '/admin_login', component: Admin_login, name: '管理者登入' },
     { path: '/sso/login', component: SSO, name: 'SSO' },
 
-    // { path: '/category', component: Category, name: '選單設定' },
+    // { path: '/info/category', component: Category, name: '選單設定' },
     // { path: '/category/ad', component: Category_ad, name: '新增選單' },
     // { path: '/category/up/:id', component: Category_up, name: '修改選單' },
     // { path: '/category/sl/:id', component: Category_sl, name: '查看選單' },

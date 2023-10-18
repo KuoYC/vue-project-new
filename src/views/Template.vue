@@ -85,7 +85,6 @@
             }
         },
         mounted(){
-            this.$emit('changeRoutePath', 'template');
         },
         methods: {
             defaultData() {

@@ -259,12 +259,12 @@
                                     <vue-feather type="settings"></vue-feather>
                                     <span>內部資料管理</span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a :class="$route.path.startsWith(`/info/category`) ? 'nav-link active' : 'nav-link'" href="#">選單設定</a></li>
-                                    <li><a :class="$route.path.startsWith(`/info/source`) ? 'nav-link active' : 'nav-link'" href="#">選單內容設定</a></li>
-                                    <li><a :class="$route.path.startsWith(`/info/company`) ? 'nav-link active' : 'nav-link'" href="#">公司管理</a></li>
-                                    <li><a :class="$route.path.startsWith(`/info/contact`) ? 'nav-link active' : 'nav-link'" href="#">窗口設定</a></li>
-                                    <li><a :class="$route.path.startsWith(`/info/proportion`) ? 'nav-link active' : 'nav-link'" href="#">分攤比例設定</a></li>
-                                    <li><a :class="$route.path.startsWith(`/info/switch`) ? 'nav-link active' : 'nav-link'" href="#">全站開關控制</a></li>
+                                    <li><router-link :to="`/info/category`" :class="$route.path.startsWith(`/info/category`) ? 'nav-link active' : 'nav-link'">選單設定</router-link></li>
+                                    <!--<li><router-link :class="$route.path.startsWith(`/info/source`) ? 'nav-link active' : 'nav-link'">選單內容設定</router-link></li>-->
+                                    <!--<li><router-link :class="$route.path.startsWith(`/info/company`) ? 'nav-link active' : 'nav-link'">公司管理</router-link></li>-->
+                                    <!--<li><router-link :class="$route.path.startsWith(`/info/contact`) ? 'nav-link active' : 'nav-link'">窗口設定</router-link></li>-->
+                                    <!--<li><router-link :class="$route.path.startsWith(`/info/proportion`) ? 'nav-link active' : 'nav-link'">分攤比例設定</router-link></li>-->
+                                    <!--<li><router-link :class="$route.path.startsWith(`/info/switch`) ? 'nav-link active' : 'nav-link'">全站開關控制</router-link></li>-->
                                 </ul>
                             </li>
                             <li class="dropdown" :class="$route.path.startsWith(`/control`) ? 'active' : ''">
@@ -272,10 +272,10 @@
                                     <vue-feather type="users"></vue-feather>
                                     <span>帳戶管理</span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a :class="$route.path.startsWith(`/control/per_purview`) ? 'nav-link active' : 'nav-link'" href="#">員工使用權限設定</a></li>
-                                    <li><a :class="$route.path.startsWith(`/control/per_group`) ? 'nav-link active' : 'nav-link'" href="#">員工群組管理</a></li>
-                                    <li><a :class="$route.path.startsWith(`/control/admin`) ? 'nav-link active' : 'nav-link'" href="#">帳號管理</a></li>
-                                    <li><a :class="$route.path.startsWith(`/control/group`) ? 'nav-link active' : 'nav-link'" href="#">帳號群組管理</a></li>
+                                    <!--<li><router-link :class="$route.path.startsWith(`/control/per_purview`) ? 'nav-link active' : 'nav-link'">員工使用權限設定</router-link></li>-->
+                                    <!--<li><router-link :class="$route.path.startsWith(`/control/per_group`) ? 'nav-link active' : 'nav-link'">員工群組管理</router-link></li>-->
+                                    <!--<li><router-link :class="$route.path.startsWith(`/control/admin`) ? 'nav-link active' : 'nav-link'">帳號管理</router-link></li>-->
+                                    <!--<li><router-link :class="$route.path.startsWith(`/control/group`) ? 'nav-link active' : 'nav-link'">帳號群組管理</router-link></li>-->
                                 </ul>
                             </li>
                         </ul>
