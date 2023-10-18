@@ -19,6 +19,7 @@
                             </li>
                         </ul>
                         <table class="table table-bordered table-md">
+                            <caption>選單資料表</caption>
                             <thead>
                             <tr>
                                 <th>樣板名稱</th>
