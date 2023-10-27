@@ -2,7 +2,7 @@
     <section class="section">
         <ul class="breadcrumb breadcrumb-style ">
             <li class="breadcrumb-item">
-                <h4 class="page-title m-b-0">簽核單項</h4>
+                <h4 class="page-title m-b-0">資訊共用合約</h4>
             </li>
             <li class="breadcrumb-item">{{ templateData.temTitle }}</li>
         </ul>
@@ -29,24 +29,27 @@
                             </li>
                             <li class="nav-item">
                                 <a href="javascript:void(0)"
-                                   :class="`${searchType === 1 ? 'active' : ''} nav-link rounded-pill note-link d-flex align-items-center px-2 px-md-3 mr-0 mr-md-2`"
+                                   :class="`${searchType === 3 ? 'active' : ''} nav-link rounded-pill note-link d-flex align-items-center px-2 px-md-3 mr-0 mr-md-2`"
+                                   @click="getContractList(3)"
                                    id="note-work">
                                     <vue-feather type="briefcase"></vue-feather>
                                     <span class="d-md-block">待處理</span></a>
                             </li>
                             <li class="nav-item">
                                 <a href="javascript:void(0)"
-                                   :class="`${searchType === 2 ? 'active' : ''} nav-link rounded-pill note-link d-flex align-items-center px-2 px-md-3 mr-0 mr-md-2`"
+                                   :class="`${searchType === 4 ? 'active' : ''} nav-link rounded-pill note-link d-flex align-items-center px-2 px-md-3 mr-0 mr-md-2`"
+                                   @click="getContractList(4)"
                                    id="note-family">
                                     <vue-feather type="users"></vue-feather>
                                     <span class="d-md-block">已處理</span></a>
                             </li>
                             <li class="nav-item">
                                 <a href="javascript:void(0)"
-                                   :class="`${searchType === 3 ? 'active' : ''} nav-link rounded-pill note-link d-flex align-items-center px-2 px-md-3 mr-0 mr-md-2`"
+                                   :class="`${searchType === 6 ? 'active' : ''} nav-link rounded-pill note-link d-flex align-items-center px-2 px-md-3 mr-0 mr-md-2`"
+                                   @click="getContractList(6)"
                                    id="note-important">
                                     <vue-feather type="star"></vue-feather>
-                                    <span class="d-md-block">知/後會</span></a>
+                                    <span class="d-md-block">已完成</span></a>
                             </li>
                             <!-- <li class="nav-item ms-auto">
                               <a href="#" class="btn btn-icon icon-left btn-dark rounded-pill" id="add-notes"><i
@@ -65,7 +68,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="con in contractListData"
+                            <tr v-for="con in contractData"
                                 style="border-bottom: 1px solid transparent; border-color: #f6f6f6;">
                                 <th scope="row">{{ con.conTitle }}</th>
                                 <td>{{ con.comTitle + '/' + con.perBu2 + '/' + con.perBu3}}</td>
@@ -112,7 +115,6 @@
             return {
                 per: Cookies.get('per') ? JSON.parse(Cookies.get('per')) : null,
                 contractData: [],
-                contractListData: [],
                 templateData: [],
                 searchType: 0,
             };
@@ -130,15 +132,20 @@
             defaultData() {
             },
             fetchFirst() {
+                const contractPayload={
+                    action:0,
+                    temId:this.$route.params.tem,
+                    perKey:this.per.perKey,
+                    perBu1Code:this.per.perBu1Code,
+                };
                 const apiRequests = [
-                    this.$api.get(this.$test ? `/api/?type=contract&action=0&temId=${this.$route.params.tem}&perKey=${this.per.perKey}&perBu1Code=${this.per.perBu1Code}` : `/api/adm/contract/List?ctpId=${this.$route.params.ctp}`),
+                    this.$api.get(this.$test ? `/api/?type=contract` : `/api/adm/contract`, { params: contractPayload }),
                     this.$api.get(this.$test ? `/api/?type=template&temId=${this.$route.params.tem}` : `/api/iform/template/${this.$route.params.tem}`),
                 ];
                 Promise.all(apiRequests)
                     .then(([contractResponse, templateResponse]) => {
                         //contractResponse
                         this.contractData = contractResponse.data.data;
-                        this.contractListData = this.contractData;
                         //templateResponse
                         this.templateData = templateResponse.data.data;
                     })
@@ -146,24 +153,23 @@
                         console.error(error);
                     });
             },
-            getContractList(search_type) {
+            async getContractList(search_type) {
                 this.searchType = search_type;
-                switch (search_type) {
-                    case 0:
-                        this.contractListData = this.contractData;
-                        break;
-                    case 1:
-                        break;
-                    case 2:
-                        break;
-                    case 3:
-                        break;
-                    default:
-                        this.searchType = 0;
-                        this.contractListData = this.contractData;
-                        break;
+                try {
+                    const contractPayload={
+                        action:this.searchType,
+                        temId:this.$route.params.tem,
+                        perKey:this.per.perKey,
+                        perBu1Code:this.per.perBu1Code,
+                    };
 
+                    const contactResponse = await this.$api.get(this.$test ? `/api/?type=contract` : `/api/adm/contract/List`, { params: contractPayload});
+                    console.log(contactResponse.data.data);
+                    this.contractData = contactResponse.data.data;
+                } catch (error) {
+                    console.error(error);
                 }
+
             },
             actionTo(action, conId) {
                 if (action === 'sl') {
@@ -172,8 +178,8 @@
                     this.$router.push(`/contract/${this.$route.params.tem}/up/${conId}`);
                 } else if (action === 'dl') {
                     this.$api
-                        .delete(this.$test ? '/api/api/?type=contract' : '/api/adm/contract/delete'
-                            , {params: {ctId: templateId}})
+                        .delete(this.$test ? '/api/?type=contract' : '/api/iform/contract'
+                            , {params: {conId: conId}})
                         .then(response => {
                             console.log(response.data);
                             if (response.status === 200) {

@@ -4,6 +4,7 @@
             <li class="breadcrumb-item">
                 <h4 class="page-title m-b-0">樣板管理</h4>
             </li>
+            <li class="breadcrumb-item"><router-link :to="`/template`"><vue-feather type="link"></vue-feather>樣板列表</router-link></li>
             <li class="breadcrumb-item">新增樣板</li>
         </ul>
         <div class="section-body">
@@ -893,11 +894,11 @@
             },
             fetchFirst() {
                 const apiRequests = [
-                    this.$api.get(this.$test ? '/api/?type=work' : '/api/iform/work'),
-                    this.$api.get(this.$test ? '/api/?type=company' : '/api/iform/company'),
-                    this.$api.get(this.$test ? '/api/?type=category' : '/api/iform/category'),
-                    this.$api.get(this.$test ? '/api/?type=source' : '/api/iform/source'),
-                    this.$api.get(this.$test ? '/api/?type=distribution' : '/api/iform/distribution'),
+                    this.$api.get(this.$test ? '/api/?type=work' : '/api/iform/work/List'),
+                    this.$api.get(this.$test ? '/api/?type=company' : '/api/iform/company/List'),
+                    this.$api.get(this.$test ? '/api/?type=category' : '/api/iform/category/List'),
+                    this.$api.get(this.$test ? '/api/?type=source' : '/api/iform/source/List'),
+                    this.$api.get(this.$test ? '/api/?type=distribution' : '/api/iform/distribution/List'),
                 ];
                 Promise.all(apiRequests)
                     .then(([workResponse, companyResponse, categoryResponse, sourceResponse, distributionResponse]) => {
@@ -1036,8 +1037,7 @@
                     .then(response => {
                         console.log(response.data);
                         if (response.status === 200) {
-                            console.log('ok');
-                            this.$router.go(0);
+                            this.$router.push(`/template/sl/${response.data.temId}`);
                         } else {
                             console.log('err');
                         }

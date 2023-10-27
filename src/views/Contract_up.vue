@@ -2,8 +2,9 @@
     <section class="section">
         <ul class="breadcrumb breadcrumb-style ">
             <li class="breadcrumb-item">
-                <h4 class="page-title m-b-0">簽核單項</h4>
+                <h4 class="page-title m-b-0">資訊共用合約</h4>
             </li>
+            <li class="breadcrumb-item"><router-link :to="`/contract/${contractData.temId}/list`"><vue-feather type="link"></vue-feather>{{ contractData.temTitle }}列表</router-link></li>
             <li class="breadcrumb-item">修改文件</li>
         </ul>
         <div class="section-body">
@@ -294,7 +295,7 @@
                                                                         </template>
                                                                         <template v-if="col.type === 'file_area'">
                                                                             <div class="replyBox m-t-20 myFont16">
-                                                                                <span><i class="fa fa-paperclip mb-1"></i> <span>{{ conFile.length + conFileMeeting.length + conFilePlan.length }}則</span>附加檔案 </span>
+                                                                                <span><i class="fa fa-paperclip mb-1"></i> <span>{{(conFile ? conFile.length : 0) + (conFileMeeting ? conFileMeeting.length : 0) + (conFilePlan ? conFilePlan.length : 0) }}則</span>附加檔案 </span>
                                                                                 <!-- 這裡放附檔 -->
                                                                                 <div class="row">
                                                                                     <FileUpload
@@ -625,17 +626,17 @@
                 this.conId = this.$route.params.id; // 取得路由參數 id
                 // this.temId = this.$route.params.tem;
                 const apiRequests = [
-                    this.$api.get(this.$test ? '/api/?type=work' : ''),
-                    this.$api.get(this.$test ? '/api/?type=company' : ''),
-                    this.$api.get(this.$test ? '/api/?type=category' : ''),
-                    this.$api.get(this.$test ? '/api/?type=source' : ''),
-                    this.$api.get(this.$test ? '/api/?type=distribution' : ''),
-                    this.$api.get(this.$test ? '/api/?type=manner' : ''),
-                    this.$api.get(this.$test ? `/api/?type=contract&conId=${this.$route.params.id}` : `/api/adm/contractTemplate/${this.$route.params.ctp}`),
-                    this.$api.get(this.$test ? `/api/?type=contract_member&conId=${this.$route.params.id}` : `/api/adm/contractTemplate/${this.$route.params.ctp}`),
-                    this.$api.get(this.$test ? `/api/?type=contract_item&conId=${this.$route.params.id}` : `/api/adm/contractTemplate/${this.$route.params.ctp}`),
-                    this.$api.get(this.$test ? '/api/?type=personnel' : '/api/comm/getPersonnelList'),
-                    this.$api.get(this.$test ? '/api/?type=contact' : ''),
+                    this.$api.get(this.$test ? '/api/?type=work' : '/api/iform/work/List'),
+                    this.$api.get(this.$test ? '/api/?type=company' : '/api/iform/company/List'),
+                    this.$api.get(this.$test ? '/api/?type=category' : '/api/iform/category/List'),
+                    this.$api.get(this.$test ? '/api/?type=source' : '/api/iform/source/List'),
+                    this.$api.get(this.$test ? '/api/?type=distribution' : '/api/iform/distribution/List'),
+                    this.$api.get(this.$test ? '/api/?type=manner' : '/api/iform/manner/List'),
+                    this.$api.get(this.$test ? `/api/?type=contract&conId=${this.$route.params.id}` : `/api/iform/contract/${this.$route.params.ctp}`),
+                    this.$api.get(this.$test ? `/api/?type=contractMember` : `/api/iform/contractMember/List`, {params:{conId:this.$route.params.id}}),
+                    this.$api.get(this.$test ? `/api/?type=contractItem` : `/api/iform/contractItem/List`, {params:{conId:this.$route.params.id}}),
+                    this.$api.get(this.$test ? '/api/?type=personnel' : '/api/iform/personnel/List'),
+                    this.$api.get(this.$test ? '/api/?type=contact' : '/api/iform/contact/List'),
                 ];
 
                 Promise.all(apiRequests)
@@ -762,7 +763,7 @@
                 }
 
                 this.$api
-                    .post(this.$test ? '/api/?type=contract_update' : '/api/adm/contract/addNew', formData, {
+                    .post(this.$test ? '/api/?type=contractUpdate' : '/api/iform/contractUpdate', formData, {
                         headers: {
                             'Content-Type': 'multipart/form-data', // 设置请求头为 multipart/form-data
                         },

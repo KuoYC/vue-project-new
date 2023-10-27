@@ -50,7 +50,7 @@
             },
             handleDrop(event) {
                 event.preventDefault();
-                const acceptedFileTypes = [".pdf", ".docx", ".xlsx", ".jpg", ".png", ".git"];
+                const acceptedFileTypes = [".pdf", ".docx", ".xlsx", ".jpg", ".png"];
                 const droppedFiles = Array.from(event.dataTransfer.files);
 
                 // 验证每个拖放的文件
@@ -64,7 +64,7 @@
                     this.$emit("file-selected", this.selectedFiles);
                 } else {
                     // 不是允许的文件类型，你可以进行适当的提示或处理
-                    console.warn("只允許.pdf .docx .xlsx這三種檔案上傳");
+                    console.warn("只允許.pdf, .docx, .xlsx, .jpg, .png這幾種檔案上傳");
                 }
             },
             clearSelection() {

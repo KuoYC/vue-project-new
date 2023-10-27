@@ -4,6 +4,7 @@
             <li class="breadcrumb-item">
                 <h4 class="page-title m-b-0">樣板管理</h4>
             </li>
+            <li class="breadcrumb-item"><router-link :to="`/template`"><vue-feather type="link"></vue-feather>樣板列表</router-link></li>
             <li class="breadcrumb-item">查看樣板</li>
         </ul>
         <div class="section-body">
@@ -785,11 +786,11 @@
                 this.temId = this.$route.params.id; // 取得路由參數 id
                 const apiRequests = [
                     this.$api.get(this.$test ? `/api/?type=template&temId=${this.temId}` : `/api/iform/template/${this.temId}`),
-                    this.$api.get(this.$test ? '/api/?type=work' : '/api/iform/work'),
-                    this.$api.get(this.$test ? '/api/?type=company' : '/api/iform/company'),
-                    this.$api.get(this.$test ? '/api/?type=category' : '/api/iform/category'),
-                    this.$api.get(this.$test ? '/api/?type=source' : '/api/iform/source'),
-                    this.$api.get(this.$test ? '/api/?type=distribution' : '/api/iform/distribution'),
+                    this.$api.get(this.$test ? '/api/?type=work' : '/api/iform/work/List'),
+                    this.$api.get(this.$test ? '/api/?type=company' : '/api/iform/company/List'),
+                    this.$api.get(this.$test ? '/api/?type=category' : '/api/iform/category/List'),
+                    this.$api.get(this.$test ? '/api/?type=source' : '/api/iform/source/List'),
+                    this.$api.get(this.$test ? '/api/?type=distribution' : '/api/iform/distribution/List'),
                 ];
                 Promise.all(apiRequests)
                     .then(([templateResponse, workResponse, companyResponse, categoryResponse, sourceResponse, distributionResponse]) => {

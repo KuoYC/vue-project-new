@@ -91,7 +91,7 @@
             },
             fetchFirst() {
                 this.$api
-                    .get(this.$test ? '/api/?type=template' : '/api/iform/template')
+                    .get(this.$test ? '/api/?type=template' : '/api/iform/template/List')
                     .then(response => {
                         // console.log(response.data.data);
                         this.templateData = response.data.data;
@@ -107,7 +107,7 @@
                     this.$router.push(`/template/up/${temId}`);
                 } else if (action === 'dl') {
                     this.$api
-                        .delete(this.$test ? '/api/api/?type=template' : '/api/iform/template'
+                        .delete(this.$test ? '/api/?type=template' : '/api/iform/template'
                             , {params: {temId: temId}})
                         .then(response => {
                             console.log(response.data);

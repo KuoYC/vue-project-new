@@ -4,6 +4,29 @@ var themeType = "light"; // light or dark
 var sidebarColor = "light-sidebar"; // light-sidebar or dark-sidebar
 var themeColor = "theme-white"; // theme-black",theme-white",theme-purple,theme-blue,theme-cyan,theme-green,theme-orange
 
+//===============
+var sidebarObserver = new MutationObserver(function (mutationsList, observer) {
+    // 在這裡重新計算高度
+    $(".main-content").css({
+        minHeight: $(window).outerHeight() - 95,
+    });
+});
+
+$(window).on("load", function () {
+    $(".loader").fadeOut("slow");
+    feather.replace();
+
+    // 選擇 .main-sidebar 並將其轉換為 DOM 元素
+    var target = $(".main-sidebar")[0];
+
+    // 配置觀察選項
+    var config = { childList: true, subtree: true };
+
+    // 開始觀察 .main-sidebar 內容的變動
+    sidebarObserver.observe(target, config);
+});
+//====================
+
 $(window).on("load", function () {
   $(".loader").fadeOut("slow");
 });

@@ -2,7 +2,7 @@
     <section class="section">
         <ul class="breadcrumb breadcrumb-style ">
             <li class="breadcrumb-item">
-                <h4 class="page-title m-b-0">選單列表</h4>
+                <h4 class="page-title m-b-0">選單內容列表</h4>
             </li>
         </ul>
         <div class="section-body">
@@ -11,10 +11,10 @@
                     <div class="page-content note-has-grid">
                         <ul class="nav nav-pills p-3 mb-3 rounded-pill align-items-center">
                             <li class="nav-item">
-                                <router-link :to="'/info/category/ad'"
+                                <router-link :to="'/info/source/ad'"
                                              class="nav-link rounded-pill note-link d-flex align-items-center px-2 px-md-3 mr-0 mr-md-2">
                                     <vue-feather type="plus" stroke="red"></vue-feather>
-                                    <span class="d-md-block" style="color: red;">新增選單</span>
+                                    <span class="d-md-block" style="color: red;">新增選單內容</span>
                                 </router-link>
                             </li>
                         </ul>
@@ -22,38 +22,35 @@
                             <thead>
                             <tr>
                                 <th style="min-width: 200px;">選單</th>
-                                <th style="min-width: 70px;">屬性</th>
-                                <th>文字</th>
+                                <th style="min-width: 70px;">選單內容</th>
                                 <th style="min-width: 120px;">操作</th>
                             </tr>
 
                             </thead>
                             <tbody>
-                            <tr v-for="cat in categoryData" :key="cat.catId">
-                                <td>{{ cat.catTitle }}</td>
+                            <tr v-for="sou in sourceData" :key="sou.souId">
+                                <td>{{ sou.catTitle }}</td>
                                 <td>
-                                    <template v-if="'list' === cat.catType">選項</template>
-                                    <template v-if="'word' === cat.catType">文字</template>
+                                    {{ sou.souTitle}}
                                 </td>
-                                <td>{{ cat.catWord }}</td>
                                 <td>
                                     <!-- <a href="#" class="btn btn-primary">詳細內容</a>  -->
                                     <div class="action-btns">
-                                        <router-link :to="'/info/category/sl/'+cat.catId"
+                                        <router-link :to="'/info/source/sl/'+sou.catId"
                                                      class="action-btn btn-view bs-tooltip me-2" data-toggle="tooltip"
                                                      data-placement="top" title=""
                                                      data-bs-original-title="View"
                                                      aria-label="View">
                                             <vue-feather type="eye"></vue-feather>
                                         </router-link>
-                                        <router-link :to="'/info/category/up/'+cat.catId"
+                                        <router-link :to="'/info/source/up/'+sou.catId"
                                                      class="action-btn btn-edit bs-tooltip me-2" data-toggle="tooltip"
                                                      data-placement="top" title=""
                                                      data-bs-original-title="Update"
                                                      aria-label="Update">
                                             <vue-feather type="edit-2"></vue-feather>
                                         </router-link>
-                                        <a href="javascript:void(0);" @click="deleteCategory(cat.catId)"
+                                        <a href="javascript:void(0);" @click="deleteSource(sou.catId)"
                                            class="action-btn btn-delete bs-tooltip" data-toggle="tooltip"
                                            data-placement="top" title=""
                                            data-bs-original-title="Delete"
@@ -73,14 +70,14 @@
 </template>
 
 <script>
-    import {categoryMixin} from '@/mixins/categoryMixin.js';
+    import {sourceMixin} from '@/mixins/sourceMixin.js';
 
     export default {
-        name: 'Category',
-        mixins: [categoryMixin],
+        name: 'Source',
+        mixins: [sourceMixin],
         data() {
             return {
-                categoryData: [],
+                sourceData: [],
             };
         },
         watch: {
@@ -99,12 +96,12 @@
             },
             fetchFirst() {
                 const apiRequests = [
-                    this.$api.get(this.$test ? '/api/?type=category' : '/api/iform/category/List'),
+                    this.$api.get(this.$test ? '/api/?type=source' : '/api/iform/source/List'),
                 ];
                 Promise.all(apiRequests)
-                    .then(([categoryResponse]) => {
-                        //categoryResponse
-                        this.categoryData = categoryResponse.data.data;
+                    .then(([sourceResponse]) => {
+                        //sourceResponse
+                        this.sourceData = sourceResponse.data.data;
                     })
                     .catch(error => {
                         console.error(error);

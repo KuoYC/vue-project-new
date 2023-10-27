@@ -2,7 +2,13 @@
     <section class="section">
         <ul class="breadcrumb breadcrumb-style ">
             <li class="breadcrumb-item">
-                <h4 class="page-title m-b-0">簽核單項</h4>
+                <h4 class="page-title m-b-0">資訊共用合約</h4>
+            </li>
+            <li class="breadcrumb-item">
+                <router-link :to="`/contract/${contractData.temId}/list`">
+                    <vue-feather type="link"></vue-feather>
+                    {{ contractData.temTitle }}列表
+                </router-link>
             </li>
             <li class="breadcrumb-item">查看文件</li>
         </ul>
@@ -23,7 +29,9 @@
                                                             <div class="author-box-name d-flex justify-content-between"
                                                                  style="margin-bottom: 20px;">
                                                                 <h4 class="myCardTitle" href="#">
-                                                                    <vue-feather type="book" size="20" class="m-r-5"></vue-feather>{{                                                                    area.areaTitle }}
+                                                                    <vue-feather type="book" size="20"
+                                                                                 class="m-r-5"></vue-feather>
+                                                                    {{ area.areaTitle }}
                                                                 </h4>
                                                                 <div v-if="parentIndex === 0">
                                                                     <!-- 這裡放創文日期 -->
@@ -48,7 +56,8 @@
                                                                                  style="margin-bottom: 20px;">
                                         <span v-if="col.name !== ''" class="myFont16 d-flex align-center"
                                               style="background-color:#6777ef ;color: white;border-radius: 6px;padding: 0.3rem 0.8rem;font-weight: 400;">
-                                          <vue-feather type="tag" size="20" style="transform: rotate(135deg);" class="m-r-10"></vue-feather>{{ col.name }}</span>
+                                          <vue-feather type="tag" size="20" style="transform: rotate(135deg);"
+                                                       class="m-r-10"></vue-feather>{{ col.name }}</span>
                                                                             </div>
                                                                             <!-- 這裡放權限控管及資料管制 -->
                                                                             <span class="data myFont16">
@@ -131,7 +140,8 @@
                                                                                     </tr>
                                                                                     </thead>
                                                                                     <tbody>
-                                                                                    <template v-for="(ite, iteIndex) in itemData">
+                                                                                    <template
+                                                                                            v-for="(ite, iteIndex) in itemData">
                                                                                     <tr>
                                                                                         <td>
                                                                                             {{ iteIndex+1 }}
@@ -166,8 +176,10 @@
                                                                                         <tr v-if="'1' === ite.manType && typeof ite.iteProportion === 'object'">
                                                                                             <td colspan="7">
                                                                                                 預計比例：
-                                                                                                <template v-for="pp in ite.iteProportion">
-                                                                                                    <span v-if="pp.p !== '0'" style="padding-right: 10px;">
+                                                                                                <template
+                                                                                                        v-for="pp in ite.iteProportion">
+                                                                                                    <span v-if="pp.p !== '0'"
+                                                                                                          style="padding-right: 10px;">
                                                                                                         {{ this.$root.getCompanyTitle(pp.comId, '')}}：{{pp.p}}
                                                                                                     </span>
                                                                                                 </template>
@@ -264,8 +276,13 @@
                                                                                     <div class="d-flex m-tb">
                                                                                         <div v-for="con in contactData"
                                                                                              class="form-check-inline">
-                                                                                            <label v-if="con.comId.includes(per.comId)" class="form-check-label">
-                                                                                                    <vue-feather v-if="con.perKey === iMemberData.memLVCKey" type="key" size="20" style="margin-bottom: -4px;"></vue-feather>
+                                                                                            <label v-if="con.comId.includes(per.comId)"
+                                                                                                   class="form-check-label">
+                                                                                                    <vue-feather
+                                                                                                            v-if="con.perKey === iMemberData.memLVCKey"
+                                                                                                            type="key"
+                                                                                                            size="20"
+                                                                                                            style="margin-bottom: -4px;"></vue-feather>
                                                                                                 {{ con.perName + ' ' + con.perPositionName }}
                                                                                             </label>
                                                                                         </div>
@@ -274,9 +291,12 @@
                                                                                 <div class="myFont16">使用窗口：<span
                                                                                         class="data">
                                                                                     <div class="d-flex m-tb">
-                                                                                        <template v-for="com in conCompany">
-                                                                                            <template v-for="con in contactData">
-                                                                                            <div v-if="con.comCode.includes(com)" class="form-check-inline">
+                                                                                        <template
+                                                                                                v-for="com in conCompany">
+                                                                                            <template
+                                                                                                    v-for="con in contactData">
+                                                                                            <div v-if="con.comCode.includes(com)"
+                                                                                                 class="form-check-inline">
                                                                                                 <label class="form-check-label">
                                                                                                     {{ con.perName + ' ' + con.perPositionName }}
                                                                                                 </label>
@@ -292,7 +312,7 @@
                                                                                 <div class="replyBox m-t-20 myFont16">
                                                                       <span>
                                                                         <!-- 這裡放共幾則附檔 -->
-                                                                        <i class="fa fa-paperclip mb-1"></i> <span>{{ conFile.length + conFileMeeting.length + conFilePlan.length }}則</span>附加檔案 </span>
+                                                                        <i class="fa fa-paperclip mb-1"></i> <span>{{(conFile ? conFile.length : 0) + (conFileMeeting ? conFileMeeting.length : 0) + (conFilePlan ? conFilePlan.length : 0) }}則</span>附加檔案 </span>
                                                                                     <!-- 這裡放附檔 -->
                                                                                     <div>
                                                                                         <template v-if="conFileMeeting">
@@ -470,11 +490,16 @@
                     <template v-if="viewFile">
                         <div id="myPdfViewer" class="col-6" style="height: 100vh; position: sticky; top:100px;">
                             <div class="card-header d-flex justify-content-end">
-                                <a :download="viewFileUrl" :href="viewFileUrl" target="_blank"
+                                <!--<a download="" :href="viewFileUrl" target="_blank"-->
+                                   <!--class="btn btn-icon icon-left btn-primary myFont16"-->
+                                   <!--style="border-radius: 6px;">-->
+                                    <!--下載檔案-->
+                                <!--</a>-->
+                                <button type="button" @click="downloadViewFile(viewFileUrl)"
                                         class="btn btn-icon icon-left btn-primary myFont16"
                                         style="border-radius: 6px;">
                                     下載檔案
-                                </a>
+                                </button>
                                 <button type="button" id="closePdfViewer" @click="closeViewFile"
                                         class="btn btn-icon icon-left btn-primary myFont16"
                                         style="border-radius: 6px;">
@@ -505,17 +530,20 @@
                             @click="signContract()"
                             class="m-r-5 btn btn-success btn-border-radius waves-effect myFont16">簽核
                     </button>
-                    <button v-if="contractData.conStatus === '1' && checkMember() && iMemberData.memLVCStatus !== '0'" type="button"
+                    <button v-if="contractData.conStatus === '1' && checkMember() && iMemberData.memLVCStatus !== '0'"
+                            type="button"
                             @click="backContract()"
                             :disabled="msg === ''"
                             class="m-r-5 btn btn-info btn-border-radius waves-effect myFont16">退回
                     </button>
-                    <button v-if="contractData.conStatus === '1' && checkMember() && iMemberData.memLVCStatus !== '0'" type="button"
+                    <button v-if="contractData.conStatus === '1' && checkMember() && iMemberData.memLVCStatus !== '0'"
+                            type="button"
                             @click="rejectContract()"
                             :disabled="msg === ''"
                             class="m-r-5 btn btn-danger btn-border-radius waves-effect myFont16">拒絕
                     </button>
-                    <div v-if="contractData.conStatus === '1' && checkMember() && iMemberData.memLVCStatus !== '0'" class="form-group">
+                    <div v-if="contractData.conStatus === '1' && checkMember() && iMemberData.memLVCStatus !== '0'"
+                         class="form-group">
                         <div class="input-group mb-3">
                             <input
                                     type="text" class="form-control" v-model="msg"
@@ -529,10 +557,12 @@
     </section>
     <!-- 本案傳遞流程 -->
 
-    <div class="col-12 myRwd" id="myView">
+    <div class="col-12" id="myView">
         <div class="card">
             <div class="card-header justify-content-between">
-                <h4 class="myCardTitle" href="#"><vue-feather type="list" size="20" class="m-r-5"></vue-feather>本案傳遞流程
+                <h4 class="myCardTitle" href="#">
+                    <vue-feather type="list" size="20" class="m-r-5"></vue-feather>
+                    本案傳遞流程
                 </h4>
                 <button type="button" id="addBtn" class="btn btn-icon icon-left btn-primary myFont16"
                         style="border-radius: 6px;">
@@ -552,8 +582,9 @@
                     <tbody class="myNew">
                     <tr>
                         <td>1</td>
-                        <th scope="row"><span class="badge badge-success">發起</span></th>
-                        <td>{{ iMemberData.comTitle}} {{ iMemberData.memBu2 }} {{ iMemberData.memBu3 }} {{
+                        <th scope="row"><span class="badge badge-success">起簽</span></th>
+                        <td><span class="sign-title">管理維運公司承辦人</span><br>{{ iMemberData.comTitle}} {{ iMemberData.memBu2
+                            }} {{ iMemberData.memBu3 }} {{
                             iMemberData.memLV0Name }} {{ iMemberData.memLV0PositionName }}
                         </td>
                         <td style="text-align: right;">
@@ -562,14 +593,14 @@
                                 <template v-if="iMemberData.memLV0Status === '-1'">等待</template>
                                 <template v-if="iMemberData.memLV0Status === '0'">待檢視</template>
                                 <template v-if="iMemberData.memLV0Status === '1'">簽核中</template>
-                                <template v-if="iMemberData.memLV0Status === '2'">退件<br>{{iMemberData.memLV0Time}}
-                                    <template v-if="iMemberData.memLV0Msg !== ''"><br>{{ iMemberData.memLV0Msg }}
+                                <template v-if="iMemberData.memLV0Status === '2'">退件<br><span class="time-msg">{{iMemberData.memLV0Time}}</span>
+                                    <template v-if="iMemberData.memLV0Msg !== ''"><br><span class="other-msg">{{ iMemberData.memLV0Msg }}</span>
                                     </template>
                                 </template>
-                                <template v-if="iMemberData.memLV0Status === '3'">已完成<br>{{iMemberData.memLV0Time}}
+                                <template v-if="iMemberData.memLV0Status === '3'">已完成<br><span class="time-msg">{{iMemberData.memLV0Time}}</span>
                                 </template>
-                                <template v-if="iMemberData.memLV0Status === '4'">拒絕<br>{{iMemberData.memLV0Time}}
-                                    <template v-if="iMemberData.memLV0Msg !== ''"><br>{{ iMemberData.memLV0Msg }}
+                                <template v-if="iMemberData.memLV0Status === '4'">拒絕<br><span class="time-msg">{{iMemberData.memLV0Time}}</span>
+                                    <template v-if="iMemberData.memLV0Msg !== ''"><br><span class="other-msg">{{ iMemberData.memLV0Msg }}</span>
                                     </template>
                                 </template>
                             </a>
@@ -577,24 +608,27 @@
                     </tr>
                     <tr>
                         <td>2</td>
-                        <th scope="row"><span class="badge badge-primary">窗口</span></th>
-                        <td>{{ iMemberData.comTitle}} <template v-if="iMemberData.memLVCKey !== ''">{{ iMemberData.memBu2 }} {{ iMemberData.memBu3 }} {{
-                            iMemberData.memLVCName }} {{ iMemberData.memLVCPositionName }}</template>
+                        <th scope="row"><span class="badge badge-primary">會辦</span></th>
+                        <td><span class="sign-title">管理維運公司窗口</span><br>{{ iMemberData.comTitle}}
+                            <template v-if="iMemberData.memLVCKey !== ''">{{ iMemberData.memBu2 }} {{ iMemberData.memBu3
+                                }} {{
+                                iMemberData.memLVCName }} {{ iMemberData.memLVCPositionName }}
+                            </template>
                         </td>
                         <td style="text-align: right;">
                             <a :class="iMemberData.memLVCStatus === '0' || iMemberData.memLVCStatus === '1' ? 'text-job text-danger myFont16' : 'text-job myFont16'"
-                               href="javascript:void(1);">
+                               href="javascript:void(0);">
                                 <template v-if="iMemberData.memLVCStatus === '-1'">等待</template>
                                 <template v-if="iMemberData.memLVCStatus === '0'">待檢視</template>
                                 <template v-if="iMemberData.memLVCStatus === '1'">簽核中</template>
-                                <template v-if="iMemberData.memLVCStatus === '2'">退件<br>{{iMemberData.memLVCTime}}
-                                    <template v-if="iMemberData.memLVCMsg !== ''"><br>{{ iMemberData.memLVCMsg }}
+                                <template v-if="iMemberData.memLVCStatus === '2'">退件<br><span class="time-msg">{{iMemberData.memLVCTime}}</span>
+                                    <template v-if="iMemberData.memLVCMsg !== ''"><br><span class="other-msg">{{ iMemberData.memLVCMsg }}</span>
                                     </template>
                                 </template>
-                                <template v-if="iMemberData.memLVCStatus === '3'">已完成<br>{{iMemberData.memLVCTime}}
+                                <template v-if="iMemberData.memLVCStatus === '3'">已完成<br><span class="time-msg">{{iMemberData.memLVCTime}}</span>
                                 </template>
-                                <template v-if="iMemberData.memLVCStatus === '4'">拒絕<br>{{iMemberData.memLVCTime}}
-                                    <template v-if="iMemberData.memLVCMsg !== ''"><br>{{ iMemberData.memLVCMsg }}
+                                <template v-if="iMemberData.memLVCStatus === '4'">拒絕<br><span class="time-msg">{{iMemberData.memLVCTime}}</span>
+                                    <template v-if="iMemberData.memLVCMsg !== ''"><br><span class="other-msg">{{ iMemberData.memLVCMsg }}</span>
                                     </template>
                                 </template>
                             </a>
@@ -603,23 +637,24 @@
                     <tr>
                         <td>3</td>
                         <th scope="row"><span class="badge badge-primary">簽核</span></th>
-                        <td>{{ iMemberData.comTitle}} {{ iMemberData.memBu2 }} {{ iMemberData.memBu3 }} {{
+                        <td><span class="sign-title">管理維運公司科級主管</span><br>{{ iMemberData.comTitle}} {{
+                            iMemberData.memBu2 }} {{ iMemberData.memBu3 }} {{
                             iMemberData.memLV1Name }} {{ iMemberData.memLV1PositionName }}
                         </td>
                         <td style="text-align: right;">
                             <a :class="iMemberData.memLV1Status === '0' || iMemberData.memLV1Status === '1' ? 'text-job text-danger myFont16' : 'text-job myFont16'"
-                               href="javascript:void(1);">
+                               href="javascript:void(0);">
                                 <template v-if="iMemberData.memLV1Status === '-1'">等待</template>
                                 <template v-if="iMemberData.memLV1Status === '0'">待檢視</template>
                                 <template v-if="iMemberData.memLV1Status === '1'">簽核中</template>
-                                <template v-if="iMemberData.memLV1Status === '2'">退件<br>{{iMemberData.memLV1Time}}
-                                    <template v-if="iMemberData.memLV1Msg !== ''"><br>{{ iMemberData.memLV1Msg }}
+                                <template v-if="iMemberData.memLV1Status === '2'">退件<br><span class="time-msg">{{iMemberData.memLV1Time}}</span>
+                                    <template v-if="iMemberData.memLV1Msg !== ''"><br><span class="other-msg">{{ iMemberData.memLV1Msg }}</span>
                                     </template>
                                 </template>
-                                <template v-if="iMemberData.memLV1Status === '3'">已完成<br>{{iMemberData.memLV1Time}}
+                                <template v-if="iMemberData.memLV1Status === '3'">已完成<br><span class="time-msg">{{iMemberData.memLV1Time}}</span>
                                 </template>
-                                <template v-if="iMemberData.memLV1Status === '4'">拒絕<br>{{iMemberData.memLV1Time}}
-                                    <template v-if="iMemberData.memLV1Msg !== ''"><br>{{ iMemberData.memLV1Msg }}
+                                <template v-if="iMemberData.memLV1Status === '4'">拒絕<br><span class="time-msg">{{iMemberData.memLV1Time}}</span>
+                                    <template v-if="iMemberData.memLV1Msg !== ''"><br><span class="other-msg">{{ iMemberData.memLV1Msg }}</span>
                                     </template>
                                 </template>
                             </a>
@@ -628,23 +663,24 @@
                     <tr>
                         <td>4</td>
                         <th scope="row"><span class="badge badge-primary">簽核</span></th>
-                        <td>{{ iMemberData.comTitle}} {{ iMemberData.memBu2 }} {{ iMemberData.memBu3 }} {{
+                        <td><span class="sign-title">管理維運公司部級主管(含以上)</span><br>{{ iMemberData.comTitle}} {{
+                            iMemberData.memBu2 }} {{ iMemberData.memBu3 }} {{
                             iMemberData.memLV2Name }} {{ iMemberData.memLV2PositionName }}
                         </td>
                         <td style="text-align: right;">
                             <a :class="iMemberData.memLV2Status === '0' || iMemberData.memLV2Status === '1' ? 'text-job text-danger myFont16' : 'text-job myFont16'"
-                               href="javascript:void(2);">
+                               href="javascript:void(0);">
                                 <template v-if="iMemberData.memLV2Status === '-1'">等待</template>
                                 <template v-if="iMemberData.memLV2Status === '0'">待檢視</template>
                                 <template v-if="iMemberData.memLV2Status === '1'">簽核中</template>
-                                <template v-if="iMemberData.memLV2Status === '2'">拒絕<br>{{iMemberData.memLV2Time}}
-                                    <template v-if="iMemberData.memLV2Msg !== ''"><br>{{ iMemberData.memLV2Msg }}
+                                <template v-if="iMemberData.memLV2Status === '2'">拒絕<br><span class="time-msg">{{iMemberData.memLV2Time}}</span>
+                                    <template v-if="iMemberData.memLV2Msg !== ''"><br><span class="other-msg">{{ iMemberData.memLV2Msg }}</span>
                                     </template>
                                 </template>
-                                <template v-if="iMemberData.memLV2Status === '3'">已完成<br>{{iMemberData.memLV2Time}}
+                                <template v-if="iMemberData.memLV2Status === '3'">已完成<br><span class="time-msg">{{iMemberData.memLV2Time}}</span>
                                 </template>
-                                <template v-if="iMemberData.memLV2Status === '4'">已完成<br>{{iMemberData.memLV2Time}}
-                                    <template v-if="iMemberData.memLV2Msg !== ''"><br>{{ iMemberData.memLV2Msg }}
+                                <template v-if="iMemberData.memLV2Status === '4'">已完成<br><span class="time-msg">{{iMemberData.memLV2Time}}</span>
+                                    <template v-if="iMemberData.memLV2Msg !== ''"><br><span class="other-msg">{{ iMemberData.memLV2Msg }}</span>
                                     </template>
                                 </template>
                             </a>
@@ -653,8 +689,9 @@
                     <template v-for="(mmem, idx) in mMemberData">
                         <tr>
                             <td>{{idx+5}}</td>
-                            <th scope="row"><span class="badge badge-info">維運-水平會議</span></th>
-                            <td>{{ mmem.comTitle}} {{ mmem.memBu2 }} {{ mmem.memBu3 }} {{ mmem.memLV0Name }} {{
+                            <th scope="row"><span class="badge badge-primary">水平會簽</span></th>
+                            <td><span class="sign-title">平行維運公司承辦人</span><br>{{ mmem.comTitle}} {{ mmem.memBu2 }} {{
+                                mmem.memBu3 }} {{ mmem.memLV0Name }} {{
                                 mmem.memLV0PositionName }}
                             </td>
                             <td style="text-align: right;">
@@ -663,12 +700,15 @@
                                     <template v-if="mmem.memLV0Status === '-1'">等待</template>
                                     <template v-if="mmem.memLV0Status === '0'">待檢視</template>
                                     <template v-if="mmem.memLV0Status === '1'">簽核中</template>
-                                    <template v-if="mmem.memLV0Status === '2'">退件<br>{{mmem.memLV0Time}}
-                                        <template v-if="mmem.memLV0Msg !== ''"><br>{{ mmem.memLV0Msg }}</template>
+                                    <template v-if="mmem.memLV0Status === '2'">退件<br><span class="time-msg">{{mmem.memLV0Time}}</span>
+                                        <template v-if="mmem.memLV0Msg !== ''"><br><span class="other-msg">{{ mmem.memLV0Msg }}</span>
+                                        </template>
                                     </template>
-                                    <template v-if="mmem.memLV0Status === '3'">已完成<br>{{mmem.memLV0Time}}</template>
-                                    <template v-if="mmem.memLV0Status === '4'">拒絕<br>{{mmem.memLV0Time}}
-                                        <template v-if="mmem.memLV0Msg !== ''"><br>{{ mmem.memLV0Msg }}</template>
+                                    <template v-if="mmem.memLV0Status === '3'">已完成<br><span class="time-msg">{{mmem.memLV0Time}}</span>
+                                    </template>
+                                    <template v-if="mmem.memLV0Status === '4'">拒絕<br><span class="time-msg">{{mmem.memLV0Time}}</span>
+                                        <template v-if="mmem.memLV0Msg !== ''"><br><span class="other-msg">{{ mmem.memLV0Msg }}</span>
+                                        </template>
                                     </template>
                                 </a>
                             </td>
@@ -676,21 +716,25 @@
                         <tr>
                             <td></td>
                             <th scope="row"><span class="badge badge-secondary"></span></th>
-                            <td>{{ mmem.comTitle}} {{ mmem.memBu2 }} {{ mmem.memBu3 }} {{ mmem.memLV1Name }} {{
+                            <td><span class="sign-title">管理維運公司科級主管</span><br>{{ mmem.comTitle}} {{ mmem.memBu2 }} {{
+                                mmem.memBu3 }} {{ mmem.memLV1Name }} {{
                                 mmem.memLV1PositionName }}
                             </td>
                             <td style="text-align: right;">
                                 <a :class="mmem.memLV1Status === '0' || mmem.memLV1Status === '1' ? 'text-job text-danger myFont16' : 'text-job myFont16'"
-                                   href="javascript:void(1);">
+                                   href="javascript:void(0);">
                                     <template v-if="mmem.memLV1Status === '-1'">等待</template>
                                     <template v-if="mmem.memLV1Status === '0'">待檢視</template>
                                     <template v-if="mmem.memLV1Status === '1'">簽核中</template>
-                                    <template v-if="mmem.memLV1Status === '2'">退件<br>{{mmem.memLV1Time}}
-                                        <template v-if="mmem.memLV1Msg !== ''"><br>{{ mmem.memLV1Msg }}</template>
+                                    <template v-if="mmem.memLV1Status === '2'">退件<br><span class="time-msg">{{mmem.memLV1Time}}</span>
+                                        <template v-if="mmem.memLV1Msg !== ''"><br><span class="other-msg">{{ mmem.memLV1Msg }}</span>
+                                        </template>
                                     </template>
-                                    <template v-if="mmem.memLV1Status === '3'">已完成<br>{{mmem.memLV1Time}}</template>
-                                    <template v-if="mmem.memLV1Status === '4'">拒絕<br>{{mmem.memLV1Time}}
-                                        <template v-if="mmem.memLV1Msg !== ''"><br>{{ mmem.memLV1Msg }}</template>
+                                    <template v-if="mmem.memLV1Status === '3'">已完成<br><span class="time-msg">{{mmem.memLV1Time}}</span>
+                                    </template>
+                                    <template v-if="mmem.memLV1Status === '4'">拒絕<br><span class="time-msg">{{mmem.memLV1Time}}</span>
+                                        <template v-if="mmem.memLV1Msg !== ''"><br><span class="time-msg">{{ mmem.memLV1Msg }}</span>
+                                        </template>
                                     </template>
                                 </a>
                             </td>
@@ -698,21 +742,25 @@
                         <tr>
                             <td></td>
                             <th scope="row"><span class="badge badge-success"></span></th>
-                            <td>{{ mmem.comTitle}} {{ mmem.memBu2 }} {{ mmem.memBu3 }} {{ mmem.memLV2Name }} {{
+                            <td><span class="sign-title">管理維運公司部級主管(含以上)</span><br>{{ mmem.comTitle}} {{ mmem.memBu2 }}
+                                {{ mmem.memBu3 }} {{ mmem.memLV2Name }} {{
                                 mmem.memLV2PositionName }}
                             </td>
                             <td style="text-align: right;">
                                 <a :class="mmem.memLV2Status === '0' || mmem.memLV2Status === '1' ? 'text-job text-danger myFont16' : 'text-job myFont16'"
-                                   href="javascript:void(2);">
+                                   href="javascript:void(0);">
                                     <template v-if="mmem.memLV2Status === '-1'">等待</template>
                                     <template v-if="mmem.memLV2Status === '0'">待檢視</template>
                                     <template v-if="mmem.memLV2Status === '1'">簽核中</template>
-                                    <template v-if="mmem.memLV2Status === '2'">退件<br>{{mmem.memLV2Time}}
-                                        <template v-if="mmem.memLV2Msg !== ''"><br>{{ mmem.memLV2Msg }}</template>
+                                    <template v-if="mmem.memLV2Status === '2'">退件<br><span class="time-msg">{{mmem.memLV2Time}}</span>
+                                        <template v-if="mmem.memLV2Msg !== ''"><br><span class="other-msg">{{ mmem.memLV2Msg }}</span>
+                                        </template>
                                     </template>
-                                    <template v-if="mmem.memLV2Status === '3'">已完成<br>{{mmem.memLV2Time}}</template>
-                                    <template v-if="mmem.memLV2Status === '4'"><br>{{mmem.memLV2Time}}
-                                        <template v-if="mmem.memLV2Msg !== ''"><br>{{ mmem.memLV2Msg }}</template>
+                                    <template v-if="mmem.memLV2Status === '3'">已完成<br><span class="time-msg">{{mmem.memLV2Time}}</span>
+                                    </template>
+                                    <template v-if="mmem.memLV2Status === '4'"><br><span class="time-msg">{{mmem.memLV2Time}}</span>
+                                        <template v-if="mmem.memLV2Msg !== ''"><br><span class="other-msg">{{ mmem.memLV2Msg }}</span>
+                                        </template>
                                     </template>
                                 </a>
                             </td>
@@ -721,8 +769,9 @@
                     <template v-for="(umem, idx) in uMemberData">
                         <tr>
                             <td>{{mMemberData.length+idx+5}}</td>
-                            <th scope="row"><span class="badge badge-info">水平會議</span></th>
-                            <td>{{ umem.comTitle}} {{ umem.memBu2 }} {{ umem.memBu3 }} {{ umem.memLV0Name }} {{
+                            <th scope="row"><span class="badge badge-info">水平會簽</span></th>
+                            <td><span class="sign-title">使用公司承辦人</span><br>{{ umem.comTitle}} {{ umem.memBu2 }} {{
+                                umem.memBu3 }} {{ umem.memLV0Name }} {{
                                 umem.memLV0PositionName }}
                             </td>
                             <td style="text-align: right;">
@@ -731,12 +780,15 @@
                                     <template v-if="umem.memLV0Status === '-1'">等待</template>
                                     <template v-if="umem.memLV0Status === '0'">待檢視</template>
                                     <template v-if="umem.memLV0Status === '1'">簽核中</template>
-                                    <template v-if="umem.memLV0Status === '2'">退件<br>{{umem.memLV0Time}}
-                                        <template v-if="umem.memLV0Msg !== ''"><br>{{ umem.memLV0Msg }}</template>
+                                    <template v-if="umem.memLV0Status === '2'">退件<br><span class="time-msg">{{umem.memLV0Time}}</span>
+                                        <template v-if="umem.memLV0Msg !== ''"><br><span class="other-msg">{{ umem.memLV0Msg }}</span>
+                                        </template>
                                     </template>
-                                    <template v-if="umem.memLV0Status === '3'">已完成<br>{{umem.memLV0Time}}</template>
-                                    <template v-if="umem.memLV0Status === '4'">拒絕<br>{{umem.memLV0Time}}
-                                        <template v-if="umem.memLV0Msg !== ''"><br>{{ umem.memLV0Msg }}</template>
+                                    <template v-if="umem.memLV0Status === '3'">已完成<br><span class="time-msg">{{umem.memLV0Time}}</span>
+                                    </template>
+                                    <template v-if="umem.memLV0Status === '4'">拒絕<br><span class="time-msg">{{umem.memLV0Time}}</span>
+                                        <template v-if="umem.memLV0Msg !== ''"><br><span class="other-msg">{{ umem.memLV0Msg }}</span>
+                                        </template>
                                     </template>
                                 </a>
                             </td>
@@ -744,21 +796,25 @@
                         <tr>
                             <td></td>
                             <th scope="row"><span class="badge badge-secondary"></span></th>
-                            <td>{{ umem.comTitle}} {{ umem.memBu2 }} {{ umem.memBu3 }} {{ umem.memLV1Name }} {{
+                            <td><span class="sign-title">使用公司科級主管</span><br>{{ umem.comTitle}} {{ umem.memBu2 }} {{
+                                umem.memBu3 }} {{ umem.memLV1Name }} {{
                                 umem.memLV1PositionName }}
                             </td>
                             <td style="text-align: right;">
                                 <a :class="umem.memLV1Status === '0' || umem.memLV1Status === '1' ? 'text-job text-danger myFont16' : 'text-job myFont16'"
-                                   href="javascript:void(1);">
+                                   href="javascript:void(0);">
                                     <template v-if="umem.memLV1Status === '-1'">等待</template>
                                     <template v-if="umem.memLV1Status === '0'">待檢視</template>
                                     <template v-if="umem.memLV1Status === '1'">簽核中</template>
-                                    <template v-if="umem.memLV1Status === '2'">退件<br>{{umem.memLV1Time}}
-                                        <template v-if="umem.memLV1Msg !== ''"><br>{{ umem.memLV1Msg }}</template>
+                                    <template v-if="umem.memLV1Status === '2'">退件<br><span class="time-msg">{{umem.memLV1Time}}</span>
+                                        <template v-if="umem.memLV1Msg !== ''"><br><span class="other-msg">{{ umem.memLV1Msg }}</span>
+                                        </template>
                                     </template>
-                                    <template v-if="umem.memLV1Status === '3'">已完成<br>{{umem.memLV1Time}}</template>
-                                    <template v-if="umem.memLV1Status === '4'">拒絕<br>{{umem.memLV1Time}}
-                                        <template v-if="umem.memLV1Msg !== ''"><br>{{ umem.memLV1Msg }}</template>
+                                    <template v-if="umem.memLV1Status === '3'">已完成<br><span class="time-msg">{{umem.memLV1Time}}</span>
+                                    </template>
+                                    <template v-if="umem.memLV1Status === '4'">拒絕<br><span class="time-msg">{{umem.memLV1Time}}</span>
+                                        <template v-if="umem.memLV1Msg !== ''"><br><span class="other-msg">{{ umem.memLV1Msg }}</span>
+                                        </template>
                                     </template>
                                 </a>
                             </td>
@@ -766,21 +822,25 @@
                         <tr>
                             <td></td>
                             <th scope="row"><span class="badge badge-success"></span></th>
-                            <td>{{ umem.comTitle}} {{ umem.memBu2 }} {{ umem.memBu3 }} {{ umem.memLV2Name }} {{
+                            <td><span class="sign-title">使用公司部級主管(含以上)</span><br>{{ umem.comTitle}} {{ umem.memBu2 }} {{
+                                umem.memBu3 }} {{ umem.memLV2Name }} {{
                                 umem.memLV2PositionName }}
                             </td>
                             <td style="text-align: right;">
                                 <a :class="umem.memLV2Status === '0' || umem.memLV2Status === '1' ? 'text-job text-danger myFont16' : 'text-job myFont16'"
-                                   href="javascript:void(2);">
+                                   href="javascript:void(0);">
                                     <template v-if="umem.memLV2Status === '-1'">等待</template>
                                     <template v-if="umem.memLV2Status === '0'">待檢視</template>
                                     <template v-if="umem.memLV2Status === '1'">簽核中</template>
-                                    <template v-if="umem.memLV2Status === '2'">退件<br>{{umem.memLV2Time}}
-                                        <template v-if="umem.memLV2Msg !== ''"><br>{{ umem.memLV2Msg }}</template>
+                                    <template v-if="umem.memLV2Status === '2'">退件<br><span class="time-msg">{{umem.memLV2Time}}</span>
+                                        <template v-if="umem.memLV2Msg !== ''"><br><span class="other-msg">{{ umem.memLV2Msg }}</span>
+                                        </template>
                                     </template>
-                                    <template v-if="umem.memLV2Status === '3'">已完成<br>{{umem.memLV2Time}}</template>
-                                    <template v-if="umem.memLV2Status === '4'">拒絕<br>{{umem.memLV2Time}}
-                                        <template v-if="umem.memLV2Msg !== ''"><br>{{ umem.memLV2Msg }}</template>
+                                    <template v-if="umem.memLV2Status === '3'">已完成<br><span class="time-msg">{{umem.memLV2Time}}</span>
+                                    </template>
+                                    <template v-if="umem.memLV2Status === '4'">拒絕<br><span class="time-msg">{{umem.memLV2Time}}</span>
+                                        <template v-if="umem.memLV2Msg !== ''"><br><span class="other-msg">{{ umem.memLV2Msg }}</span>
+                                        </template>
                                     </template>
                                 </a>
                             </td>
@@ -812,10 +872,10 @@
                                     type="button"
                                     class="m-r-5 btn btn-warning btn-border-radius waves-effect myFont16">發起
                             </button>
-                            <button v-if="contractData.conStatus === '2' && contractData.comId === per.comId && contractData.perKey === per.perKey"
-                                    @click="releaseSign(2)"
-                                    type="button" class="btn btn-warning btn-border-radius waves-effect myFont16">重新發起
-                            </button>
+                            <!--<button v-if="contractData.conStatus === '2' && contractData.comId === per.comId && contractData.perKey === per.perKey"-->
+                                    <!--@click="releaseSign(2)"-->
+                                    <!--type="button" class="btn btn-warning btn-border-radius waves-effect myFont16">重新發起-->
+                            <!--</button>-->
                             <button v-if="contractData.conStatus === '1' && checkMember()"
                                     @click="signContract()"
                                     type="button" class="m-r-5 btn btn-success btn-border-radius waves-effect myFont16">
@@ -897,8 +957,8 @@
     import VueOfficeExcel from '@vue-office/excel';
     import '@vue-office/excel/lib/index.css';
     import VueOfficePdf from '@vue-office/pdf';
-    import { controlBoxMixin } from '@/mixins/controlBoxMixin.js';
-
+    import {controlBoxMixin} from '@/mixins/controlBoxMixin.js';
+    import { saveAs } from 'file-saver';
     export default {
         name: "Contract_sl",
         mixins: [controlBoxMixin],
@@ -906,7 +966,7 @@
             return {
                 per: JSON.parse(Cookies.get('per')),
                 viewFile: false,
-                viewFileUrl:'',
+                viewFileUrl: '',
                 viewFilePDF: false,
                 viewFileDOCK: false,
                 viewFileXLSE: false,
@@ -966,10 +1026,10 @@
                 const conId = this.$route.params.id; // 取得路由參數 id
                 const apiRequests = [
                     this.$api.get(this.$test ? `/api/?type=contract&conId=${conId}` : `/api/adm/contract/${conId}`),
-                    this.$api.get(this.$test ? `/api/?type=contract_item&conId=${conId}` : `/api/adm/getContractItem?conId=${conId}`),
-                    this.$api.get(this.$test ? `/api/?type=contract_member&conId=${conId}` : `/api/adm/getMemberContract?conId=${conId}`),
-                    this.$api.get(this.$test ? '/api/?type=personnel' : '/api/comm/getPersonnelList'),
-                    this.$api.get(this.$test ? '/api/?type=contact' : ''),
+                    this.$api.get(this.$test ? `/api/?type=contractItem` : `/api/iform/contractItem/List`, {params:{conId:conId}}),
+                    this.$api.get(this.$test ? `/api/?type=contractMember` : `/api/iform/contractMember/List`, {params:{conId:conId}}),
+                    this.$api.get(this.$test ? '/api/?type=personnel' : '/api/iform/personnel/List'),
+                    this.$api.get(this.$test ? '/api/?type=contact' : '/api/iform/contact/List'),
                 ];
                 Promise.all(apiRequests)
                     .then(([contractResponse, itemResponse, memberResponse, personnelResponse, contactResponse]) => {
@@ -985,7 +1045,7 @@
 
                         // itemResopnse
                         this.itemData = itemResponse.data.data;
-                        this.itemData.forEach((item)=>{
+                        this.itemData.forEach((item) => {
                             item.iteProportion = item.iteProportion && '' !== item.iteProportion ? JSON.parse(item.iteProportion) : item.iteProportion;
                         });
 
@@ -1013,7 +1073,8 @@
                             + this.iMemberData.memLV0Name + ' '
                             + this.iMemberData.memLV0PositionName + ' '
                             + (action === 2 ? '重新發起簽核' : '發起簽核');
-                        await this.updateContractStatus(1, null, msg);//修改文件狀態為進行中
+                        let log = this.createMemberLog(this.iMemberData.memId, this.per.perKey, 3, msg, 1);
+                        await this.updateContractStatus(1, null, log);//修改文件狀態為進行中
                         const upMember = this.createUpMember(this.iMemberData, '0', 3, true);
                         await this.updateMember(upMember);//修改簽核組別資訊
                         alert('發起成功');
@@ -1096,7 +1157,8 @@
                             }
                             else {
                                 try {
-                                    await this.updateContractStatus(3, dayjs().format('YYYY-MM-DD'), '文件簽核完成');
+                                    let log = this.createMemberLog(0, '', 3, '文件簽核完成', 3);
+                                    await this.updateContractStatus(3, dayjs().format('YYYY-MM-DD'), log);
                                     await this.clearMemberAll();
                                     alert('文件簽核完成');
                                     this.$router.go(0);
@@ -1123,7 +1185,8 @@
                                 }
                                 else {
                                     try {
-                                        await this.updateContractStatus(3, dayjs().format('YYYY-MM-DD'), '文件簽核完成');
+                                        let log = this.createMemberLog(0, '', 3, '文件簽核完成', 3);
+                                        await this.updateContractStatus(3, dayjs().format('YYYY-MM-DD'), log);
                                         await this.clearMemberAll();
                                         alert('文件簽核完成');
                                         this.$router.go(0);
@@ -1141,7 +1204,8 @@
                             const uMemberParallel = await this.checkParallelTypeSign(2);
                             if (uMemberParallel) {
                                 try {
-                                    await this.updateContractStatus(3, dayjs().format('YYYY-MM-DD'), '文件簽核完成');
+                                    let log = this.createMemberLog(0, '', 3, '文件簽核完成', 3);
+                                    await this.updateContractStatus(3, dayjs().format('YYYY-MM-DD'), log);
                                     await this.clearMemberAll();
                                     alert('文件簽核完成');
                                     this.$router.go(0);
@@ -1192,7 +1256,8 @@
                 if (upMember) {
                     try {
                         await this.updateMember(upMember);
-                        await this.updateContractStatus(4, null, '文件終止');
+                        let log = this.createMemberLog(upMember.memId, upMember.LVKey, 4, '文件終止', 4);
+                        await this.updateContractStatus(4, null, log);
                         await this.clearMemberAll();
                         alert('文件終止');
                         this.$router.push(`/contract/${this.$route.params.tem}/list`);
@@ -1230,7 +1295,8 @@
                 if (upMember) {
                     try {
                         await this.updateMember(upMember);
-                        await this.updateContractStatus(2, null, '文件退回');
+                        let log = this.createMemberLog(upMember.memId, upMember.LVKey, 2, '文件退回', 2);
+                        await this.updateContractStatus(2, null, log);
                         await this.clearMemberAll();
                         alert('文件已退回');
                         this.$router.push(`/contract/${this.$route.params.tem}/list`);
@@ -1251,6 +1317,7 @@
                 const memBu2 = mem.memBu2;
                 const memBu3 = mem.memBu3;
                 const positionName = this.getLVPositionName(mem, isLV);
+                const LVKey =this.getLVKey(mem, isLV);
                 const positionNameNext = this.getLVPositionNameNext(mem, isLV, first);
                 let conLogMsg = null;
                 let isNext = null;
@@ -1261,6 +1328,7 @@
                 let memLVCKey = null;
                 let memLVCName = null;
                 let memLVCPositionName = null;
+                let conStatus = 1;
                 if (signType === 3) {
                     conLogMsg = `${comTitle} ${memBu2} ${memBu3} ${positionName} 簽核完成 ${msg !== null ? ':' + msg : ''}`
                     switch (isLV) {
@@ -1268,7 +1336,7 @@
                             isNext = first ? 'C' : '1';
                             nextLVKey = first ? '' : mem.memLV1Key;
                             nextLVStatus = 0;
-                            nextLogMsg = `${comTitle} ${memBu2} ${memBu3} ${positionNameNext} 待檢視`;
+                            nextLogMsg = first ? '窗口人員 待檢視' : `${comTitle} ${memBu2} ${memBu3} ${positionNameNext} 待檢視`;
                             memStatus = 1;
                             break;
                         case 'C':
@@ -1297,9 +1365,11 @@
                 }
                 else {
                     if (signType === 2) {
+                        conStatus = 2;
                         conLogMsg = `${comTitle} ${memBu2} ${memBu3} ${positionName} 退件 ${msg !== '' ? ':' + msg : null}`
                     }
                     else if (signType === 4) {
+                        conStatus = 4;
                         conLogMsg = `${comTitle} ${memBu2} ${memBu3} ${positionName} 拒絕 ${msg !== '' ? ':' + msg : null}`
                     }
                     else if (signType === 0) {
@@ -1321,12 +1391,42 @@
                     memLVCKey: memLVCKey,
                     memLVCName: memLVCName,
                     memLVCPositionName: memLVCPositionName,
+                    LVKey:LVKey,
                     memNowKey: nextLVKey,
                     memNowStatus: nextLVStatus,
                     memStatus: memStatus,
-                    conLogMsg: conLogMsg,
-                    conLogMsgNext: `${nextLogMsg}`,
+                    conLog: this.createMemberLog(memId, LVKey, signType, conLogMsg, conStatus),
+                    conLogNext: nextLogMsg ? this.createMemberLog(memId, nextLVKey, nextLVStatus, nextLogMsg, conStatus) : null,
                 };
+            },
+
+            // 產生Log資料
+            createMemberLog(memId, perKey, memStatus, msg, status) {
+                const conId = this.$route.params.id; // 取得路由參數 id
+                const contractLog = {
+                    conId:conId,
+                    memId:memId,
+                    perKey:perKey,
+                    colMemberStatus:memStatus,
+                    colMsg:msg,
+                    colStatus:status
+                };
+                return JSON.stringify(contractLog);
+            },
+            //取得姓名與職稱
+            getLVKey(mem, isLV) {
+                switch (isLV) {
+                    case '0':
+                        return `${mem.memLV0Key}`;
+                    case 'C':
+                        return `${mem.memLVCKey}`;
+                    case '1':
+                        return `${mem.memLV1Key}`;
+                    case '2':
+                        return `${mem.memLV2Key}`;
+                    default:
+                        return '';
+                }
             },
             //取得姓名與職稱
             getLVPositionName(mem, isLV) {
@@ -1376,7 +1476,8 @@
             async checkParallelTypeSign(memberType) {
                 try {
                     const response = await this.$api.get(
-                        this.$test ? `/api/?type=contract_member&conId=${this.contractData.conId}&memType=${memberType}` : `/api/adm/getMemberContract?ctId=${ctId}&mbType=${type}`
+                        this.$test ? `/api/?type=contractMember` : `/api/iform/contractMember/List`
+                        , {params:{conId:this.contractData.conId, memType:memberType}}
                     );
 
                     if (response.status === 200) {
@@ -1398,7 +1499,7 @@
             async updateMember(payload) {
                 try {
                     const response = await this.$api.put(
-                        this.$test ? '/api/?type=member_status' : '/api/adm/member/update',
+                        this.$test ? '/api/?type=memberStatus' : '/api/iform/memberStatus',
                         payload
                     );
 
@@ -1423,7 +1524,7 @@
                 };
                 try {
                     const response = await this.$api.put(
-                        this.$test ? '/api/?type=member_status_all' : '/api/adm/member/update',
+                        this.$test ? '/api/?type=memberStatusAll' : '/api/iform/memberStatusAll',
                         payload
                     );
 
@@ -1439,17 +1540,18 @@
 
             },
             // updateContractStatus(狀態, 生效日期, log) 修改文件簽核狀態
-            async updateContractStatus(status, date, msg) {
+            async updateContractStatus(status, date, log) {
                 const payload = {
                     conId: this.contractData.conId,
                     conStatus: status,
                     conDate: date,
-                    conLogMsg: msg,
+                    conLog: log,
                 };
+                console.log(payload);
                 try {
 
                     await this.$api.put(
-                        this.$test ? '/api/?type=contract_status' : '/api/adm/contract/updateStatus',
+                        this.$test ? '/api/?type=contractStatus' : '/api/iform/contractStatus',
                         payload
                     );
                 } catch (error) {
@@ -1467,7 +1569,7 @@
                     };
 
                     const response = await this.$api.put(
-                        this.$test ? '/api/?type=contract_default' : '/api/adm/contract/updateStatus',
+                        this.$test ? '/api/?type=contractDefault' : '/api/iform/contractDefault',
                         payload
                     );
 
@@ -1512,6 +1614,19 @@
                     element.removeChild(logoImage);
                 } catch (error) {
                     console.error(error);
+                }
+            },
+            async downloadViewFile(file_url) {
+                const segments = file_url.split('/');
+                const fileName = segments[segments.length - 1];
+
+                try {
+                    const response = await fetch(file_url);
+                    const blob = await response.blob();
+
+                    saveAs(blob, fileName);
+                } catch (error) {
+                    console.error('下载失败', error);
                 }
             },
             closeViewFile() {
@@ -1580,5 +1695,18 @@
         border-style: double;
         border-color: black;
         border-width: unset;
+    }
+
+    .sign-title {
+        color: #a9a9a9;
+        font-size: 14px;
+    }
+
+    .time-msg {
+        font-size: 12px;
+    }
+
+    .other-msg {
+
     }
 </style>

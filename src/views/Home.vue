@@ -79,102 +79,25 @@
                             </tr>
                             </thead>
                             <tbody class="myNew">
-                            <tr>
-                                <th scope="row"><span class="badge badge-success">提醒</span></th>
-                                <td>資訊作業系統已於2024-01-01正式上線</td>
-                                <td>2017-01-09</td>
+                            <tr v-for="nws in newsData">
+                                <th scope="row">
+                                    <span v-if="'1' === nws.nwsType" class="badge badge-secondary">一般</span>
+                                    <span v-if="'2' === nws.nwsType" class="badge badge-success">提醒</span>
+                                    <span v-if="'3' === nws.nwsType" class="badge badge-primary">重要</span>
+                                    <span v-if="'4' === nws.nwsType" class="badge badge-info">好康</span>
+                                    <span v-if="'5' === nws.nwsType" class="badge badge-danger">緊急</span>
+                                </th>
+                                <td>{{ nws.nwsTitle }}</td>
+                                <td>{{ this.$root.formatDate(nws.nwsRelease)}}</td>
                                 <td>
-                                    <div class="action-btns"><a href="javascript:void(0);"
-                                                                class="action-btn btn-view bs-tooltip me-2"
-                                                                data-toggle="tooltip" data-placement="top"
-                                                                title="" data-bs-original-title="View"
-                                                                aria-label="View">
-                                        <vue-feather type="eye"></vue-feather>
-                                    </a></div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><span class="badge badge-danger">緊急</span></th>
-                                <td>資訊作業系統已於2024-01-01正式上線</td>
-                                <td>2017-01-09</td>
-                                <td>
-                                    <div class="action-btns"><a href="javascript:void(0);"
-                                                                class="action-btn btn-view bs-tooltip me-2"
-                                                                data-toggle="tooltip" data-placement="top"
-                                                                title="" data-bs-original-title="View"
-                                                                aria-label="View">
-                                        <vue-feather type="eye"></vue-feather>
-                                    </a></div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><span class="badge badge-primary">重要</span></th>
-                                <td>資訊作業系統已於2024-01-01正式上線</td>
-                                <td>2017-01-09</td>
-                                <td>
-                                    <div class="action-btns"><a href="javascript:void(0);"
-                                                                class="action-btn btn-view bs-tooltip me-2"
-                                                                data-toggle="tooltip" data-placement="top"
-                                                                title="" data-bs-original-title="View"
-                                                                aria-label="View">
-                                        <vue-feather type="eye"></vue-feather>
-                                    </a></div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><span class="badge badge-info">好康</span></th>
-                                <td>資訊作業系統已於2024-01-01正式上線</td>
-                                <td>2017-01-09</td>
-                                <td>
-                                    <div class="action-btns"><a href="javascript:void(0);"
-                                                                class="action-btn btn-view bs-tooltip me-2"
-                                                                data-toggle="tooltip" data-placement="top"
-                                                                title="" data-bs-original-title="View"
-                                                                aria-label="View">
-                                        <vue-feather type="eye"></vue-feather>
-                                    </a></div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><span class="badge badge-secondary">一般</span></th>
-                                <td>資訊作業系統已於2024-01-01正式上線</td>
-                                <td>2017-01-09</td>
-                                <td>
-                                    <div class="action-btns"><a href="javascript:void(0);"
-                                                                class="action-btn btn-view bs-tooltip me-2"
-                                                                data-toggle="tooltip" data-placement="top"
-                                                                title="" data-bs-original-title="View"
-                                                                aria-label="View">
-                                        <vue-feather type="eye"></vue-feather>
-                                    </a></div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row"></th>
-                                <td>資訊作業系統已於2024-01-01正式上線</td>
-                                <td>2017-01-09</td>
-                                <td>
-                                    <div class="action-btns"><a href="javascript:void(0);"
-                                                                class="action-btn btn-view bs-tooltip me-2"
-                                                                data-toggle="tooltip" data-placement="top"
-                                                                title="" data-bs-original-title="View"
-                                                                aria-label="View">
-                                        <vue-feather type="eye"></vue-feather>
-                                    </a></div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row"></th>
-                                <td>資訊作業系統已於2024-01-01正式上線</td>
-                                <td>2017-01-09</td>
-                                <td>
-                                    <div class="action-btns"><a href="javascript:void(0);"
-                                                                class="action-btn btn-view bs-tooltip me-2"
-                                                                data-toggle="tooltip" data-placement="top"
-                                                                title="" data-bs-original-title="View"
-                                                                aria-label="View">
-                                        <vue-feather type="eye"></vue-feather>
-                                    </a></div>
+                                    <div class="action-btns">
+                                        <router-link :to="`/announcement/sl/${nws.nwsId}`"
+                                                     class="action-btn btn-view bs-tooltip me-2"
+                                                     data-toggle="tooltip" data-placement="top"
+                                                     title="" data-bs-original-title="View"
+                                                     aria-label="View">
+                                            <vue-feather type="eye"></vue-feather>
+                                        </router-link></div>
                                 </td>
                             </tr>
 
@@ -466,7 +389,7 @@
             </div>
             <!-- 公告 -->
             <!-- 待簽文件 -->
-            <div v-if="contractData.length > 0" class="col-12 myRwd myPadding">
+            <div class="col-12 myRwd myPadding">
                 <div class="card ">
                     <div class="card-header">
                         <h4>我的待簽單</h4>
@@ -519,6 +442,7 @@
         data() {
             return {
                 per: JSON.parse(Cookies.get('per')),
+                newsData: [],
                 companyData: [//公司
                     // {comId: 0, comTitle: '', comCode: ''},
                 ],
@@ -550,14 +474,17 @@
                 if (this.per) {
                     // this.companyData = this.$root.getCompanyData();
                     const apiRequests = [
-                        this.$api.get(this.$test ? '/api/?type=company' : '/api/iform/company'),
-                        this.$api.get(this.$test ? `/api/?type=contract&action=2&conStatus=1&perKey=${this.per.perKey}&perBu1Code=${this.per.perBu1Code}` : '/api/iform/company'),
-                        this.$api.get(this.$test ? `/api/?type=contract&action=3&conStatus=1&perKey=${this.per.perKey}&perBu1Code=${this.per.perBu1Code}` : '/api/iform/company'),
-                        this.$api.get(this.$test ? `/api/?type=contract&action=5&conStatus=1&perKey=${this.per.perKey}&perBu1Code=${this.per.perBu1Code}` : '/api/iform/company'),
-                        this.$api.get(this.$test ? `/api/?type=contract&action=1&conStatus=1&perKey=${this.per.perKey}&perBu1Code=${this.per.perBu1Code}` : '/api/iform/company'),
+                        this.$api.get(this.$test ? '/api/?type=news' : '/api/iform/news/List'),
+                        this.$api.get(this.$test ? '/api/?type=company' : '/api/iform/company/List'),
+                        this.$api.get(this.$test ? `/api/?type=contract` : '/api/iform/contract/List', {params:{action:2, conStatus:1, perKey:this.per.perKey, perBu1Code:this.per.perBu1Code}}),
+                        this.$api.get(this.$test ? `/api/?type=contract` : '/api/iform/contract/List', {params:{action:3, conStatus:1, perKey:this.per.perKey, perBu1Code:this.per.perBu1Code}}),
+                        this.$api.get(this.$test ? `/api/?type=contract` : '/api/iform/contract/List', {params:{action:5, conStatus:1, perKey:this.per.perKey, perBu1Code:this.per.perBu1Code}}),
+                        this.$api.get(this.$test ? `/api/?type=contract` : '/api/iform/contract/List', {params:{action:1, conStatus:1, perKey:this.per.perKey, perBu1Code:this.per.perBu1Code}}),
                     ];
                     Promise.all(apiRequests)
-                        .then(([companyResponse, contractResponse, contractSignResponse, contractOverResponse, contractViewResponse]) => {
+                        .then(([newsResponse, companyResponse, contractResponse, contractSignResponse, contractOverResponse, contractViewResponse]) => {
+                            //newsResponse
+                            this.newsData = newsResponse.data.data;
                             // companyResponse
                             this.companyData = companyResponse.data.data;
                             // contractResponse

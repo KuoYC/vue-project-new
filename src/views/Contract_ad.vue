@@ -2,8 +2,9 @@
     <section class="section">
         <ul class="breadcrumb breadcrumb-style ">
             <li class="breadcrumb-item">
-                <h4 class="page-title m-b-0">簽核單項</h4>
+                <h4 class="page-title m-b-0">資訊共用合約</h4>
             </li>
+            <li class="breadcrumb-item"><router-link :to="`/contract/${templateData.temId}/list`"><vue-feather type="link"></vue-feather>{{ templateData.temTitle }} 列表</router-link></li>
             <li class="breadcrumb-item">新增文件</li>
         </ul>
         <div class="section-body">
@@ -154,10 +155,10 @@
                                                                                 <div class="replyBox m-t-20 myFont16">
                                                                                     <select v-model="col.value"
                                                                                             class="form-control">
-                                                                                        <template
-                                                                                                v-for="sou in sourceData">
                                                                                             <option disabled
                                                                                                     value="">請選擇</option>
+                                                                                        <template
+                                                                                                v-for="sou in sourceData">
                                                                                             <template
                                                                                                     v-if="parseInt(sou.catId) === parseInt(col.id)">
                                                                                                 <option :value="sou.souTitle">
@@ -342,7 +343,7 @@
                                                                             <div class="replyBox m-t-20 myFont16">
                                                                                 <span>
                                                                                     <!-- 這裡放共幾則附檔 -->
-                                                                                    <i class="fa fa-paperclip mb-1"></i> <span>3則</span>附加檔案 </span>
+                                                                                    <i class="fa fa-paperclip mb-1"></i> <span>{{ filMeetingFiles.length + filPlanFiles.length + filOtherFiles.length }}則</span>附加檔案 </span>
                                                                                 <!-- 這裡放附檔 -->
                                                                                 <div class="row">
                                                                                     <FileUpload
@@ -652,14 +653,14 @@
             fetchFirst() {
                 this.temId = this.$route.params.tem;
                 const apiRequests = [
-                    this.$api.get(this.$test ? `/api/?type=template&temId=${this.$route.params.tem}` : `/api/adm/contractTemplate/${this.$route.params.ctp}`),
-                    this.$api.get(this.$test ? '/api/?type=work' : ''),
-                    this.$api.get(this.$test ? '/api/?type=company' : ''),
-                    this.$api.get(this.$test ? '/api/?type=category' : ''),
-                    this.$api.get(this.$test ? '/api/?type=source' : ''),
-                    this.$api.get(this.$test ? '/api/?type=distribution' : ''),
-                    this.$api.get(this.$test ? '/api/?type=manner' : ''),
-                    this.$api.get(this.$test ? '/api/?type=contact' : ''),
+                    this.$api.get(this.$test ? `/api/?type=template&temId=${this.$route.params.tem}` : `/api/iform//template/${this.$route.params.ctp}`),
+                    this.$api.get(this.$test ? '/api/?type=work' : '/api/iform/work/List'),
+                    this.$api.get(this.$test ? '/api/?type=company' : '/api/iform/company/List'),
+                    this.$api.get(this.$test ? '/api/?type=category' : '/api/iform/category/List'),
+                    this.$api.get(this.$test ? '/api/?type=source' : '/api/iform/source/List'),
+                    this.$api.get(this.$test ? '/api/?type=distribution' : '/api/iform/distribution/List'),
+                    this.$api.get(this.$test ? '/api/?type=manner' : '/api/iform/manner/List'),
+                    this.$api.get(this.$test ? '/api/?type=contact' : '/api/iform/contact/List'),
                 ];
 
                 Promise.all(apiRequests)
@@ -743,7 +744,7 @@
                 const dataToAppend = {
                     temId: this.temId,
                     perKey: this.per.perKey,
-                    comId: this.per.comId,
+                    comCode: this.per.perBu1Code,
                     conTitle: this.conTitle,
                     conType: this.conType,
                     conDate: this.conDate,
@@ -760,7 +761,7 @@
 
 
                 this.$api
-                    .post(this.$test ? '/api/?type=contract_create' : '/api/adm/contract/addNew', formData, {
+                    .post(this.$test ? '/api/?type=contractCreate' : '/api/iform/contractCreate', formData, {
                         headers: {
                             'Content-Type': 'multipart/form-data', // 设置请求头为 multipart/form-data
                         },

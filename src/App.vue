@@ -70,7 +70,7 @@
                  style="justify-content: space-between;background-color: var(--theme-color);">
                 <div class="form-inline">
                     <ul class="navbar-nav mr-3">
-                        <li style="margin-right: 10px;"><a href="#" data-bs-toggle="sidebar" class="nav-link nav-link-lg
+                        <li style="margin-right: 10px;"><a href="javascript:void(0);" data-bs-toggle="sidebar" class="nav-link nav-link-lg
 									collapse-btn">
                             <vue-feather type="menu"></vue-feather>
                         </a></li>
@@ -79,49 +79,50 @@
                 <!-- <div class="d-flex align-items-center" style="color: white; font-size: 22px;">資訊共用作業系統
                 </div> -->
                 <ul class="navbar-nav navbar-right d-flex align-items-center">
-                    <li><a href="#" class="nav-link nav-link-lg fullscreen-btn d-flex align-items-center">
+                    <li><a href="javascript:void(0);" class="nav-link nav-link-lg fullscreen-btn d-flex align-items-center">
                         <vue-feather type="maximize"></vue-feather>
                     </a>
                     </li>
-                    <li class="dropdown dropdown-list-toggle" style="display: none;"><a href="#" data-bs-toggle="dropdown"
-                                                                 class="nav-link d-flex notification-toggle nav-link-lg">
+                    <li class="dropdown dropdown-list-toggle" style="display: none;"><a href="javascript:void(0);"
+                                                                                        data-bs-toggle="dropdown"
+                                                                                        class="nav-link d-flex notification-toggle nav-link-lg">
                         <vue-feather type="bell"></vue-feather>
                     </a>
                         <div class="dropdown-menu dropdown-list dropdown-menu-right pullDown">
                             <div class="dropdown-header">
                                 Notifications
                                 <div class="float-right">
-                                    <a href="#">Mark All As Read</a>
+                                    <a href="javascript:void(0);">Mark All As Read</a>
                                 </div>
                             </div>
                             <div class="dropdown-list-content dropdown-list-icons">
-                                <a href="#" class="dropdown-item dropdown-item-unread"> <span
+                                <a href="javascript:void(0);" class="dropdown-item dropdown-item-unread"> <span
                                         class="dropdown-item-icon l-bg-orange text-white"> <i
                                         class="far fa-envelope"></i>
                   </span> <span class="dropdown-item-desc"> You got new mail, please check. <span class="time">2 Min
                       Ago</span>
                   </span>
-                                </a> <a href="#" class="dropdown-item"> <span
+                                </a> <a href="javascript:void(0);" class="dropdown-item"> <span
                                     class="dropdown-item-icon l-bg-purple text-white"> <i
                                     class="fas fa-bell"></i>
                   </span> <span class="dropdown-item-desc"> Meeting with <b>John Deo</b> and <b>Sarah Smith </b> at
                     10:30 am <span class="time">10 Hours
                       Ago</span>
                   </span>
-                            </a> <a href="#" class="dropdown-item"> <span
+                            </a> <a href="javascript:void(0);" class="dropdown-item"> <span
                                     class="dropdown-item-icon l-bg-green text-white"> <i
                                     class="far fa-check-circle"></i>
                   </span> <span class="dropdown-item-desc"> Sidebar Bug is fixed by Kevin <span class="time">12
                       Hours
                       Ago</span>
                   </span>
-                            </a> <a href="#" class="dropdown-item"> <span
+                            </a> <a href="javascript:void(0);" class="dropdown-item"> <span
                                     class="dropdown-item-icon bg-danger text-white"> <i
                                     class="fas fa-exclamation-triangle"></i>
                   </span> <span class="dropdown-item-desc"> Low disk space error!!!. <span class="time">17 Hours
                       Ago</span>
                   </span>
-                            </a> <a href="#" class="dropdown-item"> <span class="dropdown-item-icon bg-info text-white"> <i
+                            </a> <a href="javascript:void(0);" class="dropdown-item"> <span class="dropdown-item-icon bg-info text-white"> <i
                                     class="fas
 												fa-bell"></i>
                   </span> <span class="dropdown-item-desc"> Welcome to Gati
@@ -130,12 +131,12 @@
                             </a>
                             </div>
                             <div class="dropdown-footer text-center">
-                                <a href="#">View All <i class="fas fa-chevron-right"></i></a>
+                                <a href="javascript:void(0);">View All <i class="fas fa-chevron-right"></i></a>
                             </div>
                         </div>
                     </li>
                     <!-- 這裡放人名 -->
-                    <li class="d-flex align-items-center" style="color: white;font-size: 16px;margin-right: 10px;">
+                    <li class="d-flex align-items-center" style="color: white;font-size: 16px;margin-right: 5px;">
                         <span>{{ per.perName }}  {{ per.perPositionName}}</span>
                     </li>
                     <!-- 這裡放公司職位 -->
@@ -143,7 +144,7 @@
                         <span>({{ per.comTitle }}/{{ per.perBu2 }}/{{ per.perBu3 }})</span>
                     </li>
                     <li class="dropdown">
-                        <a href="#" data-bs-toggle="dropdown"
+                        <a href="javascript:void(0);" data-bs-toggle="dropdown"
                            class="nav-link dropdown-toggle nav-link-lg nav-link-user"> <img
                                 alt="image" src="/assets/img/person-304893_1280.png" class="user-img-radious-style">
                             <span
@@ -202,13 +203,19 @@
                         <!-- sidebar個資和品牌 -->
                         <ul class="sidebar-menu">
                             <!-- <li class="menu-header">Dashboard</li> -->
-                            <li class="dropdown" :class="$route.path === '/' || $route.path ==='' ? 'active' : ''">
+                            <li class="dropdown" :class="{active : $route.path === '/' || $route.path === ''}">
                                 <router-link :to="`/`" class="nav-link">
                                     <vue-feather type="home"></vue-feather>
                                     <span>首頁</span>
                                 </router-link>
                             </li>
-                            <li class="dropdown" :class="$route.path.startsWith('/template') ? 'active' : ''">
+                            <li class="dropdown" :class="{active : $route.path.startsWith('/announcement')}">
+                                <router-link :to="`/announcement`" class="nav-link">
+                                    <vue-feather type="bell"></vue-feather>
+                                    <span>公告</span>
+                                </router-link>
+                            </li>
+                            <li class="dropdown" :class="{active : $route.path.startsWith('/template')}">
                                 <router-link :to="`/template`" class="nav-link">
                                     <vue-feather type="clipboard"></vue-feather>
                                     <span>樣板管理</span>
@@ -217,65 +224,78 @@
 
 
                             <!-- <li class="menu-header">Approval Form Management</li> -->
-                            <li class="dropdown" :class="$route.path.startsWith('/contract') ? 'active' : ''">
-                                <a href="#" class="menu-toggle nav-link has-dropdown">
+                            <li class="dropdown" :class="{active : $route.path.startsWith('/contract')}">
+                                <a href="javascript:void(0);" class="menu-toggle nav-link has-dropdown">
                                     <vue-feather type="layers"></vue-feather>
-                                    <span>簽核單項</span></a>
+                                    <span>資訊共用合約</span></a>
                                 <ul class="dropdown-menu">
                                     <li v-for="menu in templateData"
-                                        :class="$route.path.startsWith(`/contract/${menu.temId}/`) ? 'active' : ''">
+                                        :class="{ active: $route.path.startsWith(`/contract/${menu.temId}/`)}">
                                         <router-link :to="`/contract/${menu.temId}/list`" class="nav-link">
                                             {{ menu.temTitle }}
                                         </router-link>
                                     </li>
                                 </ul>
                             </li>
-                            <li class="dropdown" :class="$route.path.startsWith(`/contract_`) ? 'active' : ''">
-                                <a href="#" class="menu-toggle nav-link has-dropdown">
+                            <li class="dropdown" :class="{active : $route.path.startsWith(`/contract_`)}">
+                                <a href="javascript:void(0);" class="menu-toggle nav-link has-dropdown">
                                     <vue-feather type="briefcase"></vue-feather>
                                     <span>簽核單管理</span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="nav-link" href="#">我的待簽單</a></li>
-                                    <li><a class="nav-link" href="#">新增簽核單</a></li>
-                                    <li><a class="nav-link" href="#">我送出的簽單</a></li>
-                                    <li><a class="nav-link" href="#">我簽過的簽單</a></li>
-                                    <li><a class="nav-link" href="#">簽核單查詢</a></li>
+                                    <li><a class="nav-link" href="javascript:void(0);">我的待簽單</a></li>
+                                    <li><a class="nav-link" href="javascript:void(0);">新增簽核單</a></li>
+                                    <li><a class="nav-link" href="javascript:void(0);">我送出的簽單</a></li>
+                                    <li><a class="nav-link" href="javascript:void(0);">我簽過的簽單</a></li>
+                                    <li><a class="nav-link" href="javascript:void(0);">簽核單查詢</a></li>
                                 </ul>
                             </li>
                             <!-- <li class="menu-header">Approval Form Inventory</li> -->
                             <li class="dropdown">
-                                <a href="#" class="nav-link">
+                                <a href="javascript:void(0);" class="nav-link">
                                     <vue-feather type="calendar"></vue-feather>
                                     <span>簽核單清冊</span></a>
                             </li>
                             <!-- <li class="menu-header">Expense Allocation Sheet</li> -->
                             <li class="dropdown">
-                                <a href="#" class="nav-link">
+                                <a href="javascript:void(0);" class="nav-link">
                                     <vue-feather type="check-circle"></vue-feather>
                                     <span>費用分攤表</span></a>
                             </li>
-                            <li class="dropdown" :class="$route.path.startsWith(`/info`) ? 'active' : ''">
-                                <a href="#" class="menu-toggle nav-link has-dropdown">
+                            <li class="dropdown" :class="{active : $route.path.startsWith(`/info`)}">
+                                <a href="javascript:void(0);" class="menu-toggle nav-link has-dropdown">
                                     <vue-feather type="settings"></vue-feather>
                                     <span>內部資料管理</span></a>
                                 <ul class="dropdown-menu">
-                                    <li><router-link :to="`/info/category`" :class="$route.path.startsWith(`/info/category`) ? 'nav-link active' : 'nav-link'">選單設定</router-link></li>
-                                    <!--<li><router-link :class="$route.path.startsWith(`/info/source`) ? 'nav-link active' : 'nav-link'">選單內容設定</router-link></li>-->
-                                    <!--<li><router-link :class="$route.path.startsWith(`/info/company`) ? 'nav-link active' : 'nav-link'">公司管理</router-link></li>-->
-                                    <!--<li><router-link :class="$route.path.startsWith(`/info/contact`) ? 'nav-link active' : 'nav-link'">窗口設定</router-link></li>-->
-                                    <!--<li><router-link :class="$route.path.startsWith(`/info/proportion`) ? 'nav-link active' : 'nav-link'">分攤比例設定</router-link></li>-->
-                                    <!--<li><router-link :class="$route.path.startsWith(`/info/switch`) ? 'nav-link active' : 'nav-link'">全站開關控制</router-link></li>-->
+                                    <li :class="{active : $route.path.startsWith(`/info/news`)}" class="nav-link">
+                                        <router-link :to="`/info/news`">公告設定</router-link>
+                                    </li>
+                                    <li :class="{active : $route.path.startsWith(`/info/category`)}" class="nav-link">
+                                        <router-link :to="`/info/category`">選單設定</router-link>
+                                    </li>
+                                    <li :class="{active : $route.path.startsWith(`/info/source`)}" class="nav-link">
+                                        <router-link :to="`/info/source`">選單內容設定</router-link>
+                                    </li>
+                                    <li :class="{active : $route.path.startsWith(`/info/work`)}" class="nav-link">
+                                        <router-link :to="`/info/work`">作業種類設定</router-link>
+                                    </li>
+                                    <li :class="{active : $route.path.startsWith(`/info/company`)}" class="nav-link">
+                                        <router-link :to="`/info/company`">公司設定</router-link>
+                                    </li>
+                                    <li :class="{active : $route.path.startsWith(`/info/contact`)}" class="nav-link">
+                                        <router-link :to="`/info/contact`">窗口設定</router-link>
+                                    </li>
+                                    <!--<li :class="{active : $route.path.startsWith(`/info/proportion`)}" class="nav-link"><router-link :to="`/info/proportion`">分攤比例設定</router-link></li>-->
+                                    <!--<li :class="{active : $route.path.startsWith(`/info/switch`)}" class="nav-link"><router-link :to="`/info/switch`">全站開關控制</router-link></li>-->
                                 </ul>
                             </li>
-                            <li class="dropdown" :class="$route.path.startsWith(`/control`) ? 'active' : ''">
-                                <a href="#" class="menu-toggle nav-link has-dropdown">
+                            <li class="dropdown" :class="{active : $route.path.startsWith(`/control`)}">
+                                <a href="javascript:void(0);" class="menu-toggle nav-link has-dropdown">
                                     <vue-feather type="users"></vue-feather>
                                     <span>帳戶管理</span></a>
                                 <ul class="dropdown-menu">
-                                    <!--<li><router-link :class="$route.path.startsWith(`/control/per_purview`) ? 'nav-link active' : 'nav-link'">員工使用權限設定</router-link></li>-->
-                                    <!--<li><router-link :class="$route.path.startsWith(`/control/per_group`) ? 'nav-link active' : 'nav-link'">員工群組管理</router-link></li>-->
-                                    <!--<li><router-link :class="$route.path.startsWith(`/control/admin`) ? 'nav-link active' : 'nav-link'">帳號管理</router-link></li>-->
-                                    <!--<li><router-link :class="$route.path.startsWith(`/control/group`) ? 'nav-link active' : 'nav-link'">帳號群組管理</router-link></li>-->
+                                    <li :class="{ active : $route.path.startsWith(`/control/personnel`)}" class="nav-link"><router-link :to="`/control/personnel`">員工使用權限設定</router-link></li>
+                                    <li :class="{ active : $route.path.startsWith(`/control/admin`)}" class="nav-link"><router-link :to="`/control/admin`">帳號管理</router-link></li>
+                                    <li :class="{ active : $route.path.startsWith(`/control/group`)}" class="nav-link"><router-link :to="`/control/group`">帳號群組管理</router-link></li>
                                 </ul>
                             </li>
                         </ul>
@@ -311,9 +331,9 @@
         data() {
             return {
                 perKey: '',//00886666
-                password:'',
-                per: Cookies.get('per') ? JSON.parse(Cookies.get('per')) : null,
-                adm: Cookies.get('adm') ? JSON.parse(Cookies.get('adm')) : null,
+                password: '',
+                per: null,
+                adm: null,
                 templateData: [],
                 personnelData: [
                     // {perId:0, perAccount:'', perNo:'', perName:'', perPar:'', perNick:'', perPosition:'', perPositionName:'', perEmail:'', perPhone1:'', perPhone2:'', perPhone3:'', perBu1Code:'', perBu1:'', perBu2Code:'', perBu2:'', perBu3Code:'', perBu3:'', perMobile:''}
@@ -345,7 +365,10 @@
         computed: {},
         methods: {
             defaultData() {
-
+                this.per = Cookies.get('per') ? JSON.parse(Cookies.get('per')) : null;
+                this.adm = Cookies.get('adm') ? JSON.parse(Cookies.get('adm')) : null;
+                this.perKey = this.per?.perKey;
+                this.getRole();
             },
             fetchFirst() {
                 const apiRequests = [
@@ -373,7 +396,7 @@
             toLogout() {
                 Cookies.remove('per');
                 this.per = null;
-                window.location.href = '/'
+                // window.location.href = '/'
             },
             toLogin() {
                 if (this.password === '5678') {
@@ -383,8 +406,6 @@
                             if (response.data.data.length > 0) {
                                 this.roleData = response.data.data;
                                 Cookies.set('per', JSON.stringify(this.roleData[0]));
-                                this.per = JSON.stringify(this.roleData[0]);
-                                this.getRole();
                                 window.location.href = '/'
                             } else {
                                 alert('查無此帳號');
@@ -395,7 +416,7 @@
                         });
                 }
             },
-            toSSOLogin(){
+            toSSOLogin() {
                 this.$api
                     .get(this.$test ? `/api/?type=sso_login` : `/api/iform/saml?returnUrl=https://contract.cathayholdings.com/sso/login`)
                     .then(response => {
@@ -499,6 +520,19 @@
         box-shadow: 0 2px 6px #bc8f8f;
         color: #FFF !important;
         background-color: #a52a2a !important;
+    }
+    .main-sidebar .sidebar-menu li a i {
+        margin-bottom: -3px;
+    }
+    .breadcrumb-item a i {
+        margin-right: -3px !important;
+        margin-bottom: -4px;
+    }
+    .breadcrumb-item a {
+        color:#6c757d;
+    }
+    .breadcrumb-item a:hover {
+        color:#6c757d;
     }
 
 </style>
