@@ -39,6 +39,11 @@
                                             <input type="password" v-model="password" class="form-control">
                                         </div>
                                     </div>
+                                    <!--<div class="col-12">-->
+                                    <!--<div class="mb-4">-->
+                                    <!--<button @click="toLocalLogin()" class="btn btn-success w-100">登 入</button>&lt;!&ndash;本機登入&ndash;&gt;-->
+                                    <!--</div>-->
+                                    <!--</div>-->
                                     <div class="col-12">
                                         <div class="mb-4">
                                             <button @click="toLogin()" class="btn btn-success w-100">登 入</button>
@@ -79,7 +84,8 @@
                 <!-- <div class="d-flex align-items-center" style="color: white; font-size: 22px;">資訊共用作業系統
                 </div> -->
                 <ul class="navbar-nav navbar-right d-flex align-items-center">
-                    <li><a href="javascript:void(0);" class="nav-link nav-link-lg fullscreen-btn d-flex align-items-center">
+                    <li><a href="javascript:void(0);"
+                           class="nav-link nav-link-lg fullscreen-btn d-flex align-items-center">
                         <vue-feather type="maximize"></vue-feather>
                     </a>
                     </li>
@@ -122,7 +128,8 @@
                   </span> <span class="dropdown-item-desc"> Low disk space error!!!. <span class="time">17 Hours
                       Ago</span>
                   </span>
-                            </a> <a href="javascript:void(0);" class="dropdown-item"> <span class="dropdown-item-icon bg-info text-white"> <i
+                            </a> <a href="javascript:void(0);" class="dropdown-item"> <span
+                                    class="dropdown-item-icon bg-info text-white"> <i
                                     class="fas
 												fa-bell"></i>
                   </span> <span class="dropdown-item-desc"> Welcome to Gati
@@ -227,7 +234,8 @@
                             <li class="dropdown" :class="{active : $route.path.startsWith('/contract')}">
                                 <a href="javascript:void(0);" class="menu-toggle nav-link has-dropdown">
                                     <vue-feather type="layers"></vue-feather>
-                                    <span>資訊共用合約</span></a>
+                                    <span>資訊共用合約</span>
+                                </a>
                                 <ul class="dropdown-menu">
                                     <li v-for="menu in templateData"
                                         :class="{ active: $route.path.startsWith(`/contract/${menu.temId}/`)}">
@@ -249,17 +257,25 @@
                                     <li><a class="nav-link" href="javascript:void(0);">簽核單查詢</a></li>
                                 </ul>
                             </li>
+                            <li class="dropdown" :class="{active : $route.path.startsWith('/exes')}">
+                                <a href="javascript:void(0);" class="menu-toggle nav-link has-dropdown">
+                                    <vue-feather type="check-circle"></vue-feather>
+                                    <span>費用分攤表</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li v-for="menu in templateData"
+                                        :class="{ active: $route.path.startsWith(`/exes/${menu.temId}/`)}">
+                                        <router-link :to="`/exes/${menu.temId}/list`" class="nav-link">
+                                            {{ menu.temTitle }}
+                                        </router-link>
+                                    </li>
+                                </ul>
+                            </li>
                             <!-- <li class="menu-header">Approval Form Inventory</li> -->
                             <li class="dropdown">
                                 <a href="javascript:void(0);" class="nav-link">
                                     <vue-feather type="calendar"></vue-feather>
                                     <span>簽核單清冊</span></a>
-                            </li>
-                            <!-- <li class="menu-header">Expense Allocation Sheet</li> -->
-                            <li class="dropdown">
-                                <a href="javascript:void(0);" class="nav-link">
-                                    <vue-feather type="check-circle"></vue-feather>
-                                    <span>費用分攤表</span></a>
                             </li>
                             <li class="dropdown" :class="{active : $route.path.startsWith(`/info`)}">
                                 <a href="javascript:void(0);" class="menu-toggle nav-link has-dropdown">
@@ -293,9 +309,16 @@
                                     <vue-feather type="users"></vue-feather>
                                     <span>帳戶管理</span></a>
                                 <ul class="dropdown-menu">
-                                    <li :class="{ active : $route.path.startsWith(`/control/personnel`)}" class="nav-link"><router-link :to="`/control/personnel`">員工使用權限設定</router-link></li>
-                                    <li :class="{ active : $route.path.startsWith(`/control/admin`)}" class="nav-link"><router-link :to="`/control/admin`">帳號管理</router-link></li>
-                                    <li :class="{ active : $route.path.startsWith(`/control/group`)}" class="nav-link"><router-link :to="`/control/group`">帳號群組管理</router-link></li>
+                                    <li :class="{ active : $route.path.startsWith(`/control/personnel`)}"
+                                        class="nav-link">
+                                        <router-link :to="`/control/personnel`">員工使用權限設定</router-link>
+                                    </li>
+                                    <li :class="{ active : $route.path.startsWith(`/control/admin`)}" class="nav-link">
+                                        <router-link :to="`/control/admin`">帳號管理</router-link>
+                                    </li>
+                                    <li :class="{ active : $route.path.startsWith(`/control/group`)}" class="nav-link">
+                                        <router-link :to="`/control/group`">帳號群組管理</router-link>
+                                    </li>
                                 </ul>
                             </li>
                         </ul>
@@ -318,6 +341,7 @@
     import {mapGetters} from 'vuex';
     import Cookies from 'js-cookie'
     import dayjs from 'dayjs';
+    import axios from 'axios'
 
     export default {
         name: 'App',
@@ -330,6 +354,8 @@
         },
         data() {
             return {
+                test: null,
+                api: null,
                 perKey: '',//00886666
                 password: '',
                 per: null,
@@ -344,6 +370,7 @@
             };
         },
         mounted() {
+            this.loadConfig();
             this.defaultData();
             this.fetchFirst();
             // console.log(this.perNo);
@@ -364,6 +391,23 @@
         },
         computed: {},
         methods: {
+            async loadConfig() {
+                try {
+                    const response = await axios.get('/config.json'); // 适应你的项目结构
+                    const config = response.data;
+                    this.test = config.test;
+                    this.api = axios.create({
+                        baseURL: config.baseURL,
+                        // 其他设置...
+                    });
+                    // return response.data;
+                } catch (error) {
+                    console.error('Failed to load config:', error);
+                    return {};
+                }
+            },
+
+
             defaultData() {
                 this.per = Cookies.get('per') ? JSON.parse(Cookies.get('per')) : null;
                 this.adm = Cookies.get('adm') ? JSON.parse(Cookies.get('adm')) : null;
@@ -397,6 +441,24 @@
                 Cookies.remove('per');
                 this.per = null;
                 // window.location.href = '/'
+            },
+            toLocalLogin() {
+                if (this.password === '5678') {
+                    axios.get('/personnel.json')
+                        .then(response => {
+                            // 处理成功响应
+                            const perData = response.data;
+                            const foundData = perData.find(item => item.perNo === this.perNo);
+                            Cookies.set('per', JSON.stringify(foundData));
+                            window.location.href = '/'
+
+                            // 在这里对perData进行搜索和处理
+                        })
+                        .catch(error => {
+                            // 处理错误
+                            console.error(error);
+                        });
+                }
             },
             toLogin() {
                 if (this.password === '5678') {
@@ -511,6 +573,9 @@
                     return '';
                 }
             },
+            checkRouter(path) {
+                return $route.path.startsWith(path)
+            },
         }
     }
 
@@ -521,18 +586,22 @@
         color: #FFF !important;
         background-color: #a52a2a !important;
     }
+
     .main-sidebar .sidebar-menu li a i {
         margin-bottom: -3px;
     }
+
     .breadcrumb-item a i {
         margin-right: -3px !important;
         margin-bottom: -4px;
     }
+
     .breadcrumb-item a {
-        color:#6c757d;
+        color: #6c757d;
     }
+
     .breadcrumb-item a:hover {
-        color:#6c757d;
+        color: #6c757d;
     }
 
 </style>

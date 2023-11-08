@@ -9,6 +9,10 @@ import Contract from '@/views/Contract.vue'
 import Contract_ad from '@/views/Contract_ad.vue'
 import Contract_up from '@/views/Contract_up.vue'
 import Contract_sl from '@/views/Contract_sl.vue'
+import Exes from '@/views/Exes.vue'
+import Exes_ad from '@/views/Exes_ad.vue'
+import Exes_up from '@/views/Exes_up.vue'
+import Exes_sl from '@/views/Exes_sl.vue'
 import Admin_login from '@/views/Admin_login.vue'
 import SSO from '@/views/SSO.vue'
 
@@ -65,6 +69,10 @@ const routes = [
     { path: '/contract/:tem/ad', component: Contract_ad, name: '文件新增' },
     { path: '/contract/:tem/up/:id', component: Contract_up, name: '文件修改' },
     { path: '/contract/:tem/sl/:id', component: Contract_sl, name: '文件查看' },
+    { path: '/exes/:tem/list', component: Exes, name: '費用分攤列表' },
+    { path: '/exes/:tem/ad/:id', component: Exes_ad, name: '費用分攤新增' },
+    { path: '/exes/:tem/up/:id', component: Exes_up, name: '費用分攤修改' },
+    { path: '/exes/:tem/sl/:id', component: Exes_sl, name: '費用分攤查看' },
     { path: '/admin_login', component: Admin_login, name: '管理者登入' },
     { path: '/sso/login', component: SSO, name: 'SSO' },
     { path: '/announcement', component: Announcement, name: '公告' },

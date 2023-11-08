@@ -488,7 +488,7 @@
                         </template>
                     </div>
                     <template v-if="viewFile">
-                        <div id="myPdfViewer" class="col-6" style="height: 100vh; position: sticky; top:100px;">
+                        <div id="myPdfViewer" class="col-6" style="height: 75vh; position: sticky; top:100px;">
                             <div class="card-header d-flex justify-content-end">
                                 <!--<a download="" :href="viewFileUrl" target="_blank"-->
                                    <!--class="btn btn-icon icon-left btn-primary myFont16"-->
@@ -506,7 +506,7 @@
                                     取消檢視
                                 </button>
                             </div>
-                            <embed v-if="viewFilePDF" :src="viewFileUrl" width="100%" height="95%"/>
+                            <embed v-if="viewFilePDF" :src="viewFileUrl" width="100%" height="100%"/>
                             <!--<vue-office-pdf v-if="viewFilePDF" :src="viewFileUrl" style="width: 100%;height: 95%;"/>-->
                             <vue-office-docx v-if="viewFileDOCK" :src="viewFileUrl" style="width: 100%;height: 95%;"/>
                             <vue-office-excel v-if="viewFileXLSE" :src="viewFileUrl" style="width: 100%;height: 95%;"/>

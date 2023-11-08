@@ -1,0 +1,83 @@
+
+.myTable{ 
+    width: 100%; 
+    border-collapse: collapse; 
+    border-radius: 10px ;
+    overflow: hidden;
+  }
+  /* Zebra striping */
+  .myTable tr:nth-of-type(odd) { 
+    background: #ececec; 
+  }
+  .myTable th { 
+    background: #f0f3ff; 
+    color: #6777ef; 
+    font-weight: bold; 
+  }
+  .myTable td, .myTable th { 
+    padding: 6px; 
+    border: 1px solid #ccc; 
+    text-align: center; 
+  }
+
+  @media only screen and (max-width: 760px),(min-device-width: 768px) and (max-device-width: 1024px)  {
+
+	/* Force table to not be like tables anymore */
+	.myTable , .myTable thead, .myTable tbody, .myTable th, .myTable td, .myTable tr { 
+		display: block; 
+	}
+	
+	/* Hide table headers (but not display: none;, for accessibility) */
+	.myTable thead tr { 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+	
+	.myTable tr { border: 1px solid #ccc; }
+	
+	.myTable td { 
+		/* Behave  like a "row" */
+		border: none;
+		border-bottom: 1px solid #eee; 
+		position: relative;
+		padding-left: 50%; 
+	}
+	
+	.myTable td:before { 
+		/* Now like a table header */
+		position: absolute;
+		/* Top/left values mimic padding */
+		top: 6px;
+		left: 6px;
+		width: 45%; 
+		padding-right: 10px; 
+		white-space: nowrap;
+	}
+	
+	/*
+	Label the data
+	*/
+	.myTableOne td:nth-of-type(1):before { content: ""; }
+	.myTableOne td:nth-of-type(2):before { content: "金控"; }
+	.myTableOne td:nth-of-type(3):before { content: "人壽"; }
+	.myTableOne td:nth-of-type(4):before { content: "銀行"; }
+	.myTableOne td:nth-of-type(5):before { content: "產險"; }
+	.myTableOne td:nth-of-type(6):before { content: "證券"; }
+	.myTableOne td:nth-of-type(7):before { content: "加總"; }
+	.myTableOne td:nth-of-type(8):before { content: ""; }
+	.myTableOne td:nth-of-type(9):before { content: ""; }
+	.myTableOne td:nth-of-type(10):before { content: ""; }
+
+
+	.myTableTwo td:nth-of-type(1):before { content: "共用作業項目"; }
+	.myTableTwo td:nth-of-type(2):before { content: "種類"; }
+	.myTableTwo td:nth-of-type(3):before { content: "軟硬體名稱"; }
+	.myTableTwo td:nth-of-type(4):before { content: "費用"; }
+	.myTableTwo td:nth-of-type(5):before { content: "提列年度"; }
+	.myTableTwo td:nth-of-type(6):before { content: "分攤月數"; }
+	.myTableTwo td:nth-of-type(7):before { content: "加總"; }
+	.myTableTwo td:nth-of-type(8):before { content: ""; }
+	.myTableTwo td:nth-of-type(9):before { content: ""; }
+	.myTableTwo td:nth-of-type(10):before { content: ""; }
+}

@@ -1,7 +1,7 @@
 <template>
     <div class="row">
         <!-- 公告 -->
-        <div class="col-12 myRwd">
+        <div class="col-12">
             <div class="card">
                 <div class="card-header">
                     <i class="fas fa-bullhorn" style="margin-right: 10px;font-size: 17px;color: black;">
