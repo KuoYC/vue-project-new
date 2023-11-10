@@ -475,7 +475,7 @@
                     // this.companyData = this.$root.getCompanyData();
                     const apiRequests = [
                         this.$api.get(this.$test ? '/api/?type=news' : '/api/iform/news/List'),
-                        this.$api.get(this.$test ? '/api/?type=company' : '/api/iform/company/List'),
+                        this.$api.get(this.$test ? '/api/?type=company' : '/api/iform/company'),
                         this.$api.get(this.$test ? `/api/?type=contract` : '/api/iform/contract/List', {params:{action:2, conStatus:1, perKey:this.per.perKey, perBu1Code:this.per.perBu1Code}}),
                         this.$api.get(this.$test ? `/api/?type=contract` : '/api/iform/contract/List', {params:{action:3, conStatus:1, perKey:this.per.perKey, perBu1Code:this.per.perBu1Code}}),
                         this.$api.get(this.$test ? `/api/?type=contract` : '/api/iform/contract/List', {params:{action:5, conStatus:1, perKey:this.per.perKey, perBu1Code:this.per.perBu1Code}}),

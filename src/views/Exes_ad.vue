@@ -362,7 +362,6 @@
                 iMemberData: [],//發起
                 mMemberData: [],//維運
                 uMemberData: [],//使用
-                personData: [],
                 contactData: [],
                 theWidth: 0,
                 testWidth:0,
@@ -397,7 +396,7 @@
         },
         mounted() {
             this.$nextTick(() => {
-                this.getWidth();
+                this.theWidth = this.$refs.testTable.offsetWidth;
             });
             window.addEventListener('resize', () => this.getWidth()); // 监听窗口大小变化并更新宽度
             // 添加全域點擊事件監聽器
@@ -412,27 +411,20 @@
             getWidth(){
                 this.theWidth = this.$refs.testTable.offsetWidth;
             },
-            updateWidth(rtName, refName) {
-                const element = this.$refs[refName];
-                if (element) {
-                    this[rtName] = element.offsetWidth;
-                }
-            },
             defaultData() {
 
             },
             fetchFirst() {
                 window.scrollTo(0, 0);
-                const conId = this.$route.params.id; // 取得路由參數 id
+                const conId = this.$route.params.con; // 取得路由參數 id
                 const apiRequests = [
                     this.$api.get(this.$test ? `/api/?type=contract&conId=${conId}` : `/api/adm/contract/${conId}`),
                     this.$api.get(this.$test ? `/api/?type=contractItem` : `/api/iform/contractItem/List`, {params:{conId:conId}}),
                     this.$api.get(this.$test ? `/api/?type=contractMember` : `/api/iform/contractMember/List`, {params:{conId:conId}}),
-                    this.$api.get(this.$test ? '/api/?type=personnel' : '/api/iform/personnel/List'),
                     this.$api.get(this.$test ? '/api/?type=contact' : '/api/iform/contact/List'),
                 ];
                 Promise.all(apiRequests)
-                    .then(([contractResponse, itemResponse, memberResponse, personnelResponse, contactResponse]) => {
+                    .then(([contractResponse, itemResponse, memberResponse, contactResponse]) => {
                         //contactResponse
                         this.contactData = contactResponse.data.data;
 
@@ -453,8 +445,6 @@
                         this.iMemberData = memberResponse.data.data.find(member => member.memType === '0');
                         this.mMemberData = memberResponse.data.data.filter(member => member.memType === '1');
                         this.uMemberData = memberResponse.data.data.filter(member => member.memType === '2');
-                        personnelResponse
-                        this.personData = personnelResponse.data.data;
 
                     })
                     .catch(error => {
@@ -521,9 +511,9 @@
         overflow: hidden;
     }
     /* Zebra striping */
-    table tr:nth-of-type(odd) {
-        background: #ececec;
-    }
+    /*table tr:nth-of-type(odd) {*/
+        /*background: #ececec;*/
+    /*}*/
     table th {
         background: #f0f3ff;
         color: #6777ef;

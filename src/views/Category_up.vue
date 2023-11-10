@@ -101,7 +101,7 @@
                 this.catId = this.$route.params.id; // 取得路由參數 id
                 const apiRequests = [
                     this.$api.get(this.$test ? `/api/?type=category&catId=${this.catId}` : `/api/iform/category/${this.catId}`),
-                    this.$api.get(this.$test ? `/api/?type=source` : `/api/iform/source/List`, { params: {catId:this.catId}}),
+                    this.$api.get(this.$test ? `/api/?type=source` : `/api/iform/source`, { params: {catId:this.catId}}),
                 ];
                 Promise.all(apiRequests)
                     .then(([categoryResponse, sourceResponse]) => {

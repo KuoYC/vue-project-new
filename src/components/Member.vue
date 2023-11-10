@@ -286,7 +286,7 @@
             async getPersonnel1() {
                 if (this.member.memBu1Code && this.member.memBu2Code && this.member.memBu3Code) {
                     this.$api
-                        .get(this.$test ? `/api/?type=personnel&perBu1Code=${this.member.memBu1Code}&perBu2Code=${this.member.memBu2Code}&perBu3Code=${this.member.memBu3Code}` : '/api/iform/template')
+                        .get(this.$test ? `/api/?type=personnel&perBu1Code=${this.member.memBu1Code}&perBu2Code=${this.member.memBu2Code}&perBu3Code=${this.member.memBu3Code}` : `/api/iform/personnel?perBu1Code=${this.member.memBu1Code}&perBu2Code=${this.member.memBu2Code}&perBu3Code=${this.member.memBu3Code}`)
                         .then(response => {
                             this.personnel1Data = response.data.data;
                         })
@@ -301,7 +301,7 @@
             async getPersonnel2() {
                 if (this.member.memBu1Code && this.member.memBu2Code && this.member.memBu3Code) {
                     this.$api
-                        .get(this.$test ? `/api/?type=personnel&perBu1Code=${this.member.memBu1Code}&perBu2Code=${this.member.memBu2Code}&perBu3Code=${this.member.memBu3Code}` : '/api/iform/template')
+                        .get(this.$test ? `/api/?type=personnel&perBu1Code=${this.member.memBu1Code}&perBu2Code=${this.member.memBu2Code}&perBu3Code=${this.member.memBu3Code}` : `/api/iform/personnel?perBu1Code=${this.member.memBu1Code}&perBu2Code=${this.member.memBu2Code}&perBu3Code=${this.member.memBu3Code}`)
                         .then(response => {
                             this.personnel2Data = response.data.data;
                         })
@@ -316,7 +316,7 @@
             async getPersonnel3() {
                 if (this.member.memBu1Code && this.member.memBu2Code && this.member.memBu3Code) {
                     this.$api
-                        .get(this.$test ? `/api/?type=personnel&perBu1Code=${this.member.memBu1Code}&perBu2Code=${this.member.memBu2Code}&perBu3Code=${this.member.memBu3Code}` : '/api/iform/template')
+                        .get(this.$test ? `/api/?type=personnel&perBu1Code=${this.member.memBu1Code}&perBu2Code=${this.member.memBu2Code}&perBu3Code=${this.member.memBu3Code}` : `/api/iform/personnel?perBu1Code=${this.member.memBu1Code}&perBu2Code=${this.member.memBu2Code}&perBu3Code=${this.member.memBu3Code}`)
                         .then(response => {
                             this.personnel3Data = response.data.data;
                         })

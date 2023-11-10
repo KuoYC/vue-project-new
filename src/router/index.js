@@ -70,7 +70,7 @@ const routes = [
     { path: '/contract/:tem/up/:id', component: Contract_up, name: '文件修改' },
     { path: '/contract/:tem/sl/:id', component: Contract_sl, name: '文件查看' },
     { path: '/exes/:tem/list', component: Exes, name: '費用分攤列表' },
-    { path: '/exes/:tem/ad/:id', component: Exes_ad, name: '費用分攤新增' },
+    { path: '/exes/:tem/ad/:con', component: Exes_ad, name: '費用分攤新增' },
     { path: '/exes/:tem/up/:id', component: Exes_up, name: '費用分攤修改' },
     { path: '/exes/:tem/sl/:id', component: Exes_sl, name: '費用分攤查看' },
     { path: '/admin_login', component: Admin_login, name: '管理者登入' },

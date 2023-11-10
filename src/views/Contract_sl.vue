@@ -214,34 +214,17 @@
                                                                                         <td>{{ iMemberData.memLV0Name }}</td>
                                                                                         <td>{{ iMemberData.memPhone }}</td>
                                                                                     </tr>
+                                                                                    <tr v-for="mmem in mMemberData">
+                                                                                        <td>{{ mmem.comTitle }}</td>
+                                                                                        <td>{{ mmem.memBu2 }}</td>
+                                                                                        <td>{{ mmem.memBu3 }}</td>
+                                                                                        <td>{{ mmem.memLV2Name }}</td>
+                                                                                        <td>{{ mmem.memLV1Name }}</td>
+                                                                                        <td>{{ mmem.memLV0Name }}</td>
+                                                                                        <td>{{ mmem.memPhone }}</td>
+                                                                                    </tr>
                                                                                     </tbody>
                                                                                 </table>
-                                                                                <table v-if="mMemberData.length !== 0"
-                                                                                       class="myTable myTableMemberMv">
-                                                                                        <caption>維運公司簽核人員資料表</caption>
-                                                                                        <thead>
-                                                                                        <tr>
-                                                                                            <th>公司</th>
-                                                                                            <th>部門</th>
-                                                                                            <th>科別</th>
-                                                                                            <th>部門主管</th>
-                                                                                            <th>科別主管</th>
-                                                                                            <th>承辦人</th>
-                                                                                            <th>承辦人連絡電話</th>
-                                                                                        </tr>
-                                                                                        </thead>
-                                                                                        <tbody>
-                                                                                        <tr v-for="mmem in mMemberData">
-                                                                                            <td>{{ mmem.comTitle }}</td>
-                                                                                            <td>{{ mmem.memBu2 }}</td>
-                                                                                            <td>{{ mmem.memBu3 }}</td>
-                                                                                            <td>{{ mmem.memLV2Name }}</td>
-                                                                                            <td>{{ mmem.memLV1Name }}</td>
-                                                                                            <td>{{ mmem.memLV0Name }}</td>
-                                                                                            <td>{{ mmem.memPhone }}</td>
-                                                                                        </tr>
-                                                                                        </tbody>
-                                                                                    </table>
                                                                                 <label>使用</label>
                                                                                 <table v-if="uMemberData.length !== 0"
                                                                                        class="myTable myTableMemberUv">
@@ -978,7 +961,6 @@
                 iMemberData: [],//發起
                 mMemberData: [],//維運
                 uMemberData: [],//使用
-                personData: [],
                 contactData: [],
 
 
@@ -1028,11 +1010,10 @@
                     this.$api.get(this.$test ? `/api/?type=contract&conId=${conId}` : `/api/adm/contract/${conId}`),
                     this.$api.get(this.$test ? `/api/?type=contractItem` : `/api/iform/contractItem/List`, {params:{conId:conId}}),
                     this.$api.get(this.$test ? `/api/?type=contractMember` : `/api/iform/contractMember/List`, {params:{conId:conId}}),
-                    this.$api.get(this.$test ? '/api/?type=personnel' : '/api/iform/personnel/List'),
                     this.$api.get(this.$test ? '/api/?type=contact' : '/api/iform/contact/List'),
                 ];
                 Promise.all(apiRequests)
-                    .then(([contractResponse, itemResponse, memberResponse, personnelResponse, contactResponse]) => {
+                    .then(([contractResponse, itemResponse, memberResponse, contactResponse]) => {
                         //contactResponse
                         this.contactData = contactResponse.data.data;
 
@@ -1053,8 +1034,6 @@
                         this.iMemberData = memberResponse.data.data.find(member => member.memType === '0');
                         this.mMemberData = memberResponse.data.data.filter(member => member.memType === '1');
                         this.uMemberData = memberResponse.data.data.filter(member => member.memType === '2');
-                        personnelResponse
-                        this.personData = personnelResponse.data.data;
 
                     })
                     .catch(error => {

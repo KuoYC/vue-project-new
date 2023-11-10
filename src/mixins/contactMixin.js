@@ -29,7 +29,7 @@ export const contactMixin = {
         loadPersonnel(query) {
             this.isLoading = true;
             this.$api
-                .get(this.$test ? `/api/?type=personnel&keyword=${query}&perBu1Code=${this.contactData.comCode}` : '/api/iform/template')
+                .get(this.$test ? `/api/?type=personnel&keyword=${query}&perBu1Code=${this.contactData.comCode}` : `/api/iform/personnel?keyword=${query}&perBu1Code=${this.contactData.comCode}`)
                 .then(response => {
                     console.log(response.data);
                     if (response.status === 200) {

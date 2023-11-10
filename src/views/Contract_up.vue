@@ -204,22 +204,6 @@
                                                                                             ref="iMemberComp"
                                                                                     />
                                                                                 </tr>
-                                                                                </tbody>
-                                                                            </table>
-                                                                            <table v-if="mMemberData.length !== 0" class="myTable myTableMemberM">
-                                                                                <caption>維運公司簽核人員資料表</caption>
-                                                                                <thead>
-                                                                                <tr>
-                                                                                    <th>公司</th>
-                                                                                    <th>部門</th>
-                                                                                    <th>科別</th>
-                                                                                    <th>部門主管</th>
-                                                                                    <th>科別主管</th>
-                                                                                    <th>承辦人</th>
-                                                                                    <th>承辦人連絡電話</th>
-                                                                                </tr>
-                                                                                </thead>
-                                                                                <tbody>
                                                                                     <tr v-for="mmem in mMemberData">
                                                                                         <Member
                                                                                                 :key="mmem.uniqueId"
@@ -236,7 +220,7 @@
                                                                             </table>
                                                                             <p><vue-feather type="plus" class="btn btn-success btn-icon" @click="addMember('M', contractData.perBu1Code)"></vue-feather></p>
                                                                             <label>使用</label>
-                                                                            <table v-if="uMemberData.length !== 0" class="myTable myTableMemberU">
+                                                                            <table class="myTable myTableMemberU">
                                                                                 <caption>使用公司簽核人員資料表</caption>
                                                                                 <thead>
                                                                                 <tr>
@@ -626,16 +610,16 @@
                 this.conId = this.$route.params.id; // 取得路由參數 id
                 // this.temId = this.$route.params.tem;
                 const apiRequests = [
-                    this.$api.get(this.$test ? '/api/?type=work' : '/api/iform/work/List'),
-                    this.$api.get(this.$test ? '/api/?type=company' : '/api/iform/company/List'),
-                    this.$api.get(this.$test ? '/api/?type=category' : '/api/iform/category/List'),
-                    this.$api.get(this.$test ? '/api/?type=source' : '/api/iform/source/List'),
-                    this.$api.get(this.$test ? '/api/?type=distribution' : '/api/iform/distribution/List'),
+                    this.$api.get(this.$test ? '/api/?type=work' : '/api/iform/work'),
+                    this.$api.get(this.$test ? '/api/?type=company' : '/api/iform/company'),
+                    this.$api.get(this.$test ? '/api/?type=category' : '/api/iform/category'),
+                    this.$api.get(this.$test ? '/api/?type=source' : '/api/iform/source'),
+                    this.$api.get(this.$test ? '/api/?type=distribution' : '/api/iform/distribution'),
                     this.$api.get(this.$test ? '/api/?type=manner' : '/api/iform/manner/List'),
                     this.$api.get(this.$test ? `/api/?type=contract&conId=${this.$route.params.id}` : `/api/iform/contract/${this.$route.params.ctp}`),
                     this.$api.get(this.$test ? `/api/?type=contractMember` : `/api/iform/contractMember/List`, {params:{conId:this.$route.params.id}}),
                     this.$api.get(this.$test ? `/api/?type=contractItem` : `/api/iform/contractItem/List`, {params:{conId:this.$route.params.id}}),
-                    this.$api.get(this.$test ? '/api/?type=personnel' : '/api/iform/personnel/List'),
+                    this.$api.get(this.$test ? '/api/?type=personnel' : '/api/iform/personnel'),
                     this.$api.get(this.$test ? '/api/?type=contact' : '/api/iform/contact/List'),
                 ];
 

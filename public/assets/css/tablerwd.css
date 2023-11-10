@@ -5,9 +5,9 @@
 	overflow: hidden;
 }
 /* Zebra striping */
-.myTable tr:nth-of-type(odd) {
-	background: #ececec;
-}
+/*.myTable tr:nth-of-type(odd) {*/
+	/*background: #ececec;*/
+/*}*/
 .myTable th {
 	background: #f0f3ff;
 	color: #6777ef;
@@ -15,7 +15,7 @@
 }
 .myTable td, .myTable th {
 	padding: 6px;
-	border: 1px solid #ccc;
+	/*border: 1px solid #ccc;*/
 	text-align: left;
 }
 .myTable caption {

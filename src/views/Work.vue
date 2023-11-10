@@ -92,7 +92,7 @@
             },
             fetchFirst() {
                 const apiRequests = [
-                    this.$api.get(this.$test ? '/api/?type=work' : '/api/iform/work/List'),
+                    this.$api.get(this.$test ? '/api/?type=work' : '/api/iform/work'),
                 ];
                 Promise.all(apiRequests)
                     .then(([workResponse]) => {

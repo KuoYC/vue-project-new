@@ -894,11 +894,11 @@
             },
             fetchFirst() {
                 const apiRequests = [
-                    this.$api.get(this.$test ? '/api/?type=work' : '/api/iform/work/List'),
-                    this.$api.get(this.$test ? '/api/?type=company' : '/api/iform/company/List'),
-                    this.$api.get(this.$test ? '/api/?type=category' : '/api/iform/category/List'),
-                    this.$api.get(this.$test ? '/api/?type=source' : '/api/iform/source/List'),
-                    this.$api.get(this.$test ? '/api/?type=distribution' : '/api/iform/distribution/List'),
+                    this.$api.get(this.$test ? '/api/?type=work' : '/api/iform/work'),
+                    this.$api.get(this.$test ? '/api/?type=company' : '/api/iform/company'),
+                    this.$api.get(this.$test ? '/api/?type=category' : '/api/iform/category'),
+                    this.$api.get(this.$test ? '/api/?type=source' : '/api/iform/source'),
+                    this.$api.get(this.$test ? '/api/?type=distribution' : '/api/iform/distribution'),
                 ];
                 Promise.all(apiRequests)
                     .then(([workResponse, companyResponse, categoryResponse, sourceResponse, distributionResponse]) => {

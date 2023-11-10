@@ -89,7 +89,7 @@
             fetchFirst() {
                 this.souId = this.$route.params.id; // 取得路由參數 id
                 const apiRequests = [
-                    this.$api.get(this.$test ? '/api/?type=category' : '/api/iform/category/List'),
+                    this.$api.get(this.$test ? '/api/?type=category' : '/api/iform/category'),
                     this.$api.get(this.$test ? `/api/?type=source&souId=${this.souId}` : `/api/iform/source/${this.temId}`),
                 ];
                 Promise.all(apiRequests)

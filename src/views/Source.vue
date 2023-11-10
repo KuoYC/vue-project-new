@@ -96,7 +96,7 @@
             },
             fetchFirst() {
                 const apiRequests = [
-                    this.$api.get(this.$test ? '/api/?type=source' : '/api/iform/source/List'),
+                    this.$api.get(this.$test ? '/api/?type=source' : '/api/iform/source'),
                 ];
                 Promise.all(apiRequests)
                     .then(([sourceResponse]) => {

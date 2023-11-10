@@ -99,7 +99,7 @@
             },
             fetchFirst() {
                 const apiRequests = [
-                    this.$api.get(this.$test ? '/api/?type=category' : '/api/iform/category/List'),
+                    this.$api.get(this.$test ? '/api/?type=category' : '/api/iform/category'),
                 ];
                 Promise.all(apiRequests)
                     .then(([categoryResponse]) => {

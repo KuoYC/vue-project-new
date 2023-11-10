@@ -416,9 +416,9 @@
             },
             fetchFirst() {
                 const apiRequests = [
-                    this.$api.get(this.$test ? '/api/?type=template' : '/api/iform/company'),
+                    this.$api.get(this.$test ? '/api/?type=template' : '/api/iform/template'),
                     this.$api.get(this.$test ? '/api/?type=company' : '/api/iform/company'),
-                    this.$api.get(this.$test ? '/api/?type=work' : '/api/iform/company'),
+                    this.$api.get(this.$test ? '/api/?type=work' : '/api/iform/work'),
                 ];
                 Promise.all(apiRequests)
                     .then(([templateResponse, companyResponse, workResponse]) => {
@@ -463,7 +463,7 @@
             toLogin() {
                 if (this.password === '5678') {
                     this.$api
-                        .get(this.$test ? `/api/?type=personnel&perNo=${this.perNo}` : `/api/iform/personnel&perEmail=${this.perEmail}`)
+                        .get(this.$test ? `/api/?type=personnel&perNo=${this.perNo}` : `/api/iform/personnel?perEmail=${this.perEmail}`)
                         .then(response => {
                             if (response.data.data.length > 0) {
                                 this.roleData = response.data.data;
@@ -502,7 +502,7 @@
             getRole() {//取得登入人員全部角色
                 if (this.per) {
                     this.$api
-                        .get(this.$test ? `/api/?type=personnel&perEmail=${this.per.perEmail}` : `/api/iform/personnel&perEmail=${this.perEmail}`)
+                        .get(this.$test ? `/api/?type=personnel&perEmail=${this.per.perEmail}` : `/api/iform/personnel?perEmail=${this.perEmail}`)
                         .then(response => {
                             this.roleData = response.data.data;
                             // console.log(this.userData);

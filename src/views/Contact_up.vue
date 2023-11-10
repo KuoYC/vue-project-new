@@ -105,7 +105,7 @@
             fetchFirst() {
                 this.cotId = this.$route.params.id; // 取得路由參數 id
                 const apiRequests = [
-                    this.$api.get(this.$test ? '/api/?type=company' : '/api/iform/company/List'),
+                    this.$api.get(this.$test ? '/api/?type=company' : '/api/iform/company'),
                     this.$api.get(this.$test ? `/api/?type=contact&cotId=${this.cotId}` : `/api/iform/contact/${this.cotId}`),
                 ];
                 Promise.all(apiRequests)

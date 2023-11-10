@@ -91,7 +91,7 @@
             },
             fetchFirst() {
                 this.$api
-                    .get(this.$test ? '/api/?type=template' : '/api/iform/template/List')
+                    .get(this.$test ? '/api/?type=template' : '/api/iform/template')
                     .then(response => {
                         // console.log(response.data.data);
                         this.templateData = response.data.data;
