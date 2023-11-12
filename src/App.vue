@@ -196,11 +196,12 @@
                     <!-- sidebar個資和品牌 -->
                     <div class="sidebar-brand" style="background-color: var(--theme-color);">
                         <router-link :to="`/`">
-                            <img alt="image" src="/assets/img/logo2.png" class="header-logo"/>
-                            <span class="logo-name" style="color: white;"> 國泰金控</span>
+                            <img alt="image" src="/assets/img/logo2.svg" class="header-logo"/>
+                            <span class="logo-name" style="color: white;"><img src="/assets/img/logo-title.png"></span>
+                            <!--<span class="logo-name" style="color: white;"> 國泰金控</span>-->
                         </router-link>
                     </div>
-                    <div style="width: 100%;padding: 0 10px;">
+                    <div style="width: 100%;padding: 0 0px;">
                         <div class="sidebar-user" style="padding-top: 30px;margin-bottom: 30px;">
                             <div class="sidebar-user-picture" style="margin-right: 0;">
                                 <!-- <img alt="image" src="/assets/img/person-304893_1280.png"> -->
@@ -234,7 +235,7 @@
                             <li class="dropdown" :class="{active : $route.path.startsWith('/contract')}">
                                 <a href="javascript:void(0);" class="menu-toggle nav-link has-dropdown">
                                     <vue-feather type="layers"></vue-feather>
-                                    <span>資訊共用合約</span>
+                                    <span>表單申請</span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li v-for="menu in templateData"
@@ -245,16 +246,20 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="dropdown" :class="{active : $route.path.startsWith(`/contract_`)}">
+                            <li class="dropdown" :class="{active : $route.path.startsWith(`/review`)}">
                                 <a href="javascript:void(0);" class="menu-toggle nav-link has-dropdown">
-                                    <vue-feather type="briefcase"></vue-feather>
-                                    <span>簽核單管理</span></a>
+                                    <vue-feather type="edit"></vue-feather>
+                                    <span>審核管理</span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="nav-link" href="javascript:void(0);">我的待簽單</a></li>
-                                    <li><a class="nav-link" href="javascript:void(0);">新增簽核單</a></li>
-                                    <li><a class="nav-link" href="javascript:void(0);">我送出的簽單</a></li>
-                                    <li><a class="nav-link" href="javascript:void(0);">我簽過的簽單</a></li>
-                                    <li><a class="nav-link" href="javascript:void(0);">簽核單查詢</a></li>
+                                    <li><a class="nav-link" href="javascript:void(0);">待審文件</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown" :class="{active : $route.path.startsWith(`/search`)}">
+                                <a href="javascript:void(0);" class="menu-toggle nav-link has-dropdown">
+                                    <vue-feather type="search"></vue-feather>
+                                    <span>查詢作業</span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="nav-link" href="javascript:void(0);">待審文件</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown" :class="{active : $route.path.startsWith('/exes')}">
@@ -272,10 +277,13 @@
                                 </ul>
                             </li>
                             <!-- <li class="menu-header">Approval Form Inventory</li> -->
-                            <li class="dropdown">
-                                <a href="javascript:void(0);" class="nav-link">
-                                    <vue-feather type="calendar"></vue-feather>
-                                    <span>簽核單清冊</span></a>
+                            <li class="dropdown" :class="{active : $route.path.startsWith(`/report`)}">
+                                <a href="javascript:void(0);" class="menu-toggle nav-link has-dropdown">
+                                    <vue-feather type="bar-chart-2"></vue-feather>
+                                    <span>報表管理</span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="nav-link" href="javascript:void(0);">待審文件</a></li>
+                                </ul>
                             </li>
                             <li class="dropdown" :class="{active : $route.path.startsWith(`/info`)}">
                                 <a href="javascript:void(0);" class="menu-toggle nav-link has-dropdown">

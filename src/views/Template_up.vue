@@ -27,8 +27,11 @@
                                                                 @mouseout="hideDeleteButton"><vue-feather type="book" size="20" class="m-r-5"></vue-feather><a
                                                                     style="color: red; display: none;"
                                                                     class="m-clean"
-                                                                    @click="deleteArea(parentIndex)">X</a>{{
+                                                                    @click="deleteArea(parentIndex)">X</a>{{ element.areaType === '1' ? tpName :
                                                                 element.areaTitle }}
+                                                                <div v-if="element.areaNote !== ''" class="help-tip">
+                                                                    <p>{{ element.areaNote }}</p>
+                                                                </div>
                                                             </h4>
                                                             <div v-if="parentIndex === 0">
                                                                 <!-- 這裡放創文日期 -->
@@ -54,8 +57,12 @@
                                                                         class="data float-end">{{ tpName }}</span></div>
                                                             </div>
                                                         </div>
+                                                        <div v-if="element.areaType === '1'">
+                                                            <div class="myFont16" style="font-weight: 400; color: black;">
+                                                                申請單位：</div>
+                                                        </div>
                                                         <hr>
-                                                        <draggable v-model="element.colItem" class="row"
+                                                        <draggable v-if="element.areaType !== '1'" v-model="element.colItem" class="row"
                                                                    :itemKey="tpKey" :group="tpGroup">
                                                             <template #item="{ element, index: childIndex }">
                                                                 <div :class="['col-lg-' + element.width + ' sub-item']">
@@ -718,21 +725,51 @@
 
                 </div>
                 <div class="p-15 border-bottom">
-                    <h6 class="font-medium m-b-10">加入區域</h6>
+                    <h6 class="font-medium m-b-10">區域設定</h6>
                     <ul class="contact-list">
                         <li class="nav-item">
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control" v-model="txtAreaTitle" placeholder="區塊名稱"
-                                       aria-label="Recipient's username" aria-describedby="button-addon2">
-                                <button class="btn btn-primary _effect--ripple waves-effect waves-light" type="button"
-                                        @click="setArea"
-                                        :disabled="txtAreaTitle === ''">加入
-                                </button>
-                            </div>
+                            <textarea class="form-control" v-model="txtAreaNote" placeholder="區域說明"></textarea>
                         </li>
                     </ul>
+                    <div class="col-lg-12">
+                        <ul class="contact-list">
+                            <li class="nav-item">
+                                <select class="form-control" v-model="selAreaType">
+                                    <option value="">區域類型</option>
+                                    <option value="0">一般</option>
+                                    <option value="1" :disabled="hasAreaType('1')">表頭</option>
+                                    <option value="2" :disabled="hasAreaType('2')">預計費用</option>
+                                </select>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-12">
+                        <ul class="contact-list">
+                            <li class="nav-item">
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control" v-model="txtAreaTitle" placeholder="區域名稱"
+                                           aria-label="Recipient's username" aria-describedby="button-addon2">
+                                    <button class="btn btn-primary _effect--ripple waves-effect waves-light" type="button"
+                                            @click="setArea"
+                                            :disabled="txtAreaTitle === '' && selAreaType !== '1'">加入
+                                    </button>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-12 m-t-10 m-b-10">
+                        <div class="m-l-20">
+                            <draggable v-model="tpAddData" class="row" :group="tpAddGroup" :itemKey="tpKey" put="false">
+                                <template #item="{ element, index }">
+                                    <div :class="['col-' + element.width + ' layout-spacing sub-item m-move add-box']">
+                                        {{ element.name }}
+                                    </div>
+                                </template>
+                            </draggable>
+                        </div>
+                    </div>
                 </div>
-                <div class="p-15 border-bottom" style="height: 100px;">
+                <div class="p-15 border-bottom" style="height: 200px;">
                 </div>
             </div>
         </div>
@@ -858,7 +895,9 @@
                     // {name: '', width: '6', type:'', value:''},
                 ],
                 tpKey: "tp", // 使用tp作為itemKey，您也可以根據需要更改
+                selAreaType: "",//區域類型
                 txtAreaTitle: "",//區塊名稱
+                txtAreaNote: "",//區域說明
                 colName: "",//欄位名稱
                 colTip: "",//欄位說明
                 colWidth: "",//欄位寬度
@@ -997,8 +1036,10 @@
                 return true;
             },
             setArea() {
-                this.tpData.push({areaTitle: this.txtAreaTitle, colItem: []});
+                this.tpData.push({areaTitle: this.txtAreaTitle, areaType: this.selAreaType, areaNote: this.txtAreaNote, colItem: []});
                 this.txtAreaTitle = '';
+                this.selAreaType = '0';
+                this.txtAreaNote = '';
             },
             showDeleteButton(event) {
                 const deleteButton = event.currentTarget.querySelector('.mouse-clean');
