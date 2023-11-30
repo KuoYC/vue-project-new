@@ -8,584 +8,476 @@
             <li class="breadcrumb-item">新增樣板</li>
         </ul>
         <div class="section-body">
-            <div class="row">
-                <!-- 主要內容 -->
-                <draggable v-model="tpData" class="col-12" :group="tpAreaGroup" :itemKey="tpKey">
-                    <template #item="{ element, index: parentIndex }">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 item">
-                            <div class="card">
-                                <div class="boxs mail_listing">
-                                    <div class="inbox-body no-pad">
-                                        <section class="mail-list">
-                                            <div class="mail-sender">
-                                                <div class="mail-heading">
-                                                    <div class="vew-mail-header">
-                                                        <div class="author-box-name d-flex justify-content-between"
-                                                             style="margin-bottom: 20px;">
-                                                            <h4 class="myToolTipContainer d-flex myCardTitle" href="#"
-                                                                @mouseover="showDeleteButton"
-                                                                @mouseout="hideDeleteButton"><vue-feather type="book" size="20" class="m-r-5"></vue-feather><a
-                                                                    style="color: red; display: none;"
-                                                                    class="m-clean"
-                                                                    @click="deleteArea(parentIndex)">X</a>{{ element.areaType === '1' ? tpName :
-                                                                element.areaTitle }}
-                                                                <div v-if="element.areaNote !== ''" class="help-tip">
-                                                                    <p>{{ element.areaNote }}</p>
-                                                                </div>
-                                                            </h4>
-                                                            <div v-if="element.areaType === '1'">
-                                                                <!-- 這裡放創文日期 -->
-                                                                <div class="myFont16" style="font-weight: 400;">
-                                                                    文件序號：<span
-                                                                        class="data float-end" style="font-style: italic; color: #e3e3e3;">文件建檔後產生</span></div>
-                                                                <div class="myFont16" style="font-weight: 400;">
-                                                                    創文日期：<span
-                                                                        class="data float-end" style="font-style: italic; color: #e3e3e3;">文件建檔後產生</span></div>
-                                                                <!-- 這裡放計劃框架 -->
-                                                                <div class="myFont16" style="font-weight: 400;">
-                                                                    生效日期：<span
-                                                                        class="data float-end" style="font-style: italic; color: #e3e3e3;">簽核完成後產生</span></div>
-                                                                <!-- 這裡放計劃框架 -->
-                                                                <div class="myFont16" style="font-weight: 400;">
-                                                                    計劃框架：<span
-                                                                        class="data float-end">{{ tpName }}</span></div>
-                                                            </div>
-                                                        </div>
-                                                        <div v-if="element.areaType === '1'">
-                                                            <div class="myFont16" style="font-weight: 400; color: black;">
-                                                                申請單位：</div>
-                                                        </div>
-                                                        <hr>
-                                                        <draggable v-if="element.areaType !== '1'" v-model="element.colItem" class="row"
-                                                                   :itemKey="tpKey" :group="tpGroup">
-                                                            <template #item="{ element, index: childIndex }">
-                                                                <div :class="['col-lg-' + element.width + ' sub-item']">
-                                                                    <div class="d-flex mb-4 mt-2">
-                                                                        <div class="flex-grow-1">
-                                                                            <hr v-if="childIndex !== 0"/>
-                                                                            <a style="color: red;" class="m-clean"
-                                                                               @click="deleteItem(parentIndex, childIndex)">X</a>
-                                                                            <div class="author-box-name d-flex"
-                                                                                 style="margin-bottom: 20px;">
-                                <span v-if="element.name !== ''" class="myFont16 d-flex align-center"
-                                      style="background-color:#6777ef ;color: white;border-radius: 6px;padding: 0.3rem 0.8rem;font-weight: 400;">
-                                  <vue-feather type="tag" size="20" style="transform: rotate(135deg);" class="m-r-10"></vue-feather>{{ element.name }}</span>
-                                                                            </div>
-                                                                            <!-- 這裡放權限控管及資料管制 -->
-                                                                            <span class="data myFont16">
-                                                                    <template v-if="element.type === 'subject'">
-                                                                        <h4><b style="font-weight: 600;"><input
-                                                                                type="text" class="form-control"
-                                                                                placeholder="文件名稱"/></b></h4>
-                                                                        <div class="flex-grow-1">
-                                                                            <!-- 這裡放承辦單位 -->
-                                                                            <div class="myFont16">申請類型：<span
-                                                                                    class="data">
-                                                                                <div v-for="cType in contractType" class="form-check-inline">
-                                                                                    <input class="form-check-input"
-                                                                                           type="radio" :id="'type_'+ cType.value">
-                                                                                    <label class="form-check-label"
-                                                                                           for="'type_'+ cType.value">
-                                                                                        {{ cType.text }}
-                                                                                    </label>
-                                                                                </div>
-                                                                            </span></div>
-                                                                            <!-- 這裡放管理維運公司 -->
-                                                                            <div class="myFont16">管理維運公司：<span
-                                                                                    class="data" style="font-style: italic; color: #e3e3e3;">依發起人公司顯示</span>
-                                                                            </div>
-                                                                            <!-- 這裡放承辦單位 -->
-                                                                            <div class="myFont16">承辦單位：<span
-                                                                                    class="data" style="font-style: italic; color: #e3e3e3;">依發起人單位顯示</span></div>
-                                                                            <!-- 這裡放承辦人 -->
-                                                                            <div class="myFont16">承辦人：<span
-                                                                                    class="data" style="font-style: italic; color: #e3e3e3;">依發起人顯示</span></div>
-                                                                            <!-- 這裡放聯絡電話 -->
-                                                                            <div class="myFont16">聯絡電話：<span
-                                                                                    class="data" style="font-style: italic; color: #e3e3e3;">依發起人顯示</span>
-                                                                            </div>
-                                                                            <!-- 這裡放使用公司 -->
-                                                                            <div class="myFont16">使用公司：<span
-                                                                                    class="data">
-                                                                                <div v-for="(company, com) in companyData"
-                                                                                     class="form-check-inline">
-                                                                                    <input class="form-check-input"
-                                                                                           type="checkbox"
-                                                                                           :id="'com_'+com">
-                                                                                    <label class="form-check-label"
-                                                                                           :for="'com_'+com">
-                                                                                        {{ company.comTitle }}
-                                                                                    </label>
-                                                                                </div>
-                                                                            </span></div>
-                                                                            <!-- 這裡放作業種類 -->
-                                                                            <div class="myFont16">作業種類：<span
-                                                                                    class="data">
-                                                                                <div v-for="(work, wor) in workData"
-                                                                                     class="form-check-inline">
-                                                                                    <input class="form-check-input"
-                                                                                           type="radio"
-                                                                                           :id="'wor_'+wor">
-                                                                                    <label class="form-check-label"
-                                                                                           for="'wor_'+wor">
-                                                                                        {{ work.worTitle }}
-                                                                                    </label>
-                                                                                </div>
-                                                                            </span></div>
-                                                                        </div>
-                                                                    </template>
-                                                                    <template v-if="element.type.startsWith('list')">
-                                                                        <select class="form-control">
-                                                                            <!-- 選項列表 -->
-                                    <div class="replyBox m-t-20 myFont16">
-                                                                            <template v-for="option in sourceData">
-                                                                                <template
-                                                                                        v-if="option.catId === element.id">
-                                                                                    <option>
-                                                                                        {{ option.souTitle }}
-                                                                                    </option>
-                                                                                </template>
-                                                                            </template>
+            <draggable v-model="tpData" class="col-12" :group="tpAreaGroup" :itemKey="tpKey">
+                <template #item="{ element, index: parentIndex }">
+                    <div class="col-12 myRwd">
+                        <div v-if="element.areaType === '1'" class="card contract-title">
+                            <div class="author-box-name d-flex justify-content-between"
+                                 style="margin-bottom: 20px;padding: 10px 25px;border-bottom-color: #f9f9f9;">
+                                <h4 class="myCardTitle" style="font-size: x-large;"
+                                    @mouseover="showDeleteButton"
+                                    @mouseout="hideDeleteButton">
+                                    <vue-feather type="trash-2" size="20" stroke="red" class="m-clean" @click="deleteArea(parentIndex)"></vue-feather>{{ tpName }}
+                                    <vue-feather v-if="element.areaNote !== ''" v-tooltip="{ content: element.areaNote, placement: 'right' }" type="help-circle" size="20" stroke="blue"></vue-feather>
+                                </h4>
+                                <div class="contract-serial">
+                                    <!-- 這裡放文件序號 -->
+                                    <div style="font-weight: 400;">文件序號：<span class="date" style="font-style: italic; color: #e3e3e3;">文件建檔後產生</span>
                                     </div>
-                                                                        </select>
-                                                                    </template>
-                                                                    <template v-if="element.type.startsWith('word')">
-                                                                        <template v-for="option in categoryData">
-                                                                            <template
-                                                                                    v-if="option.catId === element.id">
-                                    <div class="replyBox m-t-20 myFont16">
-                          <span>{{ option.catWord }}</span>
-                                    </div>
-                                                                            </template>
-                                                                        </template>
-                                                                    </template>
-
-                                                                    <template v-if="element.type === 'work_area'">
-                                                                            <div class="table-responsive">
-                                                                                <table class="myTable myTableItem">
-                                                                                <caption>作業項目資料表</caption>
-                                                                                    <thead>
-                                                                                    <tr>
-                                                                                        <th class="text-center"
-                                                                                            scope="col">序號</th>
-                                                                                        <th class="text-center"
-                                                                                            scope="col">作業項目</th>
-                                                                                        <th class="text-center"
-                                                                                            scope="col">作業種類</th>
-                                                                                        <th class="text-center"
-                                                                                            scope="col">服務時間</th>
-                                                                                        <th class="text-center"
-                                                                                            scope="col">本項目使用公司</th>
-                                                                                        <th class="text-center"
-                                                                                            scope="col">權限控管及資料管制</th>
-                                                                                        <th class="text-center"
-                                                                                            scope="col">分攤比例原則</th>
-                                                                                    </tr>
-                                                                                    </thead>
-                                                                                    <tbody>
-                                                                                    <tr>
-                                                                                        <td>
-                                                                                            <a style="color: red;">X</a>
-                                                                                            123
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <input type="text"
-                                                                                                   class="form-control"/>
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <select class="form-control">
-                                                                                    <!-- 選項列表 -->
-                                                                                    <option v-for="work in workData">{{ work.worTitle }}</option>
-                                                                                </select>
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <select class="form-control">
-                                                                                    <!-- 選項列表 -->
-                                                                                    <option>請選擇</option>
-                                                                                    <option>時間一</option>
-                                                                                    <option>時間二</option>
-                                                                                    <option>時間三</option>
-                                                                                </select>
-                                                                                        </td>
-                                                                                        <td>
-                                                                                <div v-for="(company, com) in companyData"
-                                                                                     class="form-check-inline">
-                                                                                    <input class="form-check-input"
-                                                                                           type="checkbox"
-                                                                                           :id="'com_'+com">
-                                                                                    <label class="form-check-label"
-                                                                                           :for="'com_'+com">
-                                                                                        {{ company.comTitle }}
-                                                                                    </label>
-                                                                                </div>
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <input type="text"
-                                                                                                   class="form-control"/>
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <select class="form-control">
-                                                                                                <option value="" disabled>請選擇</option>
-                                                                                                <option v-for="distribution in distributionData" :value="distribution.disId">{{ distribution.disTitle }}</option>
-                                                                                            </select>
-
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    </tbody>
-                                                                                </table>
-                                                                            </div>
-                                                                        <p><button class="btn btn-success btn-icon">
-                                                                            <vue-feather type="plus"></vue-feather>
-                                                                        </button></p>
-                                                                    </template>
-                                                                    <template v-if="element.type === 'sign'">
-                                                                                <label>維運</label>
-                                                                                <div class="table-responsive">
-                                                                                    <table class="myTable myTableMemberI">
-                                                                                        <caption>發起維運公司簽核人員資料表</caption>
-                                                                                        <thead>
-                                                                                        <tr>
-                                                                                                <th>公司</th>
-                                                                                                <th>部門</th>
-                                                                                                <th>科別</th>
-                                                                                                <th>承辦人</th>
-                                                                                                <th>科別主管</th>
-                                                                                                <th>部門主管</th>
-                                                                                                <th>窗口</th>
-                                                                                                <th>承辦人連絡電話</th>
-                                                                                        </tr>
-                                                                                        </thead>
-                                                                                        <tbody>
-                                                                                        <tr>
-                                                                                            <td>
-                                                                                                X公司
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                X部門
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                X科別
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                <select class="form-select">
-                                                                                                    <option value="">承辦人</option>
-                                                                                                </select>
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                <select class="form-select">
-                                                                                                    <option value="">科別主管</option>
-                                                                                                </select>
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                <select class="form-select">
-                                                                                                    <option value="">部門主管</option>
-                                                                                                </select>
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                <select class="form-select">
-                                                                                                    <option value="">窗口</option>
-                                                                                                </select>
-                                                                                            </td>
-                                                                                            <td class="text-center">
-                                                                                                02-2222-2222#222
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        </tbody>
-                                                                                    </table>
-                                                                                </div>
-                                                                                <div class="table-responsive">
-                                                                                    <table class="myTable myTableMemberM">
-                                                                                        <caption>維運公司簽核人員資料表</caption>
-                                                                                        <thead>
-                                                                                        <tr>
-                                                                                            <th>公司</th>
-                                                                                            <th>部門</th>
-                                                                                            <th>科別</th>
-                                                                                            <th>承辦人</th>
-                                                                                            <th>科別主管</th>
-                                                                                            <th>部門主管</th>
-                                                                                            <th>承辦人連絡電話</th>
-                                                                                        </tr>
-                                                                                        </thead>
-                                                                                        <tbody>
-                                                                                        <tr>
-                                                                                            <td>
-                                                                                                X公司
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                X部門
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                X科別
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                <select class="form-select">
-                                                                                                    <option value="">承辦人</option>
-                                                                                                </select>
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                <select class="form-select">
-                                                                                                    <option value="">科別主管</option>
-                                                                                                </select>
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                <select class="form-select">
-                                                                                                    <option value="">部門主管</option>
-                                                                                                </select>
-                                                                                            </td>
-                                                                                            <td class="text-center">
-                                                                                                02-2222-2222#222
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <td>
-                                                                                                <a style="color: red;">X</a>
-                                                                                                X公司
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                X部門
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                <select class="form-select">
-                                                                                                    <option value="">部門主管</option>
-                                                                                                </select>
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                X科別
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                <select class="form-select">
-                                                                                                    <option value="">科別主管</option>
-                                                                                                </select>
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                <select class="form-select">
-                                                                                                    <option value="">承辦人</option>
-                                                                                                </select>
-                                                                                            </td>
-                                                                                            <td class="text-center">
-                                                                                                02-2222-2222#222
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        </tbody>
-                                                                                    </table>
-                                                                                </div>
-                                                                                <p><button
-                                                                                        class="btn btn-success btn-icon">
-                                                                                <vue-feather type="plus"></vue-feather>
-                                                                                </button></p>
-                                                                                <label>使用</label>
-                                                                                <div class="table-responsive">
-                                                                                    <table class="myTable myTableMemberU">
-                                                                                        <caption>使用公司簽核人員資料表</caption>
-                                                                                        <thead>
-                                                                                        <tr>
-                                                                                                <th>公司</th>
-                                                                                                <th>部門</th>
-                                                                                                <th>科別</th>
-                                                                                                <th>承辦人</th>
-                                                                                                <th>科別主管</th>
-                                                                                                <th>部門主管</th>
-                                                                                                <th>承辦人連絡電話</th>
-                                                                                        </tr>
-                                                                                        </thead>
-                                                                                        <tbody>
-                                                                                        <tr>
-                                                                                            <td>
-                                                                                                <a style="color: red;">X</a>
-                                                                                                X公司
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                X部門
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                X科別
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                <select class="form-select">
-                                                                                                    <option value="">承辦人</option>
-                                                                                                </select>
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                <select class="form-select">
-                                                                                                    <option value="">科別主管</option>
-                                                                                                </select>
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                <select class="form-select">
-                                                                                                    <option value="">部門主管</option>
-                                                                                                </select>
-                                                                                            </td>
-                                                                                            <td class="text-center">
-                                                                                                02-2222-2222#222
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        </tbody>
-                                                                                    </table>
-                                                                                </div>
-                                                                                <p><button
-                                                                                        class="btn btn-success btn-icon">
-                                                                                    <vue-feather type="plus"></vue-feather>
-                                                                                </button></p>
-                                                                    </template>
-
-                                                                    <template v-if="element.type === 'file_area'">
-                                                                        <div class="replyBox m-t-20 myFont16">
-                                                              <span>
-                                                                <!-- 這裡放共幾則附檔 -->
-                                                                <i class="fa fa-paperclip mb-1"></i> <span>3則</span>附加檔案 </span>
-                                                                            <!-- 這裡放附檔 -->
-                                                                            <div>
-                                                                                <a href="#">顧問報告.pdf</a> |
-                                                                                <a href="#">顧問報告.pdf</a> |
-                                                                                <a href="#">顧問報告.pdf</a> |
-                                                                            </div>
-                                                                        </div>
-                                                                    </template>
-
-                                                                    <template v-if="element.type === 'select'">
-                                                                        <template v-if="element.tip === ''">
-                                                                        <select class="form-control">
-                                                                            <!-- 選項列表 -->
-                                                                            <option v-for="option in element.option.split('|')"
-                                                                                    :value="option">
-                                                                                {{ option }}
-                                                                            </option>
-                                                                        </select>
-                                                                        </template>
-                                                                        <template v-else>
-                                                                        <div class="myToolTipContainer d-flex"
-                                                                             style="width: 200px;">
-                                                                          <!-- 以下放edit元件 -->
-                                                                        <select class="form-control">
-                                                                            <!-- 選項列表 -->
-                                                                            <option v-for="option in element.option.split('|')"
-                                                                                    :value="option">
-                                                                                {{ option }}
-                                                                            </option>
-                                                                        </select>
-                                                                            <!-- 以上放edit元件 -->
-                                                                          <div class="help-tip">
-                                                                            <p>{{ element.tip }}</p>
-                                                                          </div>
-                                                                        </div>
-                                                                        </template>
-                                                                    </template>
-                                                                    <template v-if="element.type === 'radio'">
-                                                                        <template v-if="element.tip === ''">
-                                                                            <div v-for="option in element.option.split('|')"
-                                                                                 class="form-check-inline">
-                                                                                    <input type="radio" :value="option"
-                                                                                           class="form-check-input"
-                                                                                           :id="'radio_'+parentIndex+'_'+childIndex">
-
-                                                                                    <label class="form-check-label"
-                                                                                           :for="'radio_'+parentIndex+'_'+childIndex">{{ option }}</label>
-                                                                            </div>
-                                                                        </template>
-                                                                        <template v-else>
-                                                                        <div class="myToolTipContainer d-flex"
-                                                                             style="width: 200px;">
-                                                                          <!-- 以下放edit元件 -->
-                                                                            <div v-for="option in element.option.split('|')"
-                                                                                 class="form-check-inline">
-                                                                                    <input type="radio" :value="option"
-                                                                                           class="form-check-input"
-                                                                                           :id="'radio_'+parentIndex+'_'+childIndex">
-
-                                                                                    <label class="form-check-label"
-                                                                                           :for="'radio_'+parentIndex+'_'+childIndex">{{ option }}</label>
-                                                                            </div>
-                                                                            <!-- 以上放edit元件 -->
-                                                                          <div class="help-tip">
-                                                                            <p>{{ element.tip }}</p>
-                                                                          </div>
-                                                                        </div>
-                                                                        </template>
-                                                                    </template>
-                                                                    <template v-if="element.type === 'check'">
-                                                                        <template v-if="element.tip === ''">
-                                                                            <div v-for="option in element.option.split('|')"
-                                                                                 class="form-check-inline">
-                                                                                    <input type="checkbox"
-                                                                                           :value="option"
-                                                                                           class="form-check-input"
-                                                                                           :id="'radio_'+parentIndex+'_'+childIndex">
-
-                                                                                    <label class="form-check-label"
-                                                                                           :for="'radio_'+parentIndex+'_'+childIndex">{{ option }}</label>
-                                                                            </div>
-                                                                        </template>
-                                                                        <template v-else>
-                                                                        <div class="myToolTipContainer d-flex"
-                                                                             style="width: 200px;">
-                                                                          <!-- 以下放edit元件 -->
-                                                                            <div v-for="option in element.option.split('|')"
-                                                                                 class="form-check-inline">
-                                                                                    <input type="checkbox"
-                                                                                           :value="option"
-                                                                                           class="form-check-input"
-                                                                                           :id="'radio_'+parentIndex+'_'+childIndex">
-
-                                                                                    <label class="form-check-label"
-                                                                                           :for="'radio_'+parentIndex+'_'+childIndex">{{ option }}</label>
-                                                                            </div>
-                                                                            <!-- 以上放edit元件 -->
-                                                                          <div class="help-tip">
-                                                                            <p>{{ element.tip }}</p>
-                                                                          </div>
-                                                                        </div>
-                                                                        </template>
-                                                                    </template>
-                                                                    <template v-if="element.type === 'text'">
-                                                                        <template v-if="element.tip === ''">
-                                                                        <input type="text" class="form-control"/>
-                                                                        </template>
-                                                                        <template v-else>
-                                                                        <div class="myToolTipContainer d-flex"
-                                                                             style="width: 200px;">
-                                                                          <!-- 以下放edit元件 -->
-                                                                        <input type="text" class="form-control"/>
-                                                                            <!-- 以上放edit元件 -->
-                                                                          <div class="help-tip">
-                                                                            <p>{{ element.tip }}</p>
-                                                                          </div>
-                                                                        </div>
-                                                                        </template>
-                                                                    </template>
-                                                                    <template v-if="element.type === 'box'">
-                                                                        <template v-if="element.tip === ''">
-                                                                        <textarea class="form-control"></textarea>
-                                                                        </template>
-                                                                        <template v-else>
-                                                                        <div class="myToolTipContainer d-flex"
-                                                                             style="width: 200px;">
-                                                                          <!-- 以下放edit元件 -->
-                                                                        <textarea class="form-control"></textarea>
-                                                                            <!-- 以上放edit元件 -->
-                                                                          <div class="help-tip">
-                                                                            <p>{{ element.tip }}</p>
-                                                                          </div>
-                                                                        </div>
-                                                                        </template>
-                                                                    </template>
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </template>
-                                                        </draggable>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </section>
+                                    <!-- 這裡放創文日期 -->
+                                    <div style="font-weight: 400;">創文日期：<span class="date" style="font-style: italic; color: #e3e3e3;">文件建檔後產生</span>
                                     </div>
                                 </div>
                             </div>
+                            <div class="card-body myNotification d-flex">
+                                <div class="myFont16Title" style="margin: 0 10px;">申請單位： <span class="date myFont16" style="font-style: italic; color: #e3e3e3;">自動帶入</span></div>
+                                <div class="myFont16Title" style="margin: 0 10px;">申請人： <span class="date myFont16" style="font-style: italic; color: #e3e3e3;">自動帶入</span></div>
+                                <div class="myFont16Title" style="margin: 0 10px;">聯絡電話： <span
+                                        class="date myFont16" style="font-style: italic; color: #e3e3e3;">自動帶入</span></div>
+                            </div>
+                            <div class="card-body myNotification d-flex">
+                                <div class="myFont16Title" style="margin: 0 10px;">申請類型： <span class="date myFont16" style="font-style: italic; color: #e3e3e3;">自動帶入</span></div>
+                            </div>
                         </div>
-                    </template>
-                </draggable>
-            </div>
+                        <div v-else-if="element.areaType === '2'" class="card">
+                            <div class="card-header justify-content-between">
+                                <h4 class="myCardTitle"
+                                    @mouseover="showDeleteButton"
+                                    @mouseout="hideDeleteButton">
+                                    <vue-feather type="trash-2" size="20" stroke="red" class="m-clean" @click="deleteArea(parentIndex)"></vue-feather>
+                                    <span class="myFont16 d-flex align-center" style="background-color: #26a862; color: white; border-radius: 6px; padding: 0.3rem 0.8rem; font-weight: 400;">
+                                    <vue-feather type="tag" size="20" style="transform: rotate(135deg); padding-right: 0px;"
+                                                 class="m-r-5"></vue-feather>{{ element.areaTitle }}</span>
+                                    <vue-feather v-if="element.areaNote !== ''" v-tooltip="{ content: element.areaNote, placement: 'right' }" type="help-circle" size="20" stroke="blue"></vue-feather>
+                                </h4>
+                            </div>
+                            <div class="card-body myNotification">
+                                <p>僅供各公司簽核參考，實際收付款以當年度分攤收付款簽呈為主。</p>
+                                <div class="table-responsive">
+                                    <table class="newTable">
+                                        <caption>預計分攤費用資料表</caption>
+                                        <thead style="position: sticky;top: 0;" class="myNew">
+                                        <tr>
+                                            <th class="text-center" style="min-width: 100px;"
+                                                scope="col"></th>
+                                            <th v-for="com in companyData"
+                                                scope="col" style="min-width:120px; max-width: 120px;">{{ com.comTitle }}</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>
+                                                分攤比例
+                                            </td>
+                                            <td v-for="com in companyData">
+                                                0%
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                分攤費用
+                                            </td>
+                                            <td v-for="com in companyData">
+                                                <input type="text" class="form-control"/>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div v-else class="card">
+                            <div class="card-header justify-content-between">
+                                <h4 class="myCardTitle"
+                                    @mouseover="showDeleteButton"
+                                    @mouseout="hideDeleteButton">
+                                    <vue-feather type="trash-2" size="20" stroke="red" class="m-clean" @click="deleteArea(parentIndex)"></vue-feather>
+                                    <span class="myFont16 d-flex align-center" style="background-color: #26a862; color: white; border-radius: 6px; padding: 0.3rem 0.8rem; font-weight: 400;">
+                                    <vue-feather type="tag" size="20" style="transform: rotate(135deg); padding-right: 0px;"
+                                                 class="m-r-5"></vue-feather>{{ element.areaTitle }}</span>
+                                    <vue-feather v-if="element.areaNote !== ''" v-tooltip="{ content: element.areaNote, placement: 'right' }" type="help-circle" size="20" stroke="blue"></vue-feather>
+                                </h4>
+                            </div>
+                            <div class="card-body myNotification">
+                                <div class="row">
+                                    <draggable v-model="element.colItem" class="row" :itemKey="tpKey" :group="tpGroup" style="min-height: 100px;">
+                                        <template #item="{ element, index: childIndex }">
+                                            <div :class="['col-' + element.width + ' sub-item']">
+                                                <vue-feather type="trash-2" size="20" stroke="red" class="m-clean" @click="deleteItem(parentIndex, childIndex)"></vue-feather>
+                                                <template v-if="element.type === 'subject'">
+                                                    <label v-if="element.name !== '' || element.tip !== ''" class="myFont16 col-4 p-t-10">{{ element.name }}
+                                                        <vue-feather v-if="element.tip !== ''" v-tooltip="{ content: element.tip, placement: 'right' }" type="help-circle" size="20" stroke="blue"></vue-feather>
+                                                    </label>
+                                                    <div class="row">
+                                                        <div class="d-flex justify-content-between align-center" style="margin-bottom: 20px; max-width: 450px;">
+                                                            <label class="myFont16 col-4  p-t-10">共用計劃書名稱</label>
+                                                            <input type="text" class="form-control" style="background-color: white;"
+                                                                   placeholder="請輸入文字">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="d-flex justify-content-between align-center" style="margin-bottom: 20px; max-width: 450px;">
+                                                            <label class="myFont16 col-4  p-t-10">共用計劃框架</label>
+                                                            <select class="form-control">
+                                                                <option>請選擇框架</option>
+                                                                <option v-for="frm in frameData" :value="frm.frmId">{{ frm.frmTitle }}</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="d-flex justify-content-between align-center" style="margin-bottom: 20px; max-width: 450px;">
+                                                            <label class="myFont16 col-4  p-t-10">生效日期</label>
+                                                            <DatePicker format="yyyy-MM-dd"
+                                                                        locale="zh-tw"
+                                                                        :enable-time-picker="false"
+                                                                        placeholder="未填寫將以簽核完成日為依據"
+                                                                        style="width: auto;"/>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="d-flex justify-content-between align-center" style="margin-bottom: 20px; max-width: 450px;">
+                                                            <label class="myFont16 col-4  p-t-10">維運公司</label>
+                                                            <input disabled type="text" class="form-control" placeholder="自動帶入" style="background-color: white; font-style: italic; color: #e3e3e3;">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row" style="padding-left: 8px;">
+                                                        <label class="myFont16 mb-1">使用公司</label>
+                                                        <div class="d-flex my-list">
+                                                            <ul>
+                                                                <li v-for="com in companyData" class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" :id="'com_'+com.comId" checked="">
+                                                                    <label class="form-check-label" :for="'com_'+com.comId">{{ com.comTitle }}</label>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" style="padding-left: 8px;">
+                                                        <label class="myFont16 mb-1">作業種類</label>
+                                                        <div class="d-flex">
+                                                            <div v-for="wor in workData" class="form-check">
+                                                                <input class="form-check-input" type="checkbox" :id="'wor_'+wor.worId" checked="">
+                                                                <label class="form-check-label" :for="'wor_'+wor.worId">{{ wor.worTitle }}</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                                <template v-if="element.type.startsWith('list')">
+                                                    <label v-if="element.name !== '' || element.tip !== ''" class="myFont16 p-t-10">{{ element.name }}
+                                                        <vue-feather v-if="element.tip !== ''" v-tooltip="{ content: element.tip, placement: 'right' }" type="help-circle" size="20" stroke="blue"></vue-feather>
+                                                    </label>
+                                                    <select class="form-control">
+                                                    <template v-for="option in sourceData">
+                                                        <option v-if="String(option.catId) === String(element.id)">
+                                                            {{ option.souTitle }}
+                                                        </option>
+                                                    </template>
+                                                    </select>
+                                                </template>
+                                                <template v-if="element.type.startsWith('word')">
+                                                    <label v-if="element.name !== '' || element.tip !== ''" class="myFont16 p-t-10">{{ element.name }}
+                                                        <vue-feather v-if="element.tip !== ''" v-tooltip="{ content: element.tip, placement: 'right' }" type="help-circle" size="20" stroke="blue"></vue-feather>
+                                                    </label>
+                                                    <template v-for="option in categoryData">
+                                                        <div v-if="String(option.catId) === String(element.id)" class="row">
+                                                            <p class="myFont16">{{ option.catWord }}</p>
+                                                        </div>
+                                                    </template>
+                                                </template>
+                                                <template v-if="element.type === 'work_area'">
+                                                    <label v-if="element.name !== '' || element.tip !== ''" class="myFont16 p-t-10">{{ element.name }}
+                                                        <vue-feather v-if="element.tip !== ''" v-tooltip="{ content: element.tip, placement: 'right' }" type="help-circle" size="20" stroke="blue"></vue-feather>
+                                                    </label>
+                                                    <div style="border-radius: 3px; border: 1px solid #ced4da;">
+                                                        <div style="background-color:#EAF7ED ;padding-top: 10px;padding-left: 10px;">
+                                                            <div class="row">
+                                                                <div class="d-flex justify-content-between align-center" style="margin-bottom: 20px; max-width: 450px;">
+                                                                    <label class="myFont16 col-4 p-t-10">共用作業項目</label>
+                                                                    <input type="text" class="form-control" placeholder="請輸入文字">
+                                                                </div>
+                                                                <div class="d-flex justify-content-between align-center" style="margin-bottom: 20px; max-width: 450px;">
+                                                                    <label class="myFont16 col-4 p-t-10">作業種類</label>
+                                                                    <select class="form-control">
+                                                                        <!-- 選項列表 -->
+                                                                        <option v-for="wor in workData"
+                                                                                :value="wor.worId">
+                                                                            {{ wor.worTitle }}
+                                                                        </option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div style="padding:10px 10px;">
+                                                            <div class="row">
+                                                                <div class="d-flex justify-content-between align-center" style="margin-bottom: 20px; max-width: 450px;">
+                                                                    <label class="myFont16 col-4 p-t-10">費用分攤原則</label>
+                                                                    <input type="text" class="form-control" placeholder="請輸入文字">
+                                                                </div>
+                                                                <div class="d-flex justify-content-between align-center" style="margin-bottom: 20px; max-width: 450px;">
+                                                                    <label class="myFont16 col-4 p-t-10">費用分攤基礎</label>
+                                                                    <input type="text" class="form-control" placeholder="請輸入文字">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row">
+                                                                <div class="d-flex justify-content-between align-center" style="margin-bottom: 20px; max-width: 450px;">
+                                                                    <label class="myFont16 col-4 p-t-10">服務時間</label>
+                                                                    <input type="text" class="form-control" placeholder="請輸入文字">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row" style="padding-left: 20px;">
+                                                                <label class="myFont16 col-4 p-t-10" style="padding-left: 0;">權限控管及資料管制</label>
+                                                                <textarea class="my-form-control" spellcheck="false" placeholder="請輸入標題" style="width: 98%;"></textarea>
+                                                            </div>
+
+                                                            <div class="row" style="padding-left: 8px;margin-top: 20px;">
+                                                                <label class="myFont16 mb-1">使用公司</label>
+                                                                <div class="d-flex my-list">
+                                                                    <ul>
+                                                                        <li v-for="com in companyData" class="form-check">
+                                                                            <input class="form-check-input" type="checkbox" :id="['cbx_com_' + com.comId]" checked="">
+                                                                            <label class="form-check-label" :for="['cbx_com_' + com.comId]">{{ com.comTitle }}</label>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row" style="padding-left: 8px;">
+                                                                <label class="myFont16 mb-1">使用公司固定分攤比例</label>
+                                                                <div class="d-flex my-list" style="overflow-x: auto;">
+                                                                    <ul>
+                                                                        <li v-for="com in companyData" class="" style="margin-bottom: 20px; width: 190px;">
+                                                                            <label class="myFont16 p-t-10" style="float: left; padding-right: 10px;">{{ com.comTitle }}</label>
+                                                                            <input type="text" class="form-control" placeholder="0" style="width: 60px; float: left;">
+                                                                            <label class="myFont16 p-t-10" style="float: end; padding-left: 10px;">%</label>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class=" mt-2 d-flex justify-content">
+                                                        <button type="button" class="btn btn-icon icon-left btn-primary myFont16" style="border-radius: 6px;">新增一筆</button>
+                                                    </div>
+                                                </template>
+                                                <template v-if="element.type === 'sign'">
+                                                    <label v-if="element.name !== '' || element.tip !== ''" class="myFont16 col-4 p-t-10">{{ element.name }}
+                                                        <vue-feather v-if="element.tip !== ''" v-tooltip="{ content: element.tip, placement: 'right' }" type="help-circle" size="20" stroke="blue"></vue-feather>
+                                                    </label>
+                                                    <div class="row" style="margin-bottom: 20px">
+                                                        <label class="myFont16 p-t-10">管理維運公司</label>
+                                                        <div class="table-responsive">
+                                                            <table class="newTable">
+                                                                <caption>維運公司簽核人員資料表</caption>
+                                                                <thead style="position: sticky;top: 0;" class="myNew">
+                                                                <tr>
+                                                                    <th style="min-width: 120px;"
+                                                                        scope="col">公司</th>
+                                                                    <th style="min-width: 120px;"
+                                                                        scope="col">部門</th>
+                                                                    <th style="min-width: 120px;"
+                                                                        scope="col">科別</th>
+                                                                    <th style="min-width: 120px;"
+                                                                        scope="col">承辦人</th>
+                                                                    <th style="min-width: 120px;"
+                                                                        scope="col">科別主管</th>
+                                                                    <th style="min-width: 120px;"
+                                                                        scope="col">部門主管</th>
+                                                                    <th style="min-width: 120px;"
+                                                                        scope="col">承辦人連絡電話</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <select class="form-control">
+                                                                                <option value="">選擇公司</option>
+                                                                            </select>
+                                                                        </td>
+                                                                        <td>
+                                                                            <select class="form-control">
+                                                                                <option value="">選擇部門</option>
+                                                                            </select>
+                                                                        </td>
+                                                                        <td>
+                                                                            <select class="form-control">
+                                                                                <option value="">選擇科別</option>
+                                                                            </select>
+                                                                        </td>
+                                                                        <td>
+                                                                            <select class="form-control">
+                                                                                <option value="">選擇部門主管</option>
+                                                                            </select>
+                                                                        </td>
+                                                                        <td>
+                                                                            <select class="form-control">
+                                                                                <option value="">選擇科別主管</option>
+                                                                        </select>
+                                                                        </td>
+                                                                        <td>
+                                                                            <select class="form-control">
+                                                                                <option value="">選擇承辦人</option>
+                                                                            </select>
+                                                                        </td>
+                                                                        <td>
+                                                                            <input type="text" class="form-control"/>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                    <div class=" mt-2 d-flex justify-content">
+                                                        <button type="button" class="btn btn-icon icon-left btn-primary myFont16" style="border-radius: 6px;">新增一筆</button>
+                                                    </div>
+                                                    <div class="row" style="margin-bottom: 20px">
+                                                        <label class="myFont16 p-t-10">使用公司</label>
+                                                        <div class="table-responsive">
+                                                            <table class="newTable">
+                                                                <caption>使用公司簽核人員資料表</caption>
+                                                                <thead style="position: sticky;top: 0;" class="myNew">
+                                                                <tr>
+                                                                    <th style="min-width: 120px;"
+                                                                        scope="col">公司</th>
+                                                                    <th style="min-width: 120px;"
+                                                                        scope="col">部門</th>
+                                                                    <th style="min-width: 120px;"
+                                                                        scope="col">科別</th>
+                                                                    <th style="min-width: 120px;"
+                                                                        scope="col">承辦人</th>
+                                                                    <th style="min-width: 120px;"
+                                                                        scope="col">科別主管</th>
+                                                                    <th style="min-width: 120px;"
+                                                                        scope="col">部門主管</th>
+                                                                    <th style="min-width: 120px;"
+                                                                        scope="col">承辦人連絡電話</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                <tr>
+                                                                    <td>
+                                                                        <select class="form-control">
+                                                                            <option value="">選擇公司</option>
+                                                                        </select>
+                                                                    </td>
+                                                                    <td>
+                                                                        <select class="form-control">
+                                                                            <option value="">選擇部門</option>
+                                                                        </select>
+                                                                    </td>
+                                                                    <td>
+                                                                        <select class="form-control">
+                                                                            <option value="">選擇科別</option>
+                                                                        </select>
+                                                                    </td>
+                                                                    <td>
+                                                                        <select class="form-control">
+                                                                            <option value="">選擇部門主管</option>
+                                                                        </select>
+                                                                    </td>
+                                                                    <td>
+                                                                        <select class="form-control">
+                                                                            <option value="">選擇科別主管</option>
+                                                                        </select>
+                                                                    </td>
+                                                                    <td>
+                                                                        <select class="form-control">
+                                                                            <option value="">選擇承辦人</option>
+                                                                        </select>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text" class="form-control"/>
+                                                                    </td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                    <div class=" mt-2 d-flex justify-content">
+                                                        <button type="button" class="btn btn-icon icon-left btn-primary myFont16" style="border-radius: 6px;">新增一筆</button>
+                                                    </div>
+
+                                                </template>
+                                                <template v-if="element.type === 'file_area'">
+                                                    <label v-if="element.name !== '' || element.tip !== ''" class="myFont16 mb-1">{{ element.name }}
+                                                        <vue-feather v-if="element.tip !== ''" v-tooltip="{ content: element.tip, placement: 'right' }" type="help-circle" size="20" stroke="blue"></vue-feather>
+                                                    </label>
+                                                    <div class="d-flex justify-content-between align-center" style="margin-bottom: 20px; max-width: 450px;">
+                                                        <vue-feather type="paperclip" size="20"></vue-feather>
+                                                        <label class="myFont16 col-4 p-t-10">3則附加檔案</label>
+                                                        <!-- 這裡放附檔 -->
+                                                        <div>
+                                                            <a href="#">顧問報告.pdf</a> |
+                                                            <a href="#">顧問報告.pdf</a> |
+                                                            <a href="#">顧問報告.pdf</a> |
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                                <template v-if="element.type === 'select'">
+                                                    <div class="d-flex justify-content-between align-center" style="margin-bottom: 20px; max-width: 450px;">
+                                                        <label v-if="element.name !== '' || element.tip !== ''" class="myFont16 col-4 p-t-10">{{ element.name }}
+                                                            <vue-feather v-if="element.tip !== ''" v-tooltip="{ content: element.tip, placement: 'right' }" type="help-circle" size="20" stroke="blue"></vue-feather>
+                                                        </label>
+                                                        <select class="form-control">
+                                                            <!-- 選項列表 -->
+                                                            <option v-for="option in element.option.split('|')"
+                                                                    :value="option">
+                                                                {{ option }}
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </template>
+                                                <template v-if="element.type === 'radio'">
+                                                    <div class="d-flex justify-content-between align-center" style="margin-bottom: 20px; max-width: 450px;">
+                                                        <label v-if="element.name !== '' || element.tip !== ''" class="myFont16 col-4 p-t-10">{{ element.name }}
+                                                            <vue-feather v-if="element.tip !== ''" v-tooltip="{ content: element.tip, placement: 'right' }" type="help-circle" size="20" stroke="blue"></vue-feather>
+                                                        </label>
+                                                        <div v-for="option in element.option.split('|')" class="form-check p-t-10">
+                                                            <input class="form-check-input" type="radio" :value="option" :id="'rdo_'+parentIndex+'_'+childIndex">
+                                                            <label class="form-check-label" :for="'rdo_'+parentIndex+'_'+childIndex">{{ option }}</label>
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                                <template v-if="element.type === 'check'">
+                                                    <div class="d-flex justify-content-between align-center" style="margin-bottom: 20px; max-width: 450px;">
+                                                        <label v-if="element.name !== '' || element.tip !== ''" class="myFont16 col-4 p-t-10">{{ element.name }}
+                                                            <vue-feather v-if="element.tip !== ''" v-tooltip="{ content: element.tip, placement: 'right' }" type="help-circle" size="20" stroke="blue"></vue-feather>
+                                                        </label>
+                                                        <div v-for="option in element.option.split('|')" class="form-check p-t-10">
+                                                            <input class="form-check-input" type="checkbox" :value="option" :id="'cbx_'+parentIndex+'_'+childIndex">
+                                                            <label class="form-check-label" :for="'cbx_'+parentIndex+'_'+childIndex">{{ option }}</label>
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                                <template v-if="element.type === 'text'">
+                                                    <div class="d-flex justify-content-between align-center" style="margin-bottom: 20px; max-width: 450px;">
+                                                        <label v-if="element.name !== '' || element.tip !== ''" class="myFont16 col-4 p-t-10">{{ element.name }}
+                                                            <vue-feather v-if="element.tip !== ''" v-tooltip="{ content: element.tip, placement: 'right' }" type="help-circle" size="20" stroke="blue"></vue-feather>
+                                                        </label>
+                                                        <input type="text" class="form-control" placeholder="請輸入文字">
+                                                    </div>
+                                                </template>
+                                                <template v-if="element.type === 'box'">
+                                                    <div class="row" style="margin-bottom: 20px;">
+                                                        <label v-if="element.name !== '' || element.tip !== ''" class="myFont16 col-4 p-t-10">{{ element.name }}
+                                                            <vue-feather v-if="element.tip !== ''" v-tooltip="{ content: element.tip, placement: 'right' }" type="help-circle" size="20" stroke="blue"></vue-feather>
+                                                        </label>
+                                                        <textarea class="my-form-control" spellcheck="false" placeholder="請輸入標題"></textarea>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                        </template>
+                                    </draggable>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </draggable>
         </div>
     </section>
 
@@ -595,8 +487,8 @@
         <a href="javascript:void(0)" class="settingPanelToggle" @click="sidebarClick"> <i
                 class="fa fa-spin fa-cog"></i>
         </a>
-        <div class="settingSidebar-body ps-container ps-theme-default">
-            <div class="sidebar-brand fade show active">
+        <div class="settingSidebar-body ps-container ps-theme-default" style="overflow-y:auto;">
+            <div class="fade show active">
                 <div class="setting-panel-header">管理面板
                 </div>
                 <div class="p-15 border-bottom">
@@ -626,8 +518,7 @@
                     <h6 class="font-medium m-b-10">欄位說明</h6>
                     <ul class="contact-list">
                         <li class="nav-item">
-                            <input type="text" class="form-control" v-model="colTip" placeholder="請輸入欄位說明"
-                                   :disabled="!['select', 'radio', 'check', 'text', 'box'].includes(colType)"/>
+                            <input type="text" class="form-control" v-model="colTip" placeholder="請輸入欄位說明"/>
                         </li>
                     </ul>
                     <div class="row">
@@ -736,10 +627,10 @@
                             <li class="nav-item">
                             <div class="input-group mb-3">
                                 <input type="text" class="form-control" v-model="txtAreaTitle" placeholder="區域名稱"
-                                       aria-label="Recipient's username" aria-describedby="button-addon2">
+                                       :disabled="isAreaTextDisabled()">
                                 <button class="btn btn-primary _effect--ripple waves-effect waves-light" type="button"
                                         @click="setArea"
-                                        :disabled="txtAreaTitle === '' && selAreaType !== '1'">加入
+                                        :disabled="(txtAreaTitle === '' && selAreaType !== '1') || selAreaType === ''">加入
                                 </button>
                             </div>
                             </li>
@@ -767,15 +658,15 @@
 
 <script>
     import draggable from 'vuedraggable';
-    import Template from "./Template";
+    import DatePicker from '@vuepic/vue-datepicker';
     import { controlBoxMixin } from '@/mixins/controlBoxMixin.js';
 
     export default {
         name: "Template_ad",
         mixins: [controlBoxMixin],
         components: {
-            Template,
-            draggable
+            draggable,
+            DatePicker,
         },
         watch: {
             '$route': {
@@ -797,21 +688,12 @@
         data() {
             return {
                 isSidebarVisible: false,
-                distributionData: [//費用分攤
-                    {disId: 0, disTitle: ''},
-                ],
-                workData: [//作業種類
-                    {worId: 0, worTitle: ''},
-                ],
-                companyData: [//公司
-                    {comId: 0, comTitle: '', comCode: ''},
-                ],
-                categoryData: [//選單類型
-                    {catId: 0, catTitle: '', catType: '', catWord: ''},
-                ],
-                sourceData: [//選單類型
-                    {souId: 0, catId: 0, souTitle: ''},
-                ],
+                distributionData: [],//費用分攤
+                workData: [],//作業種類
+                companyData: [],//公司
+                categoryData: [],//選單類型
+                sourceData: [],//選單類型
+                frameData: [],//框架類型
                 contractType:[{text:'新增', value:0}, {text:'變更', value:1}, {text:'終止', value:2}, ],
                 tpName: "",//樣板名稱
                 tpAreaGroup: {//樣板區塊
@@ -898,9 +780,9 @@
                 colOption: "",//資料
                 colCheck: [],//checkbox用
                 colId: 0,
-                colWidthData: ['3', '6', '12'],
+                colWidthData: ['6', '12'],
                 colNecessary: [//必要欄位
-                    {text: "主旨", type: "subject", name: "主旨", tip: '', width: "12", id: 0},
+                    {text: "摘要", type: "subject", name: "", tip: '', width: "12", id: 0},
                     // {text: "序號", type: "serial", name: "序號", tip: '', width: "12", id: 0},
                     // {text: "申請類別", type: "type", name: "申請類別", tip: '', width: "12", id: 0},
                     // {text: "共用計畫書名稱", type: "plan_name", name: "共用計畫書名稱", tip: "", width: "12", id: 0},
@@ -910,9 +792,9 @@
                     // {text: "使用公司", type: "company", name: "使用公司", tip: '', width: "12", id: 0},
                     // {text: "作業種類", type: "work", name: "作業種類", tip: '', width: "12", id: 0},
 
-                    {text: "共用作業項目區塊", type: "work_area", name: "共用作業項目", tip: '', width: "12", id: 0},
-                    {text: "附件區塊", type: "file_area", name: "附件", tip: '', width: "12", id: 0},
-                    {text: "簽核流程區塊", type: "sign", name: "簽核流程", tip: '', width: "12", id: 0},
+                    {text: "共用作業項目區塊", type: "work_area", name: "", tip: '', width: "12", id: 0},
+                    {text: "附件區塊", type: "file_area", name: "", tip: '', width: "12", id: 0},
+                    {text: "簽核流程區塊", type: "sign", name: "", tip: '', width: "12", id: 0},
                 ],
                 colCustomized: [//自訂欄位
                     {text: "下拉選單", type: "select", tip: '', id: 0},
@@ -935,16 +817,19 @@
                 const apiRequests = [
                     this.$api.get(this.$test ? '/api/?type=work' : '/api/iform/work'),
                     this.$api.get(this.$test ? '/api/?type=company' : '/api/iform/company'),
+                    this.$api.get(this.$test ? '/api/?type=frame' : '/api/iform/frame'),
                     this.$api.get(this.$test ? '/api/?type=category' : '/api/iform/category'),
                     this.$api.get(this.$test ? '/api/?type=source' : '/api/iform/source'),
                     this.$api.get(this.$test ? '/api/?type=distribution' : '/api/iform/distribution'),
                 ];
                 Promise.all(apiRequests)
-                    .then(([workResponse, companyResponse, categoryResponse, sourceResponse, distributionResponse]) => {
+                    .then(([workResponse, companyResponse, frameResponse, categoryResponse, sourceResponse, distributionResponse]) => {
                         //workResponse
                         this.workData = workResponse.data.data;
                         //companyResponse
                         this.companyData = companyResponse.data.data;
+                        //frameResponse
+                        this.frameData = frameResponse.data.data;
                         //categoryResponse
                         this.categoryData = categoryResponse.data.data;
                         //sourceResponse
@@ -996,16 +881,30 @@
                 this.colCheck = [];
                 this.colId = 0;
             },
+            isAreaTextDisabled(){
+                if (this.selAreaType === '0' || this.selAreaType === '2') {
+                    console.log('ok');
+                    return false;
+                }
+                if (this.selAreaType === '1') {
+                    this.txtAreaTitle = '';
+                }
+                return true;
+            },
             isTextDisabled() {
                 if (this.colNecessary.some(item => this.colType === item.type)) {
                     let optionData = this.colNecessary.find(item => item.type === this.colType);
-                    this.colName = optionData ? optionData.text : '';
+                    // this.colName = optionData ? optionData.name : '';
                     this.colId = 0;
-                    return true;
                 }
                 if (this.colCustomized.some(item => this.colType === item.type)) {
-                    this.colId = 0;
-                    return false;
+                    if (this.colType === 'text' || this.colType === 'box') {
+                        this.colOption = '';
+                    }
+                    else {
+                        this.colId = 0;
+                        return false;
+                    }
                 }
                 if (this.colType.startsWith('list')) {
                     let id = parseInt(this.colType.replace(/^list-/, ''));
@@ -1101,16 +1000,14 @@
         cursor: pointer;
     }
 
-    .item {
-        min-height: 100px;
+    .card {
         border-style: double;
         border-width: 1px;
         border-color: white;
-        background-color: #f2f2f2;
         cursor: move;
     }
 
-    .item:hover {
+    .card:hover {
         border-style: dashed;
         border-color: black;
         background-color: #f2f2f2;
@@ -1135,5 +1032,20 @@
     .add-box {
         background-color: #e3e3e3;
         min-height: 30px;
+    }
+
+    .form-check {
+        font-size: 16px;
+    }
+
+    .my-list ul li {
+        float: left;
+        list-style: none;
+    }
+    .contract-title .myNotification {
+        min-height: auto !important;
+    }
+    .d-flex i {
+        padding-right: 10px;
     }
 </style>

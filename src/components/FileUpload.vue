@@ -78,7 +78,8 @@
 <style scoped>
     .file-upload {
         text-align: center;
-        margin: 10px 0px;
+        margin: 10px 20px;
+        float: left;
     }
 
     .drop-area {

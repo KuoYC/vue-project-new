@@ -18,46 +18,42 @@
                                 </router-link>
                             </li>
                         </ul>
-                        <table class="table table-bordered table-md">
-                                <thead>
+                        <div class="table-responsive">
+                            <table class="newTable">
+                            <thead style="position: sticky;top: 0;" class="myNew">
                                 <tr>
-                                    <th>樣板名稱</th>
-                                    <th>操作</th>
+                                    <th scope="col" style="width: auto;">樣板名稱</th>
+                                    <th scope="col" style="width: 210px;">操作</th>
                                 </tr>
 
                                 </thead>
-                                <tbody>
+                                <tbody class="exTable">
                                 <tr v-for="item in templateData" :key="item.temId">
-                                    <td>{{ item.temTitle }}</td>
+                                    <td @click="$router.push(`/template/sl/${item.temId}`)">
+                                        {{ item.temTitle }}
+                                    </td>
                                     <td>
-                                        <!-- <a href="#" class="btn btn-primary">詳細內容</a>  -->
-                                        <div class="action-btns">
-                                            <router-link :to="'/template/sl/'+item.temId"
-                                               class="action-btn btn-view bs-tooltip me-2" data-toggle="tooltip"
-                                               data-placement="top" title=""
-                                               data-bs-original-title="View"
-                                               aria-label="View">
-                                                <vue-feather type="eye"></vue-feather>
-                                            </router-link>
-                                            <router-link :to="'/template/up/'+item.temId"
-                                               class="action-btn btn-edit bs-tooltip me-2" data-toggle="tooltip"
-                                               data-placement="top" title=""
-                                               data-bs-original-title="Update"
-                                               aria-label="Update">
-                                                <vue-feather type="edit-2"></vue-feather>
-                                            </router-link>
-                                            <a href="javascript:void(0);" @click="actionTo('dl', item.temId)"
-                                               class="action-btn btn-delete bs-tooltip" data-toggle="tooltip"
-                                               data-placement="top" title=""
-                                               data-bs-original-title="Delete"
-                                               aria-label="Delete">
-                                                <vue-feather type="trash-2"></vue-feather>
-                                            </a>
-                                        </div>
+                                        <router-link :to="'/template/sl/'+item.temId">
+                                            <button type="button"
+                                                    class="m-r-5 btn btn-outline-success btn-border-radius waves-effect myFont16">
+                                                查看
+                                            </button>
+                                        </router-link>
+                                        <router-link :to="'/template/up/'+item.temId">
+                                            <button type="button"
+                                                    class="m-r-5 btn btn-outline-warning btn-border-radius waves-effect myFont16">
+                                                修正
+                                            </button>
+                                        </router-link>
+                                        <button type="button" @click="actionTo('dl', item.temId)"
+                                                class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">
+                                            刪除
+                                        </button>
                                     </td>
                                 </tr>
                                 </tbody>
                             </table>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -9,10 +9,12 @@ import Contract from '@/views/Contract.vue'
 import Contract_ad from '@/views/Contract_ad.vue'
 import Contract_up from '@/views/Contract_up.vue'
 import Contract_sl from '@/views/Contract_sl.vue'
-import Exes from '@/views/Exes.vue'
-import Exes_ad from '@/views/Exes_ad.vue'
-import Exes_up from '@/views/Exes_up.vue'
-import Exes_sl from '@/views/Exes_sl.vue'
+import Search from '@/views/Search.vue'
+import Search_sl from '@/views/Search_sl.vue'
+import Apportion from '@/views/Apportion.vue'
+import Apportion_ad from '@/views/Apportion_ad.vue'
+import Apportion_up from '@/views/Apportion_up.vue'
+import Apportion_sl from '@/views/Apportion_sl.vue'
 import Admin_login from '@/views/Admin_login.vue'
 import SSO from '@/views/SSO.vue'
 
@@ -38,6 +40,8 @@ import Company from '@/views/Company.vue'
 import Company_ad from '@/views/Company_ad.vue'
 import Company_up from '@/views/Company_up.vue'
 import Company_sl from '@/views/Company_sl.vue'
+import Review from '@/views/Review.vue'
+import Review_sl from '@/views/Review_sl.vue'
 import Contact from '@/views/Contact.vue'
 import Contact_ad from '@/views/Contact_ad.vue'
 import Contact_up from '@/views/Contact_up.vue'
@@ -65,14 +69,22 @@ const routes = [
     { path: '/template/ad', component: Template_ad, name: '新增樣板' },
     { path: '/template/up/:id', component: Template_up, name: '修改樣板' },
     { path: '/template/sl/:id', component: Template_sl, name: '查看樣板' },
-    { path: '/contract/:tem/list', component: Contract, name: '文件列表' },
-    { path: '/contract/:tem/ad', component: Contract_ad, name: '文件新增' },
-    { path: '/contract/:tem/up/:id', component: Contract_up, name: '文件修改' },
-    { path: '/contract/:tem/sl/:id', component: Contract_sl, name: '文件查看' },
-    { path: '/exes/:tem/list', component: Exes, name: '費用分攤列表' },
-    { path: '/exes/:tem/ad/:con', component: Exes_ad, name: '費用分攤新增' },
-    { path: '/exes/:tem/up/:id', component: Exes_up, name: '費用分攤修改' },
-    { path: '/exes/:tem/sl/:id', component: Exes_sl, name: '費用分攤查看' },
+    { path: '/review/list', component: Review, name: '待簽核文件' },
+    { path: '/review/sl/:id', component: Review_sl, name: '查看待簽核文件' },
+    { path: '/contract/list/:type?', component: Contract, name: '文件列表' },
+    // { path: '/contract/:tem/ad/:id', component: Contract_ad, name: '文件新增' },
+    { path: '/contract/up/:id', component: Contract_up, name: '文件操作' },
+    { path: '/contract/sl/:id', component: Contract_sl, name: '文件查看' },
+    // { path: '/contract/:tem/list', component: Contract, name: '文件列表' },
+    // { path: '/contract/:tem/ad/:id', component: Contract_ad, name: '文件新增' },
+    // { path: '/contract/:tem/up/:id', component: Contract_up, name: '文件修改' },
+    // { path: '/contract/:tem/sl/:id', component: Contract_sl, name: '文件查看' },
+    { path: '/search/:tem/list', component: Search, name: '查詢作業列表' },
+    { path: '/search/:tem/sl/:id', component: Search_sl, name: '查看作業' },
+    { path: '/apportion/list', component: Apportion, name: '費用分攤列表' },
+    { path: '/apportion/ad/:id', component: Apportion_ad, name: '費用分攤新增' },
+    { path: '/apportion/up/:id', component: Apportion_up, name: '費用分攤修改' },
+    { path: '/apportion/sl/:id', component: Apportion_sl, name: '費用分攤查看' },
     { path: '/admin_login', component: Admin_login, name: '管理者登入' },
     { path: '/sso/login', component: SSO, name: 'SSO' },
     { path: '/announcement', component: Announcement, name: '公告' },

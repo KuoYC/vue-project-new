@@ -79,77 +79,37 @@
 									collapse-btn">
                             <vue-feather type="menu"></vue-feather>
                         </a></li>
+                        <li>
+                            <div class="sidebar-brand" style="background-color: var(--theme-color);">
+                                <router-link :to="`/`">
+                                    <img alt="image" src="/assets/img/logo.png" class="header-logo"/>
+                                    <span class="logo-name" style="color: white;"><img src="/assets/img/logo-title.png" style="padding-bottom: 10px;"></span>
+                                    <!--<span class="logo-name" style="color: white;"> 國泰金控</span>-->
+                                </router-link>
+                            </div>
+                        </li>
                     </ul>
                 </div>
+
                 <!-- <div class="d-flex align-items-center" style="color: white; font-size: 22px;">資訊共用作業系統
                 </div> -->
                 <ul class="navbar-nav navbar-right d-flex align-items-center">
-                    <li><a href="javascript:void(0);"
-                           class="nav-link nav-link-lg fullscreen-btn d-flex align-items-center">
-                        <vue-feather type="maximize"></vue-feather>
-                    </a>
-                    </li>
-                    <li class="dropdown dropdown-list-toggle" style="display: none;"><a href="javascript:void(0);"
-                                                                                        data-bs-toggle="dropdown"
-                                                                                        class="nav-link d-flex notification-toggle nav-link-lg">
-                        <vue-feather type="bell"></vue-feather>
-                    </a>
-                        <div class="dropdown-menu dropdown-list dropdown-menu-right pullDown">
-                            <div class="dropdown-header">
-                                Notifications
-                                <div class="float-right">
-                                    <a href="javascript:void(0);">Mark All As Read</a>
-                                </div>
-                            </div>
-                            <div class="dropdown-list-content dropdown-list-icons">
-                                <a href="javascript:void(0);" class="dropdown-item dropdown-item-unread"> <span
-                                        class="dropdown-item-icon l-bg-orange text-white"> <i
-                                        class="far fa-envelope"></i>
-                  </span> <span class="dropdown-item-desc"> You got new mail, please check. <span class="time">2 Min
-                      Ago</span>
-                  </span>
-                                </a> <a href="javascript:void(0);" class="dropdown-item"> <span
-                                    class="dropdown-item-icon l-bg-purple text-white"> <i
-                                    class="fas fa-bell"></i>
-                  </span> <span class="dropdown-item-desc"> Meeting with <b>John Deo</b> and <b>Sarah Smith </b> at
-                    10:30 am <span class="time">10 Hours
-                      Ago</span>
-                  </span>
-                            </a> <a href="javascript:void(0);" class="dropdown-item"> <span
-                                    class="dropdown-item-icon l-bg-green text-white"> <i
-                                    class="far fa-check-circle"></i>
-                  </span> <span class="dropdown-item-desc"> Sidebar Bug is fixed by Kevin <span class="time">12
-                      Hours
-                      Ago</span>
-                  </span>
-                            </a> <a href="javascript:void(0);" class="dropdown-item"> <span
-                                    class="dropdown-item-icon bg-danger text-white"> <i
-                                    class="fas fa-exclamation-triangle"></i>
-                  </span> <span class="dropdown-item-desc"> Low disk space error!!!. <span class="time">17 Hours
-                      Ago</span>
-                  </span>
-                            </a> <a href="javascript:void(0);" class="dropdown-item"> <span
-                                    class="dropdown-item-icon bg-info text-white"> <i
-                                    class="fas
-												fa-bell"></i>
-                  </span> <span class="dropdown-item-desc"> Welcome to Gati
-                    template! <span class="time">Yesterday</span>
-                  </span>
-                            </a>
-                            </div>
-                            <div class="dropdown-footer text-center">
-                                <a href="javascript:void(0);">View All <i class="fas fa-chevron-right"></i></a>
-                            </div>
-                        </div>
-                    </li>
+                    <!--<li><a href="javascript:void(0);"-->
+                           <!--class="nav-link nav-link-lg fullscreen-btn d-flex align-items-center">-->
+                        <!--<vue-feather type="maximize"></vue-feather>-->
+                    <!--</a>-->
+                    <!--</li>-->
                     <!-- 這裡放人名 -->
-                    <li class="d-flex align-items-center" style="color: white;font-size: 16px;margin-right: 5px;">
-                        <span>{{ per.perName }}  {{ per.perPositionName}}</span>
+                    <li class="d-flex align-items-center" style="color: white;margin-right: 5px;">
+                        <ul style="list-style: none; text-align: right;">
+                            <li style="font-size: 16px;line-height: 24px; border: 0px;">{{ per.perName }}  {{ per.perPositionName}}</li>
+                            <li style="font-size: 12px;line-height: 14px; border: 0px;">[{{ per.comTitle }}/{{ per.perBu2 }}/{{ per.perBu3 }}]</li>
+                        </ul>
                     </li>
                     <!-- 這裡放公司職位 -->
-                    <li class="d-flex align-items-center" style="color: white;font-size: 16px;">
-                        <span>({{ per.comTitle }}/{{ per.perBu2 }}/{{ per.perBu3 }})</span>
-                    </li>
+                    <!--<li class="d-flex align-items-center" style="color: white;font-size: 16px;">-->
+                        <!--<span>({{ per.comTitle }}/{{ per.perBu2 }}/{{ per.perBu3 }})</span>-->
+                    <!--</li>-->
                     <li class="dropdown">
                         <a href="javascript:void(0);" data-bs-toggle="dropdown"
                            class="nav-link dropdown-toggle nav-link-lg nav-link-user"> <img
@@ -157,7 +117,6 @@
                             <span
                                     class="d-sm-none d-lg-inline-block"></span></a>
                         <div class="dropdown-menu dropdown-menu-right pullDown" style="width: 300px;">
-                            <!-- <div class="dropdown-title">白昕蕎</div> -->
                             <div class="dropdown-title">{{ per.perNo }}</div>
                             <div class="dropdown-divider"></div>
                             <!-- 這裡放可切換的身份 -->
@@ -191,21 +150,14 @@
             </nav>
             <!-- nav bar -->
             <!-- sidebar -->
-            <div class="main-sidebar sidebar-style-2">
+            <div class="main-sidebar sidebar-style-2" style="top: 70px !important; padding-bottom: 90px;">
                 <aside id="sidebar-wrapper">
                     <!-- sidebar個資和品牌 -->
-                    <div class="sidebar-brand" style="background-color: var(--theme-color);">
-                        <router-link :to="`/`">
-                            <img alt="image" src="/assets/img/logo2.svg" class="header-logo"/>
-                            <span class="logo-name" style="color: white;"><img src="/assets/img/logo-title.png"></span>
-                            <!--<span class="logo-name" style="color: white;"> 國泰金控</span>-->
-                        </router-link>
-                    </div>
                     <div style="width: 100%;padding: 0 0px;">
                         <div class="sidebar-user" style="padding-top: 30px;margin-bottom: 30px;">
                             <div class="sidebar-user-picture" style="margin-right: 0;">
                                 <!-- <img alt="image" src="/assets/img/person-304893_1280.png"> -->
-                                <span class="logo-name" style="font-size: 22px;">資訊共用作業系統</span>
+                                <span class="logo-name" style="font-size: 28px; font-weight: bold;">資訊共用作業系統</span>
                             </div>
                         </div>
                         <!-- sidebar個資和品牌 -->
@@ -232,16 +184,20 @@
 
 
                             <!-- <li class="menu-header">Approval Form Management</li> -->
-                            <li class="dropdown" :class="{active : $route.path.startsWith('/contract')}">
+                            <li class="dropdown" :class="{active : $route.path.startsWith('/contract') || $route.path.startsWith(`/apportion/`)}">
                                 <a href="javascript:void(0);" class="menu-toggle nav-link has-dropdown">
                                     <vue-feather type="layers"></vue-feather>
                                     <span>表單申請</span>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li v-for="menu in templateData"
-                                        :class="{ active: $route.path.startsWith(`/contract/${menu.temId}/`)}">
-                                        <router-link :to="`/contract/${menu.temId}/list`" class="nav-link">
-                                            {{ menu.temTitle }}
+                                    <li :class="{ active: $route.path.startsWith(`/contract/`)}">
+                                        <router-link :to="`/contract/list`" class="nav-link">
+                                            資訊共用計劃書
+                                        </router-link>
+                                    </li>
+                                    <li :class="{ active: $route.path.startsWith(`/apportion/`)}">
+                                        <router-link :to="`/apportion/list`" class="nav-link">
+                                            費用分攤明細表
                                         </router-link>
                                     </li>
                                 </ul>
@@ -249,9 +205,13 @@
                             <li class="dropdown" :class="{active : $route.path.startsWith(`/review`)}">
                                 <a href="javascript:void(0);" class="menu-toggle nav-link has-dropdown">
                                     <vue-feather type="edit"></vue-feather>
-                                    <span>審核管理</span></a>
+                                    <span>簽核管理</span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="nav-link" href="javascript:void(0);">待審文件</a></li>
+                                    <li :class="{ active: $route.path.startsWith(`/review`)}">
+                                        <router-link :to="`/review/list`" class="nav-link">
+                                            待簽核文件
+                                        </router-link>
+                                    </li>
                                 </ul>
                             </li>
                             <li class="dropdown" :class="{active : $route.path.startsWith(`/search`)}">
@@ -259,30 +219,43 @@
                                     <vue-feather type="search"></vue-feather>
                                     <span>查詢作業</span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="nav-link" href="javascript:void(0);">待審文件</a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown" :class="{active : $route.path.startsWith('/exes')}">
-                                <a href="javascript:void(0);" class="menu-toggle nav-link has-dropdown">
-                                    <vue-feather type="check-circle"></vue-feather>
-                                    <span>費用分攤表</span>
-                                </a>
-                                <ul class="dropdown-menu">
                                     <li v-for="menu in templateData"
-                                        :class="{ active: $route.path.startsWith(`/exes/${menu.temId}/`)}">
-                                        <router-link :to="`/exes/${menu.temId}/list`" class="nav-link">
+                                        :class="{ active: $route.path.startsWith(`/search/${menu.temId}/`)}">
+                                        <router-link :to="`/search/${menu.temId}/list`" class="nav-link">
                                             {{ menu.temTitle }}
                                         </router-link>
                                     </li>
+                                    <li><a href="#">費用分攤明細表</a></li>
                                 </ul>
                             </li>
+                            <li class="dropdown" :class="{active : $route.path.startsWith('/batch')}">
+                                <a href="javascript:void(0);" onclick="alert('建置中');" class="nav-link">
+                                    <vue-feather type="fast-forward"></vue-feather>
+                                    <span>批次簽核作業</span>
+                                </a>
+                            </li>
+                            <!--<li class="dropdown" :class="{active : $route.path.startsWith('/exes')}">-->
+                                <!--<a href="javascript:void(0);" class="menu-toggle nav-link has-dropdown">-->
+                                    <!--<vue-feather type="check-circle"></vue-feather>-->
+                                    <!--<span>費用分攤表</span>-->
+                                <!--</a>-->
+                                <!--<ul class="dropdown-menu">-->
+                                    <!--<li v-for="menu in templateData"-->
+                                        <!--:class="{ active: $route.path.startsWith(`/exes/${menu.temId}/`)}">-->
+                                        <!--<router-link :to="`/exes/${menu.temId}/list`" class="nav-link">-->
+                                            <!--{{ menu.temTitle }}-->
+                                        <!--</router-link>-->
+                                    <!--</li>-->
+                                <!--</ul>-->
+                            <!--</li>-->
                             <!-- <li class="menu-header">Approval Form Inventory</li> -->
                             <li class="dropdown" :class="{active : $route.path.startsWith(`/report`)}">
-                                <a href="javascript:void(0);" class="menu-toggle nav-link has-dropdown">
+                                <a href="javascript:void(0);"  onclick="alert('建置中');" class="menu-toggle nav-link has-dropdown">
                                     <vue-feather type="bar-chart-2"></vue-feather>
                                     <span>報表管理</span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="nav-link" href="javascript:void(0);">待審文件</a></li>
+                                    <li><a class="nav-link" href="javascript:void(0);">資訊共用計畫書清冊</a></li>
+                                    <li><a class="nav-link" href="javascript:void(0);">年度費用分攤明細</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown" :class="{active : $route.path.startsWith(`/info`)}">
@@ -308,12 +281,18 @@
                                     <li :class="{active : $route.path.startsWith(`/info/contact`)}" class="nav-link">
                                         <router-link :to="`/info/contact`">窗口設定</router-link>
                                     </li>
+                                    <li :class="{active : $route.path.startsWith(`/info/ratio`)}" class="nav-link">
+                                        <router-link :to="`/info/ratio`">比例設定</router-link>
+                                    </li>
+                                    <li :class="{active : $route.path.startsWith(`/info/exes`)}" class="nav-link">
+                                        <router-link :to="`/info/exes`">費用相關設定</router-link>
+                                    </li>
                                     <!--<li :class="{active : $route.path.startsWith(`/info/proportion`)}" class="nav-link"><router-link :to="`/info/proportion`">分攤比例設定</router-link></li>-->
                                     <!--<li :class="{active : $route.path.startsWith(`/info/switch`)}" class="nav-link"><router-link :to="`/info/switch`">全站開關控制</router-link></li>-->
                                 </ul>
                             </li>
                             <li class="dropdown" :class="{active : $route.path.startsWith(`/control`)}">
-                                <a href="javascript:void(0);" class="menu-toggle nav-link has-dropdown">
+                                <a href="javascript:void(0);" onclick="alert('建置中');" class="menu-toggle nav-link has-dropdown">
                                     <vue-feather type="users"></vue-feather>
                                     <span>帳戶管理</span></a>
                                 <ul class="dropdown-menu">
@@ -520,20 +499,23 @@
                         });
                 }
             },
-            formatDate(dateString) {
-                if ('' != dateString) {
-                    return dayjs(dateString).format('YYYY-MM-DD');
+            formatDate(date) {
+                if (typeof  date === 'object' && date.year !== undefined && date.month !== undefined && date.day !== undefined) {
+                    return dayjs(`${date.year}-${date.month+1}-${date.day}`).format('YYYY/MM/DD');
+                }
+                else if ('' != date) {
+                    return dayjs(date).format('YYYY/MM/DD');
                 }
                 else {
-                    return dateString;
+                    return date;
                 }
             },
-            formatDateTime(dateString) {
-                if ('' != dateString) {
-                    return dayjs(dateString).format('YYYY-MM-DD HH:mm:ss');
+            formatDateTime(date) {
+                if ('' != date) {
+                    return dayjs(date).format('YYYY/MM/DD HH:mm:ss');
                 }
                 else {
-                    return dateString;
+                    return date;
                 }
             },
             addFilesToFormData(formData, files, key) {
@@ -610,6 +592,162 @@
 
     .breadcrumb-item a:hover {
         color: #6c757d;
+    }
+    .text-control {
+        width: 200px;
+        font-size: 14px;
+        padding: 10px 15px;
+        height: 42px;
+        background-color: #fdfdff;
+        border-radius: 0.375rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #212529;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+    }
+
+    .newTable {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .newTable caption {
+        display: none;
+    }
+    .newTable th:first-child {
+        border-top-left-radius: 10px;
+        background: #F5F5F5;
+        /*background: #26a862;*/
+        color: black;
+        font-weight: bold;
+    }
+    .newTable th:last-child {
+        border-top-right-radius: 10px;
+        background: #F5F5F5;
+        /*background: #26a862;*/
+        color: black;
+        font-weight: bold;
+    }
+    .newTable th {
+        background: #F5F5F5;
+        /*background: #26a862;*/
+        color: black;
+        font-weight: bold;
+    }
+    .newTable th {
+        padding: 6px;
+        /*border: 1px solid #ccc; */
+        text-align: left;
+    }
+    .newTable tbody tr {
+        border-bottom: 1px solid transparent;
+        border-color: #f6f6f6;
+        height: 50px !important;
+    }
+    .newTable td {
+        padding: 6px;
+        /*border: 1px solid #ccc; */
+        text-align: left;
+    }
+    .contract-serial {
+        font-size: small !important;
+    }
+    .contract-serial span {
+        font-size: small !important;
+    }
+
+
+    table a {
+        color: #26a862 !important;
+    }
+
+    .newTable .exTable tr:hover {
+        color: #26a862 !important;
+        cursor: pointer;
+    }
+    .newTable .exTable tr:hover td:first-child {
+        position: relative; /* 需要將 position 設置為 relative，以便添加偽元素 */
+    }
+    .newTable .exTable tr:hover td:first-child::before {
+        content: ""; /* 偽元素的內容為空 */
+        position: absolute; /* 將偽元素定位為絕對位置 */
+        left: 0; /* 與左邊對齊，創建偽邊框效果 */
+        top: 1px; /* 與頂部對齊 */
+        bottom: 2px;
+        height: 100%; /* 高度與 tr 元素相同 */
+        width: 5px; /* 寬度為 1px，創建偽邊框效果 */
+        background-color: #26a862; /* 偽邊框的顏色 */
+    }
+
+    .newTable .exesTable .action {
+        background-color: #EAF7ED; /* 偽邊框的顏色 */
+    }
+
+    .row-title {
+        font-weight:bold;
+    }
+    .row-label {
+        padding-top: 10px;
+        font-size: 14px;/*font-size: 16px;*/
+        line-height: normal;
+    }
+    .row-text {
+        display: block;
+        font-size: 16px;
+        /*padding-left: 10px;*/
+        font-weight: 400;
+        border: 1px solid #e3e3e3;
+        padding: 6px 15px;
+        width: fit-content;
+        border-radius:4px;
+
+        /*max-width: 250px;*/
+    }
+    .row-text {
+        background-color: #f6f6f6;
+    }
+    input.row-text {
+        background-color: white;
+    }
+    input.row-text:disabled {
+        background-color: #f6f6f6;
+    }
+    textarea.form-control:disabled {
+        background-color: #f6f6f6;
+    }
+    textarea.row-text {
+        background-color: white;
+    }
+    select.row-text {
+        background-color: white;
+    }
+    .row-text-full {
+        display: block;
+        background-color: #f6f6f6;
+        font-size: 16px;
+        /*padding-left: 10px;*/
+        font-weight: 400;
+        border: 1px solid #e3e3e3;
+        padding: 10px 15px;
+        border-radius:10px;
+
+        /*max-width: 250px;*/
+    }
+    /*
+    .row-text {
+        max-width: 250px;
+    }*/
+    .row-full{
+
+    }
+
+    .viewBox{
+        height: 400px;
+        overflow: scroll;
+    }
+
+    .navbar {
+        left: 0px !important;
     }
 
 </style>

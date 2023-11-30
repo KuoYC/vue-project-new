@@ -10,49 +10,10 @@
             <div class="card note">
                 <div class="card-body">
                     <div class="page-content note-has-grid">
-                        <ul class="nav nav-pills p-3 mb-3 rounded-pill align-items-center">
-                            <li class="nav-item">
-                                <router-link :to="`/contract/up/0`"
-                                             class="nav-link rounded-pill note-link d-flex align-items-center px-2 px-md-3 mr-0 mr-md-2">
-                                    <vue-feather type="plus" stroke="red"></vue-feather>
-                                    <span class="d-md-block" style="color: red;">新增</span>
-                                </router-link>
-                            </li>
-                            <li class="nav-item">
-                                <router-link :to="`/contract/list`"
-                                   :class="`${searchType !== 0 && searchType !== 1 && searchType !== 3 ? 'active' : ''} nav-link rounded-pill note-link d-flex align-items-center px-2 px-md-3 mr-0 mr-md-2`"
-                                   id="all-category">
-                                    <vue-feather type="check-circle"></vue-feather>
-                                    <span class="d-md-block">所有文件</span>
-                                </router-link>
-                            </li>
-                            <li class="nav-item">
-                                <router-link :to="`/contract/list/0`"
-                                             :class="`${searchType === 0 ? 'active' : ''} nav-link rounded-pill note-link d-flex align-items-center px-2 px-md-3 mr-0 mr-md-2`"
-                                             id="note-work">
-                                    <vue-feather type="briefcase"></vue-feather>
-                                    <span class="d-md-block">草稿</span></router-link>
-                            </li>
-                            <li class="nav-item">
-                                <router-link :to="`/contract/list/1`"
-                                             :class="`${searchType === 1 ? 'active' : ''} nav-link rounded-pill note-link d-flex align-items-center px-2 px-md-3 mr-0 mr-md-2`"
-                                             id="note-family">
-                                    <vue-feather type="users"></vue-feather>
-                                    <span class="d-md-block">簽核中</span></router-link>
-                            </li>
-                            <li class="nav-item">
-                                <router-link :to="`/contract/list/3`"
-                                             :class="`${searchType === 3 ? 'active' : ''} nav-link rounded-pill note-link d-flex align-items-center px-2 px-md-3 mr-0 mr-md-2`"
-                                             id="note-important">
-                                    <vue-feather type="star"></vue-feather>
-                                    <span class="d-md-block">已歸檔</span></router-link>
-                            </li>
-                        </ul>
                         <div class="table-responsive">
                             <table class="newTable">
                                 <thead class="myNew">
                                 <tr>
-                                    <th scope="col" style="min-width: 200px;">表單類型</th>
                                     <th scope="col" style="min-width: 500px;">共用計畫書名稱</th>
                                     <th scope="col" style="min-width: 220px;">管理維運公司</th>
                                     <th scope="col" style="min-width: 80px;">狀態</th>
@@ -61,11 +22,7 @@
                                 </tr>
                                 </thead>
                                 <tbody class="exTable">
-                                <tr v-for="con in contractData"
-                                    @click="$router.push(`/contract/sl/${con.conId}`)">
-                                    <td scope="row">
-                                        {{ con.temTitle }}
-                                    </td>
+                                <tr v-for="con in contractData" @click="$router.push(`/contract/${con.temId}/sl/${con.conId}`)">
                                     <td scope="row">
                                         {{ con.conTitle }}
                                     </td>
@@ -140,18 +97,19 @@
     import Cookies from 'js-cookie'
 
     export default {
-        name: 'Contract',
+        name: 'Search',
         data() {
             return {
                 per: Cookies.get('per') ? JSON.parse(Cookies.get('per')) : null,
                 contractData: [],
                 templateData: [],
-                searchType: parseInt(this.$route.params.type),
+                searchType: 0,
             };
         },
         watch: {
             '$route': {
                 handler(newRoute, oldRoute) {
+                    this.searchType = 0;
                     this.defaultData();
                     this.fetchFirst();
                 },
@@ -160,18 +118,14 @@
         },
         methods: {
             defaultData() {
-                this.searchType = parseInt(this.$route.params.type);
             },
             fetchFirst() {
                 const contractPayload = {
-                    action: 1,
-                    // temId: this.$route.params.tem,
+                    action: 0,
+                    temId: this.$route.params.tem,
                     perKey: this.per.perKey,
                     perBu1Code: this.per.perBu1Code,
-                    memOwner: 1,
-                    conStatus: this.searchType === 0 || this.searchType === 1 || this.searchType === 3 ? this.searchType : null,
                 };
-
                 const apiRequests = [
                     this.$api.get(this.$test ? `/api/?type=contract` : `/api/adm/contract`, {params: contractPayload}),
                     this.$api.get(this.$test ? `/api/?type=template&temId=${this.$route.params.tem}` : `/api/iform/template/${this.$route.params.tem}`),
@@ -189,28 +143,45 @@
             },
             async getContractList(search_type) {
                 this.searchType = search_type;
-                try {
-                    const contractPayload = {
-                        action: 1,
-                        temId: this.$route.params.tem,
-                        perKey: this.per.perKey,
-                        perBu1Code: this.per.perBu1Code,
-                        memOwner: 1,
-                        conStatus: this.searchType === -1 ? null : this.searchType,
-                    };
+                if (3 === this.searchType) {
+                    try {
+                        const contractPayload = {
+                            temId: this.$route.params.tem,
+                            perKey: this.per.perKey,
+                            perBu1Code: this.per.perBu1Code,
+                            conStatus: 0,
+                        };
 
-                    const contactResponse = await this.$api.get(this.$test ? `/api/?type=contract` : `/api/adm/contract/List`, {params: contractPayload});
-                    console.log(contactResponse.data.data);
-                    this.contractData = contactResponse.data.data;
-                } catch (error) {
-                    console.error(error);
+                        const contactResponse = await this.$api.get(this.$test ? `/api/?type=contract` : `/api/adm/contract/List`, {params: contractPayload});
+                        console.log(contactResponse.data.data);
+                        this.contractData = contactResponse.data.data;
+                    } catch (error) {
+                        console.error(error);
+                    }
                 }
+                else {
+                    try {
+                        const contractPayload = {
+                            action: this.searchType,
+                            temId: this.$route.params.tem,
+                            perKey: this.per.perKey,
+                            perBu1Code: this.per.perBu1Code,
+                        };
+
+                        const contactResponse = await this.$api.get(this.$test ? `/api/?type=contract` : `/api/adm/contract/List`, {params: contractPayload});
+                        console.log(contactResponse.data.data);
+                        this.contractData = contactResponse.data.data;
+                    } catch (error) {
+                        console.error(error);
+                    }
+                }
+
             },
             actionTo(action, conId) {
                 if (action === 'sl') {
-                    this.$router.push(`/contract/sl/${conId}`);
+                    this.$router.push(`/contract/${this.$route.params.tem}/sl/${conId}`);
                 } else if (action === 'up') {
-                    this.$router.push(`/contract/up/${conId}`);
+                    this.$router.push(`/contract/${this.$route.params.tem}/up/${conId}`);
                 } else if (action === 'dl') {
                     this.$api
                         .delete(this.$test ? '/api/?type=contract' : '/api/iform/contract'

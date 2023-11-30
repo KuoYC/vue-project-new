@@ -2,9 +2,9 @@
     <section class="section">
         <ul class="breadcrumb breadcrumb-style ">
             <li class="breadcrumb-item">
-                <h4 class="page-title m-b-0">資訊共用合約</h4>
+                <h4 class="page-title m-b-0">表單申請</h4>
             </li>
-            <li class="breadcrumb-item">{{ templateData.temTitle }}</li>
+            <li class="breadcrumb-item">費用分攤明細表</li>
         </ul>
         <div class="section-body">
             <div class="card note">
@@ -12,19 +12,12 @@
                     <div class="page-content note-has-grid">
                         <ul class="nav nav-pills p-3 mb-3 rounded-pill align-items-center">
                             <li class="nav-item">
-                                <router-link :to="`/exes/${this.$route.params.tem}/ad`"
-                                             class="nav-link rounded-pill note-link d-flex align-items-center px-2 px-md-3 mr-0 mr-md-2">
-                                    <vue-feather type="plus" stroke="red"></vue-feather>
-                                    <span class="d-md-block" style="color: red;">新增簽單</span>
-                                </router-link>
-                            </li>
-                            <li class="nav-item">
                                 <a href="javascript:void(0)"
                                    :class="`${searchType === 0 ? 'active' : ''} nav-link rounded-pill note-link d-flex align-items-center px-2 px-md-3 mr-0 mr-md-2`"
                                    @click="getContractList(0)"
                                    id="all-category">
                                     <vue-feather type="check-circle"></vue-feather>
-                                    <span class="d-md-block">所有簽單</span>
+                                    <span class="d-md-block">所有費用</span>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -33,7 +26,7 @@
                                    @click="getContractList(3)"
                                    id="note-work">
                                     <vue-feather type="briefcase"></vue-feather>
-                                    <span class="d-md-block">待處理</span></a>
+                                    <span class="d-md-block">草稿</span></a>
                             </li>
                             <li class="nav-item">
                                 <a href="javascript:void(0)"
@@ -41,7 +34,7 @@
                                    @click="getContractList(4)"
                                    id="note-family">
                                     <vue-feather type="users"></vue-feather>
-                                    <span class="d-md-block">已處理</span></a>
+                                    <span class="d-md-block">簽核中</span></a>
                             </li>
                             <li class="nav-item">
                                 <a href="javascript:void(0)"
@@ -49,15 +42,16 @@
                                    @click="getContractList(6)"
                                    id="note-important">
                                     <vue-feather type="star"></vue-feather>
-                                    <span class="d-md-block">已完成</span></a>
+                                    <span class="d-md-block">已歸檔</span></a>
                             </li>
                             <!-- <li class="nav-item ms-auto">
                               <a href="#" class="btn btn-icon icon-left btn-dark rounded-pill" id="add-notes"><i
                                   class="fas fa-plus"></i> Add Notes</a>
                             </li> -->
                         </ul>
-                        <table class="table table-borderless">
-                            <thead>
+                        <div class="table-responsive">
+                            <table class="newTable table-borderless">
+                            <thead style="position: sticky;top: 0;" class="myNew">
                             <tr>
                                 <th scope="col">公文主旨</th>
                                 <th scope="col">承辦單位</th>
@@ -68,8 +62,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="con in contractData"
-                                style="border-bottom: 1px solid transparent; border-color: #f6f6f6;">
+                            <tr v-for="con in contractData">
                                 <th scope="row">{{ con.conTitle }}</th>
                                 <td>{{ con.comTitle + '/' + con.perBu2 + '/' + con.perBu3}}</td>
                                 <!--<td>後會 資訊處</td>-->
@@ -77,6 +70,23 @@
                                 <td>{{ this.$root.formatDateTime(con.conCreateTime) }}</td>
                                 <th scope="col">
                                     <div class="action-btns">
+                                        <router-link :to="'/info/news/sl/'+nws.nwsId">
+                                            <button type="button"
+                                                    class="m-r-5 btn btn-outline-success btn-border-radius waves-effect myFont16">
+                                                查看
+                                            </button>
+                                        </router-link>
+                                        <router-link :to="'/info/news/up/'+nws.nwsId">
+                                            <button type="button"
+                                                    class="m-r-5 btn btn-outline-warning btn-border-radius waves-effect myFont16">
+                                                修改
+                                            </button>
+                                        </router-link>
+                                        <button type="button" @click="deleteNews(nws.nwsId)"
+                                                class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">
+                                            刪除
+                                        </button>
+
                                         <a href="javascript:void(0);" @click="actionTo('sl', con.conId)"
                                            class="action-btn btn-view bs-tooltip me-2" data-toggle="tooltip"
                                            data-placement="top">
@@ -99,6 +109,7 @@
                             </tr>
                             </tbody>
                         </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -110,12 +121,11 @@
     import Cookies from 'js-cookie'
 
     export default {
-        name: 'Exes',
+        name: 'Apportion',
         data() {
             return {
                 per: Cookies.get('per') ? JSON.parse(Cookies.get('per')) : null,
-                contractData: [],
-                templateData: [],
+                apportionData: [],
                 searchType: 0,
             };
         },
@@ -140,14 +150,11 @@
                 };
                 const apiRequests = [
                     this.$api.get(this.$test ? `/api/?type=contract` : `/api/adm/contract`, { params: contractPayload }),
-                    this.$api.get(this.$test ? `/api/?type=template&temId=${this.$route.params.tem}` : `/api/iform/template/${this.$route.params.tem}`),
                 ];
                 Promise.all(apiRequests)
                     .then(([contractResponse, templateResponse]) => {
                         //contractResponse
                         this.contractData = contractResponse.data.data;
-                        //templateResponse
-                        this.templateData = templateResponse.data.data;
                     })
                     .catch(error => {
                         console.error(error);
@@ -158,12 +165,11 @@
                 try {
                     const contractPayload={
                         action:this.searchType,
-                        temId:this.$route.params.tem,
                         perKey:this.per.perKey,
                         perBu1Code:this.per.perBu1Code,
                     };
 
-                    const contactResponse = await this.$api.get(this.$test ? `/api/?type=contract` : `/api/adm/contract/List`, { params: contractPayload});
+                    const contactResponse = await this.$api.get(this.$test ? `/api/?type=contract` : `/api/adm/contractList`, { params: contractPayload});
                     console.log(contactResponse.data.data);
                     this.contractData = contactResponse.data.data;
                 } catch (error) {

@@ -51,8 +51,8 @@
                             選項
                         </i>
                     </div>
-                    <div class="card-body myNotification">
-                        <table class="table">
+                    <div class="card-body myNotification table-responsive">
+                        <table class="newTable">
                             <thead style="position: sticky;top: 0;" class="myNew">
                             <tr>
                                 <th scope="col">選項</th>

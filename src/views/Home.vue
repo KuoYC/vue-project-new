@@ -19,8 +19,10 @@
                     <div class="card-statistic-3">
                         <!-- <div class="card-icon card-icon-large"><i class="fa fa-award"></i></div> -->
                         <div class="card-content" style="color: #6c757d;">
-                            <span class="myFont18">我的待簽單</span>
-                            <h4 class="card-title">{{ contractData.length }}份</h4>
+                            <span class="myFont18">
+                                <router-link :to="`/review/list`">待簽核文件</router-link>
+                            </span>
+                            <h4 class="card-title" style="color: red;">{{ contractData.length }}份</h4>
                         </div>
                     </div>
                 </div>
@@ -30,8 +32,10 @@
                     <div class="card-statistic-3">
                         <!-- <div class="card-icon card-icon-large"><i class="fa fa-briefcase"></i></div> -->
                         <div class="card-content" style="color: #6c757d;">
-                            <span class="myFont18">簽核中文件</span>
-                            <h4 class="card-title">{{ contractSignData.length }}份</h4>
+                            <span class="myFont18">
+                                <router-link :to="`/contract/list/1`">簽核中文件</router-link>
+                            </span>
+                            <h4 class="card-title" style="color: orange;">{{ contractSignData.length }}份</h4>
                         </div>
                     </div>
                 </div>
@@ -41,8 +45,10 @@
                     <div class="card-statistic-3">
                         <!-- <div class="card-icon card-icon-large"><i class="fa fa-globe"></i></div> -->
                         <div class="card-content" style="color: #6c757d;">
-                            <span class="myFont18">已完成文件</span>
-                            <h4 class="card-title">{{ contractOverData.length }}份</h4>
+                            <span class="myFont18">
+                                <router-link :to="`/contract/list/3`">歸檔文件</router-link>
+                            </span>
+                            <h4 class="card-title" style="color: green;">{{ contractOverData.length }}份</h4>
                         </div>
                     </div>
                 </div>
@@ -51,9 +57,10 @@
                 <div class="card">
                     <div class="card-statistic-3">
                         <div class="card-content" style="color: #6c757d;">
-
-                            <span class="myFont18">草稿文件</span>
-                            <h4 class="card-title">{{ contractDraftData.length }}份</h4>
+                            <span class="myFont18">
+                                <router-link :to="`/contract/list/0`">草稿文件</router-link>
+                            </span>
+                            <h4 class="card-title" style="color: green;">{{ contractDraftData.length }}份</h4>
                         </div>
                     </div>
                 </div>
@@ -61,7 +68,7 @@
         </div>
         <div class="row">
             <!-- 公告 -->
-            <div class="col-12 myRwd">
+            <div v-if="newsData.length > 0" class="col-12 myRwd">
                 <div class="card">
                     <div class="card-header">
                         <vue-feather type="volume-2"></vue-feather>
@@ -69,324 +76,31 @@
                             公告
                         </span>
                     </div>
-                    <div class="card-body myNotification">
-                        <table class="table">
+                    <div class="card-body myNotification table-responsive">
+                        <table class="newTable">
                             <thead style="position: sticky;top: 0;" class="myNew">
                             <tr>
-                                <th scope="col"></th>
                                 <th scope="col">標題</th>
                                 <th scope="col">發布日期</th>
-                                <th scope="col">查看</th>
                             </tr>
                             </thead>
-                            <tbody class="myNew">
-                            <tr v-for="nws in newsData">
-                                <th scope="row">
+                            <tbody class="exTable">
+                            <tr v-for="nws in newsData" @click="$router.push(`/announcement/sl/${nws.nwsId}`)">
+                                <td scope="row">
                                     <span v-if="'1' === nws.nwsType" class="badge badge-secondary">一般</span>
                                     <span v-if="'2' === nws.nwsType" class="badge badge-success">提醒</span>
                                     <span v-if="'3' === nws.nwsType" class="badge badge-primary">重要</span>
                                     <span v-if="'4' === nws.nwsType" class="badge badge-info">好康</span>
                                     <span v-if="'5' === nws.nwsType" class="badge badge-danger">緊急</span>
-                                </th>
-                                <td>{{ nws.nwsTitle }}</td>
-                                <td>{{ this.$root.formatDate(nws.nwsRelease)}}</td>
-                                <td>
-                                    <div class="action-btns">
-                                        <router-link :to="`/announcement/sl/${nws.nwsId}`"
-                                                     class="action-btn btn-view bs-tooltip me-2"
-                                                     data-toggle="tooltip" data-placement="top"
-                                                     title="" data-bs-original-title="View"
-                                                     aria-label="View">
-                                            <vue-feather type="eye"></vue-feather>
-                                        </router-link></div>
+                                    {{ nws.nwsTitle }}
                                 </td>
+                                <td>{{ this.$root.formatDate(nws.nwsRelease)}}</td>
                             </tr>
 
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <!-- <div class="card">
-                  <div class="boxs mail_listing">
-                    <div class="inbox-center table-responsive" style="height:480px ;">
-                      <table class="table table-hover">
-                        <div class="card-header">
-                          <i class="fas fa-bullhorn" style="margin-right: 10px;font-size: 17px;color: black;">
-                            公告
-                          </i>
-                        </div>
-                        <thead>
-                          <tr>
-                            <th class="text-center"
-                              style="font-size:large;background-color: #fff;border-top: 1px solid var(--bs-border-color); border-bottom: 1px solid var(--bs-border-color);">
-                            </th>
-                            <th class="hidden-xs" colspan="5"
-                              style="background-color: #fff;border-top: 1px solid var(--bs-border-color); border-bottom: 1px solid var(--bs-border-color);">
-                              <div class="float-end">
-                                <div class="email-btn-group m-l-15">
-                                  <a href="#" class="col-dark-gray waves-effect m-r-20" data-bs-toggle="tooltip"
-                                    data-bs-original-title="previous">
-                                    <i class="material-icons">navigate_before</i>
-                                  </a>
-                                  <a href="#" class="col-dark-gray waves-effect m-r-20" data-bs-toggle="tooltip"
-                                    data-bs-original-title="next">
-                                    <i class="material-icons">navigate_next</i>
-                                  </a>
-                                </div>
-                              </div>
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr class="unread">
-                            <td class="tbl-checkbox">
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons">star_border</i>
-                            </td>
-                            <td class="hidden-xs">Nelson Lane</td>
-                            <td class="max-texts">
-                              <a href="#">
-                                <span class="badge badge-primary">Work</span>
-                                Lorem ipsum perspiciatis unde omnis iste natus</a>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons">attach_file</i>
-                            </td>
-                            <td class="text-end"> 12:30 PM </td>
-                          </tr>
-                          <tr class="unread">
-                            <td class="tbl-checkbox">
-                              <label class="form-check-label">
-                                <input type="checkbox">
-                                <span class="form-check-sign"></span>
-                              </label>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons text-warning">star</i>
-                            </td>
-                            <td class="hidden-xs">Kerry Mann</td>
-                            <td class="max-texts">
-                              <a href="#">Lorem ipsum perspiciatis unde omnis iste natus</a>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons">attach_file</i>
-                            </td>
-                            <td class="text-end"> May 13 </td>
-                          </tr>
-                          <tr class="unread">
-                            <td class="tbl-checkbox">
-                              <label class="form-check-label">
-                                <input type="checkbox">
-                                <span class="form-check-sign"></span>
-                              </label>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons">star_border</i>
-                            </td>
-                            <td class="hidden-xs">Adam Peters</td>
-                            <td class="max-texts">
-                              <a href="#">
-                                <span class="badge badge-secondary">Shopping</span>
-                                Lorem ipsum perspiciatis unde omnis</a>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons">attach_file</i>
-                            </td>
-                            <td class="text-end"> May 12 </td>
-                          </tr>
-                          <tr>
-                            <td class="tbl-checkbox">
-                              <label class="form-check-label">
-                                <input type="checkbox">
-                                <span class="form-check-sign"></span>
-                              </label>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons">star_border</i>
-                            </td>
-                            <td class="hidden-xs">Lula Reese</td>
-                            <td class="max-texts">
-                              <a href="#">
-                                <span class="badge badge-success">Family</span>
-                                Lorem ipsum perspiciatis unde omnis iste natus</a>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons">attach_file</i>
-                            </td>
-                            <td class="text-end"> May 12 </td>
-                          </tr>
-                          <tr>
-                            <td class="tbl-checkbox">
-                              <label class="form-check-label">
-                                <input type="checkbox">
-                                <span class="form-check-sign"></span>
-                              </label>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons">star_border</i>
-                            </td>
-                            <td class="hidden-xs">Nelson Lane</td>
-                            <td class="max-texts">
-                              <a href="#">
-                                Lorem ipsum perspiciatis unde omnis iste natus</a>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons">attach_file</i>
-                            </td>
-                            <td class="text-end"> May 12 </td>
-                          </tr>
-                          <tr>
-                            <td class="tbl-checkbox">
-                              <label class="form-check-label">
-                                <input type="checkbox">
-                                <span class="form-check-sign"></span>
-                              </label>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons text-warning">star</i>
-                            </td>
-                            <td class="hidden-xs">Kerry Mann</td>
-                            <td class="max-texts">
-                              <a href="#">Lorem ipsum perspiciatis unde omnis iste natus</a>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons">attach_file</i>
-                            </td>
-                            <td class="text-end"> May 11 </td>
-                          </tr>
-                          <tr>
-                            <td class="tbl-checkbox">
-                              <label class="form-check-label">
-                                <input type="checkbox">
-                                <span class="form-check-sign"></span>
-                              </label>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons">star_border</i>
-                            </td>
-                            <td class="hidden-xs">Adam Peters</td>
-                            <td class="max-texts">
-                              <a href="#">
-                                <span class="badge badge-info">Office</span>
-                                Lorem ipsum perspiciatis unde omnis iste natus</a>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons">attach_file</i>
-                            </td>
-                            <td class="text-end"> May 11 </td>
-                          </tr>
-                          <tr>
-                            <td class="tbl-checkbox">
-                              <label class="form-check-label">
-                                <input type="checkbox">
-                                <span class="form-check-sign"></span>
-                              </label>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons">star_border</i>
-                            </td>
-                            <td class="hidden-xs">Lula Reese</td>
-                            <td class="max-texts">
-                              <a href="#">
-                                Lorem ipsum perspiciatis unde omnis iste natus</a>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons">attach_file</i>
-                            </td>
-                            <td class="text-end"> May 11 </td>
-                          </tr>
-                          <tr>
-                            <td class="tbl-checkbox">
-                              <label class="form-check-label">
-                                <input type="checkbox">
-                                <span class="form-check-sign"></span>
-                              </label>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons">star_border</i>
-                            </td>
-                            <td class="hidden-xs">Nelson Lane</td>
-                            <td class="max-texts">
-                              <a href="#">
-                                <span class="badge badge-danger">Work</span>
-                                Lorem ipsum perspiciatis unde omnis iste natus</a>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons">attach_file</i>
-                            </td>
-                            <td class="text-end"> May 10 </td>
-                          </tr>
-                          <tr>
-                            <td class="tbl-checkbox">
-                              <label class="form-check-label">
-                                <input type="checkbox">
-                                <span class="form-check-sign"></span>
-                              </label>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons text-warning">star</i>
-                            </td>
-                            <td class="hidden-xs">Kerry Mann</td>
-                            <td class="max-texts">
-                              <a href="#">Lorem ipsum perspiciatis unde omnis iste natus</a>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons">attach_file</i>
-                            </td>
-                            <td class="text-end"> May 10 </td>
-                          </tr>
-                          <tr>
-                            <td class="tbl-checkbox">
-                              <label class="form-check-label">
-                                <input type="checkbox">
-                                <span class="form-check-sign"></span>
-                              </label>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons">star_border</i>
-                            </td>
-                            <td class="hidden-xs">Adam Peters</td>
-                            <td class="max-texts">
-                              <a href="#">
-                                <span class="badge badge-secondary">Shopping</span>
-                                Lorem ipsum perspiciatis unde omnis</a>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons">attach_file</i>
-                            </td>
-                            <td class="text-end"> May 10 </td>
-                          </tr>
-                          <tr>
-                            <td class="tbl-checkbox">
-                              <label class="form-check-label">
-                                <input type="checkbox">
-                                <span class="form-check-sign"></span>
-                              </label>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons">star_border</i>
-                            </td>
-                            <td class="hidden-xs">Lula Reese</td>
-                            <td class="max-texts">
-                              <a href="#">
-                                Lorem ipsum perspiciatis unde omnis iste natus</a>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons">attach_file</i>
-                            </td>
-                            <td class="text-end"> May 09 </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                    <div class="row">
-                      <div class="col-sm-7 ">
-                        <p class="p-15">Showing 1 - 15 of 200</p>
-                      </div>
-                    </div>
-                  </div>
-                </div> -->
             </div>
             <!-- 公告 -->
             <!-- 待簽文件 -->
@@ -395,324 +109,81 @@
                     <div class="card-header">
                         <vue-feather type="edit-3"></vue-feather>
                         <span style="margin-left: 10px; font-weight:bold;font-size: 17px;color: black;">
-                            我的待簽單
+                            待簽核文件
                         </span>
                     </div>
-                    <div class="card-body myNotification">
-                        <table class="table">
+                    <div class="card-body myNotification table-responsive">
+                        <table class="newTable">
                             <thead style="position: sticky;top: 0;" class="myNew">
                             <tr>
-                                <th scope="col">編號</th>
-                                <th scope="col">框架</th>
-                                <th scope="col">名稱</th>
-                                <th scope="col">創建日期</th>
-                                <th scope="col">查看</th>
+                                <th scope="col">序號</th>
+                                <th scope="col">共用計畫書名稱</th>
+                                <th scope="col">表單類型</th>
+                                <th scope="col">創文日期</th>
                             </tr>
                             </thead>
-                            <tbody class="myNew">
-                            <tr v-for="con in contractData">
-                                <td>{{ con.conSerial }}</td>
-                                <td>{{ con.temTitle }}</td>
-                                <td>{{ con.conTitle }}</td>
-                                <td>{{ this.$root.formatDateTime(con.conCreateTime)}}</td>
+                            <tbody class="exTable">
+                            <tr v-for="con in contractData"
+                                @click="$router.push(`/contract/${con.temId}/sl/${con.conId}`)">
                                 <td>
-                                    <!-- <a href="#" class="btn btn-primary">詳細內容</a>  -->
-                                    <div class="action-btns"><router-link :to="`/contract/${con.temId}/sl/${con.conId}`"
-                                                                          class="action-btn btn-view bs-tooltip me-2"
-                                                                          data-toggle="tooltip"
-                                                                          data-placement="top" title=""
-                                                                          data-bs-original-title="View"
-                                                                          aria-label="View">
-                                        <vue-feather type="eye"></vue-feather>
-                                    </router-link></div>
+                                    {{ con.conSerial }}{{ con.conVer }}
                                 </td>
+                                <td>
+                                    {{ con.conTitle }}
+                                </td>
+                                <td>{{ con.temTitle }}</td>
+                                <td>{{ this.$root.formatDateTime(con.conCreateTime)}}</td>
                             </tr>
 
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <!-- <div class="card">
-                  <div class="boxs mail_listing">
-                    <div class="inbox-center table-responsive" style="height:480px ;">
-                      <table class="table table-hover">
-                        <div class="card-header">
-                          <i class="fas fa-bullhorn" style="margin-right: 10px;font-size: 17px;color: black;">
-                            公告
-                          </i>
-                        </div>
-                        <thead>
-                          <tr>
-                            <th class="text-center"
-                              style="font-size:large;background-color: #fff;border-top: 1px solid var(--bs-border-color); border-bottom: 1px solid var(--bs-border-color);">
-                            </th>
-                            <th class="hidden-xs" colspan="5"
-                              style="background-color: #fff;border-top: 1px solid var(--bs-border-color); border-bottom: 1px solid var(--bs-border-color);">
-                              <div class="float-end">
-                                <div class="email-btn-group m-l-15">
-                                  <a href="#" class="col-dark-gray waves-effect m-r-20" data-bs-toggle="tooltip"
-                                    data-bs-original-title="previous">
-                                    <i class="material-icons">navigate_before</i>
-                                  </a>
-                                  <a href="#" class="col-dark-gray waves-effect m-r-20" data-bs-toggle="tooltip"
-                                    data-bs-original-title="next">
-                                    <i class="material-icons">navigate_next</i>
-                                  </a>
-                                </div>
-                              </div>
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr class="unread">
-                            <td class="tbl-checkbox">
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons">star_border</i>
-                            </td>
-                            <td class="hidden-xs">Nelson Lane</td>
-                            <td class="max-texts">
-                              <a href="#">
-                                <span class="badge badge-primary">Work</span>
-                                Lorem ipsum perspiciatis unde omnis iste natus</a>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons">attach_file</i>
-                            </td>
-                            <td class="text-end"> 12:30 PM </td>
-                          </tr>
-                          <tr class="unread">
-                            <td class="tbl-checkbox">
-                              <label class="form-check-label">
-                                <input type="checkbox">
-                                <span class="form-check-sign"></span>
-                              </label>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons text-warning">star</i>
-                            </td>
-                            <td class="hidden-xs">Kerry Mann</td>
-                            <td class="max-texts">
-                              <a href="#">Lorem ipsum perspiciatis unde omnis iste natus</a>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons">attach_file</i>
-                            </td>
-                            <td class="text-end"> May 13 </td>
-                          </tr>
-                          <tr class="unread">
-                            <td class="tbl-checkbox">
-                              <label class="form-check-label">
-                                <input type="checkbox">
-                                <span class="form-check-sign"></span>
-                              </label>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons">star_border</i>
-                            </td>
-                            <td class="hidden-xs">Adam Peters</td>
-                            <td class="max-texts">
-                              <a href="#">
-                                <span class="badge badge-secondary">Shopping</span>
-                                Lorem ipsum perspiciatis unde omnis</a>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons">attach_file</i>
-                            </td>
-                            <td class="text-end"> May 12 </td>
-                          </tr>
-                          <tr>
-                            <td class="tbl-checkbox">
-                              <label class="form-check-label">
-                                <input type="checkbox">
-                                <span class="form-check-sign"></span>
-                              </label>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons">star_border</i>
-                            </td>
-                            <td class="hidden-xs">Lula Reese</td>
-                            <td class="max-texts">
-                              <a href="#">
-                                <span class="badge badge-success">Family</span>
-                                Lorem ipsum perspiciatis unde omnis iste natus</a>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons">attach_file</i>
-                            </td>
-                            <td class="text-end"> May 12 </td>
-                          </tr>
-                          <tr>
-                            <td class="tbl-checkbox">
-                              <label class="form-check-label">
-                                <input type="checkbox">
-                                <span class="form-check-sign"></span>
-                              </label>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons">star_border</i>
-                            </td>
-                            <td class="hidden-xs">Nelson Lane</td>
-                            <td class="max-texts">
-                              <a href="#">
-                                Lorem ipsum perspiciatis unde omnis iste natus</a>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons">attach_file</i>
-                            </td>
-                            <td class="text-end"> May 12 </td>
-                          </tr>
-                          <tr>
-                            <td class="tbl-checkbox">
-                              <label class="form-check-label">
-                                <input type="checkbox">
-                                <span class="form-check-sign"></span>
-                              </label>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons text-warning">star</i>
-                            </td>
-                            <td class="hidden-xs">Kerry Mann</td>
-                            <td class="max-texts">
-                              <a href="#">Lorem ipsum perspiciatis unde omnis iste natus</a>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons">attach_file</i>
-                            </td>
-                            <td class="text-end"> May 11 </td>
-                          </tr>
-                          <tr>
-                            <td class="tbl-checkbox">
-                              <label class="form-check-label">
-                                <input type="checkbox">
-                                <span class="form-check-sign"></span>
-                              </label>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons">star_border</i>
-                            </td>
-                            <td class="hidden-xs">Adam Peters</td>
-                            <td class="max-texts">
-                              <a href="#">
-                                <span class="badge badge-info">Office</span>
-                                Lorem ipsum perspiciatis unde omnis iste natus</a>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons">attach_file</i>
-                            </td>
-                            <td class="text-end"> May 11 </td>
-                          </tr>
-                          <tr>
-                            <td class="tbl-checkbox">
-                              <label class="form-check-label">
-                                <input type="checkbox">
-                                <span class="form-check-sign"></span>
-                              </label>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons">star_border</i>
-                            </td>
-                            <td class="hidden-xs">Lula Reese</td>
-                            <td class="max-texts">
-                              <a href="#">
-                                Lorem ipsum perspiciatis unde omnis iste natus</a>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons">attach_file</i>
-                            </td>
-                            <td class="text-end"> May 11 </td>
-                          </tr>
-                          <tr>
-                            <td class="tbl-checkbox">
-                              <label class="form-check-label">
-                                <input type="checkbox">
-                                <span class="form-check-sign"></span>
-                              </label>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons">star_border</i>
-                            </td>
-                            <td class="hidden-xs">Nelson Lane</td>
-                            <td class="max-texts">
-                              <a href="#">
-                                <span class="badge badge-danger">Work</span>
-                                Lorem ipsum perspiciatis unde omnis iste natus</a>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons">attach_file</i>
-                            </td>
-                            <td class="text-end"> May 10 </td>
-                          </tr>
-                          <tr>
-                            <td class="tbl-checkbox">
-                              <label class="form-check-label">
-                                <input type="checkbox">
-                                <span class="form-check-sign"></span>
-                              </label>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons text-warning">star</i>
-                            </td>
-                            <td class="hidden-xs">Kerry Mann</td>
-                            <td class="max-texts">
-                              <a href="#">Lorem ipsum perspiciatis unde omnis iste natus</a>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons">attach_file</i>
-                            </td>
-                            <td class="text-end"> May 10 </td>
-                          </tr>
-                          <tr>
-                            <td class="tbl-checkbox">
-                              <label class="form-check-label">
-                                <input type="checkbox">
-                                <span class="form-check-sign"></span>
-                              </label>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons">star_border</i>
-                            </td>
-                            <td class="hidden-xs">Adam Peters</td>
-                            <td class="max-texts">
-                              <a href="#">
-                                <span class="badge badge-secondary">Shopping</span>
-                                Lorem ipsum perspiciatis unde omnis</a>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons">attach_file</i>
-                            </td>
-                            <td class="text-end"> May 10 </td>
-                          </tr>
-                          <tr>
-                            <td class="tbl-checkbox">
-                              <label class="form-check-label">
-                                <input type="checkbox">
-                                <span class="form-check-sign"></span>
-                              </label>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons">star_border</i>
-                            </td>
-                            <td class="hidden-xs">Lula Reese</td>
-                            <td class="max-texts">
-                              <a href="#">
-                                Lorem ipsum perspiciatis unde omnis iste natus</a>
-                            </td>
-                            <td class="hidden-xs">
-                              <i class="material-icons">attach_file</i>
-                            </td>
-                            <td class="text-end"> May 09 </td>
-                          </tr>
-                        </tbody>
-                      </table>
+            </div>
+            <div class="col-12 myRwd myPadding">
+                <div class="card">
+                    <div class="card-header">
+                        <vue-feather type="award"></vue-feather>
+                        <span style="margin-left: 10px; font-weight:bold;font-size: 17px;color: black;">
+                            申請作業
+                        </span>
                     </div>
-                    <div class="row">
-                      <div class="col-sm-7 ">
-                        <p class="p-15">Showing 1 - 15 of 200</p>
-                      </div>
+                    <div class="card-body myNotification table-responsive">
+                        <table class="newTable">
+                            <thead style="position: sticky;top: 0;" class="myNew">
+                            <tr>
+                                <th scope="col">序號</th>
+                                <th scope="col">共用計畫書名稱</th>
+                                <th scope="col">表單類型</th>
+                                <th scope="col">狀態</th>
+                                <th scope="col">創文日期</th>
+                            </tr>
+                            </thead>
+                            <tbody class="exTable">
+                            <tr v-for="con in contractOwnerData"
+                                @click="$router.push(`/contract/${con.temId}/sl/${con.conId}`)">
+                                <td>
+                                    {{ con.conSerial }}{{ con.conVer }}
+                                </td>
+                                <td>
+                                    {{ con.conTitle }}
+                                </td>
+                                <td>{{ con.temTitle }}</td>
+                                <td>
+                                    <template v-if="con.conStatus === '-1'">建置中</template>
+                                    <template v-if="con.conStatus === '0'">草稿</template>
+                                    <template v-if="con.conStatus === '1'">簽核中</template>
+                                    <template v-if="con.conStatus === '2'">退回</template>
+                                    <template v-if="con.conStatus === '3'">已歸檔</template>
+                                    <template v-if="con.conStatus === '4'">撤回</template>
+                                </td>
+                                <td>{{ this.$root.formatDateTime(con.conCreateTime)}}</td>
+                            </tr>
+
+                            </tbody>
+                        </table>
                     </div>
-                  </div>
-                </div> -->
+                </div>
             </div>
             <!-- 待簽文件 -->
 
@@ -734,14 +205,14 @@
                 companyData: [//公司
                     // {comId: 0, comTitle: '', comCode: ''},
                 ],
-                contractData:[],//待簽文件
-                contractSignData:[],//簽核中文件
-                contractOverData:[],//已完成文件
-                contractDraftData:[],//草稿文件
+                contractData: [],//待簽文件
+                contractSignData: [],//簽核中文件
+                contractOverData: [],//已完成文件
+                contractDraftData: [],//草稿文件
+                contractOwnerData: [],//申請作業
             };
         },
-        computed: {
-        },
+        computed: {},
         watch: {
             '$route': {
                 handler(newRoute, oldRoute) {
@@ -751,7 +222,7 @@
                 immediate: true,
             }
         },
-        mounted(){
+        mounted() {
             this.defaultData();
             this.fetchFirst();
         },
@@ -762,15 +233,56 @@
                 if (this.per) {
                     // this.companyData = this.$root.getCompanyData();
                     const apiRequests = [
-                        this.$api.get(this.$test ? '/api/?type=news' : '/api/iform/news/List'),
+                        this.$api.get(this.$test ? '/api/?type=news' : '/api/iform/news'),
                         this.$api.get(this.$test ? '/api/?type=company' : '/api/iform/company'),
-                        this.$api.get(this.$test ? `/api/?type=contract` : '/api/iform/contract/List', {params:{action:2, conStatus:1, perKey:this.per.perKey, perBu1Code:this.per.perBu1Code}}),
-                        this.$api.get(this.$test ? `/api/?type=contract` : '/api/iform/contract/List', {params:{action:3, conStatus:1, perKey:this.per.perKey, perBu1Code:this.per.perBu1Code}}),
-                        this.$api.get(this.$test ? `/api/?type=contract` : '/api/iform/contract/List', {params:{action:5, conStatus:1, perKey:this.per.perKey, perBu1Code:this.per.perBu1Code}}),
-                        this.$api.get(this.$test ? `/api/?type=contract` : '/api/iform/contract/List', {params:{action:0, conStatus:0, perKey:this.per.perKey, perBu1Code:this.per.perBu1Code}}),
+                        this.$api.get(this.$test ? `/api/?type=contract` : '/api/iform/contract/List', {
+                            params: {
+                                action: 1,
+                                conStatus: 1,
+                                perKey: this.per.perKey,
+                                perBu1Code: this.per.perBu1Code,
+                                memView:1,
+                                memSign:1
+                            }
+                        }),
+                        this.$api.get(this.$test ? `/api/?type=contract` : '/api/iform/contract/List', {
+                            params: {
+                                action: 1,
+                                conStatus: 1,
+                                perKey: this.per.perKey,
+                                perBu1Code: this.per.perBu1Code,
+                                memOver:1
+                            }
+                        }),
+                        this.$api.get(this.$test ? `/api/?type=contract` : '/api/iform/contract/List', {
+                            params: {
+                                action: 1,
+                                conStatus: 3,
+                                perKey: this.per.perKey,
+                                perBu1Code: this.per.perBu1Code,
+                            }
+                        }),
+                        this.$api.get(this.$test ? `/api/?type=contract` : '/api/iform/contract/List', {
+                            params: {
+                                action: 1,
+                                conStatus: 0,
+                                perKey: this.per.perKey,
+                                perBu1Code: this.per.perBu1Code,
+                                memDraft:1
+                            }
+                        }),
+                        this.$api.get(this.$test ? `/api/?type=contract` : '/api/iform/contract/List', {
+                            params: {
+                                action: 1,
+                                conStatus: 1,
+                                perKey: this.per.perKey,
+                                perBu1Code: this.per.perBu1Code,
+                                memOwner:1,
+                            }
+                        }),
                     ];
                     Promise.all(apiRequests)
-                        .then(([newsResponse, companyResponse, contractResponse, contractSignResponse, contractOverResponse, contractDraftResponse]) => {
+                        .then(([newsResponse, companyResponse, contractResponse, contractSignResponse, contractOverResponse, contractDraftResponse, contractOwnerResponse]) => {
                             //newsResponse
                             this.newsData = newsResponse.data.data;
                             // companyResponse
@@ -782,6 +294,8 @@
                             this.contractOverData = contractOverResponse.data.data;
                             // contractDraftResponse
                             this.contractDraftData = contractDraftResponse.data.data;
+                            // contractOwnerResponse
+                            this.contractOwnerData = contractOwnerResponse.data.data;
                         })
                         .catch(error => {
                             console.error(error);
@@ -793,5 +307,14 @@
 </script>
 
 <style scoped>
+    a {
+        color: #33cc66;
+        font-weight: 500;
+        transition: all .5s;
+        text-decoration: none;
+    }
+    a:hover {
+        color: #009966;
+    }
 
 </style>

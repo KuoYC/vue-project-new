@@ -1,84 +1,106 @@
 <template>
-    <tr>
-        <td>
-            <a @click="removeItem(item.uniqueId)" style="color: red;"
-               class="mouse-clean">X</a>{{ idx+1 }}
-        </td>
-        <td>
-            <!--作業項目-->
-            <input type="text" v-model="item.iteTitle" ref="nameInput" class="form-control"/>
-        </td>
-        <td>
-            <!--作業種類-->
-            <select v-model="item.worId" class="form-select">
-                <option value="0">作業種類</option>
-                <option v-for="wor in workData" :value="wor.worId" :disabled="!workUse.includes(wor.worId)">
-                    {{ wor.worTitle }}
-                </option>
-            </select>
-        </td>
-        <td>
-            <!--服務時間-->
-            <select v-model="item.iteTime" class="form-select">
-                <option value="">服務時間</option>
-                <option v-for="time in timeData" :value="time.souTitle" :key="time.souId">
-                    {{ time.souTitle }}
-                </option>
-            </select>
-        </td>
-        <td>
-            <!--本項目使用公司-->
-            <div v-for="com in companyData" :key="com.comCode"
-                 class="form-check form-check-primary form-check-inline">
-                <input :disabled="!companyUse.includes(com.comCode)"
-                       :name="'com_'+item.uniqueId"
-                       type="checkbox"
-                       :value="com.comCode"
-                       v-model="item.iteSubsidiaries"
-                       class="form-check-input"
-                       :id="'com_'+item.uniqueId+'_'+com.comCode"/>
-                <label class="form-check-label"
-                       :for="'com_'+item.uniqueId+'_'+com.comCode">
-                    {{ com.comTitle }}
-                </label>
-            </div>
-        </td>
-        <td>
-            <!--權限控管及資料管制-->
-            <input type="text" v-model="item.iteControl" class="form-control"/>
-        </td>
-        <td>
-            <!--分攤比例原則-->
-            <select v-model="item.disId" class="form-select" ref="dis" @change="disChange">
-                <option value="0">費用分攤原則</option>
-                <option v-for="dis in distributionData" :value="dis.disId" :data-type="dis.disType">
-                    {{ dis.disTitle }}
-                </option>
-            </select>
-            <select v-if="item.disId !== 0" v-model="item.manId" class="form-select" ref="man" @change="manChange">
-                <option value="0">費用分攤方式</option>
-                <option v-for="man in manner" :value="man.manId" :data-type="man.manType"
-                        :disabled="disType === '1' && man.manType !== '1'">
-                    {{ man.manTitle }}
-                </option>
-            </select>
-            <input v-if="getManType('2')" type="text" v-model="item.iteTypeNote" class="form-control" placeholder="分攤方式描述"/>
-        </td>
-    </tr>
-    <tr v-if="getManType('1')">
-        <td colspan="7">
-            <div v-for="(pp, index) in item.iteProportion" :key="index" class="form-check form-check-primary form-check-inline">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">
-                            {{ this.$root.getCompanyTitle('', pp.comCode)}}
-                        </div>
-                    </div>
-                    <input type="text" v-model="pp.p" :disabled="!item.iteSubsidiaries.includes(pp.comCode)" class="form-control">
+    <div style="border-radius: 3px; border: 1px solid #ced4da;">
+            <div class="row" style="padding-top: 10px;padding-left: 10px;">
+                <div class="col-xl-4 col-md-4 col-sm-6 col-12">
+                    <label class="row-label">共用作業項目</label>
+                    <input type="text" v-model="item.iteTitle" class="row-text" placeholder="請輸入文字">
                 </div>
+                <div class="col-xl-4 col-md-4 col-sm-6 col-12">
+                    <label class="row-label">作業種類</label>
+                    <select v-model="item.worId" class="row-text">
+                        <option value="0">作業種類</option>
+                        <option v-for="wor in workData" :value="wor.worId" :disabled="!workUse.includes(wor.worId)">
+                            {{ wor.worTitle }}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-xl-4 col-md-4 col-sm-12 col-12">
+                    <label class="row-label">服務時間</label>
+                    <select v-model="item.iteTime" class="row-text">
+                        <option value="">服務時間</option>
+                        <option v-for="time in timeData" :value="time.souTitle" :key="time.souId">
+                            {{ time.souTitle }}
+                        </option>
+                    </select>
+                </div>
+                <div :class="getManType('2') ? 'col-xl-4 col-md-4 col-sm-6 col-12' : 'col-xl-6 col-md-6 col-sm-12 col-12'">
+                    <label class="row-label">費用分攤原則</label>
+                    <select v-model="item.disId" class="row-text" ref="dis" @change="disChange">
+                        <option value="0">費用分攤原則</option>
+                        <option v-for="dis in distributionData" :value="dis.disId" :data-type="dis.disType">
+                            {{ dis.disTitle }}
+                        </option>
+                    </select>
+                </div>
+                <div :class="getManType('2') ? 'col-xl-4 col-md-4 col-sm-6 col-12' : 'col-xl-6 col-md-6 col-sm-12 col-12'">
+                    <label class="row-label">費用分攤基礎</label>
+                    <select v-model="item.manId" class="row-text" ref="man" @change="manChange">
+                        <option value="0">費用分攤方式</option>
+                        <option v-for="man in manner" :value="man.manId" :data-type="man.manType"
+                                :disabled="disType === '1' && man.manType === '0'">
+                            {{ man.manTitle }}
+                        </option>
+                    </select>
+                </div>
+                <div v-if="getManType('2')" :class="getManType('2') ? 'col-xl-4 col-md-4 col-sm-12 col-12' : 'col-xl-6 col-md-6 col-sm-12 col-12'">
+                    <label class="row-label">分攤方式描述</label>
+                    <input type="text" v-model="item.iteTypeNote" class="row-text" placeholder="分攤方式描述"/>
+                </div>
+                <div v-if="getManType('1')" class="col-12" style="padding-left: 8px;">
+                    <label class="row-label">使用公司固定分攤比例</label>
+                    <div class="d-flex my-list" style="overflow-x: auto;">
+                        <ul>
+                            <li v-for="(pp, index) in item.iteProportion" :key="index" class="" style="margin-bottom: 20px; width: 220px;">
+                                <label class="row-label" style="float: left; padding-right: 10px;">{{ this.$root.getCompanyTitle('', pp.comCode)}}</label>
+                                <input type="number" v-model="pp.p" :disabled="!item.iteSubsidiaries.includes(pp.comCode)" class="row-text" placeholder="0" style="width: 95px; float: left;" onclick="this.select();">
+                                <label class="myFont16 p-t-10" style="float: end; padding-left: 10px;">%</label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <label class="row-label">權限控管及資料管制</label>
+                    <textarea class="row-text" v-model="item.iteControl" spellcheck="false" placeholder="請輸入標題" style="width: 98%;"></textarea>
+                </div>
+                <div class="col-12">
+                    <label class="row-label">使用公司</label>
+                    <div class="d-flex my-list">
+                        <ul>
+                            <li v-for="com in companyData" :key="com.comCode" class="form-check">
+                                <input class="form-check-input" :disabled="!companyUse.includes(com.comCode)"
+                                       :name="'com_'+item.uniqueId"
+                                       type="checkbox"
+                                       :value="com.comCode"
+                                       v-model="item.iteSubsidiaries"
+                                       :id="'com_'+item.uniqueId+'_'+com.comCode"/>
+                                <label class="form-check-label" :for="'com_'+item.uniqueId+'_'+com.comCode">{{ com.comTitle }}</label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
             </div>
-        </td>
-    </tr>
+
+        <div style="padding:10px 10px;">
+            <div class="row">
+
+            </div>
+
+
+
+            <div class=" mt-2 d-flex justify-content">
+                <!--<button type="button"-->
+                        <!--@click="$router.push(`/contract/${contractData.temId}/sl/${contractData.conId}`)"-->
+                        <!--class="m-r-5 btn btn-outline-info btn-border-radius waves-effect myFont16">-->
+                    <!--複製-->
+                <!--</button>-->
+                <button type="button" @click="removeItem(item.uniqueId)"
+                        class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">刪除
+                </button>
+            </div>
+
+        </div>
+    </div>
 </template>
 <script>
     export default {
@@ -146,9 +168,23 @@
                     this.item.iteSubsidiaries = this.item.iteSubsidiaries.filter((comCode) =>
                         newVal.includes(comCode)
                     );
+                    this.item.iteProportion.forEach(v=>{
+                        if (!this.item.iteSubsidiaries.includes(v.comCode)) {
+                            v.p = 0;
+                        }
+                    });
                 },
                 deep: true, // 深度监听数组内元素的变化
             },
+            'item.iteSubsidiaries':{
+                handler(newVal) {
+                    this.item.iteProportion.forEach(v=>{
+                        if (!this.item.iteSubsidiaries.includes(v.comCode)) {
+                            v.p = 0;
+                        }
+                    });
+                }
+            }
         },
         computed: {},
         mounted() {
@@ -186,9 +222,22 @@
 </script>
 
 <style scoped>
-    .mouse-clean {
+    .m-clean {
         cursor: pointer;
     }
+    .form-check {
+        font-size: 16px;
+    }
 
-    /* CSS 样式 */
+    .my-list ul li {
+        float: left;
+        list-style: none;
+    }
+    .contract-title .myNotification {
+        min-height: auto !important;
+    }
+    .d-flex i {
+        padding-right: 10px;
+    }
+
 </style>

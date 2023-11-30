@@ -18,46 +18,45 @@
                                 </router-link>
                             </li>
                         </ul>
-                        <table class="table table-bordered table-md">
-                            <thead>
+                        <div class="table-responsive">
+                            <table class="newTable">
+                            <thead style="position: sticky;top: 0;" class="myNew">
                             <tr>
                                 <th style="min-width: 200px;">公告</th>
-                                <th style="min-width: 120px;">操作</th>
+                                <th style="min-width: 200px;">發布日期</th>
+                                <th style="min-width: 210px;">操作</th>
                             </tr>
 
                             </thead>
                             <tbody>
                             <tr v-for="nws in newsData" :key="nws.nwsId">
                                 <td>{{ nws.nwsTitle }}</td>
+                                <td>{{ nws.nwsRelease }}</td>
                                 <td>
                                     <!-- <a href="#" class="btn btn-primary">詳細內容</a>  -->
                                     <div class="action-btns">
-                                        <router-link :to="'/info/news/sl/'+nws.nwsId"
-                                                     class="action-btn btn-view bs-tooltip me-2" data-toggle="tooltip"
-                                                     data-placement="top" title=""
-                                                     data-bs-original-title="View"
-                                                     aria-label="View">
-                                            <vue-feather type="eye"></vue-feather>
+                                        <router-link :to="'/info/news/sl/'+nws.nwsId">
+                                            <button type="button"
+                                                    class="m-r-5 btn btn-outline-success btn-border-radius waves-effect myFont16">
+                                                查看
+                                            </button>
                                         </router-link>
-                                        <router-link :to="'/info/news/up/'+nws.nwsId"
-                                                     class="action-btn btn-edit bs-tooltip me-2" data-toggle="tooltip"
-                                                     data-placement="top" title=""
-                                                     data-bs-original-title="Update"
-                                                     aria-label="Update">
-                                            <vue-feather type="edit-2"></vue-feather>
+                                        <router-link :to="'/info/news/up/'+nws.nwsId">
+                                            <button type="button"
+                                                    class="m-r-5 btn btn-outline-warning btn-border-radius waves-effect myFont16">
+                                                修改
+                                            </button>
                                         </router-link>
-                                        <a href="javascript:void(0);" @click="deleteNews(nws.nwsId)"
-                                           class="action-btn btn-delete bs-tooltip" data-toggle="tooltip"
-                                           data-placement="top" title=""
-                                           data-bs-original-title="Delete"
-                                           aria-label="Delete">
-                                            <vue-feather type="trash-2"></vue-feather>
-                                        </a>
+                                        <button type="button" @click="deleteNews(nws.nwsId)"
+                                                class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">
+                                            刪除
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
                             </tbody>
                         </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -92,7 +91,7 @@
             },
             fetchFirst() {
                 const apiRequests = [
-                    this.$api.get(this.$test ? '/api/?type=news' : '/api/iform/news/List'),
+                    this.$api.get(this.$test ? '/api/?type=news' : '/api/iform/news'),
                 ];
                 Promise.all(apiRequests)
                     .then(([newsResponse]) => {

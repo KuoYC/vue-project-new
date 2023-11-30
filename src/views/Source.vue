@@ -18,12 +18,13 @@
                                 </router-link>
                             </li>
                         </ul>
-                        <table class="table table-bordered table-md">
-                            <thead>
+                        <div class="table-responsive">
+                            <table class="newTable">
+                            <thead style="position: sticky;top: 0;" class="myNew">
                             <tr>
                                 <th style="min-width: 200px;">選單</th>
                                 <th style="min-width: 70px;">選單內容</th>
-                                <th style="min-width: 120px;">操作</th>
+                                <th style="min-width: 210px;">操作</th>
                             </tr>
 
                             </thead>
@@ -36,32 +37,28 @@
                                 <td>
                                     <!-- <a href="#" class="btn btn-primary">詳細內容</a>  -->
                                     <div class="action-btns">
-                                        <router-link :to="'/info/source/sl/'+sou.catId"
-                                                     class="action-btn btn-view bs-tooltip me-2" data-toggle="tooltip"
-                                                     data-placement="top" title=""
-                                                     data-bs-original-title="View"
-                                                     aria-label="View">
-                                            <vue-feather type="eye"></vue-feather>
+                                        <router-link :to="'/info/source/sl/'+sou.catId">
+                                            <button type="button"
+                                                    class="m-r-5 btn btn-outline-success btn-border-radius waves-effect myFont16">
+                                                查看
+                                            </button>
                                         </router-link>
-                                        <router-link :to="'/info/source/up/'+sou.catId"
-                                                     class="action-btn btn-edit bs-tooltip me-2" data-toggle="tooltip"
-                                                     data-placement="top" title=""
-                                                     data-bs-original-title="Update"
-                                                     aria-label="Update">
-                                            <vue-feather type="edit-2"></vue-feather>
+                                        <router-link :to="'/info/source/up/'+sou.catId">
+                                            <button type="button"
+                                                    class="m-r-5 btn btn-outline-warning btn-border-radius waves-effect myFont16">
+                                                修改
+                                            </button>
                                         </router-link>
-                                        <a href="javascript:void(0);" @click="deleteSource(sou.catId)"
-                                           class="action-btn btn-delete bs-tooltip" data-toggle="tooltip"
-                                           data-placement="top" title=""
-                                           data-bs-original-title="Delete"
-                                           aria-label="Delete">
-                                            <vue-feather type="trash-2"></vue-feather>
-                                        </a>
+                                        <button type="button" @click="deleteSource(sou.catId)"
+                                                class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">
+                                            刪除
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
                             </tbody>
                         </table>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -14,7 +14,7 @@ var sidebarObserver = new MutationObserver(function (mutationsList, observer) {
 
 $(window).on("load", function () {
     $(".loader").fadeOut("slow");
-    feather.replace();
+    // feather.replace();
 
     // 選擇 .main-sidebar 並將其轉換為 DOM 元素
     var target = $(".main-sidebar")[0];
@@ -31,7 +31,7 @@ $(window).on("load", function () {
   $(".loader").fadeOut("slow");
 });
 
-feather.replace();
+// feather.replace();
 // Global
 $(function () {
   let sidebar_nicescroll_opts = {
@@ -333,7 +333,7 @@ $(function () {
   });
 
   // tooltip
-  $("[data-toggle='tooltip']").tooltip();
+  // $("[data-toggle='tooltip']").tooltip();
 
   // popover
   $('[data-toggle="popover"]').popover({

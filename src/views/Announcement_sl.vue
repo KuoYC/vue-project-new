@@ -19,23 +19,20 @@
                                         <div class="vew-mail-header">
                                             <div class="author-box-name d-flex justify-content-between"
                                                  style="margin-bottom: 20px;">
-                                                <h4>
-                                                    <span v-if="'1' === newsData.nwsType" class="nws-type badge badge-secondary">一般</span>
-                                                    <span v-if="'2' === newsData.nwsType" class="nws-type badge badge-success">提醒</span>
-                                                    <span v-if="'3' === newsData.nwsType" class="nws-type badge badge-primary">重要</span>
-                                                    <span v-if="'4' === newsData.nwsType" class="nws-type badge badge-info">好康</span>
-                                                    <span v-if="'5' === newsData.nwsType" class="nws-type badge badge-danger">緊急</span>
+                                                <h4 class="myCardTitle" style="font-size: x-large;">
+                                                    <span v-if="'1' === newsData.nwsType" class="nws-type badge badge-secondary" style="margin-right:10px;">一般</span>
+                                                    <span v-if="'2' === newsData.nwsType" class="nws-type badge badge-success" style="margin-right:10px;">提醒</span>
+                                                    <span v-if="'3' === newsData.nwsType" class="nws-type badge badge-primary" style="margin-right:10px;">重要</span>
+                                                    <span v-if="'4' === newsData.nwsType" class="nws-type badge badge-info" style="margin-right:10px;">好康</span>
+                                                    <span v-if="'5' === newsData.nwsType" class="nws-type badge badge-danger" style="margin-right:10px;">緊急</span>
                                                     {{ newsData.nwsTitle }}</h4>
-                                                <!-- 這裡放創文日期 -->
-                                                <div>
-                                                    <div class="myFont16Title">
-                                                        公告日期：<span
-                                                            class="data float-end myFont16">{{ newsData.nwsRelease }}</span>
-                                                    </div>
+                                            </div>
+                                            <div class="d-flex">
+                                                <div class="myFont16Title" style="margin: 0 10px;">公告日期： <span class="date myFont16">{{ newsData.nwsRelease }}</span>
                                                 </div>
                                             </div>
                                             <hr>
-                                            <div class="d-flex mb-4 mt-2">
+                                            <div class="d-flex mb-4 mt-2 myFont16">
                                                 <div class="flex-grow-1">
                                                     <div v-html="newsData.nwsContent"></div>
                                                 </div>

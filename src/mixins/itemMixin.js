@@ -7,7 +7,7 @@ export const itemMixin = {
                 comCode: company.comCode,
                 p: '0',
             }));
-            this.itemData.push({
+            this.contractData.itemData.push({
                 uniqueId: this.$root.generateUniqueId(),
                 iteId: 0,
                 conId: 0,//
@@ -26,9 +26,9 @@ export const itemMixin = {
             },);
         },
         removeItemData(uniqueId) {
-            const index = this.itemData.findIndex(item => item.uniqueId === uniqueId);
+            const index = this.contractData.itemData.findIndex(item => item.uniqueId === uniqueId);
             if (index !== -1) {
-                this.itemData.splice(index, 1);
+                this.contractData.itemData.splice(index, 1);
             }
         },
     },

@@ -9,6 +9,7 @@
             <div class="card note">
                 <div class="card-body">
                     <div class="page-content note-has-grid">
+                        <!--
                         <ul class="nav nav-pills p-3 mb-3 rounded-pill align-items-center">
                             <li class="nav-item">
                                 <router-link :to="'/info/work/ad'"
@@ -18,46 +19,43 @@
                                 </router-link>
                             </li>
                         </ul>
-                        <table class="table table-bordered table-md">
-                            <thead>
+                        -->
+                        <div class="table-responsive">
+                            <table class="newTable">
+                            <thead style="position: sticky;top: 0;" class="myNew">
                             <tr>
                                 <th style="min-width: 200px;">作業種類</th>
-                                <th style="min-width: 120px;">操作</th>
+                                <!--<th style="min-width: 210px;">操作</th>-->
                             </tr>
 
                             </thead>
                             <tbody>
                             <tr v-for="wor in workData" :key="wor.worId">
                                 <td>{{ wor.worTitle }}</td>
-                                <td>
-                                    <!-- <a href="#" class="btn btn-primary">詳細內容</a>  -->
+                                <!--<td>
                                     <div class="action-btns">
-                                        <router-link :to="'/info/work/sl/'+wor.worId"
-                                                     class="action-btn btn-view bs-tooltip me-2" data-toggle="tooltip"
-                                                     data-placement="top" title=""
-                                                     data-bs-original-title="View"
-                                                     aria-label="View">
-                                            <vue-feather type="eye"></vue-feather>
+                                        <router-link :to="'/info/work/sl/'+wor.worId">
+                                            <button type="button"
+                                                    class="m-r-5 btn btn-outline-success btn-border-radius waves-effect myFont16">
+                                                查看
+                                            </button>
                                         </router-link>
-                                        <router-link :to="'/info/work/up/'+wor.worId"
-                                                     class="action-btn btn-edit bs-tooltip me-2" data-toggle="tooltip"
-                                                     data-placement="top" title=""
-                                                     data-bs-original-title="Update"
-                                                     aria-label="Update">
-                                            <vue-feather type="edit-2"></vue-feather>
+                                        <router-link :to="'/info/work/up/'+wor.worId">
+                                            <button type="button"
+                                                    class="m-r-5 btn btn-outline-warning btn-border-radius waves-effect myFont16">
+                                                修改
+                                            </button>
                                         </router-link>
-                                        <a href="javascript:void(0);" @click="deleteWork(wor.worId)"
-                                           class="action-btn btn-delete bs-tooltip" data-toggle="tooltip"
-                                           data-placement="top" title=""
-                                           data-bs-original-title="Delete"
-                                           aria-label="Delete">
-                                            <vue-feather type="trash-2"></vue-feather>
-                                        </a>
+                                        <button type="button" @click="deleteWork(wor.worId)"
+                                                class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">
+                                            刪除
+                                        </button>
                                     </div>
-                                </td>
+                                </td>-->
                             </tr>
                             </tbody>
                         </table>
+                        </div>
                     </div>
                 </div>
             </div>

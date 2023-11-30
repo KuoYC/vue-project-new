@@ -1,7 +1,6 @@
 <template>
     <td>
-        <a @click="removeMember(member.uniqueId)" style="color: red;" class="mouse-clean" v-show="use_close">X</a>
-        <select v-model="member.memBu1Code" class="form-select" ref="bu1" @change="Bu1Change">
+        <select v-model="member.memBu1Code" class="form-control" ref="bu1" @change="Bu1Change">
             <template v-if="member.memType === '0' || member.memType === '1'">
                 <template v-for="com in companyData">
                     <option v-if="com.comCode === member.memBu1Code" :value="com.comCode" :comCode="com.comCode">
@@ -19,7 +18,7 @@
         </select>
     </td>
     <td>
-        <select v-model="member.memBu2Code" class="form-select" ref="bu2" @change="Bu2Change">
+        <select v-model="member.memBu2Code" class="form-control" ref="bu2" @change="Bu2Change">
             <template v-if="member.memType === '0'">
                 <template v-for="bu2 in bu2Data">
                     <option v-if="bu2.perBu2Code === member.memBu2Code" :value="bu2.perBu2Code" :department="bu2.perBu2">
@@ -36,7 +35,7 @@
         </select>
     </td>
     <td>
-        <select v-model="member.memBu3Code" class="form-select" ref="bu3" @change="Bu3Change">
+        <select v-model="member.memBu3Code" class="form-control" ref="bu3" @change="Bu3Change">
             <template v-if="member.memType === '0'">
                 <template v-for="bu3 in bu3Data">
                     <option v-if="bu3.perBu3Code === member.memBu3Code" :value="bu3.perBu3Code" :division="bu3.perBu3">
@@ -53,53 +52,43 @@
         </select>
     </td>
     <td>
-        <select v-model="member.memLV0Key" class="form-select" :disabled="lv_disabled" ref="lv0" @change="LV0Change">
-            <option value="">承辦人</option>
-            <option v-for="per in personnel3Data" :value="per.perKey" :key="per.perId"
-                    :perName="per.perName"
-                    :positionName="per.perPositionName" :bu1="per.perBu1" :bu2="per.perBu2" :bu3="per.perBu3"
-                    :phone="per.perPhone2 + ' ' + per.perPhone3">
-                {{ per.perName + ' ' + per.perPositionName }}
-            </option>
-        </select>
-    </td>
-    <td>
-        <select v-model="member.memLV1Key" class="form-select" :disabled="member.LV0 === ''" ref="lv1" @change="LV1Change">
-            <option value="">科別主管</option>
-            <option v-for="per in personnel2Data" :value="per.perKey" :key="per.perId"
-                    :perName="per.perName"
-                    :positionName="per.perPositionName" :bu1="per.perBu1" :bu2="per.perBu2" :bu3="per.perBu3">
-                {{ per.perName + ' ' + per.perPositionName }}
-            </option>
-        </select>
-    </td>
-    <td>
-        <select v-model="member.memLV2Key" class="form-select" :disabled="member.memLV1Key === '' || member.memLV0Key === ''" ref="lv2"
+        <select v-model="member.memLV2Key" class="form-control" :disabled="member.memLV1Key === '' || member.memLV0Key === ''" ref="lv2"
                 @change="LV2Change">
             <option value="">部門主管</option>
             <option v-for="per in personnel1Data" :value="per.perKey" :key="per.perId"
                     :perName="per.perName"
                     :positionName="per.perPositionName" :bu1="per.perBu1" :bu2="per.perBu2" :bu3="per.perBu3">
-                {{ per.perName + ' ' + per.perPositionName }}
+                {{ per.perName }}
             </option>
         </select>
     </td>
-    <!--<td v-if="member.memType === '0'">-->
-        <!--<select v-model="member.memLVCKey" class="form-select" ref="lvc" @change="LVCChange">-->
-            <!--<option value="">窗口</option>-->
-            <!--<option v-for="cot in contactData" :value="cot.perKey"-->
-                    <!--:perName="cot.perName"-->
-                    <!--:positionName="cot.perPositionName">-->
-                <!--{{ cot.perName + ' ' + cot.perPositionName }}-->
-            <!--</option>-->
-        <!--</select>-->
-    <!--</td>-->
-    <td class="text-center">
-        <template
-                v-if="typeof member.memPhone !== 'undefined' && member.memPhone !== ''">
-            {{ member.memPhone }}
-        </template>
+    <td>
+        <select v-model="member.memLV1Key" class="form-control" :disabled="member.LV0 === ''" ref="lv1" @change="LV1Change">
+            <option value="">科別主管</option>
+            <option v-for="per in personnel2Data" :value="per.perKey" :key="per.perId"
+                    :perName="per.perName"
+                    :positionName="per.perPositionName" :bu1="per.perBu1" :bu2="per.perBu2" :bu3="per.perBu3">
+                {{ per.perName }}
+            </option>
+        </select>
     </td>
+    <td>
+        <select v-model="member.memLV0Key" class="form-control" :disabled="lv_disabled" ref="lv0" @change="LV0Change">
+            <option value="">承辦人</option>
+            <option v-for="per in personnel3Data" :value="per.perKey" :key="per.perId"
+                    :perName="per.perName"
+                    :positionName="per.perPositionName" :bu1="per.perBu1" :bu2="per.perBu2" :bu3="per.perBu3"
+                    :phone="per.perPhone2 + ' ' + per.perPhone3">
+                {{ per.perName }}
+            </option>
+        </select>
+    </td>
+    <td>
+        <input v-if="typeof member.memPhone !== 'undefined' && member.memPhone !== ''" :value="member.memPhone" type="text" disabled class="form-control" style="background-color: white;"/>
+        <input v-else v-model="member.memPhone" type="text" disabled class="form-control" style="background-color: white;"/>
+    </td>
+    <td><vue-feather type="trash-2" size="20" class="m-clean" @click="removeMember(member.uniqueId)" v-show="use_close"></vue-feather></td>
+
 </template>
 
 <script>
@@ -112,8 +101,9 @@
                 default: () => [],
             },
             companyUse: {
-                type: Array,
+                type: [Array, String],
                 default: () => [],
+                required: true,
             },
             member: {
                 type: Object,
@@ -333,8 +323,9 @@
 </script>
 
 <style scoped>
-    .mouse-clean {
+    .m-clean {
         cursor: pointer;
+        color: #6f6f6f;
     }
 
 </style>
