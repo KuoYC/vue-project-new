@@ -19,6 +19,7 @@
     "html2canvas": "^1.4.1",
     "html2pdf.js": "^0.10.1",
     "js-cookie": "^3.0.5",
+    "vite-ssr": "^0.17.1",
     "vue": "^3.3.4",
     "vue-demi": "^0.13.11",
     "vue-feather": "^2.0.0",

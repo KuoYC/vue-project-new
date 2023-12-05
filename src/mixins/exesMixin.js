@@ -10,10 +10,11 @@ export const exesMixin = {
             const uid = this.$root.generateUniqueId();
             this.apportionData.exesData.push({
                 uniqueId: uid,
-                appId: 0,
+                appId: this.apportionData.appId,
                 iteId: 0,
                 iteTitle: '',
                 worTitle: '',
+                worId: 0,
                 disId: 0,
                 disTitle: '',
                 manId: 0,
@@ -21,12 +22,14 @@ export const exesMixin = {
                 manType: 0,
                 exeTitle: '',
                 exeCost: 0,//
+                exePM: 0,
+                exeSP: 0,
                 exeYearCost:0,//當年總額
                 exeCreateMonth: null,//攤提起始
-                exeMonth: '',
+                exeMonth: 1,
                 exeStartYear: this.currentYear,//提列年度
                 iteSubsidiaries:[],//本項目使用公司
-                iteProportion:'',//自訂義比例
+                ratio:[],//自訂義比例
                 subsidiaryData:[],//
                 exeYear: '',
                 exeNumber: '',
@@ -47,7 +50,7 @@ export const exesMixin = {
                     console.log(response.data);
                     if (response.status === 200) {
                         console.log(response);
-                        this.$router.push(`/apportion/sl/${appId}`);
+                        // this.$router.push(`/apportion/sl/${appId}`);
                     } else {
                         console.log('err');
                     }

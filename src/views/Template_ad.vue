@@ -215,7 +215,7 @@
                                                                     <input type="text" class="form-control" placeholder="請輸入文字">
                                                                 </div>
                                                                 <div class="d-flex justify-content-between align-center" style="margin-bottom: 20px; max-width: 450px;">
-                                                                    <label class="myFont16 col-4 p-t-10">費用分攤基礎</label>
+                                                                    <label class="myFont16 col-4 p-t-10">計算基礎</label>
                                                                     <input type="text" class="form-control" placeholder="請輸入文字">
                                                                 </div>
                                                             </div>
@@ -260,7 +260,7 @@
                                                         </div>
                                                     </div>
                                                     <div class=" mt-2 d-flex justify-content">
-                                                        <button type="button" class="btn btn-icon icon-left btn-primary myFont16" style="border-radius: 6px;">新增一筆</button>
+                                                        <button type="button" class="btn btn-icon icon-left btn-outline-success myFont16" style="border-radius: 6px;">新增一筆</button>
                                                     </div>
                                                 </template>
                                                 <template v-if="element.type === 'sign'">
@@ -331,7 +331,7 @@
                                                         </div>
                                                     </div>
                                                     <div class=" mt-2 d-flex justify-content">
-                                                        <button type="button" class="btn btn-icon icon-left btn-primary myFont16" style="border-radius: 6px;">新增一筆</button>
+                                                        <button type="button" class="btn btn-icon icon-left btn-outline-success myFont16" style="border-radius: 6px;">新增一筆</button>
                                                     </div>
                                                     <div class="row" style="margin-bottom: 20px">
                                                         <label class="myFont16 p-t-10">使用公司</label>
@@ -397,7 +397,7 @@
                                                         </div>
                                                     </div>
                                                     <div class=" mt-2 d-flex justify-content">
-                                                        <button type="button" class="btn btn-icon icon-left btn-primary myFont16" style="border-radius: 6px;">新增一筆</button>
+                                                        <button type="button" class="btn btn-icon icon-left btn-outline-success myFont16" style="border-radius: 6px;">新增一筆</button>
                                                     </div>
 
                                                 </template>

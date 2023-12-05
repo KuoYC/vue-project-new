@@ -265,7 +265,7 @@
                                                                                 scope="col">費用分攤原則
                                                                             </th>
                                                                             <th style="width: 140px;"
-                                                                                scope="col">費用分攤基礎
+                                                                                scope="col">計算基礎
                                                                             </th>
                                                                             <th style="width: auto;"
                                                                                 scope="col">費用分攤原則說明

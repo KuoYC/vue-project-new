@@ -281,8 +281,8 @@
                                     <li :class="{active : $route.path.startsWith(`/info/contact`)}" class="nav-link">
                                         <router-link :to="`/info/contact`">窗口設定</router-link>
                                     </li>
-                                    <li :class="{active : $route.path.startsWith(`/info/ratio`)}" class="nav-link">
-                                        <router-link :to="`/info/ratio`">比例設定</router-link>
+                                    <li :class="{active : $route.path.startsWith(`/info/manner`)}" class="nav-link">
+                                        <router-link :to="`/info/manner`">比例設定</router-link>
                                     </li>
                                     <li :class="{active : $route.path.startsWith(`/info/exes`)}" class="nav-link">
                                         <router-link :to="`/info/exes`">費用相關設定</router-link>

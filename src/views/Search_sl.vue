@@ -285,7 +285,7 @@
                                                                                    class="form-control row-text">
                                                                         </div>
                                                                         <div class="col-4">
-                                                                            <label class="row-label row-title">費用分攤基礎</label>
+                                                                            <label class="row-label row-title">計算基礎</label>
                                                                             <input type="text" :value="ite.manTitle"
                                                                                    disabled
                                                                                    style="background-color: white;"
@@ -293,7 +293,7 @@
                                                                         </div>
                                                                         <div v-if="'2' === ite.manType"
                                                                              class="col-4">
-                                                                            <label class="row-label row-title">分攤方式描述</label>
+                                                                            <label class="row-label row-title">說明</label>
                                                                             <input type="text" :value="ite.iteTypeNote"
                                                                                    disabled
                                                                                    style="background-color: white;"
@@ -390,7 +390,7 @@
                                                                                 scope="col">費用分攤原則
                                                                             </th>
                                                                             <th style="width: 140px;"
-                                                                                scope="col">費用分攤基礎
+                                                                                scope="col">計算基礎
                                                                             </th>
                                                                             <th style="width: auto;"
                                                                                 scope="col">費用分攤原則說明

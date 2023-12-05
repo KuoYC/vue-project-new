@@ -181,7 +181,7 @@
                                 </div>
                                 <div class=" mt-2 d-flex justify-content">
                                     <button type="button" @click="addExesData"
-                                            class="btn btn-icon icon-left btn-success myFont16"
+                                            class="btn btn-icon icon-left btn-outline-success myFont16"
                                             style="border-radius: 6px;">新增一筆
                                     </button>
                                 </div>

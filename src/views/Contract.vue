@@ -4,7 +4,6 @@
             <li class="breadcrumb-item">
                 <h4 class="page-title m-b-0">表單申請</h4>
             </li>
-            <li class="breadcrumb-item">{{ templateData.temTitle }}</li>
         </ul>
         <div class="section-body">
             <div class="card note">
@@ -13,38 +12,49 @@
                         <ul class="nav nav-pills p-3 mb-3 rounded-pill align-items-center">
                             <li class="nav-item">
                                 <router-link :to="`/contract/up/0`"
-                                             class="nav-link rounded-pill note-link d-flex align-items-center px-2 px-md-3 mr-0 mr-md-2">
-                                    <vue-feather type="plus" stroke="red"></vue-feather>
-                                    <span class="d-md-block" style="color: red;">新增</span>
+                                             class="d-flex btn btn-outline-success btn-border-radius align-items-center" style="margin-right: 10px; font-weight: 400;">
+                                    <vue-feather type="table" size="16" style="padding-right: 2px;"></vue-feather>
+                                    <span class="d-md-block">新增表單</span>
+                                </router-link>
+                            </li>
+                            <li class="nav-item">
+                                <router-link :to="`/apportion/up/0`"
+                                             class="d-flex btn btn-outline-success btn-border-radius align-items-center" style="margin-right: 10px; font-weight: 400;">
+                                    <vue-feather type="dollar-sign" size="16" style="padding-right: 2px;"></vue-feather>
+                                    <span class="d-md-block">新增費用</span>
                                 </router-link>
                             </li>
                             <li class="nav-item">
                                 <router-link :to="`/contract/list`"
-                                   :class="`${searchType !== 0 && searchType !== 1 && searchType !== 3 ? 'active' : ''} nav-link rounded-pill note-link d-flex align-items-center px-2 px-md-3 mr-0 mr-md-2`"
+                                   :class="`${searchType !== 0 && searchType !== 1 && searchType !== 3 ? 'btn-success' : 'btn-outline-success'} d-flex btn  btn-border-radius align-items-center`"
+                                   style="margin-right: 10px; font-weight: 400; border-radius:20px;"
                                    id="all-category">
-                                    <vue-feather type="check-circle"></vue-feather>
+                                    <vue-feather type="check-circle" size="16" style="padding-right: 2px;"></vue-feather>
                                     <span class="d-md-block">所有文件</span>
                                 </router-link>
                             </li>
                             <li class="nav-item">
                                 <router-link :to="`/contract/list/0`"
-                                             :class="`${searchType === 0 ? 'active' : ''} nav-link rounded-pill note-link d-flex align-items-center px-2 px-md-3 mr-0 mr-md-2`"
+                                             :class="`${searchType === 0 ? 'btn-success' : 'btn-outline-success'} d-flex btn  btn-border-radius align-items-center`"
+                                             style="margin-right: 10px; font-weight: 400; border-radius:20px;"
                                              id="note-work">
-                                    <vue-feather type="briefcase"></vue-feather>
+                                    <vue-feather type="briefcase" size="16" style="padding-right: 2px;"></vue-feather>
                                     <span class="d-md-block">草稿</span></router-link>
                             </li>
                             <li class="nav-item">
                                 <router-link :to="`/contract/list/1`"
-                                             :class="`${searchType === 1 ? 'active' : ''} nav-link rounded-pill note-link d-flex align-items-center px-2 px-md-3 mr-0 mr-md-2`"
+                                             :class="`${searchType === 1 ? 'btn-success' : 'btn-outline-success'} d-flex btn  btn-border-radius align-items-center`"
+                                             style="margin-right: 10px; font-weight: 400; border-radius:20px;"
                                              id="note-family">
-                                    <vue-feather type="users"></vue-feather>
+                                    <vue-feather type="users" size="16" style="padding-right: 2px;"></vue-feather>
                                     <span class="d-md-block">簽核中</span></router-link>
                             </li>
                             <li class="nav-item">
                                 <router-link :to="`/contract/list/3`"
-                                             :class="`${searchType === 3 ? 'active' : ''} nav-link rounded-pill note-link d-flex align-items-center px-2 px-md-3 mr-0 mr-md-2`"
+                                             :class="`${searchType === 3 ? 'btn-success' : 'btn-outline-success'} d-flex btn  btn-border-radius align-items-center`"
+                                             style="margin-right: 10px; font-weight: 400; border-radius:20px;"
                                              id="note-important">
-                                    <vue-feather type="star"></vue-feather>
+                                    <vue-feather type="star" size="16" style="padding-right: 2px;"></vue-feather>
                                     <span class="d-md-block">已歸檔</span></router-link>
                             </li>
                         </ul>

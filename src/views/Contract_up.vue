@@ -307,7 +307,7 @@
                                                                                         scope="col">費用分攤原則
                                                                                     </th>
                                                                                     <th style="width: 140px;"
-                                                                                        scope="col">費用分攤基礎
+                                                                                        scope="col">計算基礎
                                                                                     </th>
                                                                                     <th style="width: auto;"
                                                                                         scope="col">費用分攤原則說明
@@ -465,7 +465,7 @@
                                                                     />
                                                                     <div class=" mt-2 d-flex justify-content">
                                                                         <button type="button" @click="addItemData"
-                                                                                class="btn btn-icon icon-left btn-success myFont16"
+                                                                                class="btn btn-icon icon-left btn-outline-success myFont16"
                                                                                 style="border-radius: 6px;">新增一筆
                                                                         </button>
                                                                     </div>
@@ -550,7 +550,7 @@
                                                                 <div class=" mt-2 d-flex justify-content">
                                                                     <button type="button"
                                                                             @click="addMember('M', per.perBu1Code)"
-                                                                            class="btn btn-icon icon-left btn-success myFont16"
+                                                                            class="btn btn-icon icon-left btn-outline-success myFont16"
                                                                             style="border-radius: 6px;">新增一筆
                                                                     </button>
                                                                 </div>
@@ -613,7 +613,7 @@
                                                                 <div class=" mt-2 d-flex justify-content">
                                                                     <button type="button"
                                                                             @click="addMember('U', per.perBu1Code)"
-                                                                            class="btn btn-icon icon-left btn-success myFont16"
+                                                                            class="btn btn-icon icon-left btn-outline-success myFont16"
                                                                             style="border-radius: 6px;">新增一筆
                                                                     </button>
                                                                 </div>

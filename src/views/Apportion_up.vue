@@ -39,486 +39,468 @@
                     </div>
                 </div>
             </div>
-            <div class="card contract-title">
-                <div class="author-box-name d-flex justify-content-between"
-                     style="margin-bottom: 20px;padding: 10px 25px;border-bottom-color: #f9f9f9;">
-                    <h4 class="myCardTitle" style="font-size: x-large;">
-                        {{ apportionData.temTitle }}
-                    </h4>
-                    <div class="contract-serial">
-                        <!-- 這裡放文件序號 -->
-                        <div style="font-weight: 400;">文件序號：<span class="date">{{ apportionData.conSerial }}{{ apportionData.conVer }}</span>
+            <div class="col-12">
+                <div class="card contract-title">
+                    <div class="author-box-name d-flex justify-content-between"
+                         style="margin-bottom: 20px;padding: 10px 25px;border-bottom-color: #f9f9f9;">
+                        <h4 class="myCardTitle" style="font-size: x-large;">
+                            {{ apportionData.temTitle }}
+                        </h4>
+                        <div class="contract-serial">
+                            <!-- 這裡放文件序號 -->
+                            <div style="font-weight: 400;">文件序號：<span class="date">{{ apportionData.conSerial }}{{ apportionData.conVer }}</span>
+                            </div>
+                            <!-- 這裡放創文日期 -->
+                            <div style="font-weight: 400;">創文日期：<span class="date">{{ this.$root.formatDate(apportionData.conCreateTime) }}</span>
+                            </div>
                         </div>
-                        <!-- 這裡放創文日期 -->
-                        <div style="font-weight: 400;">創文日期：<span class="date">{{ this.$root.formatDate(apportionData.conCreateTime) }}</span>
+                    </div>
+                    <div class="card-body myNotification d-flex">
+                        <div class="myFont16Title" style="margin: 0 10px;">申請單位： <span
+                                class="date myFont16">{{ apportionData.perBu2}}  {{ apportionData.perBu3}}</span>
+                        </div>
+                        <div class="myFont16Title" style="margin: 0 10px;">申請人： <span
+                                class="date myFont16">{{ apportionData.perName}}</span>
+                        </div>
+                        <div class="myFont16Title" style="margin: 0 10px;">聯絡電話： <span
+                                class="date myFont16">{{ apportionData.perPhone1}}  {{ apportionData.perPhone2}}  {{ apportionData.perPhone3}}</span>
                         </div>
                     </div>
-                </div>
-                <div class="card-body myNotification d-flex">
-                    <div class="myFont16Title" style="margin: 0 10px;">申請單位： <span
-                            class="date myFont16">{{ apportionData.perBu2}}  {{ apportionData.perBu3}}</span>
-                    </div>
-                    <div class="myFont16Title" style="margin: 0 10px;">申請人： <span
-                            class="date myFont16">{{ apportionData.perName}}</span>
-                    </div>
-                    <div class="myFont16Title" style="margin: 0 10px;">聯絡電話： <span
-                            class="date myFont16">{{ apportionData.perPhone1}}  {{ apportionData.perPhone2}}  {{ apportionData.perPhone3}}</span>
-                    </div>
-                </div>
-                <div class="card-body myNotification d-flex">
-                    <div class="myFont16Title" style="margin: 0 10px;">管理維運公司： <span class="date myFont16">{{ apportionData.comTitle }}</span>
-                    </div>
-                    <div class="myFont16Title" style="margin: 0 10px;">使用公司： <span
-                            class="date myFont16">
+                    <div class="card-body myNotification d-flex">
+                        <div class="myFont16Title" style="margin: 0 10px;">管理維運公司： <span class="date myFont16">{{ apportionData.comTitle }}</span>
+                        </div>
+                        <div class="myFont16Title" style="margin: 0 10px;">使用公司： <span
+                                class="date myFont16">
                             <template v-if="apportionData?.conCompany">
                                 <template v-for="(option, idx) in apportionData.conCompany">{{ idx !== 0 ? '、' : ''}}{{ this.$root.getCompanyTitle('', option)}}</template>
                             </template>
                         </span>
-                    </div>
-                    <div class="myFont16Title" style="margin: 0 10px;">作業種類： <span
-                            class="date myFont16">
+                        </div>
+                        <div class="myFont16Title" style="margin: 0 10px;">作業種類： <span
+                                class="date myFont16">
                             <template v-if="apportionData?.conWork">
-                                <template v-for="(option, idx) in apportionData.conWork">{{ idx !== 0 ? '、' : ''}}{{ this.$root.getWorkTitle(option)}}</template>
+                                <template v-for="(option, idx) in apportionData.conWork">{{ idx !== 0 && '' !== option ? '、' : ''}}{{ this.$root.getWorkTitle(option)}}</template>
                             </template>
                         </span>
+                        </div>
+                    </div>
+                    <div class="card-body myNotification d-flex">
+                        <div class="myFont16Title" style="margin: 0 10px;">申請類型：
+                            <span v-if="'0' === apportionData.appType"
+                                  class="date myFont16">新增</span>
+                            <span v-if="'1' === apportionData.appType"
+                                  class="date myFont16">變更</span>
+                            <span v-if="'2' === apportionData.appType"
+                                  class="date myFont16">終止</span>
+                        </div>
                     </div>
                 </div>
-                <div class="card-body myNotification d-flex">
-                    <div class="myFont16Title" style="margin: 0 10px;">申請類型：
-                        <span v-if="'0' === apportionData.appType"
-                              class="date myFont16">新增</span>
-                        <span v-if="'1' === apportionData.appType"
-                              class="date myFont16">變更</span>
-                        <span v-if="'2' === apportionData.appType"
-                              class="date myFont16">終止</span>
-                    </div>
-                </div>
-            </div>
 
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header justify-content-between">
-                        <h4 class="myCardTitle">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header justify-content-between">
+                            <h4 class="myCardTitle">
                                     <span class="myFont16 d-flex align-center"
                                           style="background-color: #26a862; color: white; border-radius: 6px; padding: 0.3rem 0.8rem; font-weight: 400;">
                                         <vue-feather type="tag" size="20"
                                                      style="transform: rotate(135deg); padding-right: 0px;"
-                                                     class="m-r-5"></vue-feather>{{ apportionData.appYear }}年各公司分攤費用</span>
-                        </h4>
-                    </div>
-                    <div class="card-body myNotification">
-                        <div class="table-responsive">
-                            <table ref="testTable" class="newTable tables-def">
-                                <thead style="position: sticky;top: 0;" class="myNew">
-                                <tr>
-                                    <th></th>
-                                    <template v-if="apportionData?.conCompany">
-                                        <th v-for="(option, idx) in apportionData.conCompany">{{
-                                            this.$root.getCompanyTitle('', option) }}
-                                        </th>
-                                    </template>
-                                    <th>加總</th>
-                                </tr>
-                                </thead>
+                                                     class="m-r-5"></vue-feather>{{ currentYear }}年各公司分攤費用</span>
+                            </h4>
+                        </div>
+                        <div class="card-body myNotification">
+                            <div class="table-responsive">
+                                <table ref="testTable" class="newTable tables-def">
+                                    <thead style="position: sticky;top: 0;" class="myNew">
+                                    <tr>
+                                        <th></th>
+                                        <template v-if="apportionData?.conCompany">
+                                            <th v-for="(option, idx) in apportionData.conCompany">{{
+                                                this.$root.getCompanyTitle('', option) }}
+                                            </th>
+                                        </template>
+                                        <th>加總</th>
+                                    </tr>
+                                    </thead>
 
-                                <tbody>
-                                <tr v-for="cou in countCostData">
-                                    <td>{{ cou.iteTitle }}</td>
-                                    <td v-for="(option, idx) in apportionData.conCompany">{{ cou[option] }}
-                                    </td>
-                                    <td>{{ cou.costSum }}</td>
-                                </tr>
-                                <tr>
-                                    <td>合計</td>
-                                    <td v-for="(option, idx) in apportionData.conCompany">{{ countTotelCostData[option] }}</td>
-                                    <td>{{ countTotelCostData.costSum }}</td>
-                                </tr>
+                                    <tbody>
+                                    <tr v-for="cou in countCostData">
+                                        <td>{{ cou.iteTitle }}</td>
+                                        <td v-for="(option, idx) in apportionData.conCompany">{{ cou[option] }}
+                                        </td>
+                                        <td>{{ cou.costSum }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>合計</td>
+                                        <td v-for="(option, idx) in apportionData.conCompany">{{
+                                            countTotelCostData[option]
+                                            }}
+                                        </td>
+                                        <td>{{ countTotelCostData.costSum }}</td>
+                                    </tr>
 
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="card">
-                    <div class="card-header justify-content-between">
-                        <h4 class="myCardTitle">
+                    <div class="card">
+                        <div class="card-header justify-content-between">
+                            <h4 class="myCardTitle">
                                     <span class="myFont16 d-flex align-center"
                                           style="background-color: #26a862; color: white; border-radius: 6px; padding: 0.3rem 0.8rem; font-weight: 400;">
                                         <vue-feather type="tag" size="20"
                                                      style="transform: rotate(135deg); padding-right: 0px;"
                                                      class="m-r-5"></vue-feather>費用分攤明細</span>
-                        </h4>
-                    </div>
-                    <div class="card-body myNotification">
-                        <div class="row">
-                            <div class="col-12 sub-item">
-                                <div class="row" style="margin-bottom: 20px;">
-                                    <div class="table-responsive">
-                                        <table class="newTable">
-                                            <caption>費用分攤明細資料表</caption>
-                                            <thead style="position: sticky;top: 0;" class="myNew">
-                                            <tr>
-                                                <th style="width: 20px;"></th>
-                                                <th style="width: 50px;">種類</th>
-                                                <th style="min-width: 110px;">共用作業項目</th>
-                                                <th style="min-width: 120px;">軟硬體名稱</th>
-                                                <th style="min-width: 80px;">分攤總費用</th>
-                                                <th style="width: 80px;">提列年度</th>
-                                                <th style="width: 70px;">操作</th>
-                                            </tr>
-                                            </thead>
+                            </h4>
+                        </div>
+                        <div class="card-body myNotification">
+                            <div class="row">
+                                <div class="col-12 sub-item">
+                                    <div class="row" style="margin-bottom: 20px;">
+                                        <div class="table-responsive">
+                                            <table class="newTable">
+                                                <caption>費用分攤明細資料表</caption>
+                                                <thead style="position: sticky;top: 0;" class="myNew">
+                                                <tr>
+                                                    <th style="width: 20px;"></th>
+                                                    <th style="width: 50px;">種類</th>
+                                                    <th style="min-width: 110px;">共用作業項目</th>
+                                                    <th style="min-width: 120px;">軟硬體名稱</th>
+                                                    <th style="min-width: 80px;" colspan="3">分攤總費用</th>
+                                                    <th style="width: 80px;">提列年度</th>
+                                                    <th style="width: 70px;">操作</th>
+                                                </tr>
+                                                </thead>
 
-                                            <tbody class="exesTable">
-                                            <Exes v-for="(exes, exes_index) in apportionData.exesData"
-                                                  :key="exes.uniqueId"
-                                                  :idx="exes_index"
-                                                  :exes="exes"
-                                                  :itemData="apportionData.itemData"
-                                                  :nowYear="parseInt(exes.exeStartYear)"
-                                                  @remove-exes="removeExesData"
-                                                  @scrollExes="scrollToElement"
-                                                  @checkMathAnnual="mathAnnual"
-                                                  ref="ItemComp"
-                                            />
-                                            </tbody>
-                                        </table>
+                                                <tbody class="exesTable">
+                                                <Exes v-for="(exes, exes_index) in apportionData.exesData"
+                                                      :key="exes.uniqueId"
+                                                      :idx="exes_index"
+                                                      :exes="exes"
+                                                      :itemData="apportionData.itemData"
+                                                      :nowYear="parseInt(exes.exeStartYear)"
+                                                      :infoData="infoData"
+                                                      :PM="parseInt(infoData.infPM)"
+                                                      :SP="parseInt(infoData.infSP)"
+                                                      @remove-exes="removeExesData"
+                                                      @scrollExes="scrollToElement"
+                                                      @checkMathAnnual="mathAnnual"
+                                                      ref="ItemComp"
+                                                />
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class=" mt-2 d-flex justify-content">
-                                    <button type="button" @click="addExesData"
-                                            class="btn btn-icon icon-left btn-success myFont16"
-                                            style="border-radius: 6px;">新增一筆
-                                    </button>
+                                    <div class=" mt-2 d-flex justify-content">
+                                        <button type="button" @click="addExesData"
+                                                class="btn btn-icon icon-left btn-outline-success myFont16"
+                                                style="border-radius: 6px;">新增一筆
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="card" style="position: static;">
-                    <div class="card-header justify-content-between">
-                        <h4 class="myCardTitle">
+                    <div class="card" style="position: static;">
+                        <div class="card-header justify-content-between">
+                            <h4 class="myCardTitle">
                                     <span class="myFont16 d-flex align-center"
                                           style="background-color: #26a862; color: white; border-radius: 6px; padding: 0.3rem 0.8rem; font-weight: 400;">
                                         <vue-feather type="tag" size="20"
                                                      style="transform: rotate(135deg); padding-right: 0px;"
                                                      class="m-r-5"></vue-feather>費用分攤明細</span>
-                        </h4>
-                    </div>
-                    <div class="card-body">
-                        <div v-for="exes in apportionData.exesData" class="card" :id="'ite_'+exes.uniqueId">
-                            <div class="card-body mt-2">
-                                <div class="row myShowDetail">
-                                    <h4 class="myCardTitle">項目資訊</h4>
-                                    <div class="d-flex mb-5 row">
-                                        <div class="col-xl-2 col-md-2 col-sm-4 col-4">
-                                            <label class="row-label row-title">種類</label>
-                                            <label class="row-text">{{ exes.worTitle }}</label>
-                                        </div>
-                                        <div class="col-xl-3 col-md-4 col-sm-8 col-8">
-                                            <label class="row-label row-title">共用作業項目</label>
-                                            <label class="row-text">{{ exes.iteTitle }}</label>
-                                        </div>
-                                        <div class="col-xl-3 col-md-6 col-sm-12 col-12">
-                                            <label class="row-label row-title">分攤原則</label>
-                                            <label class="row-text">{{ exes.disTitle}}</label>
-                                        </div>
-                                        <div class="col-xl-4 col-md-12 col-sm-12 col-12">
-                                            <label class="row-label row-title">分攤比例說明</label>
-                                            <label class="row-text">{{ exes.manTitle }}</label>
-                                        </div>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <template v-for="(exes, index) in apportionData.exesData">
+                                <div class="card" :id="'ite_'+exes.uniqueId">
+                                    <div class="card-body mt-2">
+                                        <div class="row myShowDetail">
+                                            <h4 class="myCardTitle">項目資訊</h4>
+                                            <div class="d-flex mb-5 row">
+                                                <div class="col-xl-2 col-md-2 col-sm-4 col-4">
+                                                    <label class="row-label row-title">種類</label>
+                                                    <label class="row-text">{{ exes.worTitle }}</label>
+                                                </div>
+                                                <div class="col-xl-2 col-md-4 col-sm-8 col-8">
+                                                    <label class="row-label row-title">共用作業項目</label>
+                                                    <label class="row-text">{{ exes.iteTitle }}</label>
+                                                </div>
+                                                <div class="col-xl-4 col-md-12 col-sm-12 col-12">
+                                                    <label class="row-label row-title">分攤原則</label>
+                                                    <label class="row-text">{{ exes.disTitle}}</label>
+                                                </div>
+                                                <div class="col-xl-4 col-md-12 col-sm-12 col-12">
+                                                    <label class="row-label row-title">計算基礎</label>
+                                                    <label class="row-text">{{ exes.manTitle }}</label>
+                                                </div>
 
-                                        <div class="col-xl-3 col-md-3 col-sm-3 col-6">
-                                            <label class="row-label row-title">軟硬體名稱</label>
-                                            <label class="row-text">{{ exes.exeTitle }}</label>
-                                        </div>
-                                        <div class="col-xl-2 col-md-3 col-sm-3 col-6">
-                                            <label class="row-label row-title">分攤總費用</label>
-                                            <label class="row-text">{{ exes.exeCost}}</label>
-                                        </div>
-                                        <div class="col-xl-2 col-md-3 col-sm-3 col-6">
-                                            <label class="row-label row-title">提列年度</label>
-                                            <label class="row-text">{{ exes.exeStartYear}}</label>
-                                        </div>
-                                        <div class="col-xl-2 col-md-3 col-sm-3 col-6">
-                                            <label class="row-label row-title">攤提月數(個)</label>
-                                            <input type="number" v-model="exes.exeMonth" class="row-text"
-                                                   style="width: 80px;" placeholder="0" onclick="this.select();"/>
-                                        </div>
-                                        <div class="col-xl-3 col-md-12 col-sm-12 col-12">
-                                            <label class="row-label row-title">費用攤提起始年月</label>
-                                            <DatePicker format="yyyy/MM"
-                                                        v-model="exes.exeCreateMonth"
-                                                        :enable-time-picker="false"
-                                                        placeholder="費用攤提起始年月"
-                                                        @closed="mathAnnual(exes)"
-                                                        style="width: 140px;"/>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="card-body">
-                                                <ul class="nav nav-tabs" role="tablist">
-                                                    <li class="nav-item" role="presentation">
-                                                        <a class="nav-link active" id="home-tab" data-bs-toggle="tab"
-                                                           :href="'#ann_'+exes.uniqueId" role="tab"
-                                                           aria-controls="home" aria-selected="true">各年度分攤費用</a>
-                                                    </li>
-                                                    <li class="nav-item" role="presentation">
-                                                        <a class="nav-link" id="profile-tab" data-bs-toggle="tab"
-                                                           :href="'#exe_'+exes.uniqueId" role="tab"
-                                                           aria-controls="profile" aria-selected="false" tabindex="-1">各公司年度分攤費用</a>
-                                                    </li>
-                                                    <li class="nav-item" role="presentation">
-                                                        <a class="nav-link" id="contact-tab" data-bs-toggle="tab"
-                                                           :href="'#fil_'+exes.uniqueId" role="tab"
-                                                           aria-controls="contact" aria-selected="false" tabindex="-1">附件資料</a>
-                                                    </li>
-                                                </ul>
-                                                <div class="tab-content" id="myTabContent">
-                                                    <div class="tab-pane fade show active" :id="'ann_'+exes.uniqueId"
-                                                         role="tabpanel" aria-labelledby="home-tab">
-                                                        <div class="card-body" style="padding: 0px;">
-                                                            <div class="">
-                                                                <table class="newTable mb-5">
-                                                                    <thead style="position: sticky;top: 0;"
-                                                                           class="myNew">
-                                                                    <tr>
-                                                                        <th></th>
-                                                                        <th v-for="ann in exes.annualData">{{
-                                                                            ann.annYear }}年度
-                                                                        </th>
-                                                                    </tr>
-                                                                    </thead>
+                                                <div :class="3 === parseInt(exes.worId) ? 'col-xl-2 col-md-3 col-sm-4 col-6' : 'col-xl-4 col-md-3 col-sm-4 col-6'">
+                                                    <label class="row-label row-title">軟硬體名稱</label>
+                                                    <label class="row-text">{{ exes.exeTitle }}</label>
+                                                </div>
+                                                <template v-if="3 === parseInt(exes.worId)">
+                                                    <div class="col-xl-1 col-md-3 col-sm-4 col-3">
+                                                        <label class="row-label row-title">PM人天數</label>
+                                                        <label class="row-text">{{ exes.exePM}}</label>
+                                                    </div>
+                                                    <div class="col-xl-1 col-md-3 col-sm-4 col-3">
+                                                        <label class="row-label row-title">SP人天數</label>
+                                                        <label class="row-text">{{ exes.exeSP}}</label>
+                                                    </div>
+                                                </template>
 
+
+                                                <div class="col-xl-2 col-md-3 col-sm-4 col-6">
+                                                    <label class="row-label row-title">分攤總費用</label>
+                                                    <label class="row-text">{{ exes.exeCost}}</label>
+                                                </div>
+                                                <div class="col-xl-2 col-md-3 col-sm-4 col-6">
+                                                    <label class="row-label row-title">提列年度</label>
+                                                    <label class="row-text">{{ exes.exeStartYear}}</label>
+                                                </div>
+                                                <div class="col-xl-2 col-md-3 col-sm-4 col-6">
+                                                    <label class="row-label row-title">攤提月數(個)</label>
+                                                    <input :disabled="1 === parseInt(exes.exeStatus)" type="number"
+                                                           v-model="exes.exeMonth" class="row-text"
+                                                           style="width: 80px;" placeholder="1" min="1"
+                                                           onclick="this.select();"/>
+                                                </div>
+                                                <div class="col-xl-2 col-md-12 col-sm-12 col-12">
+                                                    <label class="row-label row-title">費用攤提起始年月</label>
+                                                    <DatePicker format="yyyy/MM"
+                                                                v-model="exes.exeCreateMonth"
+                                                                :disabled="1 === parseInt(exes.exeStatus)"
+                                                                :enable-time-picker="false"
+                                                                placeholder="起始年月"
+                                                                locale="zh"
+                                                                month-picker
+                                                                @closed="mathAnnual(exes)"
+                                                                style="width: 140px;"/>
+                                                </div>
+                                                <div v-if="null !== exes.exeCreateMonth && 0 !== exes.exeMonth"
+                                                     class="col-12">
+                                                    <div class="card-body">
+                                                        <ul class="nav nav-tabs" role="tablist">
+                                                            <li class="nav-item" role="presentation">
+                                                                <a class="nav-link active" id="home-tab"
+                                                                   data-bs-toggle="tab"
+                                                                   :href="'#ann_'+exes.uniqueId" role="tab"
+                                                                   aria-controls="home" aria-selected="true">各年度分攤費用</a>
+                                                            </li>
+                                                            <li class="nav-item" role="presentation">
+                                                                <a class="nav-link" id="profile-tab"
+                                                                   data-bs-toggle="tab"
+                                                                   :href="'#exe_'+exes.uniqueId" role="tab"
+                                                                   aria-controls="profile" aria-selected="false"
+                                                                   tabindex="-1">各公司年度分攤費用</a>
+                                                            </li>
+                                                            <li class="nav-item" role="presentation">
+                                                                <a class="nav-link" id="contact-tab"
+                                                                   data-bs-toggle="tab"
+                                                                   :href="'#fil_'+exes.uniqueId" role="tab"
+                                                                   aria-controls="contact" aria-selected="false"
+                                                                   tabindex="-1">附件資料</a>
+                                                            </li>
+                                                        </ul>
+                                                        <div class="tab-content" id="myTabContent">
+                                                            <div class="tab-pane fade show active"
+                                                                 :id="'ann_'+exes.uniqueId"
+                                                                 role="tabpanel" aria-labelledby="home-tab">
+                                                                <div class="card-body" style="padding: 0px;">
+                                                                    <div class="">
+                                                                        <Annual
+                                                                                :annualData="exes.annualData"
+                                                                                :exes="exes"
+                                                                                :currentYear="currentYear"
+                                                                                :appYear="apportionData.appYear"
+                                                                                @math-company="mathCompany"
+                                                                        />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="tab-pane fade" :id="'exe_'+exes.uniqueId"
+                                                                 role="tabpanel" aria-labelledby="profile-tab">
+                                                                <!-- 待簽列表 -->
+                                                                <template v-for="ann in exes.annualData">
+                                                                    <template
+                                                                            v-if="parseInt(ann.annYear) === parseInt(currentYear)">
+                                                                        <Subsidiary
+                                                                                :exesData="exes"
+                                                                                :annualData="ann"
+                                                                                :subsidiaryData="ann.subsidiaryData"
+                                                                                @getCount="countCost"
+                                                                        />
+                                                                    </template>
+                                                                </template>
+                                                                <!-- 待簽列表 -->
+                                                            </div>
+                                                            <div class="tab-pane fade" :id="'fil_'+exes.uniqueId"
+                                                                 role="tabpanel" aria-labelledby="contact-tab">
+                                                                <!-- 待簽列表 -->
+                                                                <table class="table table-bordered table-md">
                                                                     <tbody>
                                                                     <tr>
-                                                                        <td>費用起始</td>
-                                                                        <td v-for="(ann, idx) in exes.annualData">
-                                                                            {{ this.$root.formatDate(ann.annStartMonth)
-                                                                            }}
+                                                                        <th>編號</th>
+                                                                        <th>名稱</th>
+                                                                        <th>創建日期</th>
+                                                                        <th>狀態</th>
+                                                                        <th>查看</th>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>1</td>
+                                                                        <td>資訊作業系統</td>
+                                                                        <td>2017-01-09</td>
+                                                                        <td>
+                                                                            <div class="badge badge-success">Active
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <!-- <a href="#" class="btn btn-primary">詳細內容</a>  -->
+                                                                            <div class="action-btns"><a
+                                                                                    href="javascript:void(0);"
+                                                                                    class="action-btn btn-view bs-tooltip me-2"
+                                                                                    data-toggle="tooltip"
+                                                                                    data-placement="top"
+                                                                                    title=""
+                                                                                    data-bs-original-title="View"
+                                                                                    aria-label="View">
+                                                                                <svg
+                                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                                        width="24" height="24"
+                                                                                        viewBox="0 0 24 24"
+                                                                                        fill="none"
+                                                                                        stroke="currentColor"
+                                                                                        stroke-width="2"
+                                                                                        stroke-linecap="round"
+                                                                                        stroke-linejoin="round"
+                                                                                        class="feather feather-eye">
+                                                                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                                                    <circle cx="12" cy="12"
+                                                                                            r="3"></circle>
+                                                                                </svg>
+                                                                            </a></div>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>費用迄止</td>
-                                                                        <td v-for="(ann, idx) in exes.annualData">
-                                                                            <DatePicker format="yyyy/MM/dd"
-                                                                                        v-model="ann.annEndMonth"
-                                                                                        placeholder="費用起始"
-                                                                                        :enable-time-picker="false"
-                                                                                        style="width: 180px;"
-                                                                                        :min-date="ann.annStartMonth"
-                                                                                        :max-date="new Date(ann.annYear, 11, 31)"
-                                                                            />
-
+                                                                        <td>2</td>
+                                                                        <td>資訊作業系統</td>
+                                                                        <td>2017-01-09</td>
+                                                                        <td>
+                                                                            <div class="badge badge-success">Active
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="action-btns"><a
+                                                                                    href="javascript:void(0);"
+                                                                                    class="action-btn btn-view bs-tooltip me-2"
+                                                                                    data-toggle="tooltip"
+                                                                                    data-placement="top"
+                                                                                    title=""
+                                                                                    data-bs-original-title="View"
+                                                                                    aria-label="View">
+                                                                                <svg
+                                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                                        width="24" height="24"
+                                                                                        viewBox="0 0 24 24"
+                                                                                        fill="none"
+                                                                                        stroke="currentColor"
+                                                                                        stroke-width="2"
+                                                                                        stroke-linecap="round"
+                                                                                        stroke-linejoin="round"
+                                                                                        class="feather feather-eye">
+                                                                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                                                    <circle cx="12" cy="12"
+                                                                                            r="3"></circle>
+                                                                                </svg>
+                                                                            </a></div>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>費用</td>
-                                                                        <template v-for="ann in exes.annualData">
-                                                                            <td>
-                                                                                <input type="number"
-                                                                                       v-model="ann.annCost"
-                                                                                       class="row-text"
-                                                                                       @input="mathCompany(ann)"
-                                                                                       style="width: 120px;"
-                                                                                       placeholder="0"
-                                                                                       onclick="this.select();"/>
-                                                                            </td>
-                                                                        </template>
+                                                                        <td>3</td>
+                                                                        <td>資訊作業系統</td>
+                                                                        <td>2017-01-11</td>
+                                                                        <td>
+                                                                            <div class="badge badge-danger">Not Active
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="action-btns"><a
+                                                                                    href="javascript:void(0);"
+                                                                                    class="action-btn btn-view bs-tooltip me-2"
+                                                                                    data-toggle="tooltip"
+                                                                                    data-placement="top"
+                                                                                    title=""
+                                                                                    data-bs-original-title="View"
+                                                                                    aria-label="View">
+                                                                                <svg
+                                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                                        width="24" height="24"
+                                                                                        viewBox="0 0 24 24"
+                                                                                        fill="none"
+                                                                                        stroke="currentColor"
+                                                                                        stroke-width="2"
+                                                                                        stroke-linecap="round"
+                                                                                        stroke-linejoin="round"
+                                                                                        class="feather feather-eye">
+                                                                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                                                    <circle cx="12" cy="12"
+                                                                                            r="3"></circle>
+                                                                                </svg>
+                                                                            </a></div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>4</td>
+                                                                        <td>資訊作業系統</td>
+                                                                        <td>2017-01-11</td>
+                                                                        <td>
+                                                                            <div class="badge badge-success">Active
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="action-btns"><a
+                                                                                    href="javascript:void(0);"
+                                                                                    class="action-btn btn-view bs-tooltip me-2"
+                                                                                    data-toggle="tooltip"
+                                                                                    data-placement="top"
+                                                                                    title=""
+                                                                                    data-bs-original-title="View"
+                                                                                    aria-label="View">
+                                                                                <svg
+                                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                                        width="24" height="24"
+                                                                                        viewBox="0 0 24 24"
+                                                                                        fill="none"
+                                                                                        stroke="currentColor"
+                                                                                        stroke-width="2"
+                                                                                        stroke-linecap="round"
+                                                                                        stroke-linejoin="round"
+                                                                                        class="feather feather-eye">
+                                                                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                                                    <circle cx="12" cy="12"
+                                                                                            r="3"></circle>
+                                                                                </svg>
+                                                                            </a></div>
+                                                                        </td>
                                                                     </tr>
                                                                     </tbody>
                                                                 </table>
+                                                                <!-- 待簽列表 -->
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="tab-pane fade" :id="'exe_'+exes.uniqueId"
-                                                         role="tabpanel" aria-labelledby="profile-tab">
-                                                        <!-- 待簽列表 -->
-                                                        <template v-for="ann in exes.annualData">
-                                                            <table v-if="ann.annYear === currentYear"
-                                                                   class="newTable">
-                                                                <thead>
-                                                                <tr>
-                                                                    <th></th>
-                                                                    <th v-for="sub in ann.subsidiaryData">{{
-                                                                        this.$root.getCompanyTitle('', sub.comCode) }}
-                                                                    </th>
-                                                                </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                <tr>
-                                                                    <td>分攤數量</td>
-                                                                    <td v-for="sub in ann.subsidiaryData">
-                                                                        <input type="number" v-model="sub.subAmount"
-                                                                               class="row-text"
-                                                                               style="width: 120px;" placeholder="0"
-                                                                               onclick="this.select();"/>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>分攤比例</td>
-                                                                    <td v-for="sub in ann.subsidiaryData">
-                                                                        <input type="number" v-model="sub.subPercent"
-                                                                               class="row-text"
-                                                                               @input="mathCompany(ann)"
-                                                                               style="width: 120px;float: left;"
-                                                                               placeholder="0"
-                                                                               onclick="this.select();"/>
-                                                                        <span style="float: end; line-height: 35px; padding-left: 3px;">%</span>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>分攤金額</td>
-                                                                    <td v-for="sub in ann.subsidiaryData">
-                                                                        <input type="number" v-model="sub.subCost"
-                                                                               class="row-text"
-                                                                               style="width: 120px;" placeholder="0"
-                                                                               onclick="this.select();"/>
-                                                                    </td>
-                                                                </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </template>
-                                                        <!-- 待簽列表 -->
-                                                    </div>
-                                                    <div class="tab-pane fade" :id="'fil_'+exes.uniqueId"
-                                                         role="tabpanel" aria-labelledby="contact-tab">
-                                                        <!-- 待簽列表 -->
-                                                        <table class="table table-bordered table-md">
-                                                            <tbody>
-                                                            <tr>
-                                                                <th>編號</th>
-                                                                <th>名稱</th>
-                                                                <th>創建日期</th>
-                                                                <th>狀態</th>
-                                                                <th>查看</th>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>1</td>
-                                                                <td>資訊作業系統</td>
-                                                                <td>2017-01-09</td>
-                                                                <td>
-                                                                    <div class="badge badge-success">Active</div>
-                                                                </td>
-                                                                <td>
-                                                                    <!-- <a href="#" class="btn btn-primary">詳細內容</a>  -->
-                                                                    <div class="action-btns"><a
-                                                                            href="javascript:void(0);"
-                                                                            class="action-btn btn-view bs-tooltip me-2"
-                                                                            data-toggle="tooltip" data-placement="top"
-                                                                            title="" data-bs-original-title="View"
-                                                                            aria-label="View">
-                                                                        <svg
-                                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                                width="24" height="24"
-                                                                                viewBox="0 0 24 24"
-                                                                                fill="none" stroke="currentColor"
-                                                                                stroke-width="2" stroke-linecap="round"
-                                                                                stroke-linejoin="round"
-                                                                                class="feather feather-eye">
-                                                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                                                            <circle cx="12" cy="12" r="3"></circle>
-                                                                        </svg>
-                                                                    </a></div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>2</td>
-                                                                <td>資訊作業系統</td>
-                                                                <td>2017-01-09</td>
-                                                                <td>
-                                                                    <div class="badge badge-success">Active</div>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="action-btns"><a
-                                                                            href="javascript:void(0);"
-                                                                            class="action-btn btn-view bs-tooltip me-2"
-                                                                            data-toggle="tooltip" data-placement="top"
-                                                                            title="" data-bs-original-title="View"
-                                                                            aria-label="View">
-                                                                        <svg
-                                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                                width="24" height="24"
-                                                                                viewBox="0 0 24 24"
-                                                                                fill="none" stroke="currentColor"
-                                                                                stroke-width="2" stroke-linecap="round"
-                                                                                stroke-linejoin="round"
-                                                                                class="feather feather-eye">
-                                                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                                                            <circle cx="12" cy="12" r="3"></circle>
-                                                                        </svg>
-                                                                    </a></div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>3</td>
-                                                                <td>資訊作業系統</td>
-                                                                <td>2017-01-11</td>
-                                                                <td>
-                                                                    <div class="badge badge-danger">Not Active</div>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="action-btns"><a
-                                                                            href="javascript:void(0);"
-                                                                            class="action-btn btn-view bs-tooltip me-2"
-                                                                            data-toggle="tooltip" data-placement="top"
-                                                                            title="" data-bs-original-title="View"
-                                                                            aria-label="View">
-                                                                        <svg
-                                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                                width="24" height="24"
-                                                                                viewBox="0 0 24 24"
-                                                                                fill="none" stroke="currentColor"
-                                                                                stroke-width="2" stroke-linecap="round"
-                                                                                stroke-linejoin="round"
-                                                                                class="feather feather-eye">
-                                                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                                                            <circle cx="12" cy="12" r="3"></circle>
-                                                                        </svg>
-                                                                    </a></div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>4</td>
-                                                                <td>資訊作業系統</td>
-                                                                <td>2017-01-11</td>
-                                                                <td>
-                                                                    <div class="badge badge-success">Active</div>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="action-btns"><a
-                                                                            href="javascript:void(0);"
-                                                                            class="action-btn btn-view bs-tooltip me-2"
-                                                                            data-toggle="tooltip" data-placement="top"
-                                                                            title="" data-bs-original-title="View"
-                                                                            aria-label="View">
-                                                                        <svg
-                                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                                width="24" height="24"
-                                                                                viewBox="0 0 24 24"
-                                                                                fill="none" stroke="currentColor"
-                                                                                stroke-width="2" stroke-linecap="round"
-                                                                                stroke-linejoin="round"
-                                                                                class="feather feather-eye">
-                                                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                                                            <circle cx="12" cy="12" r="3"></circle>
-                                                                        </svg>
-                                                                    </a></div>
-                                                                </td>
-                                                            </tr>
-                                                            </tbody>
-                                                        </table>
-                                                        <!-- 待簽列表 -->
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </template>
                         </div>
                     </div>
+
+
                 </div>
-
-
             </div>
             <div class="col-6" style="padding-bottom: 20px;">
                 <button type="button" @click="updateApportion"
@@ -538,6 +520,8 @@
     import {ref} from 'vue';
     import Cookies from 'js-cookie'
     import Exes from '@/components/Exes.vue';
+    import Annual from '@/components/Annual.vue';
+    import Subsidiary from '@/components/Subsidiary.vue';
     import VueOfficeDocx from '@vue-office/docx';
     import '@vue-office/docx/lib/index.css';
     import VueOfficeExcel from '@vue-office/excel';
@@ -545,6 +529,7 @@
     import VueOfficePdf from '@vue-office/pdf';
     import {exesMixin} from '@/mixins/exesMixin.js';
     import DatePicker from '@vuepic/vue-datepicker';
+    import cloneDeep from 'lodash/cloneDeep';
 
     export default {
         name: "Apportion_up",
@@ -594,6 +579,8 @@
             VueOfficePdf,
             DatePicker,
             Exes,
+            Annual,
+            Subsidiary,
         },
         computed: {
             formattedYearMonth() {
@@ -607,7 +594,7 @@
                     this.defaultData();
                 },
                 immediate: true,
-            }
+            },
         },
         mounted() {
             // 添加全域點擊事件監聽器
@@ -638,15 +625,6 @@
                         //apportionResponse
                         this.apportionData = apportionResponse.data.data;
 
-                        this.apportionData.itemData.forEach((item) => {
-                            item.iteProportion = item.iteProportion && '' !== item.iteProportion ? JSON.parse(item.iteProportion) : item.iteProportion;
-                        });
-                        if (this.apportionData?.conCompany !== undefined) {
-                            this.apportionData.conCompany = this.apportionData?.conCompany ? this.apportionData.conCompany.split('|') : null;
-                        }
-                        this.apportionData.exesData.forEach((exes)=>{
-                            exes.uniqueId = this.$root.generateUniqueId();
-                        });
 
                         // memberResponse
                         this.iMemberData = memberResponse.data.data.find(member => member.memType === '0');
@@ -657,7 +635,70 @@
                         this.currentYear = parseInt(this.infoData.infYear);
 
 
-                        this.defaultCountData();
+
+
+                        this.apportionData.itemData.forEach((item) => {
+                            item.iteProportion = item.iteProportion && '' !== item.iteProportion ? JSON.parse(item.iteProportion) : item.iteProportion;
+                            item.manRatio = item.manRatio && '' !== item.manRatio ? JSON.parse(item.manRatio) : item.manRatio;
+                        });
+                        if (this.apportionData?.conCompany !== undefined) {
+                            this.apportionData.conCompany = this.apportionData?.conCompany ? this.apportionData.conCompany.split('|') : null;
+                        }
+                        this.apportionData.exesData.forEach((exes) => {
+                            exes.uniqueId = this.$root.generateUniqueId();
+                            exes.exeCreateMonth = {
+                                year: parseInt(exes.exeCreateMonth.substring(0, 4)),
+                                month: parseInt(exes.exeCreateMonth.substring(4))
+                            };
+                            switch (parseInt(exes.manType)) {
+                                case 0:
+                                    exes.ratio = JSON.parse(exes.manRatio);
+                                    break;
+                                case 1:
+                                    exes.ratio = JSON.parse(exes.iteProportion);
+                                    break;
+                                case 2:
+                                    break;
+
+                            }
+                            exes.annualData.forEach(ann => {
+                                ann.annStartMonth = {
+                                    year: parseInt(ann.annStartMonth.substring(0, 4)),
+                                    month: parseInt(ann.annStartMonth.substring(4))
+                                };
+                                ann.annEndMonth = {
+                                    year: parseInt(ann.annEndMonth.substring(0, 4)),
+                                    month: parseInt(ann.annEndMonth.substring(4))
+                                };
+                                if (parseInt(ann.annYear) === this.currentYear) {
+                                    console.log('a');
+                                    if (ann.subsidiaryData.length === 0) {
+                                        console.log('b');
+                                        const subsidiaryDefault = this.subsidiaryDefault(exes);
+                                        const subsidiarySet = this.subsidiaryCheck(exes, subsidiaryDefault);
+                                        ann.subsidiaryData = this.getCost(subsidiarySet, ann.annCost, exes.manType);
+                                        this.countCost();
+                                    }
+                                }
+                            });
+                            switch (parseInt(exes.manType)) {
+                                case 0:
+                                    exes.ratio = JSON.parse(exes.manRatio);
+                                    break;
+                                case 1:
+                                    exes.ratio = JSON.parse(exes.iteProportion);
+                                    break
+                                case 2:
+                                    break;
+                            }
+                        });
+                        if (this.apportionData?.conWork !== undefined) {
+                            this.apportionData.conWork = this.apportionData.conWork.split('|');
+                        }
+
+
+
+                        this.countCost();
 
                     })
                     .catch(error => {
@@ -711,121 +752,182 @@
             mathAnnual(exes) {
                 if ('' !== exes.exeCost && '' !== exes.exeMonth && null !== exes.exeCreateMonth) {
 
-                    const subsidiariesArray = exes.iteSubsidiaries.split('|');
-                    const subsidiaryDefault = [];
-                    subsidiariesArray.forEach(comCode => {
-                        subsidiaryDefault.push({
-                            comCode: comCode,
-                            subAmount: 0,
-                            subPercent: 0,
-                            subCost: 0,
-                        })
-                    });
-
-                    const subsidiarySet = subsidiaryDefault;
-                    if ('1' === exes.manType) {
-                        subsidiarySet.forEach(sub => {
-                            exes.iteProportion.forEach(ite => {
-                                if (sub.comCode === ite.comCode) {
-                                    sub.subPercent = parseFloat(ite.p);
-                                }
-                            });
-                        });
-                    }
-
-
                     exes.annualData = [];
-                    const totalCost = parseInt(exes.exeCost);
-                    const createYear = new Date(exes.exeCreateMonth).getFullYear();
-                    const createMonth = new Date(exes.exeCreateMonth).getMonth();//parseInt(exes.exeCreateMonth.month);
-                    const startYear = exes.exeStartYear;
-                    const totalMonths = parseInt(exes.exeMonth);
-                    const avgCost = Math.round(totalCost / totalMonths);
+                    const totalCost = parseInt(exes.exeCost);//總金額
+                    const createYear = exes.exeCreateMonth.year;//資料開始年
+                    const createMonth = exes.exeCreateMonth.month;//資料開始月
+                    const startYear = exes.exeStartYear;//開始計算年
+                    const totalMonths = parseInt(exes.exeMonth);//需要總月數
+                    const avgCost = Math.round(totalCost / totalMonths);//平均每月金額
 
-                    let nowYear = parseInt(startYear);
-                    let overMonth = totalMonths;
-                    let lastCost = totalCost;
-                    const firstMonth = (nowYear - createYear) * 12 + (12 - createMonth);
-                    const needYear = Math.ceil((totalMonths - firstMonth) / 12);
+                    let nowYear = parseInt(startYear);//當前計算年(提列年度)
+                    let overMonth = totalMonths;//剩餘為分攤月
+                    let lastCost = totalCost;//剩餘為分攤金額
+                    const firstMonth = (nowYear - createYear) * 12 + (12 - createMonth);//第一個分攤年度需要的月數
+                    console.log(avgCost);
+                    console.log(overMonth);
+                    console.log(firstMonth);
 
 
                     //計算總共需要年份
-                    let endMonth = new Date(nowYear, 11, new Date(nowYear, 11 + 1, 0).getDate());
-                    if (firstMonth > totalMonths) {
-                        exes.annualData.push({
-                            annYear: nowYear,
-                            annStartMonth: new Date(createYear, createMonth, 1),//{year: createYear, month: createMonth, day: 1},
-                            annEndMonth: endMonth,//{year: nowYear, month: 11, day: lastDay},
-                            annMonth: firstMonth,
-                            annCost: lastCost,
-                            subsidiaryData: nowYear === this.currentYear ? this.getCost(subsidiarySet, lastCost) : subsidiaryDefault,
-                        });
-                        if (parseInt(this.apportionData.appYear) === nowYear) {
-                            exes.exeYearCost = lastCost;
-                        }
+                    let start = exes.exeCreateMonth;
+                    let end = this.getYearMonth(start, firstMonth);
+                    let cost = parseInt((firstMonth > totalMonths ? totalMonths : firstMonth) * avgCost);
+                    exes.annualData.push({
+                        annYear: nowYear,
+                        annStartMonth: start,
+                        annEndMonth: end,
+                        annMonth: firstMonth > totalMonths ? totalMonths : firstMonth,
+                        annCost: cost,
+                        // subsidiaryData: nowYear === this.currentYear ? this.getCost(subsidiarySet, cost, exes.manType) : subsidiaryDefault,
+                    });
+                    if (parseInt(this.apportionData.appYear) === nowYear) {
+                        exes.exeYearCost = cost;
                     }
-                    else {
-                        exes.annualData.push({
-                            annYear: nowYear,
-                            annStartMonth: new Date(createYear, createMonth, 1),//{year: createYear, month: createMonth, day: 1},
-                            annEndMonth: endMonth,//{year: nowYear, month: 11, day: lastDay},
-                            annMonth: firstMonth,
-                            annCost: parseInt(firstMonth * avgCost),
-                            subsidiaryData: nowYear === this.currentYear ? this.getCost(subsidiarySet, lastCost) : subsidiaryDefault,
-                        });
-                        if (parseInt(this.apportionData.appYear) === nowYear) {
-                            exes.exeYearCost = parseInt(firstMonth * avgCost);
-                        }
-                    }
-                    nowYear = nowYear + 1;
-                    overMonth = overMonth - firstMonth;
-                    let preMonth = endMonth;
-                    while (overMonth > 12) {
-                        preMonth = new Date(new Date(preMonth).getFullYear(), new Date(preMonth).getMonth() + 1, 1);
-                        const lastDay = new Date(nowYear, 11 + 1, 0).getDate();
-                        exes.annualData.push({
-                            annYear: nowYear,
-                            annStartMonth: preMonth,//new Date(nowYear, 0, 1),//{year: nowYear, month: 0, day: 1},
-                            annEndMonth: new Date(nowYear, 11, new Date(nowYear, 11 + 1, 0).getDate()),//{year: nowYear, month: 11, day: lastDay},
-                            annMonth: 12,
-                            annCost: parseInt(avgCost * 12),
-                            subsidiaryData: nowYear === this.currentYear ? this.getCost(subsidiarySet, lastCost) : subsidiaryDefault,
-                        });
-                        if (parseInt(this.apportionData.appYear) === nowYear) {
-                            exes.exeYearCost = parseInt(avgCost * 12);
-                        }
+                    if (firstMonth < totalMonths) {
                         nowYear = nowYear + 1;
-                        overMonth = overMonth - 12;
-                    }
-                    if (overMonth > 0) {
-                        preMonth = new Date(new Date(preMonth).getFullYear(), new Date(preMonth).getMonth() + 1, 1);
-                        const lastDay = new Date(nowYear, 11 + 1, 0).getDate();
-                        exes.annualData.push({
-                            annYear: nowYear,
-                            annStartMonth: preMonth,//new Date(nowYear, 0, 1),//{year: nowYear, month: 0, day: 1},
-                            annEndMonth: new Date(nowYear, 11, new Date(nowYear, 11 + 1, 0).getDate()),//{year: nowYear, month: 11, day: lastDay},
-                            annMonth: overMonth,
-                            annCost: parseInt(avgCost * overMonth),
-                            subsidiaryData: nowYear === this.currentYear ? this.getCost(subsidiarySet, lastCost) : subsidiaryDefault,
-                        });
-                        if (parseInt(this.apportionData.appYear) === nowYear) {
-                            exes.exeYearCost = parseInt(avgCost * overMonth);
+                        overMonth = overMonth - firstMonth;
+                        cost = parseInt(avgCost * 12);
+                        while (overMonth > 12) {
+                            start = this.getYearMonth(end, 2);
+                            end = this.getYearMonth(start, 12);
+                            const lastDay = new Date(nowYear, 11 + 1, 0).getDate();
+                            exes.annualData.push({
+                                annYear: nowYear,
+                                annStartMonth: start,
+                                annEndMonth: end,
+                                annMonth: 12,
+                                annCost: cost,
+                                // subsidiaryData: nowYear === this.currentYear ? this.getCost(subsidiarySet, cost, exes.manType) : subsidiaryDefault,
+                            });
+                            if (parseInt(this.apportionData.appYear) === nowYear) {
+                                exes.exeYearCost = parseInt(avgCost * 12);
+                            }
+                            nowYear = nowYear + 1;
+                            overMonth = overMonth - 12;
+                        }
+                        if (overMonth > 0) {
+                            start = this.getYearMonth(end, 2);
+                            end = this.getYearMonth(start, overMonth);
+                            cost = parseInt(avgCost * overMonth);
+                            exes.annualData.push({
+                                annYear: nowYear,
+                                annStartMonth: start,//new Date(nowYear, 0, 1),//{year: nowYear, month: 0, day: 1},
+                                annEndMonth: {year: end.year, month: 11},
+                                annMonth: overMonth,
+                                annCost: cost,
+                                // subsidiaryData: nowYear === this.currentYear ? this.getCost(subsidiarySet, cost, exes.manType) : subsidiaryDefault,
+                            });
+                            if (parseInt(this.apportionData.appYear) === nowYear) {
+                                exes.exeYearCost = cost;
+                            }
                         }
                     }
+
+
+                    const subsidiaryDefault = this.subsidiaryDefault(exes);
+                    const subsidiarySet = this.subsidiaryCheck(exes, subsidiaryDefault);
+                    console.log(exes.ratio);
+                    exes.annualData.forEach(ann => {
+                        console.log('aa');
+                        if (parseInt(ann.annYear) === this.currentYear) {
+                            console.log(ann.annCost);
+                            ann.subsidiaryData = this.getCost(subsidiarySet, ann.annCost, exes.manType);
+                        }
+                    });
+                    this.countCost();
                 }
-                this.mathCompany(exes);
+                // exes.annualData.forEach(ann => {
+                //     this.mathCompany(ann);
+                // });
             },
-            getCost(subsidiaryList, sum) {
-                subsidiaryList.forEach(sub => {
-                    sub.subCost = Math.round(sum * sub.subPercent / 100);
+            subsidiaryDefault(exes) {
+                const subsidiariesArray = exes.iteSubsidiaries.split('|');
+                const subsidiaryDefault = [];
+                subsidiariesArray.forEach(comCode => {
+                    subsidiaryDefault.push({
+                        comCode: comCode,
+                        subAmount: 0,
+                        subPercent: 0,
+                        subCost: 0,
+                        subAmountOG: 0,
+                        subPercentOG: 0,
+                        subCostOG: 0,
+                    })
                 });
+                return subsidiaryDefault;
+            },
+            subsidiaryCheck(exes, subsidiarySet) {
+                switch (parseInt(exes.manType)) {
+                    case 0:
+                        subsidiarySet.forEach(sub => {
+                            let subAmountTotal = 0;
+                            exes.ratio.forEach(ite => {
+                                if (sub.comCode === ite.comCode) {
+                                    subAmountTotal += parseInt(ite.s);
+                                }
+                            });
+                            exes.ratio.forEach(ite => {
+                                if (sub.comCode === ite.comCode) {
+                                    sub.subAmount = parseInt(ite.s);
+                                    sub.subAmountOG = parseInt(ite.s);
+                                    sub.subPercent = (parseInt(ite.s) / subAmountTotal * 100).toFixed(2);
+                                    sub.subPercentOG = (parseInt(ite.s) / subAmountTotal * 100).toFixed(2);
+                                }
+                            });
+                        });
+                        break;
+                    case 1:
+                        console.log('nn');
+                        subsidiarySet.forEach(sub => {
+                            exes.ratio.forEach(ite => {
+                                if (sub.comCode === ite.comCode) {
+                                    sub.subPercent = parseFloat(ite.p).toFixed(2);
+                                    sub.subPercentOG = parseFloat(ite.p).toFixed(2);
+                                }
+                            });
+                        });
+                        break;
+                    case 2://
+                        break;
+
+                }
+                return subsidiarySet;
+            },
+            getCost(subsidiaryList, cost, manType) {
+                switch (parseInt(manType)) {
+                    case 0:
+                        let totalAmount = 0;
+                        subsidiaryList.forEach(sub => {
+                            totalAmount += parseInt(sub.subAmount);
+                        });
+                        subsidiaryList.forEach(sub => {
+                            sub.subPercent = parseFloat(sub.subAmount / totalAmount * 100).toFixed(2);
+                            sub.subPercentOG = parseFloat(sub.subAmount / totalAmount * 100).toFixed(2);
+                            sub.subCost = Math.round(cost * sub.subPercent / 100);
+                            sub.subCostOG = Math.round(cost * sub.subPercent / 100);
+                        });
+                        break;
+                    case 1:
+                        subsidiaryList.forEach(sub => {
+                            sub.subCost = Math.round(cost * sub.subPercent / 100);
+                            sub.subCostOG = Math.round(cost * sub.subPercent / 100);
+                        });
+                        console.log(subsidiaryList);
+                        break;
+                    case 2:
+                        break;
+                }
                 return subsidiaryList;
             },
             mathCompany(ann) {
-                ann.subsidiaryData.forEach(sub => {
-                    sub.subCost = Math.round(ann.annCost * sub.subPercent / 100);
-                });
-                this.countCost();
+                if (ann?.subsidiaryData) {
+                    ann.subsidiaryData.forEach(sub => {
+                        sub.subCost = Math.round(ann.annCost * sub.subPercent / 100);
+                        sub.subCostOG = Math.round(ann.annCost * sub.subPercent / 100);
+                    });
+                    this.countCost();
+                }
             },
             defaultCountData() {
                 this.countCostData = {};
@@ -866,19 +968,19 @@
                 this.defaultCountData();
                 this.apportionData.exesData.forEach(exes => {
                     exes.annualData.forEach(ann => {
-                        if (ann.annYear === this.currentYear) {
+                        if (parseInt(ann.annYear) === parseInt(this.currentYear)) {
                             ann.subsidiaryData.forEach(sub => {
-                                this.countCostData[parseInt(exes.iteId)][sub.comCode] += sub.subCost;
-                                this.countCostData[parseInt(exes.iteId)].costSum += sub.subCost;
-                                this.countTotelCostData[sub.comCode] += sub.subCost;
-                                this.countTotelCostData.costSum += sub.subCost;
+                                this.countCostData[parseInt(exes.iteId)][sub.comCode] += parseInt(sub.subCost);
+                                this.countCostData[parseInt(exes.iteId)].costSum += parseInt(sub.subCost);
+                                this.countTotelCostData[sub.comCode] += parseInt(sub.subCost);
+                                this.countTotelCostData.costSum += parseInt(sub.subCost);
                             });
                         }
                     });
                 });
             },
             async updateApportion() {
-                const payload = this.apportionData;
+                const payload = cloneDeep(this.apportionData);
 
                 // const formData = new FormData();
                 // this.$root.addFilesToFormData(formData, this.filMeetingFiles, 'conFileMeeting[]');
@@ -901,11 +1003,34 @@
                 //     formData.append(key, dataToAppend[key]);
                 // }
 
+                payload.exesData.forEach(exe => {
+                    exe.exeCreateMonth = String(exe.exeCreateMonth.year) + String(exe.exeCreateMonth.month);
+                    exe.annualData.forEach(ann => {
+                        ann.annStartMonth = String(ann.annStartMonth.year) + String(ann.annStartMonth.month);
+                        ann.annEndMonth = String(ann.annEndMonth.year) + String(ann.annEndMonth.month);
+                    });
+                });
+
                 console.log(payload);
-                // await this.saveApportion(payload, this.apportionData.appId);
+                await this.saveApportion(payload, this.apportionData.appId);
 
 
             },
+            getYearMonth(nowYearMonth, num) {
+                // 将传入的 nowYearMonth 转换为 Date 对象
+                num = num - 1;
+                const currentDate = new Date(nowYearMonth.year, nowYearMonth.month, 1);
+
+                // 计算新日期
+                currentDate.setMonth(currentDate.getMonth() + num);
+
+                // 获取新日期的年份和月份
+                const newYear = currentDate.getFullYear();
+                const newMonth = currentDate.getMonth();
+
+                // 返回结果
+                return {year: newYear, month: newMonth};
+            }
         }
     }
 </script>
@@ -975,5 +1100,9 @@
 
     .transfer .bm-1 {
         border-bottom: 1px solid #ccc;
+    }
+
+    .only-month .dp__month_picker_header {
+        display: none !important;
     }
 </style>
