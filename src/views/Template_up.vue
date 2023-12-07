@@ -498,10 +498,16 @@
                             <input type="text" class="form-control" v-model="tpName" placeholder="請輸入專案名稱"/>
                         </li>
                     </ul>
+                    <h6 class="font-medium m-b-10">費用名稱</h6>
+                    <ul class="contact-list">
+                        <li class="nav-item">
+                            <input type="text" class="form-control" v-model="tpExes" placeholder="請輸入費用名稱"/>
+                        </li>
+                    </ul>
                     <div class="col-lg-12">
                         <div class="m-l-20">
                             <button @click="updateTemplate"
-                                    :disabled="tpData === '' || tpData.length === 0 || tpName === ''"
+                                    :disabled="tpData === '' || tpData.length === 0 || tpName === '' || tpExes === ''"
                                     type="button"
                                     class="m-r-5 btn btn-success btn-border-radius waves-effect myFont16">完成送出
                             </button>
@@ -698,6 +704,7 @@
                 frameData: [],//框架類型
                 contractType:[{text:'新增', value:0}, {text:'變更', value:1}, {text:'終止', value:2}, ],
                 tpName: "",//樣板名稱
+                tpExes: "",//費用名稱
                 tpAreaGroup: {//樣板區塊
                     pull: false,
                 },
@@ -826,6 +833,7 @@
                         //templateResponse
                         this.templateData = templateResponse.data.data;
                         this.tpName = this.templateData.temTitle;
+                        this.tpExes = this.templateData.temExes;
                         this.tpData = JSON.parse(this.templateData.temStyle);
                         //workResponse
                         this.workData = workResponse.data.data;
@@ -977,6 +985,7 @@
                 const payload = {
                     temId: this.temId,
                     temTitle: this.tpName,
+                    temExes: this.tpExes,
                     temStyle: jsonData,
                 };
                 this.$api

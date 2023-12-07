@@ -5,12 +5,6 @@
                 <li class="breadcrumb-item">
                     <h4 class="page-title m-b-0">表單申請</h4>
                 </li>
-                <li class="breadcrumb-item">
-                    <router-link :to="`/contract/list`">
-                        <vue-feather type="link"></vue-feather>
-                        資訊共用計畫書列表
-                    </router-link>
-                </li>
                 <li class="breadcrumb-item">文件操作</li>
             </ul>
             <div class="section-body">
@@ -66,11 +60,17 @@
                     <li class="breadcrumb-item">文件操作</li>
                 </ul>
                 <div class="section-body">
-                    <div class="contract-serial mb-2" style="text-align:right;">
-                        <button type="button"
-                                @click="actionTo('ex', contractData.conId)"
-                                class="m-r-5 btn btn-success btn-border-radius waves-effect myFont16">費用
-                        </button>
+                    <div class="contract-serial mb-2" style="width: 100%;">
+                        <div class="d-inline mr-2" style="text-align:left;">
+                            <label class="row-text" style="display: inline-block; border-color: #54ca68; color: #54ca68;"><input type="checkbox" v-model="merge" :disabled="parseInt(contractData.conApp) >= 0" class="form-check-input"/> 與費用一起送簽</label>
+                        </div>
+                        <div class="d-inline mr-2" style="text-align:right; float: right;">
+                            <label v-if="0 === parseInt(contractData.conLock)" class="row-text" style="display: inline-block; border-color: #54ca68; color: #54ca68;"><input type="checkbox" v-model="lockItem" :disabled="parseInt(contractData.conLock) === 1" class="form-check-input"/> 鎖定項目</label>
+                            <button v-else type="button"
+                                    @click="actionTo('ex', contractData.conId)"
+                                    class="m-r-5 btn btn-success btn-border-radius waves-effect myFont16">費用
+                            </button>
+                        </div>
                     </div>
                     <div class="d-flex">
                         <div id="myMainDocument" class="col-12">
@@ -202,7 +202,17 @@
                                                                         <label class="row-label row-title">維運公司</label>
                                                                         <label class="row-text">{{ contractData.comTitle }}</label>
                                                                     </div>
-                                                                    <div class="col-xl-4 col-md-6 col-sm-6 col-12">
+                                                                    <div v-if="1 === parseInt(contractData.conLock)" class="col-xl-4 col-md-6 col-sm-6 col-12">
+                                                                        <label class="row-label row-title">作業種類</label>
+                                                                        <div class="d-flex my-list">
+                                                                            <ul style="padding-left: 0px;">
+                                                                                <li v-for="(option, idx) in contractData.conWork">
+                                                                                    <span class="row-text">{{ this.$root.getWorkTitle(option) }}</span>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div v-else class="col-xl-4 col-md-6 col-sm-6 col-12">
                                                                         <label class="row-label row-title">作業種類</label>
                                                                         <div class="d-flex my-list">
                                                                             <div v-for="wor in workData" class="form-check">
@@ -217,7 +227,17 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-12">
+                                                                    <div v-if="1 === parseInt(contractData.conLock)" class="col-12">
+                                                                        <label class="row-label row-title">使用公司</label>
+                                                                        <div class="d-flex my-list">
+                                                                            <ul style="padding-left: 0px;">
+                                                                                <li v-for="option in contractData.conCompany">
+                                                                                    <span class="row-text">{{ this.$root.getCompanyTitle('', option) }}</span>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div v-else class="col-12">
                                                                         <label class="row-label row-title">使用公司</label>
                                                                         <div class="d-flex my-list">
                                                                             <ul>
@@ -288,9 +308,8 @@
                                                                     </label>
 
                                                                     <span class="myFont16 d-flex align-center row-title"><vue-feather
-                                                                            type="chevrons-right"
-                                                                            size="20"></vue-feather>共用作業項目與費用分攤原則</span>
-                                                                    <div v-for="wor in workData" class="row"
+                                                                            type="chevrons-right" size="20"></vue-feather>共用作業項目與費用分攤原則</span>
+                                                                    <div v-for="wor in contractData.conWork" class="row"
                                                                          style="margin-bottom: 20px">
                                                                         <label class="myFont16 p-t-10">{{
                                                                             this.$root.getWorkTitle(wor) }}</label>
@@ -315,7 +334,7 @@
                                                                                 </tr>
                                                                                 </thead>
                                                                                 <tbody>
-                                                                                <template v-for="ite in itemData">
+                                                                                <template v-for="ite in contractData.itemData">
                                                                                     <tr v-if="wor === ite.worId">
                                                                                         <td>{{ ite.iteTitle }}</td>
                                                                                         <td>{{ ite.disTitle }}</td>
@@ -329,8 +348,7 @@
                                                                     </div>
                                                                     <span class="myFont16 d-flex align-center row-title"
                                                                           style="padding-top: 10px;"><vue-feather
-                                                                            type="chevrons-right"
-                                                                            size="20"></vue-feather>共用作業項目之固定分攤比例</span>
+                                                                            type="chevrons-right" size="20"></vue-feather>共用作業項目之固定分攤比例</span>
                                                                     <div class="row" style="margin-bottom: 20px">
                                                                         <div class="table-responsive">
                                                                             <table class="newTable">
@@ -348,11 +366,10 @@
                                                                                 </tr>
                                                                                 </thead>
                                                                                 <tbody>
-                                                                                <template v-for="ite in itemData">
+                                                                                <template v-for="ite in contractData.itemData">
                                                                                     <tr v-if="'1' === ite.manType && typeof ite.iteProportion === 'object'">
                                                                                         <td>{{ ite.iteTitle }}</td>
-                                                                                        <template
-                                                                                                v-for="com in companyData">
+                                                                                        <template v-for="com in companyData">
                                                                                             <template
                                                                                                     v-for="pp in ite.iteProportion">
                                                                                                 <td v-if="pp.comCode === com.comCode">
@@ -386,12 +403,11 @@
                                                                                 </tr>
                                                                                 </thead>
                                                                                 <tbody>
-                                                                                <template v-for="ite in itemData">
+                                                                                <template v-for="ite in contractData.itemData">
                                                                                     <tr v-if="'1' === ite.manType && typeof ite.iteProportion === 'object'">
                                                                                         <td>{{ ite.iteTitle }}</td>
-                                                                                        <template
-                                                                                                v-for="com in companyData">
-                                                                                            <td v-if="ite.iteSubsidiaries.split('|').includes(com.comCode)">
+                                                                                        <template v-for="com in companyData">
+                                                                                            <td v-if="ite.iteSubsidiaries.includes(com.comCode)">
                                                                                                 <vue-feather
                                                                                                         type="check-square"></vue-feather>
                                                                                             </td>
@@ -408,8 +424,7 @@
                                                                     </div>
                                                                     <span class="myFont16 d-flex align-center row-title"
                                                                           style="padding-top: 10px;"><vue-feather
-                                                                            type="chevrons-right"
-                                                                            size="20"></vue-feather>服務時間與權限控管</span>
+                                                                            type="chevrons-right" size="20"></vue-feather>服務時間與權限控管</span>
                                                                     <div class="row" style="margin-bottom: 20px">
                                                                         <div class="table-responsive">
                                                                             <table class="newTable">
@@ -429,7 +444,7 @@
                                                                                 </tr>
                                                                                 </thead>
                                                                                 <tbody>
-                                                                                <tr v-for="ite in itemData">
+                                                                                <tr v-for="ite in contractData.itemData">
                                                                                     <td>{{ ite.iteTitle }}</td>
                                                                                     <td>{{ ite.iteTime }}</td>
                                                                                     <td>{{ ite.iteControl }}</td>
@@ -1177,16 +1192,19 @@
     import {fileMixin} from '@/mixins/fileMixin.js';
     import {controlBoxMixin} from '@/mixins/controlBoxMixin.js';
     import {contractActionMixin} from '@/mixins/contractActionMixin.js';
+    import {signMixin} from '@/mixins/signMixin.js';
 
     export default {
         name: "Contract_up",
-        mixins: [memberMixin, itemMixin, fileMixin, controlBoxMixin, contractActionMixin],
+        mixins: [memberMixin, itemMixin, fileMixin, controlBoxMixin, contractActionMixin, signMixin],
         data() {
             return {
                 isLoading: false,
                 per: JSON.parse(Cookies.get('per')),
                 isSidebarVisible: false,//管理面板使用
                 conId: parseInt(this.$route.params.id),
+                merge: false,//是否一起送
+                lockItem: false,//鎖定項目
 
                 //新增使用
                 temId: '',
@@ -1302,7 +1320,7 @@
                     .then(response => {
                         console.log(response);
                         if (response.status === 200) {
-                            let log = this.createContractLog(response.data.conId, 0, this.per.perKey, -1, '建立', -1);
+                            let log = this.createSignLog(response.data.conId, 0, this.per.perKey, -1, '建立', -1);
                             this.updateContractStatus(response.data.conId, -1, null, log);//修改文件狀態為進行中
                             this.$router.push(`/contract/up/${response.data.conId}`);
                         } else {
@@ -1353,6 +1371,12 @@
 
                         //contractResponse
                         this.contractData = contractResponse.data.data;
+                        if (0 <= parseInt(this.contractData.conApp)){
+                            this.merge = true;
+                        }
+                        if (1 === parseInt(this.contractData.conLock)){
+                            this.lockItem = true;
+                        }
                         // if ('0' != this.contractData.conStatus) {
                         //     this.$router.push(`/contract/${this.contractData.temId}/sl/${this.contractData.conId}`);
                         // }
@@ -1489,6 +1513,8 @@
                 payload.conCompany = this.contractData.conCompany.filter(val => val !== '').join('|');
                 payload.memberData = memberList;
                 payload.conStatus = 0;
+                payload.conLock = this.lockItem ? 1 : 0;
+                payload.conApp = this.merge ? (parseInt(this.contractData.conApp) > -1 ? parseInt(this.contractData.conApp) : 0) : -1;
 
 
                 // const formData = new FormData();
@@ -1577,6 +1603,7 @@
     .my-list ul li {
         float: left;
         list-style: none;
+        margin-right: 10px;
     }
 
     .contract-title .myNotification {

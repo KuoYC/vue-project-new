@@ -35,12 +35,11 @@
                                     <div class="d-flex mb-4 mt-2">
                                         <div class="flex-grow-1">
                                             <div class="myFont16Title">窗口： <span class="date myFont16">
-                                                <multiselect
+                                                <Multiselect
                                                         v-if="'' !== contactData.comCode"
                                                              v-model="per"
                                                              :options="options"
-                                                             :searchable="true"
-                                                             :loading="isLoading"
+                                                             :searchable="false"
                                                              @search-change="loadPersonnel"
                                                              placeholder="搜尋員工編號"
                                                              label="name"
@@ -70,9 +69,8 @@
 
 <script>
     import {contactMixin} from '@/mixins/contactMixin.js';
-    import Multiselect from "vue-multiselect";
+    import Multiselect from 'vue-multiselect';
     import 'vue-multiselect/dist/vue-multiselect.css';
-
     export default {
         name: "Contact_ad",
         mixins: [contactMixin],

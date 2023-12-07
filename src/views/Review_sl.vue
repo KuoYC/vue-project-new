@@ -1191,65 +1191,65 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="activities" style="padding-top: 10px;">
-                                    <div v-for="log in contractLogData" class="activity">
-                                        <div v-if="'-1' === log.colStatus" class="activity-icon bg-info text-white">
+                                    <div v-for="log in signLogData" class="activity">
+                                        <div v-if="'-1' === log.sglStatus" class="activity-icon bg-info text-white">
                                             <vue-feather type="file" style="padding-top: 13px;"></vue-feather>
                                         </div>
-                                        <div v-if="'0' === log.colStatus" class="activity-icon bg-success text-white">
+                                        <div v-if="'0' === log.sglStatus" class="activity-icon bg-success text-white">
                                             <vue-feather type="edit" style="padding-top: 13px;"></vue-feather>
                                         </div>
-                                        <template v-if="'1' === log.colStatus">
+                                        <template v-if="'1' === log.sglStatus">
                                             <div v-if="'0' === log.memId" class="activity-icon bg-warning text-white">
                                                 <vue-feather type="flag" style="padding-top: 13px;"></vue-feather>
                                             </div>
                                             <template v-else>
-                                                <div v-if="'-1' === log.colMemberStatus" class="activity-icon bg-success text-white">
+                                                <div v-if="'-1' === log.sglMemberStatus" class="activity-icon bg-success text-white">
                                                     <vue-feather type="more-horizontal" style="padding-top: 13px;"></vue-feather>
                                                 </div>
-                                                <div v-if="'0' === log.colMemberStatus" class="activity-icon bg-success text-white">
+                                                <div v-if="'0' === log.sglMemberStatus" class="activity-icon bg-success text-white">
                                                     <vue-feather type="eye" style="padding-top: 13px;"></vue-feather>
                                                 </div>
-                                                <div v-if="'1' === log.colMemberStatus" class="activity-icon bg-success text-white">
+                                                <div v-if="'1' === log.sglMemberStatus" class="activity-icon bg-success text-white">
                                                     <vue-feather type="edit-2" style="padding-top: 13px;"></vue-feather>
                                                 </div>
-                                                <div v-if="'2' === log.colMemberStatus" class="activity-icon bg-danger text-white">
+                                                <div v-if="'2' === log.sglMemberStatus" class="activity-icon bg-danger text-white">
                                                     <vue-feather type="rotate-cw" style="padding-top: 13px;"></vue-feather>
                                                 </div>
-                                                <div v-if="'3' === log.colMemberStatus" class="activity-icon bg-success text-white">
+                                                <div v-if="'3' === log.sglMemberStatus" class="activity-icon bg-success text-white">
                                                     <vue-feather type="check" style="padding-top: 13px;"></vue-feather>
                                                 </div>
                                             </template>
                                         </template>
-                                        <div v-if="'2' === log.colStatus" class="activity-icon bg-danger text-white">
+                                        <div v-if="'2' === log.sglStatus" class="activity-icon bg-danger text-white">
                                             <vue-feather type="rotate-cw" style="padding-top: 13px;"></vue-feather>
                                         </div>
-                                        <div v-if="'3' === log.colStatus" class="activity-icon bg-warning text-white">
+                                        <div v-if="'3' === log.sglStatus" class="activity-icon bg-warning text-white">
                                             <vue-feather type="star" style="padding-top: 13px;"></vue-feather>
                                         </div>
-                                        <div v-if="'4' === log.colStatus" class="activity-icon bg-dark text-white">
+                                        <div v-if="'4' === log.sglStatus" class="activity-icon bg-dark text-white">
                                             <vue-feather type="trash-2" style="padding-top: 13px;"></vue-feather>
                                         </div>
                                         <div class="activity-detail">
                                             <div class="mb-2">
-                                                <span v-if="'-1' === log.colStatus" class="text-job">建立</span>
-                                                <span v-if="'0' === log.colStatus" class="text-job">草稿</span>
-                                                <span v-if="'1' === log.colStatus && '0' === log.memId" class="text-job">發起</span>
-                                                <span v-if="'1' === log.colStatus && '0' !== log.memId && '0' === log.memType" class="text-job">發起</span>
-                                                <span v-if="'1' === log.colStatus && '0' !== log.memId && '1' === log.memType" class="text-job">維運</span>
-                                                <span v-if="'1' === log.colStatus && '0' !== log.memId && '2' === log.memType" class="text-job">使用</span>
-                                                <span v-if="'2' === log.colStatus" class="text-job">退回</span>
-                                                <span v-if="'3' === log.colStatus" class="text-job">已歸檔</span>
-                                                <span v-if="'4' === log.colStatus" class="text-job">撤回</span>
-                                                <template v-if="'1' === log.colStatus && ('0' === log.memId || ('0' !== log.memId && ('0' === log.memType || '1' === log.memType || '2' === log.memType)))">
+                                                <span v-if="'-1' === log.sglStatus" class="text-job">建立</span>
+                                                <span v-if="'0' === log.sglStatus" class="text-job">草稿</span>
+                                                <span v-if="'1' === log.sglStatus && '0' === log.memId" class="text-job">發起</span>
+                                                <span v-if="'1' === log.sglStatus && '0' !== log.memId && '0' === log.memType" class="text-job">發起</span>
+                                                <span v-if="'1' === log.sglStatus && '0' !== log.memId && '1' === log.memType" class="text-job">維運</span>
+                                                <span v-if="'1' === log.sglStatus && '0' !== log.memId && '2' === log.memType" class="text-job">使用</span>
+                                                <span v-if="'2' === log.sglStatus" class="text-job">退回</span>
+                                                <span v-if="'3' === log.sglStatus" class="text-job">已歸檔</span>
+                                                <span v-if="'4' === log.sglStatus" class="text-job">撤回</span>
+                                                <template v-if="'1' === log.sglStatus && ('0' === log.memId || ('0' !== log.memId && ('0' === log.memType || '1' === log.memType || '2' === log.memType)))">
                                                     <span class="bullet"></span>
-                                                    <span v-if="'-1' === log.colMemberStatus" class="text-job">等待</span>
-                                                    <span v-if="'0' === log.colMemberStatus" class="text-job">待檢視</span>
-                                                    <span v-if="'1' === log.colMemberStatus" class="text-job">待簽</span>
-                                                    <span v-if="'2' === log.colMemberStatus" class="text-job">退回</span>
-                                                    <span v-if="'3' === log.colMemberStatus" class="text-job">完成</span>
+                                                    <span v-if="'-1' === log.sglMemberStatus" class="text-job">等待</span>
+                                                    <span v-if="'0' === log.sglMemberStatus" class="text-job">待檢視</span>
+                                                    <span v-if="'1' === log.sglMemberStatus" class="text-job">待簽</span>
+                                                    <span v-if="'2' === log.sglMemberStatus" class="text-job">退回</span>
+                                                    <span v-if="'3' === log.sglMemberStatus" class="text-job">完成</span>
                                                 </template>
                                                 <span class="bullet"></span>
-                                                <span class="text-job">{{ log.colCreateTime }}</span>
+                                                <span class="text-job">{{ log.sglCreateTime }}</span>
                                             </div>
                                             <p>{{ log.perBu2 }}  {{ log.perBu3 }} {{ log.perName }}</p>
                                         </div>
@@ -1487,7 +1487,7 @@
                 const apiRequests = [
                     this.$api.get(this.$test ? `/api/?type=contract&conId=${conId}` : `/api/adm/contract/${conId}`),
                     this.$api.get(this.$test ? `/api/?type=contractItem` : `/api/iform/contractItem/List`, {params: {conId: conId}}),
-                    this.$api.get(this.$test ? `/api/?type=contractMember` : `/api/iform/contractMember/List`, {params: {conId: conId}}),
+                    this.$api.get(this.$test ? `/api/?type=signMember` : `/api/iform/signMember/List`, {params: {conId: conId}}),
                     this.$api.get(this.$test ? '/api/?type=contact' : '/api/iform/contact/List'),
                     this.$api.get(this.$test ? '/api/?type=company' : '/api/iform/company/List'),
                 ];
@@ -1541,7 +1541,7 @@
                 if (this.iMemberData.comId === this.per.comId && this.iMemberData.memLV0Key === this.per.perKey) {
                     try {
                         await this.defaultContract();//重置文件資訊與簽核人員資料
-                        let log = this.createContractLog(this.contractData.conId, 0, this.per.perKey, 3, '發起', 1);
+                        let log = this.createSignLog(this.contractData.conId, 0, this.per.perKey, 3, '發起', 1);
                         await this.updateContractStatus(this.contractData.conId, 1, null, log);//修改文件狀態為進行中
                         const upMember = this.createUpMember(this.iMemberData, '0', 3, true);
                         await this.updateMember(upMember);//修改簽核組別資訊
@@ -1625,7 +1625,7 @@
                             }
                             else {
                                 try {
-                                    let log = this.createContractLog(this.contractData.conId, 0, '', 3, '文件簽核完成', 3);
+                                    let log = this.createSignLog(this.contractData.conId, 0, '', 3, '文件簽核完成', 3);
                                     await this.updateContractStatus(this.contractData.conId, 3, dayjs().format('YYYY-MM-DD'), log);
                                     await this.clearMemberAll();
                                     alert('文件簽核完成');
@@ -1653,7 +1653,7 @@
                                 }
                                 else {
                                     try {
-                                        let log = this.createContractLog(this.contractData.conId, 0, '', 3, '文件簽核完成', 3);
+                                        let log = this.createSignLog(this.contractData.conId, 0, '', 3, '文件簽核完成', 3);
                                         await this.updateContractStatus(this.contractData.conId, 3, dayjs().format('YYYY-MM-DD'), log);
                                         await this.clearMemberAll();
                                         alert('文件簽核完成');
@@ -1672,7 +1672,7 @@
                             const uMemberParallel = await this.checkParallelTypeSign(2);
                             if (uMemberParallel) {
                                 try {
-                                    let log = this.createContractLog(this.contractData.conId, 0, '', 3, '文件簽核完成', 3);
+                                    let log = this.createSignLog(this.contractData.conId, 0, '', 3, '文件簽核完成', 3);
                                     await this.updateContractStatus(this.contractData.conId, 3, dayjs().format('YYYY-MM-DD'), log);
                                     await this.clearMemberAll();
                                     alert('文件簽核完成');
@@ -1724,7 +1724,7 @@
                 if (upMember) {
                     try {
                         await this.updateMember(upMember);
-                        let log = this.createContractLog(this.contractData.conId, upMember.memId, upMember.LVKey, 2, '文件退回', 2);
+                        let log = this.createSignLog(this.contractData.conId, upMember.memId, upMember.LVKey, 2, '文件退回', 2);
                         await this.updateContractStatus(this.contractData.conId, 2, null, log);
                         await this.clearMemberAll();
                         this.$router.push(`/contract/${this.$route.params.tem}/list`);
@@ -1820,8 +1820,8 @@
                     memNowKey: nextLVKey,
                     memNowStatus: nextLVStatus,
                     memStatus: memStatus,
-                    conLog: this.createContractLog(this.contractData.conId, memId, LVKey, signType, conLogMsg, conStatus),
-                    conLogNext: nextLogMsg ? this.createContractLog(this.contractData.conId, memId, nextLVKey, nextLVStatus, nextLogMsg, conStatus) : null,
+                    conLog: this.createSignLog(this.contractData.conId, memId, LVKey, signType, conLogMsg, conStatus),
+                    conLogNext: nextLogMsg ? this.createSignLog(this.contractData.conId, memId, nextLVKey, nextLVStatus, nextLogMsg, conStatus) : null,
                 };
             },
 
@@ -1888,7 +1888,7 @@
             async checkParallelTypeSign(memberType) {
                 try {
                     const response = await this.$api.get(
-                        this.$test ? `/api/?type=contractMember` : `/api/iform/contractMember/List`
+                        this.$test ? `/api/?type=signMember` : `/api/iform/signMember/List`
                         , {params: {conId: this.contractData.conId, memType: memberType}}
                     );
 

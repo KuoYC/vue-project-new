@@ -1,519 +1,1280 @@
 <template>
-    <section class="section">
-        <ul class="breadcrumb breadcrumb-style ">
-            <li class="breadcrumb-item">
-                <h4 class="page-title m-b-0">表單申請</h4>
-            </li>
-            <li class="breadcrumb-item">
-                <router-link :to="`/apportion/list`">
-                    <vue-feather type="link"></vue-feather>
-                    費用分攤明細表
-                </router-link>
-            </li>
-            <li class="breadcrumb-item">文件操作</li>
-        </ul>
-        <div class="section-body">
-            <div class="contract-serial mb-2" style="width: 100%;">
-                <div class="dropdown d-inline mr-2" style="text-align:left;">
-                    <button class="btn btn-success dropdown-toggle" type="button"
-                            data-bs-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">
-                        2024年
-                    </button>
-                    <div class="dropdown-menu" style="">
-                        <a class="dropdown-item" href="#">2024年</a>
-                        <a class="dropdown-item" href="#">2025年</a>
-                        <a class="dropdown-item" href="#">2026年</a>
-                    </div>
-                </div>
-                <div class="dropdown d-inline mr-2" style="text-align:right; float: right;">
-                    <button class="btn btn-success dropdown-toggle" type="button"
-                            data-bs-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">
-                        2023年
-                    </button>
-                    <div class="dropdown-menu" style="">
-                        <a class="dropdown-item" href="#">2024年</a>
-                        <a class="dropdown-item" href="#">2025年</a>
-                        <a class="dropdown-item" href="#">2026年</a>
+    <template v-if="0 === appId">
+        <section class="section">
+            <ul class="breadcrumb breadcrumb-style ">
+                <li class="breadcrumb-item">
+                    <h4 class="page-title m-b-0">表單申請</h4>
+                </li>
+                <li class="breadcrumb-item">費用操作</li>
+            </ul>
+            <div class="section-body">
+                <div class="row">
+                    <!-- 主要內容 -->
+                    <div class="card">
+                        <div class="boxs mail_listing">
+                            <div class="inbox-body no-pad">
+                                <section class="mail-list">
+                                    <div class="mail-sender">
+                                        <div class="d-flex mb-4 mt-2">
+                                            <div class="flex-grow-1">
+                                                <div class="myFont16Title">請選擇要新增的共用計畫書： <span class="date myFont16">
+                                                <Multiselect
+                                                        v-model="conId"
+                                                        :options="options"
+                                                        :searchable="true"
+                                                        :loading="isLoading"
+                                                        @search-change="loadContract"
+                                                        placeholder="搜尋計畫書"
+                                                        label="name"
+                                                        track-by="id"
+                                                >
+                                                    <template #noResult>查無資料</template>
+                                                    <template #noOptions>請輸入搜尋文字</template>
+                                                </Multiselect>
+                                            </span></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6" style="padding-bottom: 20px;">
+                                            <button type="button" @click="createApportion"
+                                                    :disabled="'' === conId"
+                                                    class="m-r-5 btn btn-success btn-border-radius waves-effect myFont16">
+                                                開始
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-12">
-                <div class="card contract-title">
-                    <div class="author-box-name d-flex justify-content-between"
-                         style="margin-bottom: 20px;padding: 10px 25px;border-bottom-color: #f9f9f9;">
-                        <h4 class="myCardTitle" style="font-size: x-large;">
-                            {{ apportionData.temTitle }}
-                        </h4>
-                        <div class="contract-serial">
-                            <!-- 這裡放文件序號 -->
-                            <div style="font-weight: 400;">文件序號：<span class="date">{{ apportionData.conSerial }}{{ apportionData.conVer }}</span>
-                            </div>
-                            <!-- 這裡放創文日期 -->
-                            <div style="font-weight: 400;">創文日期：<span class="date">{{ this.$root.formatDate(apportionData.conCreateTime) }}</span>
+        </section>
+    </template>
+    <template v-else>
+        <template v-if="isLoading">
+            <section class="section">
+                <ul class="breadcrumb breadcrumb-style ">
+                    <li class="breadcrumb-item">
+                        <h4 class="page-title m-b-0">表單申請</h4>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <router-link :to="`/apportion/list`">
+                            <vue-feather type="link"></vue-feather>
+                            費用分攤明細表
+                        </router-link>
+                    </li>
+                    <li class="breadcrumb-item">費用操作</li>
+                </ul>
+                <div class="section-body">
+                    <div class="contract-serial mb-2" style="width: 100%;">
+                        <div class="d-inline mr-2" style="text-align:left;">
+                            <button class="btn btn-success" type="button"
+                                    @click="$router.push(`/contract/sl/${apportionData.conId}`)">
+                                文件
+                            </button>
+                        </div>
+                        <div class="dropdown d-inline mr-2" style="text-align:right; float: right;">
+                            <button class="btn btn-success dropdown-toggle" type="button"
+                                    data-bs-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                2023年
+                            </button>
+                            <div class="dropdown-menu" style="">
+                                <a class="dropdown-item" href="#">2024年</a>
+                                <a class="dropdown-item" href="#">2025年</a>
+                                <a class="dropdown-item" href="#">2026年</a>
                             </div>
                         </div>
                     </div>
-                    <div class="card-body myNotification d-flex">
-                        <div class="myFont16Title" style="margin: 0 10px;">申請單位： <span
-                                class="date myFont16">{{ apportionData.perBu2}}  {{ apportionData.perBu3}}</span>
-                        </div>
-                        <div class="myFont16Title" style="margin: 0 10px;">申請人： <span
-                                class="date myFont16">{{ apportionData.perName}}</span>
-                        </div>
-                        <div class="myFont16Title" style="margin: 0 10px;">聯絡電話： <span
-                                class="date myFont16">{{ apportionData.perPhone1}}  {{ apportionData.perPhone2}}  {{ apportionData.perPhone3}}</span>
-                        </div>
-                    </div>
-                    <div class="card-body myNotification d-flex">
-                        <div class="myFont16Title" style="margin: 0 10px;">管理維運公司： <span class="date myFont16">{{ apportionData.comTitle }}</span>
-                        </div>
-                        <div class="myFont16Title" style="margin: 0 10px;">使用公司： <span
-                                class="date myFont16">
+                    <div class="col-12" :id="'my0'">
+                        <div class="card contract-title">
+                            <div class="author-box-name d-flex justify-content-between"
+                                 style="margin-bottom: 20px;padding: 10px 25px;border-bottom-color: #f9f9f9;">
+                                <h4 class="myCardTitle" style="font-size: x-large;">
+                                    {{ apportionData.temExes }}
+                                </h4>
+                                <div class="contract-serial">
+                                    <!-- 這裡放文件序號 -->
+                                    <div style="font-weight: 400;">文件序號：<span class="date">{{ apportionData.conSerial }}{{ apportionData.conVer }}</span>
+                                    </div>
+                                    <!-- 這裡放創文日期 -->
+                                    <div style="font-weight: 400;">創文日期：<span class="date">{{ this.$root.formatDate(apportionData.conCreateTime) }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body myNotification d-flex">
+                                <div class="myFont16Title" style="margin: 0 10px;">申請單位： <span
+                                        class="date myFont16">{{ apportionData.perBu2}}  {{ apportionData.perBu3}}</span>
+                                </div>
+                                <div class="myFont16Title" style="margin: 0 10px;">申請人： <span
+                                        class="date myFont16">{{ apportionData.perName}}</span>
+                                </div>
+                                <div class="myFont16Title" style="margin: 0 10px;">聯絡電話： <span
+                                        class="date myFont16">{{ apportionData.perPhone1}}  {{ apportionData.perPhone2}}  {{ apportionData.perPhone3}}</span>
+                                </div>
+                            </div>
+                            <div class="card-body myNotification d-flex">
+                                <div class="myFont16Title" style="margin: 0 10px;">管理維運公司： <span class="date myFont16">{{ apportionData.comTitle }}</span>
+                                </div>
+                                <div class="myFont16Title" style="margin: 0 10px;">使用公司： <span
+                                        class="date myFont16">
                             <template v-if="apportionData?.conCompany">
                                 <template v-for="(option, idx) in apportionData.conCompany">{{ idx !== 0 ? '、' : ''}}{{ this.$root.getCompanyTitle('', option)}}</template>
                             </template>
                         </span>
-                        </div>
-                        <div class="myFont16Title" style="margin: 0 10px;">作業種類： <span
-                                class="date myFont16">
+                                </div>
+                                <div class="myFont16Title" style="margin: 0 10px;">作業種類： <span
+                                        class="date myFont16">
                             <template v-if="apportionData?.conWork">
                                 <template v-for="(option, idx) in apportionData.conWork">{{ idx !== 0 && '' !== option ? '、' : ''}}{{ this.$root.getWorkTitle(option)}}</template>
                             </template>
                         </span>
+                                </div>
+                            </div>
+                            <div class="card-body myNotification d-flex">
+                                <div class="myFont16Title" style="margin: 0 10px;">申請類型：
+                                    <span v-if="'0' === apportionData.appType"
+                                          class="date myFont16">新增</span>
+                                    <span v-if="'1' === apportionData.appType"
+                                          class="date myFont16">變更</span>
+                                    <span v-if="'2' === apportionData.appType"
+                                          class="date myFont16">終止</span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="card-body myNotification d-flex">
-                        <div class="myFont16Title" style="margin: 0 10px;">申請類型：
-                            <span v-if="'0' === apportionData.appType"
-                                  class="date myFont16">新增</span>
-                            <span v-if="'1' === apportionData.appType"
-                                  class="date myFont16">變更</span>
-                            <span v-if="'2' === apportionData.appType"
-                                  class="date myFont16">終止</span>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header justify-content-between">
-                            <h4 class="myCardTitle">
+                        <div class="col-12">
+                            <div class="card" :id="'my1'">
+                                <div class="card-header justify-content-between">
+                                    <h4 class="myCardTitle">
                                     <span class="myFont16 d-flex align-center"
                                           style="background-color: #26a862; color: white; border-radius: 6px; padding: 0.3rem 0.8rem; font-weight: 400;">
                                         <vue-feather type="tag" size="20"
                                                      style="transform: rotate(135deg); padding-right: 0px;"
                                                      class="m-r-5"></vue-feather>{{ currentYear }}年各公司分攤費用</span>
-                            </h4>
-                        </div>
-                        <div class="card-body myNotification">
-                            <div class="table-responsive">
-                                <table ref="testTable" class="newTable tables-def">
-                                    <thead style="position: sticky;top: 0;" class="myNew">
-                                    <tr>
-                                        <th></th>
-                                        <template v-if="apportionData?.conCompany">
-                                            <th v-for="(option, idx) in apportionData.conCompany">{{
-                                                this.$root.getCompanyTitle('', option) }}
-                                            </th>
-                                        </template>
-                                        <th>加總</th>
-                                    </tr>
-                                    </thead>
+                                    </h4>
+                                </div>
+                                <div class="card-body myNotification">
+                                    <div class="table-responsive">
+                                        <table ref="testTable" class="newTable tables-def">
+                                            <thead style="position: sticky;top: 0;" class="myNew">
+                                            <tr>
+                                                <th></th>
+                                                <template v-if="apportionData?.conCompany">
+                                                    <th v-for="(option, idx) in apportionData.conCompany">{{
+                                                        this.$root.getCompanyTitle('', option) }}
+                                                    </th>
+                                                </template>
+                                                <th>加總</th>
+                                            </tr>
+                                            </thead>
 
-                                    <tbody>
-                                    <tr v-for="cou in countCostData">
-                                        <td>{{ cou.iteTitle }}</td>
-                                        <td v-for="(option, idx) in apportionData.conCompany">{{ cou[option] }}
-                                        </td>
-                                        <td>{{ cou.costSum }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>合計</td>
-                                        <td v-for="(option, idx) in apportionData.conCompany">{{
-                                            countTotelCostData[option]
-                                            }}
-                                        </td>
-                                        <td>{{ countTotelCostData.costSum }}</td>
-                                    </tr>
+                                            <tbody>
+                                            <tr v-for="cou in countCostData">
+                                                <td>{{ cou.iteTitle }}</td>
+                                                <td v-for="(option, idx) in apportionData.conCompany">{{ cou[option] }}
+                                                </td>
+                                                <td>{{ cou.costSum }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>合計</td>
+                                                <td v-for="(option, idx) in apportionData.conCompany">{{
+                                                    countTotelCostData[option]
+                                                    }}
+                                                </td>
+                                                <td>{{ countTotelCostData.costSum }}</td>
+                                            </tr>
 
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header justify-content-between">
-                            <h4 class="myCardTitle">
-                                    <span class="myFont16 d-flex align-center"
-                                          style="background-color: #26a862; color: white; border-radius: 6px; padding: 0.3rem 0.8rem; font-weight: 400;">
-                                        <vue-feather type="tag" size="20"
-                                                     style="transform: rotate(135deg); padding-right: 0px;"
-                                                     class="m-r-5"></vue-feather>費用分攤明細</span>
-                            </h4>
-                        </div>
-                        <div class="card-body myNotification">
-                            <div class="row">
-                                <div class="col-12 sub-item">
-                                    <div class="row" style="margin-bottom: 20px;">
-                                        <div class="table-responsive">
-                                            <table class="newTable">
-                                                <caption>費用分攤明細資料表</caption>
-                                                <thead style="position: sticky;top: 0;" class="myNew">
-                                                <tr>
-                                                    <th style="width: 20px;"></th>
-                                                    <th style="width: 50px;">種類</th>
-                                                    <th style="min-width: 110px;">共用作業項目</th>
-                                                    <th style="min-width: 120px;">軟硬體名稱</th>
-                                                    <th style="min-width: 80px;" colspan="3">分攤總費用</th>
-                                                    <th style="width: 80px;">提列年度</th>
-                                                    <th style="width: 70px;">操作</th>
-                                                </tr>
-                                                </thead>
-
-                                                <tbody class="exesTable">
-                                                <Exes v-for="(exes, exes_index) in apportionData.exesData"
-                                                      :key="exes.uniqueId"
-                                                      :idx="exes_index"
-                                                      :exes="exes"
-                                                      :itemData="apportionData.itemData"
-                                                      :nowYear="parseInt(exes.exeStartYear)"
-                                                      :infoData="infoData"
-                                                      :PM="parseInt(infoData.infPM)"
-                                                      :SP="parseInt(infoData.infSP)"
-                                                      @remove-exes="removeExesData"
-                                                      @scrollExes="scrollToElement"
-                                                      @checkMathAnnual="mathAnnual"
-                                                      ref="ItemComp"
-                                                />
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div class=" mt-2 d-flex justify-content">
-                                        <button type="button" @click="addExesData"
-                                                class="btn btn-icon icon-left btn-outline-success myFont16"
-                                                style="border-radius: 6px;">新增一筆
-                                        </button>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="card" style="position: static;">
-                        <div class="card-header justify-content-between">
-                            <h4 class="myCardTitle">
+                            <div class="card" :id="'my2'">
+                                <div class="card-header justify-content-between">
+                                    <h4 class="myCardTitle">
                                     <span class="myFont16 d-flex align-center"
                                           style="background-color: #26a862; color: white; border-radius: 6px; padding: 0.3rem 0.8rem; font-weight: 400;">
                                         <vue-feather type="tag" size="20"
                                                      style="transform: rotate(135deg); padding-right: 0px;"
-                                                     class="m-r-5"></vue-feather>費用分攤明細</span>
-                            </h4>
-                        </div>
-                        <div class="card-body">
-                            <template v-for="(exes, index) in apportionData.exesData">
-                                <div class="card" :id="'ite_'+exes.uniqueId">
-                                    <div class="card-body mt-2">
-                                        <div class="row myShowDetail">
-                                            <h4 class="myCardTitle">項目資訊</h4>
-                                            <div class="d-flex mb-5 row">
-                                                <div class="col-xl-2 col-md-2 col-sm-4 col-4">
-                                                    <label class="row-label row-title">種類</label>
-                                                    <label class="row-text">{{ exes.worTitle }}</label>
-                                                </div>
-                                                <div class="col-xl-2 col-md-4 col-sm-8 col-8">
-                                                    <label class="row-label row-title">共用作業項目</label>
-                                                    <label class="row-text">{{ exes.iteTitle }}</label>
-                                                </div>
-                                                <div class="col-xl-4 col-md-12 col-sm-12 col-12">
-                                                    <label class="row-label row-title">分攤原則</label>
-                                                    <label class="row-text">{{ exes.disTitle}}</label>
-                                                </div>
-                                                <div class="col-xl-4 col-md-12 col-sm-12 col-12">
-                                                    <label class="row-label row-title">計算基礎</label>
-                                                    <label class="row-text">{{ exes.manTitle }}</label>
-                                                </div>
+                                                     class="m-r-5"></vue-feather>分攤費用共用作業項目</span>
+                                    </h4>
+                                </div>
+                                <div class="card-body myNotification">
+                                    <div class="row">
+                                        <div class="col-12 sub-item">
+                                            <div class="row" style="margin-bottom: 20px;">
+                                                <div class="table-responsive">
+                                                    <table class="newTable">
+                                                        <caption>分攤費用共用作業項目資料表</caption>
+                                                        <thead style="position: sticky;top: 0;" class="myNew">
+                                                        <tr>
+                                                            <th style="width: 20px;"></th>
+                                                            <th style="width: 50px;">種類</th>
+                                                            <th style="min-width: 110px;">共用作業項目</th>
+                                                            <th style="min-width: 120px;">軟硬體名稱</th>
+                                                            <th style="min-width: 80px;" colspan="3">分攤總費用</th>
+                                                            <th style="width: 80px;">提列年度</th>
+                                                            <th style="width: 70px;">操作</th>
+                                                        </tr>
+                                                        </thead>
 
-                                                <div :class="3 === parseInt(exes.worId) ? 'col-xl-2 col-md-3 col-sm-4 col-6' : 'col-xl-4 col-md-3 col-sm-4 col-6'">
-                                                    <label class="row-label row-title">軟硬體名稱</label>
-                                                    <label class="row-text">{{ exes.exeTitle }}</label>
+                                                        <tbody class="exesTable">
+                                                        <Exes v-for="(exes, exes_index) in apportionData.exesData"
+                                                              :key="exes.uniqueId"
+                                                              :idx="exes_index"
+                                                              :exes="exes"
+                                                              :itemData="apportionData.itemData"
+                                                              :nowYear="parseInt(exes.exeStartYear)"
+                                                              :infoData="infoData"
+                                                              :PM="parseInt(infoData.infPM)"
+                                                              :SP="parseInt(infoData.infSP)"
+                                                              @remove-exes="removeExesData"
+                                                              @scrollExes="scrollToIteElement"
+                                                              @checkMathAnnual="mathAnnual"
+                                                              ref="ItemComp"
+                                                        />
+                                                        </tbody>
+                                                    </table>
                                                 </div>
-                                                <template v-if="3 === parseInt(exes.worId)">
-                                                    <div class="col-xl-1 col-md-3 col-sm-4 col-3">
-                                                        <label class="row-label row-title">PM人天數</label>
-                                                        <label class="row-text">{{ exes.exePM}}</label>
-                                                    </div>
-                                                    <div class="col-xl-1 col-md-3 col-sm-4 col-3">
-                                                        <label class="row-label row-title">SP人天數</label>
-                                                        <label class="row-text">{{ exes.exeSP}}</label>
-                                                    </div>
-                                                </template>
+                                            </div>
+                                            <div class=" mt-2 d-flex justify-content">
+                                                <button type="button" @click="addExesData"
+                                                        class="btn btn-icon icon-left btn-outline-success myFont16"
+                                                        style="border-radius: 6px;">新增一筆
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card" :id="'my3'" style="position: static;">
+                                <div class="card-header justify-content-between">
+                                    <h4 class="myCardTitle">
+                                    <span class="myFont16 d-flex align-center"
+                                          style="background-color: #26a862; color: white; border-radius: 6px; padding: 0.3rem 0.8rem; font-weight: 400;">
+                                        <vue-feather type="tag" size="20"
+                                                     style="transform: rotate(135deg); padding-right: 0px;"
+                                                     class="m-r-5"></vue-feather>分攤費用共用作業項目-詳細資訊</span>
+                                    </h4>
+                                </div>
+                                <div class="card-body">
+                                    <template v-for="(exes, index) in apportionData.exesData">
+                                        <div class="card" :id="'ite_'+exes.uniqueId">
+                                            <div class="card-body mt-2">
+                                                <div class="row myShowDetail">
+                                                    <h4 class="myCardTitle">項目資訊</h4>
+                                                    <div class="d-flex mb-5 row">
+                                                        <div class="col-xl-2 col-md-2 col-sm-4 col-4">
+                                                            <label class="row-label row-title">種類</label>
+                                                            <label class="row-text">{{ exes.worTitle }}</label>
+                                                        </div>
+                                                        <div class="col-xl-2 col-md-4 col-sm-8 col-8">
+                                                            <label class="row-label row-title">共用作業項目</label>
+                                                            <label class="row-text">{{ exes.iteTitle }}</label>
+                                                        </div>
+                                                        <div class="col-xl-4 col-md-12 col-sm-12 col-12">
+                                                            <label class="row-label row-title">分攤原則</label>
+                                                            <label class="row-text">{{ exes.disTitle}}</label>
+                                                        </div>
+                                                        <div class="col-xl-4 col-md-12 col-sm-12 col-12">
+                                                            <label class="row-label row-title">計算基礎</label>
+                                                            <label class="row-text">{{ exes.manTitle }}</label>
+                                                        </div>
+
+                                                        <div :class="3 === parseInt(exes.worId) ? 'col-xl-2 col-md-3 col-sm-4 col-6' : 'col-xl-4 col-md-3 col-sm-4 col-6'">
+                                                            <label class="row-label row-title">軟硬體名稱</label>
+                                                            <label class="row-text">{{ exes.exeTitle }}</label>
+                                                        </div>
+                                                        <template v-if="3 === parseInt(exes.worId)">
+                                                            <div class="col-xl-1 col-md-3 col-sm-4 col-3">
+                                                                <label class="row-label row-title">PM人天數</label>
+                                                                <label class="row-text">{{ exes.exePM}}</label>
+                                                            </div>
+                                                            <div class="col-xl-1 col-md-3 col-sm-4 col-3">
+                                                                <label class="row-label row-title">SP人天數</label>
+                                                                <label class="row-text">{{ exes.exeSP}}</label>
+                                                            </div>
+                                                        </template>
 
 
-                                                <div class="col-xl-2 col-md-3 col-sm-4 col-6">
-                                                    <label class="row-label row-title">分攤總費用</label>
-                                                    <label class="row-text">{{ exes.exeCost}}</label>
-                                                </div>
-                                                <div class="col-xl-2 col-md-3 col-sm-4 col-6">
-                                                    <label class="row-label row-title">提列年度</label>
-                                                    <label class="row-text">{{ exes.exeStartYear}}</label>
-                                                </div>
-                                                <div class="col-xl-2 col-md-3 col-sm-4 col-6">
-                                                    <label class="row-label row-title">攤提月數(個)</label>
-                                                    <input :disabled="1 === parseInt(exes.exeStatus)" type="number"
-                                                           v-model="exes.exeMonth" class="row-text"
-                                                           style="width: 80px;" placeholder="1" min="1"
-                                                           onclick="this.select();"/>
-                                                </div>
-                                                <div class="col-xl-2 col-md-12 col-sm-12 col-12">
-                                                    <label class="row-label row-title">費用攤提起始年月</label>
-                                                    <DatePicker format="yyyy/MM"
-                                                                v-model="exes.exeCreateMonth"
-                                                                :disabled="1 === parseInt(exes.exeStatus)"
-                                                                :enable-time-picker="false"
-                                                                placeholder="起始年月"
-                                                                locale="zh"
-                                                                month-picker
-                                                                @closed="mathAnnual(exes)"
-                                                                style="width: 140px;"/>
-                                                </div>
-                                                <div v-if="null !== exes.exeCreateMonth && 0 !== exes.exeMonth"
-                                                     class="col-12">
-                                                    <div class="card-body">
-                                                        <ul class="nav nav-tabs" role="tablist">
-                                                            <li class="nav-item" role="presentation">
-                                                                <a class="nav-link active" id="home-tab"
-                                                                   data-bs-toggle="tab"
-                                                                   :href="'#ann_'+exes.uniqueId" role="tab"
-                                                                   aria-controls="home" aria-selected="true">各年度分攤費用</a>
-                                                            </li>
-                                                            <li class="nav-item" role="presentation">
-                                                                <a class="nav-link" id="profile-tab"
-                                                                   data-bs-toggle="tab"
-                                                                   :href="'#exe_'+exes.uniqueId" role="tab"
-                                                                   aria-controls="profile" aria-selected="false"
-                                                                   tabindex="-1">各公司年度分攤費用</a>
-                                                            </li>
-                                                            <li class="nav-item" role="presentation">
-                                                                <a class="nav-link" id="contact-tab"
-                                                                   data-bs-toggle="tab"
-                                                                   :href="'#fil_'+exes.uniqueId" role="tab"
-                                                                   aria-controls="contact" aria-selected="false"
-                                                                   tabindex="-1">附件資料</a>
-                                                            </li>
-                                                        </ul>
-                                                        <div class="tab-content" id="myTabContent">
-                                                            <div class="tab-pane fade show active"
-                                                                 :id="'ann_'+exes.uniqueId"
-                                                                 role="tabpanel" aria-labelledby="home-tab">
-                                                                <div class="card-body" style="padding: 0px;">
-                                                                    <div class="">
-                                                                        <Annual
-                                                                                :annualData="exes.annualData"
-                                                                                :exes="exes"
-                                                                                :currentYear="currentYear"
-                                                                                :appYear="apportionData.appYear"
-                                                                                @math-company="mathCompany"
-                                                                        />
+                                                        <div class="col-xl-2 col-md-3 col-sm-4 col-6">
+                                                            <label class="row-label row-title">分攤總費用</label>
+                                                            <label class="row-text">{{ exes.exeCost}}</label>
+                                                        </div>
+                                                        <div class="col-xl-2 col-md-3 col-sm-4 col-6">
+                                                            <label class="row-label row-title">提列年度</label>
+                                                            <label class="row-text">{{ exes.exeStartYear}}</label>
+                                                        </div>
+                                                        <div class="col-xl-2 col-md-3 col-sm-4 col-6">
+                                                            <label class="row-label row-title">攤提月數(個)</label>
+                                                            <input :disabled="1 === parseInt(exes.exeStatus)"
+                                                                   type="number"
+                                                                   v-model="exes.exeMonth" class="row-text"
+                                                                   style="width: 80px;" placeholder="1" min="1"
+                                                                   onclick="this.select();"/>
+                                                        </div>
+                                                        <div class="col-xl-2 col-md-12 col-sm-12 col-12">
+                                                            <label class="row-label row-title">費用攤提起始年月</label>
+                                                            <DatePicker format="yyyy/MM"
+                                                                        v-model="exes.exeCreateMonth"
+                                                                        :disabled="1 === parseInt(exes.exeStatus)"
+                                                                        :enable-time-picker="false"
+                                                                        placeholder="起始年月"
+                                                                        locale="zh"
+                                                                        month-picker
+                                                                        @closed="mathAnnual(exes)"
+                                                                        style="width: 140px;"/>
+                                                        </div>
+                                                        <div v-if="null !== exes.exeCreateMonth && 0 !== exes.exeMonth"
+                                                             class="col-12">
+                                                            <div class="card-body">
+                                                                <ul class="nav nav-tabs" role="tablist">
+                                                                    <li class="nav-item" role="presentation">
+                                                                        <a class="nav-link active" id="home-tab"
+                                                                           data-bs-toggle="tab"
+                                                                           :href="'#ann_'+exes.uniqueId" role="tab"
+                                                                           aria-controls="home" aria-selected="true">各年度分攤費用</a>
+                                                                    </li>
+                                                                    <li class="nav-item" role="presentation">
+                                                                        <a class="nav-link" id="profile-tab"
+                                                                           data-bs-toggle="tab"
+                                                                           :href="'#exe_'+exes.uniqueId" role="tab"
+                                                                           aria-controls="profile" aria-selected="false"
+                                                                           tabindex="-1">各公司年度分攤費用</a>
+                                                                    </li>
+                                                                    <li class="nav-item" role="presentation">
+                                                                        <a class="nav-link" id="contact-tab"
+                                                                           data-bs-toggle="tab"
+                                                                           :href="'#fil_'+exes.uniqueId" role="tab"
+                                                                           aria-controls="contact" aria-selected="false"
+                                                                           tabindex="-1">附件資料</a>
+                                                                    </li>
+                                                                </ul>
+                                                                <div class="tab-content" id="myTabContent">
+                                                                    <div class="tab-pane fade show active"
+                                                                         :id="'ann_'+exes.uniqueId"
+                                                                         role="tabpanel" aria-labelledby="home-tab">
+                                                                        <div class="card-body" style="padding: 0px;">
+                                                                            <div class="">
+                                                                                <Annual
+                                                                                        :annualData="exes.annualData"
+                                                                                        :exes="exes"
+                                                                                        :currentYear="currentYear"
+                                                                                        :appYear="apportionData.appYear"
+                                                                                        @math-company="mathCompany"
+                                                                                />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="tab-pane fade"
+                                                                         :id="'exe_'+exes.uniqueId"
+                                                                         role="tabpanel" aria-labelledby="profile-tab">
+                                                                        <!-- 待簽列表 -->
+                                                                        <template v-for="ann in exes.annualData">
+                                                                            <template
+                                                                                    v-if="parseInt(ann.annYear) === parseInt(currentYear)">
+                                                                                <Subsidiary
+                                                                                        :exesData="exes"
+                                                                                        :annualData="ann"
+                                                                                        :subsidiaryData="ann.subsidiaryData"
+                                                                                        @getCount="countCost"
+                                                                                />
+                                                                            </template>
+                                                                        </template>
+                                                                        <!-- 待簽列表 -->
+                                                                    </div>
+                                                                    <div class="tab-pane fade"
+                                                                         :id="'fil_'+exes.uniqueId"
+                                                                         role="tabpanel" aria-labelledby="contact-tab">
+                                                                        <!-- 待簽列表 -->
+                                                                        <table class="table table-bordered table-md">
+                                                                            <tbody>
+                                                                            <tr>
+                                                                                <th>編號</th>
+                                                                                <th>名稱</th>
+                                                                                <th>創建日期</th>
+                                                                                <th>狀態</th>
+                                                                                <th>查看</th>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>1</td>
+                                                                                <td>資訊作業系統</td>
+                                                                                <td>2017-01-09</td>
+                                                                                <td>
+                                                                                    <div class="badge badge-success">
+                                                                                        Active
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <!-- <a href="#" class="btn btn-primary">詳細內容</a>  -->
+                                                                                    <div class="action-btns"><a
+                                                                                            href="javascript:void(0);"
+                                                                                            class="action-btn btn-view bs-tooltip me-2"
+                                                                                            data-toggle="tooltip"
+                                                                                            data-placement="top"
+                                                                                            title=""
+                                                                                            data-bs-original-title="View"
+                                                                                            aria-label="View">
+                                                                                        <svg
+                                                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                                                width="24" height="24"
+                                                                                                viewBox="0 0 24 24"
+                                                                                                fill="none"
+                                                                                                stroke="currentColor"
+                                                                                                stroke-width="2"
+                                                                                                stroke-linecap="round"
+                                                                                                stroke-linejoin="round"
+                                                                                                class="feather feather-eye">
+                                                                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                                                            <circle cx="12" cy="12"
+                                                                                                    r="3"></circle>
+                                                                                        </svg>
+                                                                                    </a></div>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>2</td>
+                                                                                <td>資訊作業系統</td>
+                                                                                <td>2017-01-09</td>
+                                                                                <td>
+                                                                                    <div class="badge badge-success">
+                                                                                        Active
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div class="action-btns"><a
+                                                                                            href="javascript:void(0);"
+                                                                                            class="action-btn btn-view bs-tooltip me-2"
+                                                                                            data-toggle="tooltip"
+                                                                                            data-placement="top"
+                                                                                            title=""
+                                                                                            data-bs-original-title="View"
+                                                                                            aria-label="View">
+                                                                                        <svg
+                                                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                                                width="24" height="24"
+                                                                                                viewBox="0 0 24 24"
+                                                                                                fill="none"
+                                                                                                stroke="currentColor"
+                                                                                                stroke-width="2"
+                                                                                                stroke-linecap="round"
+                                                                                                stroke-linejoin="round"
+                                                                                                class="feather feather-eye">
+                                                                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                                                            <circle cx="12" cy="12"
+                                                                                                    r="3"></circle>
+                                                                                        </svg>
+                                                                                    </a></div>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>3</td>
+                                                                                <td>資訊作業系統</td>
+                                                                                <td>2017-01-11</td>
+                                                                                <td>
+                                                                                    <div class="badge badge-danger">Not
+                                                                                        Active
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div class="action-btns"><a
+                                                                                            href="javascript:void(0);"
+                                                                                            class="action-btn btn-view bs-tooltip me-2"
+                                                                                            data-toggle="tooltip"
+                                                                                            data-placement="top"
+                                                                                            title=""
+                                                                                            data-bs-original-title="View"
+                                                                                            aria-label="View">
+                                                                                        <svg
+                                                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                                                width="24" height="24"
+                                                                                                viewBox="0 0 24 24"
+                                                                                                fill="none"
+                                                                                                stroke="currentColor"
+                                                                                                stroke-width="2"
+                                                                                                stroke-linecap="round"
+                                                                                                stroke-linejoin="round"
+                                                                                                class="feather feather-eye">
+                                                                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                                                            <circle cx="12" cy="12"
+                                                                                                    r="3"></circle>
+                                                                                        </svg>
+                                                                                    </a></div>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>4</td>
+                                                                                <td>資訊作業系統</td>
+                                                                                <td>2017-01-11</td>
+                                                                                <td>
+                                                                                    <div class="badge badge-success">
+                                                                                        Active
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div class="action-btns"><a
+                                                                                            href="javascript:void(0);"
+                                                                                            class="action-btn btn-view bs-tooltip me-2"
+                                                                                            data-toggle="tooltip"
+                                                                                            data-placement="top"
+                                                                                            title=""
+                                                                                            data-bs-original-title="View"
+                                                                                            aria-label="View">
+                                                                                        <svg
+                                                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                                                width="24" height="24"
+                                                                                                viewBox="0 0 24 24"
+                                                                                                fill="none"
+                                                                                                stroke="currentColor"
+                                                                                                stroke-width="2"
+                                                                                                stroke-linecap="round"
+                                                                                                stroke-linejoin="round"
+                                                                                                class="feather feather-eye">
+                                                                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                                                            <circle cx="12" cy="12"
+                                                                                                    r="3"></circle>
+                                                                                        </svg>
+                                                                                    </a></div>
+                                                                                </td>
+                                                                            </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                        <!-- 待簽列表 -->
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="tab-pane fade" :id="'exe_'+exes.uniqueId"
-                                                                 role="tabpanel" aria-labelledby="profile-tab">
-                                                                <!-- 待簽列表 -->
-                                                                <template v-for="ann in exes.annualData">
-                                                                    <template
-                                                                            v-if="parseInt(ann.annYear) === parseInt(currentYear)">
-                                                                        <Subsidiary
-                                                                                :exesData="exes"
-                                                                                :annualData="ann"
-                                                                                :subsidiaryData="ann.subsidiaryData"
-                                                                                @getCount="countCost"
-                                                                        />
-                                                                    </template>
-                                                                </template>
-                                                                <!-- 待簽列表 -->
-                                                            </div>
-                                                            <div class="tab-pane fade" :id="'fil_'+exes.uniqueId"
-                                                                 role="tabpanel" aria-labelledby="contact-tab">
-                                                                <!-- 待簽列表 -->
-                                                                <table class="table table-bordered table-md">
-                                                                    <tbody>
-                                                                    <tr>
-                                                                        <th>編號</th>
-                                                                        <th>名稱</th>
-                                                                        <th>創建日期</th>
-                                                                        <th>狀態</th>
-                                                                        <th>查看</th>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>1</td>
-                                                                        <td>資訊作業系統</td>
-                                                                        <td>2017-01-09</td>
-                                                                        <td>
-                                                                            <div class="badge badge-success">Active
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <!-- <a href="#" class="btn btn-primary">詳細內容</a>  -->
-                                                                            <div class="action-btns"><a
-                                                                                    href="javascript:void(0);"
-                                                                                    class="action-btn btn-view bs-tooltip me-2"
-                                                                                    data-toggle="tooltip"
-                                                                                    data-placement="top"
-                                                                                    title=""
-                                                                                    data-bs-original-title="View"
-                                                                                    aria-label="View">
-                                                                                <svg
-                                                                                        xmlns="http://www.w3.org/2000/svg"
-                                                                                        width="24" height="24"
-                                                                                        viewBox="0 0 24 24"
-                                                                                        fill="none"
-                                                                                        stroke="currentColor"
-                                                                                        stroke-width="2"
-                                                                                        stroke-linecap="round"
-                                                                                        stroke-linejoin="round"
-                                                                                        class="feather feather-eye">
-                                                                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                                                                    <circle cx="12" cy="12"
-                                                                                            r="3"></circle>
-                                                                                </svg>
-                                                                            </a></div>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>2</td>
-                                                                        <td>資訊作業系統</td>
-                                                                        <td>2017-01-09</td>
-                                                                        <td>
-                                                                            <div class="badge badge-success">Active
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div class="action-btns"><a
-                                                                                    href="javascript:void(0);"
-                                                                                    class="action-btn btn-view bs-tooltip me-2"
-                                                                                    data-toggle="tooltip"
-                                                                                    data-placement="top"
-                                                                                    title=""
-                                                                                    data-bs-original-title="View"
-                                                                                    aria-label="View">
-                                                                                <svg
-                                                                                        xmlns="http://www.w3.org/2000/svg"
-                                                                                        width="24" height="24"
-                                                                                        viewBox="0 0 24 24"
-                                                                                        fill="none"
-                                                                                        stroke="currentColor"
-                                                                                        stroke-width="2"
-                                                                                        stroke-linecap="round"
-                                                                                        stroke-linejoin="round"
-                                                                                        class="feather feather-eye">
-                                                                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                                                                    <circle cx="12" cy="12"
-                                                                                            r="3"></circle>
-                                                                                </svg>
-                                                                            </a></div>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>3</td>
-                                                                        <td>資訊作業系統</td>
-                                                                        <td>2017-01-11</td>
-                                                                        <td>
-                                                                            <div class="badge badge-danger">Not Active
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div class="action-btns"><a
-                                                                                    href="javascript:void(0);"
-                                                                                    class="action-btn btn-view bs-tooltip me-2"
-                                                                                    data-toggle="tooltip"
-                                                                                    data-placement="top"
-                                                                                    title=""
-                                                                                    data-bs-original-title="View"
-                                                                                    aria-label="View">
-                                                                                <svg
-                                                                                        xmlns="http://www.w3.org/2000/svg"
-                                                                                        width="24" height="24"
-                                                                                        viewBox="0 0 24 24"
-                                                                                        fill="none"
-                                                                                        stroke="currentColor"
-                                                                                        stroke-width="2"
-                                                                                        stroke-linecap="round"
-                                                                                        stroke-linejoin="round"
-                                                                                        class="feather feather-eye">
-                                                                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                                                                    <circle cx="12" cy="12"
-                                                                                            r="3"></circle>
-                                                                                </svg>
-                                                                            </a></div>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>4</td>
-                                                                        <td>資訊作業系統</td>
-                                                                        <td>2017-01-11</td>
-                                                                        <td>
-                                                                            <div class="badge badge-success">Active
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div class="action-btns"><a
-                                                                                    href="javascript:void(0);"
-                                                                                    class="action-btn btn-view bs-tooltip me-2"
-                                                                                    data-toggle="tooltip"
-                                                                                    data-placement="top"
-                                                                                    title=""
-                                                                                    data-bs-original-title="View"
-                                                                                    aria-label="View">
-                                                                                <svg
-                                                                                        xmlns="http://www.w3.org/2000/svg"
-                                                                                        width="24" height="24"
-                                                                                        viewBox="0 0 24 24"
-                                                                                        fill="none"
-                                                                                        stroke="currentColor"
-                                                                                        stroke-width="2"
-                                                                                        stroke-linecap="round"
-                                                                                        stroke-linejoin="round"
-                                                                                        class="feather feather-eye">
-                                                                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                                                                    <circle cx="12" cy="12"
-                                                                                            r="3"></circle>
-                                                                                </svg>
-                                                                            </a></div>
-                                                                        </td>
-                                                                    </tr>
-                                                                    </tbody>
-                                                                </table>
-                                                                <!-- 待簽列表 -->
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </template>
                                 </div>
-                            </template>
+                            </div>
+
+
                         </div>
                     </div>
 
+                    <!-- 立約書人 -->
+                    <div class="col-12" :id="'my4'">
+                        <div class="card">
+                            <div class="card-header justify-content-between">
+                                <h4 class="myCardTitle">
+                                    <span class="myFont16 d-flex align-center"
+                                          style="background-color: #26a862; color: white; border-radius: 6px; padding: 0.3rem 0.8rem; font-weight: 400;">
+                                        <vue-feather type="tag" size="20"
+                                                     style="transform: rotate(135deg); padding-right: 0px;"
+                                                     class="m-r-5"></vue-feather>立約書人</span>
+                                </h4>
+                            </div>
+                            <div class="card-body myNotification">
+                                <template v-if="-1 === parseInt(apportionData.conApp)">
+                                    <div class="row" style="margin-bottom: 20px">
+                                        <label class="myFont16 p-t-10">管理維運公司</label>
+                                        <div class="table-responsive">
+                                            <table class="newTable">
+                                                <caption>維運公司簽核人員資料表</caption>
+                                                <thead style="position: sticky;top: 0;"
+                                                       class="myNew">
+                                                <tr>
+                                                    <th class="text-center"
+                                                        style="min-width: 120px;"
+                                                        scope="col">公司
+                                                    </th>
+                                                    <th class="text-center"
+                                                        style="min-width: 120px;"
+                                                        scope="col">部門
+                                                    </th>
+                                                    <th class="text-center"
+                                                        style="min-width: 120px;"
+                                                        scope="col">科別
+                                                    </th>
+                                                    <th class="text-center"
+                                                        style="min-width: 120px;"
+                                                        scope="col">部門主管
+                                                    </th>
+                                                    <th class="text-center"
+                                                        style="min-width: 120px;"
+                                                        scope="col">科別主管
+                                                    </th>
+                                                    <th class="text-center"
+                                                        style="min-width: 120px;"
+                                                        scope="col">承辦人
+                                                    </th>
+                                                    <th class="text-center"
+                                                        style="min-width: 120px;"
+                                                        scope="col">承辦人連絡電話
+                                                    </th>
+                                                    <th style="width: 20px;"></th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <Member
+                                                            :key="iMemberData.uniqueId"
+                                                            :member="iMemberData"
+                                                            :companyData="companyData"
+                                                            :companyUse="apportionData.comCode"
+                                                            :use_close="false"
+                                                            :use_contact="true"
+                                                            :lv_disabled="true"
+                                                            ref="iMemberComp"
+                                                    />
+                                                </tr>
+                                                <tr v-for="mmem in mMemberData">
+                                                    <Member
+                                                            :key="mmem.uniqueId"
+                                                            :member="mmem"
+                                                            :use_close="true"
+                                                            :lv_disabled="false"
+                                                            :companyData="companyData"
+                                                            :companyUse="apportionData.comCode"
+                                                            @remove-member="uniqueId=>removeMember(uniqueId, 'M')"
+                                                            ref="mMemberComp"
+                                                    />
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class=" mt-2 d-flex justify-content">
+                                        <button type="button"
+                                                @click="addMember('M', per.perBu1Code)"
+                                                class="btn btn-icon icon-left btn-outline-success myFont16"
+                                                style="border-radius: 6px;">新增一筆
+                                        </button>
+                                    </div>
+                                    <div class="row" style="margin-bottom: 20px">
+                                        <label class="myFont16 p-t-10">使用公司</label>
+                                        <div class="table-responsive">
+                                            <table class="newTable">
+                                                <caption>使用公司簽核人員資料表</caption>
+                                                <thead style="position: sticky;top: 0;"
+                                                       class="myNew">
+                                                <tr>
+                                                    <th class="text-center"
+                                                        style="min-width: 120px;"
+                                                        scope="col">公司
+                                                    </th>
+                                                    <th class="text-center"
+                                                        style="min-width: 120px;"
+                                                        scope="col">部門
+                                                    </th>
+                                                    <th class="text-center"
+                                                        style="min-width: 120px;"
+                                                        scope="col">科別
+                                                    </th>
+                                                    <th class="text-center"
+                                                        style="min-width: 120px;"
+                                                        scope="col">部門主管
+                                                    </th>
+                                                    <th class="text-center"
+                                                        style="min-width: 120px;"
+                                                        scope="col">科別主管
+                                                    </th>
+                                                    <th class="text-center"
+                                                        style="min-width: 120px;"
+                                                        scope="col">承辦人
+                                                    </th>
+                                                    <th class="text-center"
+                                                        style="min-width: 120px;"
+                                                        scope="col">承辦人連絡電話
+                                                    </th>
+                                                    <th style="width: 20px;"></th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr v-for="umem in uMemberData">
+                                                    <Member
+                                                            :key="umem.uniqueId"
+                                                            :member="umem"
+                                                            :use_close="true"
+                                                            :lv_disabled="false"
+                                                            :companyData="companyData"
+                                                            :companyUse="apportionData.conCompany"
+                                                            @remove-member="uniqueId=>removeMember(uniqueId, 'U')"
+                                                            ref="uMemberComp"
+                                                    />
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class=" mt-2 d-flex justify-content">
+                                        <button type="button"
+                                                @click="addMember('U', per.perBu1Code)"
+                                                class="btn btn-icon icon-left btn-outline-success myFont16"
+                                                style="border-radius: 6px;">新增一筆
+                                        </button>
+                                    </div>
+                                    <div class="myFont16 mt-2">維運窗口：<span
+                                            class="data">
+                                                                                        <div class="d-flex m-tb">
+                                                                                            <div v-for="con in contactData"
+                                                                                                 class="form-check-inline">
+                                                                                                <label v-if="con.comId.includes(per.comId)"
+                                                                                                       class="form-check-label">
+                                                                                                        <vue-feather
+                                                                                                                v-if="con.perKey === iMemberData.memLVCKey"
+                                                                                                                type="key"
+                                                                                                                size="20"
+                                                                                                                style="margin-bottom: -4px;"></vue-feather>
+                                                                                                    {{ con.perName + ' ' + con.perPositionName }}
+                                                                                                </label>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </span></div>
+                                    <div class="myFont16">使用窗口：<span
+                                            class="data">
+                                                                                        <div class="d-flex m-tb">
+                                                                                            <template
+                                                                                                    v-for="com in apportionData.conCompany">
+                                                                                                <template
+                                                                                                        v-for="con in contactData">
+                                                                                                <div v-if="con.comCode.includes(com)"
+                                                                                                     class="form-check-inline">
+                                                                                                    <label class="form-check-label">
+                                                                                                        {{ con.perName + ' ' + con.perPositionName }}
+                                                                                                    </label>
+                                                                                                </div>
+                                                                                                </template>
+                                                                                            </template>
+                                                                                        </div>
+                                                                                    </span></div>
+                                </template>
+                                <template v-else>
+                                    <div class="row" style="margin-bottom: 20px">
+                                        <label class="myFont16 p-t-10">管理維運公司</label>
+                                        <div class="table-responsive">
+                                            <table class="newTable">
+                                                <caption>維運公司簽核人員資料表</caption>
+                                                <thead style="position: sticky;top: 0;"
+                                                       class="myNew">
+                                                <tr>
+                                                    <th style="min-width: 120px;"
+                                                        scope="col">公司
+                                                    </th>
+                                                    <th style="min-width: 120px;"
+                                                        scope="col">部門
+                                                    </th>
+                                                    <th style="min-width: 120px;"
+                                                        scope="col">科別
+                                                    </th>
+                                                    <th style="min-width: 120px;"
+                                                        scope="col">部門主管
+                                                    </th>
+                                                    <th style="min-width: 120px;"
+                                                        scope="col">科別主管
+                                                    </th>
+                                                    <th style="min-width: 120px;"
+                                                        scope="col">承辦人
+                                                    </th>
+                                                    <th style="min-width: 120px;"
+                                                        scope="col">承辦人連絡電話
+                                                    </th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td>{{ iMemberData.comTitle }}</td>
+                                                    <td>{{ iMemberData.memBu2 }}</td>
+                                                    <td>{{ iMemberData.memBu3 }}</td>
+                                                    <td>{{ iMemberData.memLV2Name }}</td>
+                                                    <td>{{ iMemberData.memLV1Name }}</td>
+                                                    <td>{{ iMemberData.memLV0Name }}</td>
+                                                    <td>{{ iMemberData.memPhone }}</td>
+                                                </tr>
+                                                <tr v-for="mmem in mMemberData">
+                                                    <td>{{ mmem.comTitle }}</td>
+                                                    <td>{{ mmem.memBu2 }}</td>
+                                                    <td>{{ mmem.memBu3 }}</td>
+                                                    <td>{{ mmem.memLV2Name }}</td>
+                                                    <td>{{ mmem.memLV1Name }}</td>
+                                                    <td>{{ mmem.memLV0Name }}</td>
+                                                    <td>{{ mmem.memPhone }}</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-bottom: 20px">
+                                        <label class="myFont16 p-t-10">使用公司</label>
+                                        <div class="table-responsive">
+                                            <table class="newTable">
+                                                <caption>使用公司簽核人員資料表</caption>
+                                                <thead style="position: sticky;top: 0;"
+                                                       class="myNew">
+                                                <tr>
+                                                    <th style="min-width: 120px;"
+                                                        scope="col">公司
+                                                    </th>
+                                                    <th style="min-width: 120px;"
+                                                        scope="col">部門
+                                                    </th>
+                                                    <th style="min-width: 120px;"
+                                                        scope="col">科別
+                                                    </th>
+                                                    <th style="min-width: 120px;"
+                                                        scope="col">部門主管
+                                                    </th>
+                                                    <th style="min-width: 120px;"
+                                                        scope="col">科別主管
+                                                    </th>
+                                                    <th style="min-width: 120px;"
+                                                        scope="col">承辦人
+                                                    </th>
+                                                    <th style="min-width: 120px;"
+                                                        scope="col">承辦人連絡電話
+                                                    </th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr v-for="umem in uMemberData">
+                                                    <td>{{ umem.comTitle }}</td>
+                                                    <td>{{ umem.memBu2 }}</td>
+                                                    <td>{{ umem.memBu3 }}</td>
+                                                    <td>{{ umem.memLV2Name }}</td>
+                                                    <td>{{ umem.memLV1Name }}</td>
+                                                    <td>{{ umem.memLV0Name }}</td>
+                                                    <td>{{ umem.memPhone }}</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="myFont16 mt-2">維運窗口：<span
+                                                class="data">
+                                                                                            <div class="d-flex m-tb">
+                                                                                                <div v-for="con in contactData"
+                                                                                                     class="form-check-inline">
+                                                                                                    <label v-if="con.comId.includes(per.comId)"
+                                                                                                           class="form-check-label">
+                                                                                                            <vue-feather
+                                                                                                                    v-if="con.perKey === iMemberData.memLVCKey"
+                                                                                                                    type="key"
+                                                                                                                    size="20"
+                                                                                                                    style="margin-bottom: -4px;"></vue-feather>
+                                                                                                        {{ con.perName + ' ' + con.perPositionName }}
+                                                                                                    </label>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </span></div>
+                                        <div class="myFont16">使用窗口：<span
+                                                class="data">
+                                                                                            <div class="d-flex m-tb">
+                                                                                                <template
+                                                                                                        v-for="com in apportionData.conCompany">
+                                                                                                    <template
+                                                                                                            v-for="con in contactData">
+                                                                                                    <div v-if="con.comCode.includes(com)"
+                                                                                                         class="form-check-inline">
+                                                                                                        <label class="form-check-label">
+                                                                                                            {{ con.perName + ' ' + con.perPositionName }}
+                                                                                                        </label>
+                                                                                                    </div>
+                                                                                                    </template>
+                                                                                                </template>
+                                                                                            </div>
+                                                                                        </span></div>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6" style="padding-bottom: 20px;">
+                        <button type="button"
+                                @click="$router.push(`/apportion/sl/${apportionData.appId}`)"
+                                class="m-r-5 btn btn-outline-info btn-border-radius waves-effect myFont16">
+                            查看
+                        </button>
+                        <button type="button" @click="updateApportion"
+                                class="m-r-5 btn btn-outline-success btn-border-radius waves-effect myFont16">儲存
+                        </button>
+                        <button v-if="-1 === parseInt(apportionData.conApp)" type="button" @click="deleteApportion(apportionData.appId)"
+                                class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">刪除
+                        </button>
+                        <button v-if="-1 === parseInt(apportionData.conApp)" type="button" @click="cleanApportion(apportionData.appId)"
+                                class="m-r-5 btn btn-outline-secondary btn-border-radius waves-effect myFont16">
+                            撤案
+                        </button>
+                    </div>
 
                 </div>
-            </div>
-            <div class="col-6" style="padding-bottom: 20px;">
-                <button type="button" @click="updateApportion"
-                        class="m-r-5 btn btn-outline-success btn-border-radius waves-effect myFont16">儲存
-                </button>
-                <button type="button" @click="deleteApportion"
-                        class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">刪除
-                </button>
-            </div>
 
-        </div>
-    </section>
 
+
+                <div class="col-12" id="myView">
+                    <div class="card">
+                        <div class="card-header justify-content-between">
+                            <h4 class="myCardTitle" href="#">
+                                <vue-feather type="list" size="20" class="m-r-5"></vue-feather>
+                                本案傳遞流程
+                            </h4>
+                        </div>
+                        <div class="card-body myNotification">
+                            <table class="table">
+                                <!-- <thead style="position: sticky;top: 0;" class="myNew">
+                                  <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">標題</th>
+                                    <th scope="col">發布日期</th>
+                                    <th scope="col">查看</th>
+                                  </tr>
+                                </thead> -->
+                                <tbody class="myNew transfer">
+                                <tr>
+                                    <td>1</td>
+                                    <th scope="row"><span class="badge badge-success">起簽</span></th>
+                                    <td class="bm-1"><span class="sign-title">管理維運公司承辦人</span><br>{{ iMemberData.comTitle}}
+                                        {{
+                                        iMemberData.memBu2
+                                        }} {{ iMemberData.memBu3 }} {{
+                                        iMemberData.memLV0Name }} {{ iMemberData.memLV0PositionName }}
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <a :class="iMemberData.memLV0Status === '0' || iMemberData.memLV0Status === '1' ? 'text-job text-danger myFont16' : 'text-job myFont16'"
+                                           href="javascript:void(0);">
+                                            <template v-if="iMemberData.memLV0Status === '-1'">等待</template>
+                                            <template v-if="iMemberData.memLV0Status === '0'">待檢視</template>
+                                            <template v-if="iMemberData.memLV0Status === '1'">簽核中</template>
+                                            <template v-if="iMemberData.memLV0Status === '2'">退件<br><span class="time-msg">{{iMemberData.memLV0Time}}</span>
+                                                <template v-if="iMemberData.memLV0Msg !== ''"><br><span class="other-msg">{{ iMemberData.memLV0Msg }}</span>
+                                                </template>
+                                            </template>
+                                            <template v-if="iMemberData.memLV0Status === '3'">已完成<br><span class="time-msg">{{iMemberData.memLV0Time}}</span>
+                                            </template>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <th scope="row"><span class="badge badge-primary">會辦</span></th>
+                                    <td class="bm-1"><span class="sign-title">管理維運公司窗口</span><br>{{ iMemberData.comTitle}}
+                                        <template v-if="iMemberData.memLVCKey !== ''">{{ iMemberData.memBu2 }} {{
+                                            iMemberData.memBu3
+                                            }} {{
+                                            iMemberData.memLVCName }} {{ iMemberData.memLVCPositionName }}
+                                        </template>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <a :class="iMemberData.memLVCStatus === '0' || iMemberData.memLVCStatus === '1' ? 'text-job text-danger myFont16' : 'text-job myFont16'"
+                                           href="javascript:void(0);">
+                                            <template v-if="iMemberData.memLVCStatus === '-1'">等待</template>
+                                            <template v-if="iMemberData.memLVCStatus === '0'">待檢視</template>
+                                            <template v-if="iMemberData.memLVCStatus === '1'">簽核中</template>
+                                            <template v-if="iMemberData.memLVCStatus === '2'">退件<br><span class="time-msg">{{iMemberData.memLVCTime}}</span>
+                                                <template v-if="iMemberData.memLVCMsg !== ''"><br><span class="other-msg">{{ iMemberData.memLVCMsg }}</span>
+                                                </template>
+                                            </template>
+                                            <template v-if="iMemberData.memLVCStatus === '3'">已完成<br><span class="time-msg">{{iMemberData.memLVCTime}}</span>
+                                            </template>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <th scope="row"><span class="badge badge-primary">簽核</span></th>
+                                    <td class="bm-1"><span class="sign-title">管理維運公司科級主管</span><br>{{ iMemberData.comTitle}}
+                                        {{
+                                        iMemberData.memBu2 }} {{ iMemberData.memBu3 }} {{
+                                        iMemberData.memLV1Name }} {{ iMemberData.memLV1PositionName }}
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <a :class="iMemberData.memLV1Status === '0' || iMemberData.memLV1Status === '1' ? 'text-job text-danger myFont16' : 'text-job myFont16'"
+                                           href="javascript:void(0);">
+                                            <template v-if="iMemberData.memLV1Status === '-1'">等待</template>
+                                            <template v-if="iMemberData.memLV1Status === '0'">待檢視</template>
+                                            <template v-if="iMemberData.memLV1Status === '1'">簽核中</template>
+                                            <template v-if="iMemberData.memLV1Status === '2'">退件<br><span class="time-msg">{{iMemberData.memLV1Time}}</span>
+                                                <template v-if="iMemberData.memLV1Msg !== ''"><br><span class="other-msg">{{ iMemberData.memLV1Msg }}</span>
+                                                </template>
+                                            </template>
+                                            <template v-if="iMemberData.memLV1Status === '3'">已完成<br><span class="time-msg">{{iMemberData.memLV1Time}}</span>
+                                            </template>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <th scope="row"><span class="badge badge-primary">簽核</span></th>
+                                    <td class="bm-1"><span class="sign-title">管理維運公司部級主管(含以上)</span><br>{{
+                                        iMemberData.comTitle}} {{
+                                        iMemberData.memBu2 }} {{ iMemberData.memBu3 }} {{
+                                        iMemberData.memLV2Name }} {{ iMemberData.memLV2PositionName }}
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <a :class="iMemberData.memLV2Status === '0' || iMemberData.memLV2Status === '1' ? 'text-job text-danger myFont16' : 'text-job myFont16'"
+                                           href="javascript:void(0);">
+                                            <template v-if="iMemberData.memLV2Status === '-1'">等待</template>
+                                            <template v-if="iMemberData.memLV2Status === '0'">待檢視</template>
+                                            <template v-if="iMemberData.memLV2Status === '1'">簽核中</template>
+                                            <template v-if="iMemberData.memLV2Status === '2'">退回<br><span class="time-msg">{{iMemberData.memLV2Time}}</span>
+                                                <template v-if="iMemberData.memLV2Msg !== ''"><br><span class="other-msg">{{ iMemberData.memLV2Msg }}</span>
+                                                </template>
+                                            </template>
+                                            <template v-if="iMemberData.memLV2Status === '3'">已完成<br><span class="time-msg">{{iMemberData.memLV2Time}}</span>
+                                            </template>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <template v-for="(mmem, idx) in mMemberData">
+                                    <tr>
+                                        <td>{{idx+5}}</td>
+                                        <th scope="row"><span class="badge badge-primary">水平會簽</span></th>
+                                        <td class="bm-1"><span class="sign-title">平行維運公司承辦人</span><br>{{ mmem.comTitle}} {{
+                                            mmem.memBu2 }} {{
+                                            mmem.memBu3 }} {{ mmem.memLV0Name }} {{
+                                            mmem.memLV0PositionName }}
+                                        </td>
+                                        <td style="text-align: right;">
+                                            <a :class="mmem.memLV0Status === '0' || mmem.memLV0Status === '1' ? 'text-job text-danger myFont16' : 'text-job myFont16'"
+                                               href="javascript:void(0);">
+                                                <template v-if="mmem.memLV0Status === '-1'">等待</template>
+                                                <template v-if="mmem.memLV0Status === '0'">待檢視</template>
+                                                <template v-if="mmem.memLV0Status === '1'">簽核中</template>
+                                                <template v-if="mmem.memLV0Status === '2'">退件<br><span class="time-msg">{{mmem.memLV0Time}}</span>
+                                                    <template v-if="mmem.memLV0Msg !== ''"><br><span class="other-msg">{{ mmem.memLV0Msg }}</span>
+                                                    </template>
+                                                </template>
+                                                <template v-if="mmem.memLV0Status === '3'">已完成<br><span class="time-msg">{{mmem.memLV0Time}}</span>
+                                                </template>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <th scope="row"><span class="badge badge-secondary"></span></th>
+                                        <td class="bm-1"><span class="sign-title">管理維運公司科級主管</span><br>{{ mmem.comTitle}} {{
+                                            mmem.memBu2 }} {{
+                                            mmem.memBu3 }} {{ mmem.memLV1Name }} {{
+                                            mmem.memLV1PositionName }}
+                                        </td>
+                                        <td style="text-align: right;">
+                                            <a :class="mmem.memLV1Status === '0' || mmem.memLV1Status === '1' ? 'text-job text-danger myFont16' : 'text-job myFont16'"
+                                               href="javascript:void(0);">
+                                                <template v-if="mmem.memLV1Status === '-1'">等待</template>
+                                                <template v-if="mmem.memLV1Status === '0'">待檢視</template>
+                                                <template v-if="mmem.memLV1Status === '1'">簽核中</template>
+                                                <template v-if="mmem.memLV1Status === '2'">退件<br><span class="time-msg">{{mmem.memLV1Time}}</span>
+                                                    <template v-if="mmem.memLV1Msg !== ''"><br><span class="other-msg">{{ mmem.memLV1Msg }}</span>
+                                                    </template>
+                                                </template>
+                                                <template v-if="mmem.memLV1Status === '3'">已完成<br><span class="time-msg">{{mmem.memLV1Time}}</span>
+                                                </template>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <th scope="row"><span class="badge badge-success"></span></th>
+                                        <td class="bm-1"><span class="sign-title">管理維運公司部級主管(含以上)</span><br>{{
+                                            mmem.comTitle}}
+                                            {{ mmem.memBu2 }}
+                                            {{ mmem.memBu3 }} {{ mmem.memLV2Name }} {{
+                                            mmem.memLV2PositionName }}
+                                        </td>
+                                        <td style="text-align: right;">
+                                            <a :class="mmem.memLV2Status === '0' || mmem.memLV2Status === '1' ? 'text-job text-danger myFont16' : 'text-job myFont16'"
+                                               href="javascript:void(0);">
+                                                <template v-if="mmem.memLV2Status === '-1'">等待</template>
+                                                <template v-if="mmem.memLV2Status === '0'">待檢視</template>
+                                                <template v-if="mmem.memLV2Status === '1'">簽核中</template>
+                                                <template v-if="mmem.memLV2Status === '2'">退件<br><span class="time-msg">{{mmem.memLV2Time}}</span>
+                                                    <template v-if="mmem.memLV2Msg !== ''"><br><span class="other-msg">{{ mmem.memLV2Msg }}</span>
+                                                    </template>
+                                                </template>
+                                                <template v-if="mmem.memLV2Status === '3'">已完成<br><span class="time-msg">{{mmem.memLV2Time}}</span>
+                                                </template>
+                                                <template v-if="mmem.memLV2Status === '4'"><br><span class="time-msg">{{mmem.memLV2Time}}</span>
+                                                    <template v-if="mmem.memLV2Msg !== ''"><br><span class="other-msg">{{ mmem.memLV2Msg }}</span>
+                                                    </template>
+                                                </template>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </template>
+                                <template v-for="(umem, idx) in uMemberData">
+                                    <tr>
+                                        <td>{{mMemberData.length+idx+5}}</td>
+                                        <th scope="row"><span class="badge badge-info">水平會簽</span></th>
+                                        <td class="bm-1"><span class="sign-title">使用公司承辦人</span><br>{{ umem.comTitle}} {{
+                                            umem.memBu2 }} {{
+                                            umem.memBu3 }} {{ umem.memLV0Name }} {{
+                                            umem.memLV0PositionName }}
+                                        </td>
+                                        <td style="text-align: right;">
+                                            <a :class="umem.memLV0Status === '0' || umem.memLV0Status === '1' ? 'text-job text-danger myFont16' : 'text-job myFont16'"
+                                               href="javascript:void(0);">
+                                                <template v-if="umem.memLV0Status === '-1'">等待</template>
+                                                <template v-if="umem.memLV0Status === '0'">待檢視</template>
+                                                <template v-if="umem.memLV0Status === '1'">簽核中</template>
+                                                <template v-if="umem.memLV0Status === '2'">退件<br><span class="time-msg">{{umem.memLV0Time}}</span>
+                                                    <template v-if="umem.memLV0Msg !== ''"><br><span class="other-msg">{{ umem.memLV0Msg }}</span>
+                                                    </template>
+                                                </template>
+                                                <template v-if="umem.memLV0Status === '3'">已完成<br><span class="time-msg">{{umem.memLV0Time}}</span>
+                                                </template>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <th scope="row"><span class="badge badge-secondary"></span></th>
+                                        <td class="bm-1"><span class="sign-title">使用公司科級主管</span><br>{{ umem.comTitle}} {{
+                                            umem.memBu2 }} {{
+                                            umem.memBu3 }} {{ umem.memLV1Name }} {{
+                                            umem.memLV1PositionName }}
+                                        </td>
+                                        <td style="text-align: right;">
+                                            <a :class="umem.memLV1Status === '0' || umem.memLV1Status === '1' ? 'text-job text-danger myFont16' : 'text-job myFont16'"
+                                               href="javascript:void(0);">
+                                                <template v-if="umem.memLV1Status === '-1'">等待</template>
+                                                <template v-if="umem.memLV1Status === '0'">待檢視</template>
+                                                <template v-if="umem.memLV1Status === '1'">簽核中</template>
+                                                <template v-if="umem.memLV1Status === '2'">退件<br><span class="time-msg">{{umem.memLV1Time}}</span>
+                                                    <template v-if="umem.memLV1Msg !== ''"><br><span class="other-msg">{{ umem.memLV1Msg }}</span>
+                                                    </template>
+                                                </template>
+                                                <template v-if="umem.memLV1Status === '3'">已完成<br><span class="time-msg">{{umem.memLV1Time}}</span>
+                                                </template>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <th scope="row"><span class="badge badge-success"></span></th>
+                                        <td class="bm-1"><span class="sign-title">使用公司部級主管(含以上)</span><br>{{ umem.comTitle}}
+                                            {{
+                                            umem.memBu2 }} {{
+                                            umem.memBu3 }} {{ umem.memLV2Name }} {{
+                                            umem.memLV2PositionName }}
+                                        </td>
+                                        <td style="text-align: right;">
+                                            <a :class="umem.memLV2Status === '0' || umem.memLV2Status === '1' ? 'text-job text-danger myFont16' : 'text-job myFont16'"
+                                               href="javascript:void(0);">
+                                                <template v-if="umem.memLV2Status === '-1'">等待</template>
+                                                <template v-if="umem.memLV2Status === '0'">待檢視</template>
+                                                <template v-if="umem.memLV2Status === '1'">簽核中</template>
+                                                <template v-if="umem.memLV2Status === '2'">退件<br><span class="time-msg">{{umem.memLV2Time}}</span>
+                                                    <template v-if="umem.memLV2Msg !== ''"><br><span class="other-msg">{{ umem.memLV2Msg }}</span>
+                                                    </template>
+                                                </template>
+                                                <template v-if="umem.memLV2Status === '3'">已完成<br><span class="time-msg">{{umem.memLV2Time}}</span>
+                                                </template>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </template>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 浮動控制版 -->
+                <div :class="isSidebarVisible ? 'settingSidebar showSettingPanel' : 'settingSidebar'" ref="sidebar">
+                    <a href="javascript:void(0)" class="settingPanelToggle" @click="sidebarClick"> <i
+                            class="fa fa-spin fa-cog"></i>
+                    </a>
+                    <div class="settingSidebar-body ps-container ps-theme-default" style="overflow-y:auto;">
+                        <div class=" fade show active">
+                            <div class="setting-panel-header">管理面板</div>
+                            <div class="p-15 border-bottom">
+                                <div class="col-lg-12">
+                                    <div class="m-l-20">
+                                        <button type="button"
+                                                @click="$router.push(`/contract/sl/${contractData.conId}`)"
+                                                class="m-r-5 btn btn-outline-info btn-border-radius waves-effect myFont16">
+                                            查看
+                                        </button>
+                                        <button type="button" @click="updateContract"
+                                                class="m-r-5 btn btn-outline-success btn-border-radius waves-effect myFont16">
+                                            儲存
+                                        </button>
+                                        <button v-if="-1 === parseInt(apportionData.conApp)" type="button"
+                                                @click="deleteContract(contractData.conId)"
+                                                class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">
+                                            刪除
+                                        </button>
+                                        <button v-if="-1 === parseInt(apportionData.conApp)" type="button" @click="cleanContract(contractData.conId)"
+                                                class="m-r-5 btn btn-outline-secondary btn-border-radius waves-effect myFont16">
+                                            撤案
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-15 border-bottom">
+                                <h6 class="font-medium m-b-10">文件架構</h6>
+                                <ul class="contact-list">
+                                    <li  class="nav-item" ref="tp">
+                                        <a class="nav-link myFont16" href="javascript:void(0);"
+                                           @click="scrollToElement('my0')">
+                                            {{ apportionData.temExes }}
+                                        </a>
+                                    </li>
+                                    <li  class="nav-item" ref="tp">
+                                        <a class="nav-link myFont16" href="javascript:void(0);"
+                                           @click="scrollToElement('my1')">
+                                            {{ currentYear }}年各公司分攤費用
+                                        </a>
+                                    </li>
+                                    <li  class="nav-item" ref="tp">
+                                        <a class="nav-link myFont16" href="javascript:void(0);"
+                                           @click="scrollToElement('my2')">
+                                            分攤費用共用作業項目
+                                        </a>
+                                    </li>
+                                    <li  class="nav-item" ref="tp">
+                                        <a class="nav-link myFont16" href="javascript:void(0);"
+                                           @click="scrollToElement('my3')">
+                                            分攤費用共用作業項目-詳細資訊
+                                        </a>
+                                    </li>
+                                    <li  class="nav-item" ref="tp">
+                                        <a class="nav-link myFont16" href="javascript:void(0);"
+                                           @click="scrollToElement('my4')">
+                                            立約書人
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!--<div class="p-15 border-bottom">-->
+                            <!--<div class="theme-setting-options">-->
+                            <!--<label class="m-b-0">-->
+                            <!--<input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input"-->
+                            <!--id="mini_sidebar_setting">-->
+                            <!--<span class="custom-switch-indicator"></span>-->
+                            <!--<span class="control-label p-l-10">縮小右側控制板</span>-->
+                            <!--</label>-->
+                            <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="p-15 border-bottom">-->
+                            <!--<div class="theme-setting-options">-->
+                            <!--<label class="m-b-0">-->
+                            <!--<input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input"-->
+                            <!--id="">-->
+                            <!--<span class="custom-switch-indicator"></span>-->
+                            <!--<span class="control-label p-l-10">開啟所有區塊</span>-->
+                            <!--</label>-->
+                            <!--</div>-->
+                            <!--</div>-->
+                        </div>
+                    </div>
+                </div>
+                <!-- 浮動控制版 -->
+            </section>
+
+        </template>
+        <template v-else>
+            <vue-feather type="settings" animation="spin" animation-speed="slow"></vue-feather>
+        </template>
+    </template>
 </template>
 
 <script>
@@ -522,27 +1283,40 @@
     import Exes from '@/components/Exes.vue';
     import Annual from '@/components/Annual.vue';
     import Subsidiary from '@/components/Subsidiary.vue';
+    import Member from '@/components/Member.vue';
     import VueOfficeDocx from '@vue-office/docx';
     import '@vue-office/docx/lib/index.css';
     import VueOfficeExcel from '@vue-office/excel';
     import '@vue-office/excel/lib/index.css';
+    import {memberMixin} from '@/mixins/memberMixin.js';
     import VueOfficePdf from '@vue-office/pdf';
     import {exesMixin} from '@/mixins/exesMixin.js';
+    import {controlBoxMixin} from '@/mixins/controlBoxMixin.js';
     import DatePicker from '@vuepic/vue-datepicker';
     import cloneDeep from 'lodash/cloneDeep';
+    import Multiselect from 'vue-multiselect';
+    import 'vue-multiselect/dist/vue-multiselect.css';
 
     export default {
         name: "Apportion_up",
-        mixins: [exesMixin],
+        mixins: [exesMixin, controlBoxMixin, memberMixin],
         data() {
             return {
+                isLoading: false,
+                appId: parseInt(this.$route.params.id),
+                conId: 0,
                 per: JSON.parse(Cookies.get('per')),
+                isSidebarVisible: false,//管理面板使用
+                options: [],
+
+                companyData: [],//公司
+
+
                 viewFile: false,
                 viewFileUrl: '',
                 viewFilePDF: false,
                 viewFileDOCK: false,
                 viewFileXLSE: false,
-                isSidebarVisible: false,
                 msg: '',//理由
                 apportionData: [],
                 iMemberData: [],//發起
@@ -581,6 +1355,8 @@
             Exes,
             Annual,
             Subsidiary,
+            Multiselect,
+            Member,
         },
         computed: {
             formattedYearMonth() {
@@ -606,21 +1382,29 @@
         },
         methods: {
             defaultData() {
-                this.fetchFirst();
+                this.appId = parseInt(this.$route.params.id); // 取得路由參數 id
+                this.per = JSON.parse(Cookies.get('per'));
+                if (this.appId === 0) {
+                }
+                else {
+                    this.fetchFirst();
+                }
             },
             fetchFirst() {
                 // this.testExes();
-                const appId = this.$route.params.id; // 取得路由參數 id
                 const apiRequests = [
-                    this.$api.get(this.$test ? `/api/?type=apportion&appId=${appId}` : `/api/adm/apportion/${appId}`),
-                    this.$api.get(this.$test ? `/api/?type=contractMember` : `/api/iform/contractMember/List`, {params: {conId: 0}}),
+                    this.$api.get(this.$test ? `/api/?type=apportion&appId=${this.appId}` : `/api/adm/apportion/${appId}`),
+                    this.$api.get(this.$test ? '/api/?type=company' : '/api/iform/company'),
+                    this.$api.get(this.$test ? `/api/?type=signMember` : `/api/iform/signMember/List`, {params: {appId: this.appId}}),
                     this.$api.get(this.$test ? '/api/?type=contact' : '/api/iform/contact/List'),
                     this.$api.get(this.$test ? '/api/?type=info' : '/api/iform/info/List'),
                 ];
                 Promise.all(apiRequests)
-                    .then(([apportionResponse, memberResponse, contactResponse, infoResponse]) => {
+                    .then(([apportionResponse, companyResponse, memberResponse, contactResponse, infoResponse]) => {
                         //contactResponse
                         this.contactData = contactResponse.data.data;
+                        //companyResponse
+                        this.companyData = companyResponse.data.data;
 
                         //apportionResponse
                         this.apportionData = apportionResponse.data.data;
@@ -635,8 +1419,6 @@
                         this.currentYear = parseInt(this.infoData.infYear);
 
 
-
-
                         this.apportionData.itemData.forEach((item) => {
                             item.iteProportion = item.iteProportion && '' !== item.iteProportion ? JSON.parse(item.iteProportion) : item.iteProportion;
                             item.manRatio = item.manRatio && '' !== item.manRatio ? JSON.parse(item.manRatio) : item.manRatio;
@@ -648,7 +1430,7 @@
                             exes.uniqueId = this.$root.generateUniqueId();
                             exes.exeCreateMonth = {
                                 year: parseInt(exes.exeCreateMonth.substring(0, 4)),
-                                month: parseInt(exes.exeCreateMonth.substring(4))
+                                month: parseInt(exes.exeCreateMonth.substring(4)) - 1
                             };
                             switch (parseInt(exes.manType)) {
                                 case 0:
@@ -664,11 +1446,11 @@
                             exes.annualData.forEach(ann => {
                                 ann.annStartMonth = {
                                     year: parseInt(ann.annStartMonth.substring(0, 4)),
-                                    month: parseInt(ann.annStartMonth.substring(4))
+                                    month: parseInt(ann.annStartMonth.substring(4)) - 1
                                 };
                                 ann.annEndMonth = {
                                     year: parseInt(ann.annEndMonth.substring(0, 4)),
-                                    month: parseInt(ann.annEndMonth.substring(4))
+                                    month: parseInt(ann.annEndMonth.substring(4)) - 1
                                 };
                                 if (parseInt(ann.annYear) === this.currentYear) {
                                     console.log('a');
@@ -697,8 +1479,8 @@
                         }
 
 
-
                         this.countCost();
+                        this.isLoading = true;
 
                     })
                     .catch(error => {
@@ -734,7 +1516,7 @@
                 //     this.viewFile = true;
                 // }
             },
-            scrollToElement(el) {
+            scrollToIteElement(el) {
                 this.$nextTick(() => {
                     const targetElement = document.getElementById('ite_' + el);
                     // console.log(targetElement);
@@ -981,6 +1763,13 @@
             },
             async updateApportion() {
                 const payload = cloneDeep(this.apportionData);
+                if (-1 === parseInt(this.apportionData.conApp)) {
+                    const memberList = [];
+                    memberList.push(this.iMemberData);
+                    this.$root.addDataPush(memberList, this.mMemberData);
+                    this.$root.addDataPush(memberList, this.uMemberData);
+                    payload.memberData = memberList;
+                }
 
                 // const formData = new FormData();
                 // this.$root.addFilesToFormData(formData, this.filMeetingFiles, 'conFileMeeting[]');
@@ -1004,14 +1793,13 @@
                 // }
 
                 payload.exesData.forEach(exe => {
-                    exe.exeCreateMonth = String(exe.exeCreateMonth.year) + String(exe.exeCreateMonth.month);
+                    exe.exeCreateMonth = String(exe.exeCreateMonth.year) + String(parseInt(exe.exeCreateMonth.month) + 1).padStart(2, '0');
                     exe.annualData.forEach(ann => {
-                        ann.annStartMonth = String(ann.annStartMonth.year) + String(ann.annStartMonth.month);
-                        ann.annEndMonth = String(ann.annEndMonth.year) + String(ann.annEndMonth.month);
+                        ann.annStartMonth = String(ann.annStartMonth.year) + String(parseInt(ann.annStartMonth.month) + 1).padStart(2, '0');
+                        ann.annEndMonth = String(ann.annEndMonth.year) + String(parseInt(ann.annEndMonth.month) + 1).padStart(2, '0');
                     });
                 });
 
-                console.log(payload);
                 await this.saveApportion(payload, this.apportionData.appId);
 
 
@@ -1030,7 +1818,30 @@
 
                 // 返回结果
                 return {year: newYear, month: newMonth};
-            }
+            },
+            createApportion() {
+                this.$api
+                    .get(this.$test ? `/api/?type=apportionId` : `/api/iform/apportionId`, {
+                        params: {
+                            conId: this.conId,
+                            perKey: this.per.perKey,
+                            comCode: this.per.comCode,
+                        }
+                    })
+                    .then(response => {
+                        console.log(response);
+                        if (response.status === 200) {
+                            this.$router.push(`/apportion/up/${response.data.appId}`);
+                        } else {
+                            console.log('err');
+                        }
+
+                    })
+                    .catch(error => {
+                        console.error('Edit failed:', error);
+                    });
+            },
+
         }
     }
 </script>

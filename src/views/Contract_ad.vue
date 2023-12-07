@@ -954,7 +954,7 @@
                         .then(response => {
                             console.log(response);
                             if (response.status === 200) {
-                                let log = this.createContractLog(response.data.conId, 0, this.per.perKey, -1, '建立', -1);
+                                let log = this.createSignLog(response.data.conId, 0, this.per.perKey, -1, '建立', -1);
                                 this.updateContractStatus(response.data.conId, -1, null, log);//修改文件狀態為進行中
                                 this.$router.push(`/contract/${this.temId}/ad/${response.data.conId}`);
                             } else {

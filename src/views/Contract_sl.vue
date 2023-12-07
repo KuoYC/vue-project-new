@@ -6,9 +6,9 @@
                     <h4 class="page-title m-b-0">表單申請</h4>
                 </li>
                 <li class="breadcrumb-item">
-                    <router-link :to="`/contract/${contractData.temId}/list`">
+                    <router-link :to="`/contract/list`">
                         <vue-feather type="link"></vue-feather>
-                        {{ contractData.temTitle }}列表
+                        列表
                     </router-link>
                 </li>
                 <li class="breadcrumb-item">查看文件</li>
@@ -16,7 +16,7 @@
 
 
             <div class="section-body">
-                <div v-if="'3' === contractData.conStatus" class="contract-serial mb-2" style="text-align:right;">
+                <div v-if="'3' === contractData.conStatus || (per.perKey === contractData.perKey && 1 === parseInt(contractData.conLock))" class="contract-serial mb-2" style="text-align:right;">
                     <button type="button"
                             @click="actionTo('ex', contractData.conId)"
                             class="m-r-5 btn btn-success btn-border-radius waves-effect myFont16">費用
@@ -709,14 +709,14 @@
                         </button>
                     </template>
                     <button v-if="contractData.conStatus === '1' && checkMember()"
-                            @click="signContract()"
+                            @click="signContract(contractData.conId, 0, 0)"
                             type="button"
                             class="m-r-5 btn btn-outline-success btn-border-radius waves-effect myFont16">
                         簽核
                     </button>
                     <button
                             v-if="contractData.conStatus === '1' && checkMember() && iMemberData.memLVCStatus !== '0'"
-                            @click="backContract()"
+                            @click="backContract(contractData.conId, 0, 0)"
                             :disabled="msg === ''"
                             type="button"
                             class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">退回
@@ -727,7 +727,7 @@
 
                     <template v-if="contractData.perKey === per.perKey">
                         <button v-if="contractData.conStatus === '0'"
-                                @click="releaseSign"
+                                @click="releaseSign(contractData.conId, 0, 0)"
                                 type="button"
                                 class="m-r-5 btn btn-outline-warning btn-border-radius waves-effect myFont16">
                             發起
@@ -1050,7 +1050,7 @@
                             <vue-feather type="list" size="20" class="m-r-5"></vue-feather>
                             本案傳遞紀錄
                         </h4>
-                        <button type="button" @click="closeTransfer" class="btn btn-icon icon-left btn-primary myFont16"
+                        <button type="button" @click="closeTransfer" class="btn btn-icon icon-left btn-success myFont16"
                                 style="border-radius: 6px;">
                             關閉
                         </button>
@@ -1059,65 +1059,65 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="activities" style="padding-top: 10px;">
-                                    <div v-for="log in contractLogData" class="activity">
-                                        <div v-if="'-1' === log.colStatus" class="activity-icon bg-info text-white">
+                                    <div v-for="log in signLogData" class="activity">
+                                        <div v-if="'-1' === log.sglStatus" class="activity-icon bg-info text-white">
                                             <vue-feather type="file" style="padding-top: 13px;"></vue-feather>
                                         </div>
-                                        <div v-if="'0' === log.colStatus" class="activity-icon bg-success text-white">
+                                        <div v-if="'0' === log.sglStatus" class="activity-icon bg-success text-white">
                                             <vue-feather type="edit" style="padding-top: 13px;"></vue-feather>
                                         </div>
-                                        <template v-if="'1' === log.colStatus">
+                                        <template v-if="'1' === log.sglStatus">
                                             <div v-if="'0' === log.memId" class="activity-icon bg-warning text-white">
                                                 <vue-feather type="flag" style="padding-top: 13px;"></vue-feather>
                                             </div>
                                             <template v-else>
-                                                <div v-if="'-1' === log.colMemberStatus" class="activity-icon bg-success text-white">
+                                                <div v-if="'-1' === log.sglMemberStatus" class="activity-icon bg-success text-white">
                                                     <vue-feather type="more-horizontal" style="padding-top: 13px;"></vue-feather>
                                                 </div>
-                                                <div v-if="'0' === log.colMemberStatus" class="activity-icon bg-success text-white">
+                                                <div v-if="'0' === log.sglMemberStatus" class="activity-icon bg-success text-white">
                                                     <vue-feather type="eye" style="padding-top: 13px;"></vue-feather>
                                                 </div>
-                                                <div v-if="'1' === log.colMemberStatus" class="activity-icon bg-success text-white">
+                                                <div v-if="'1' === log.sglMemberStatus" class="activity-icon bg-success text-white">
                                                     <vue-feather type="edit-2" style="padding-top: 13px;"></vue-feather>
                                                 </div>
-                                                <div v-if="'2' === log.colMemberStatus" class="activity-icon bg-danger text-white">
+                                                <div v-if="'2' === log.sglMemberStatus" class="activity-icon bg-danger text-white">
                                                     <vue-feather type="rotate-cw" style="padding-top: 13px;"></vue-feather>
                                                 </div>
-                                                <div v-if="'3' === log.colMemberStatus" class="activity-icon bg-success text-white">
+                                                <div v-if="'3' === log.sglMemberStatus" class="activity-icon bg-success text-white">
                                                     <vue-feather type="check" style="padding-top: 13px;"></vue-feather>
                                                 </div>
                                             </template>
                                         </template>
-                                        <div v-if="'2' === log.colStatus" class="activity-icon bg-danger text-white">
+                                        <div v-if="'2' === log.sglStatus" class="activity-icon bg-danger text-white">
                                             <vue-feather type="rotate-cw" style="padding-top: 13px;"></vue-feather>
                                         </div>
-                                        <div v-if="'3' === log.colStatus" class="activity-icon bg-warning text-white">
+                                        <div v-if="'3' === log.sglStatus" class="activity-icon bg-warning text-white">
                                             <vue-feather type="star" style="padding-top: 13px;"></vue-feather>
                                         </div>
-                                        <div v-if="'4' === log.colStatus" class="activity-icon bg-dark text-white">
+                                        <div v-if="'4' === log.sglStatus" class="activity-icon bg-dark text-white">
                                             <vue-feather type="trash-2" style="padding-top: 13px;"></vue-feather>
                                         </div>
                                         <div class="activity-detail">
                                             <div class="mb-2">
-                                                <span v-if="'-1' === log.colStatus" class="text-job">建立</span>
-                                                <span v-if="'0' === log.colStatus" class="text-job">草稿</span>
-                                                <span v-if="'1' === log.colStatus && '0' === log.memId" class="text-job">發起</span>
-                                                <span v-if="'1' === log.colStatus && '0' !== log.memId && '0' === log.memType" class="text-job">發起</span>
-                                                <span v-if="'1' === log.colStatus && '0' !== log.memId && '1' === log.memType" class="text-job">維運</span>
-                                                <span v-if="'1' === log.colStatus && '0' !== log.memId && '2' === log.memType" class="text-job">使用</span>
-                                                <span v-if="'2' === log.colStatus" class="text-job">退回</span>
-                                                <span v-if="'3' === log.colStatus" class="text-job">已歸檔</span>
-                                                <span v-if="'4' === log.colStatus" class="text-job">撤回</span>
-                                                <template v-if="'1' === log.colStatus && ('0' === log.memId || ('0' !== log.memId && ('0' === log.memType || '1' === log.memType || '2' === log.memType)))">
+                                                <span v-if="'-1' === log.sglStatus" class="text-job">建立</span>
+                                                <span v-if="'0' === log.sglStatus" class="text-job">草稿</span>
+                                                <span v-if="'1' === log.sglStatus && '0' === log.memId" class="text-job">發起</span>
+                                                <span v-if="'1' === log.sglStatus && '0' !== log.memId && '0' === log.memType" class="text-job">發起</span>
+                                                <span v-if="'1' === log.sglStatus && '0' !== log.memId && '1' === log.memType" class="text-job">維運</span>
+                                                <span v-if="'1' === log.sglStatus && '0' !== log.memId && '2' === log.memType" class="text-job">使用</span>
+                                                <span v-if="'2' === log.sglStatus" class="text-job">退回</span>
+                                                <span v-if="'3' === log.sglStatus" class="text-job">已歸檔</span>
+                                                <span v-if="'4' === log.sglStatus" class="text-job">撤回</span>
+                                                <template v-if="'1' === log.sglStatus && ('0' === log.memId || ('0' !== log.memId && ('0' === log.memType || '1' === log.memType || '2' === log.memType)))">
                                                     <span class="bullet"></span>
-                                                    <span v-if="'-1' === log.colMemberStatus" class="text-job">等待</span>
-                                                    <span v-if="'0' === log.colMemberStatus" class="text-job">待檢視</span>
-                                                    <span v-if="'1' === log.colMemberStatus" class="text-job">待簽</span>
-                                                    <span v-if="'2' === log.colMemberStatus" class="text-job">退回</span>
-                                                    <span v-if="'3' === log.colMemberStatus" class="text-job">完成</span>
+                                                    <span v-if="'-1' === log.sglMemberStatus" class="text-job">等待</span>
+                                                    <span v-if="'0' === log.sglMemberStatus" class="text-job">待檢視</span>
+                                                    <span v-if="'1' === log.sglMemberStatus" class="text-job">待簽</span>
+                                                    <span v-if="'2' === log.sglMemberStatus" class="text-job">退回</span>
+                                                    <span v-if="'3' === log.sglMemberStatus" class="text-job">完成</span>
                                                 </template>
                                                 <span class="bullet"></span>
-                                                <span class="text-job">{{ log.colCreateTime }}</span>
+                                                <span class="text-job">{{ log.sglCreateTime }}</span>
                                             </div>
                                             <p>{{ log.perBu2 }}  {{ log.perBu3 }} {{ log.perName }}</p>
                                         </div>
@@ -1149,14 +1149,14 @@
                                     </button>
                                 </template>
                                 <button v-if="contractData.conStatus === '1' && checkMember()"
-                                        @click="signContract()"
+                                        @click="signContract(contractData.conId, 0, 0)"
                                         type="button"
                                         class="m-r-5 btn btn-outline-success btn-border-radius waves-effect myFont16">
                                     簽核
                                 </button>
                                 <button
                                         v-if="contractData.conStatus === '1' && checkMember() && iMemberData.memLVCStatus !== '0'"
-                                        @click="backContract()"
+                                        @click="backContract(contractData.conId, 0, 0)"
                                         :disabled="msg === ''"
                                         type="button"
                                         class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">退回
@@ -1174,7 +1174,7 @@
                             <div class="col-lg-12">
                                 <div class="m-l-20">
                                     <button v-if="contractData.conStatus === '0'"
-                                            @click="releaseSign"
+                                            @click="releaseSign(contractData.conId, 0, 0)"
                                             type="button"
                                             class="m-r-5 btn btn-outline-warning btn-border-radius waves-effect myFont16">
                                         發起
@@ -1276,11 +1276,12 @@
     import VueOfficePdf from '@vue-office/pdf';
     import {controlBoxMixin} from '@/mixins/controlBoxMixin.js';
     import {contractActionMixin} from '@/mixins/contractActionMixin.js';
+    import {signMixin} from '@/mixins/signMixin.js';
     import {saveAs} from 'file-saver';
 
     export default {
         name: "Contract_sl",
-        mixins: [controlBoxMixin, contractActionMixin],
+        mixins: [controlBoxMixin, contractActionMixin, signMixin],
         data() {
             return {
                 isLoading: false,
@@ -1297,7 +1298,7 @@
                 isSidebarVisible: false,
                 msg: '',//理由
                 contractData: {},
-                contractLogData: [],
+                signLogData: [],
                 // conValue: [],
                 // itemData: [],
                 iMemberData: [],//發起
@@ -1355,7 +1356,7 @@
                     this.$api.get(this.$test ? `/api/?type=contract&conId=${conId}` : `/api/adm/contract/${conId}`),
                     this.$api.get(this.$test ? '/api/?type=contact' : '/api/iform/contact/List'),
                     this.$api.get(this.$test ? '/api/?type=company' : '/api/iform/company/List'),
-                    this.$api.get(this.$test ? `/api/?type=contractLog&conId=${conId}` : `/api/iform/contractLog/${conId}`),
+                    this.$api.get(this.$test ? `/api/?type=signLog&conId=${conId}` : `/api/iform/signLog/${conId}`),
                 ];
                 Promise.all(apiRequests)
                     .then(([contractResponse, contactResponse, companyResponse, LogResponse]) => {
@@ -1404,453 +1405,13 @@
 
 
                         //LogResponse
-                        this.contractLogData = LogResponse.data.data;
+                        this.signLogData = LogResponse.data.data;
 
                         this.isLoading = true;
                     })
                     .catch(error => {
                         console.error(error);
                     });
-            },
-            // 發起簽核 releaseSign
-            async releaseSign() {
-                // 文件發起人必須與登入人資料一致
-                if (this.iMemberData.comId === this.per.comId && this.iMemberData.memLV0Key === this.per.perKey) {
-                    try {
-                        await this.defaultContract();//重置文件資訊與簽核人員資料
-                        let log = this.createContractLog(this.contractData.conId, 0, this.per.perKey, 3, '發起', 1);
-                        await this.updateContractStatus(this.contractData.conId, 1, null, log);//修改文件狀態為進行中
-                        const upMember = this.createUpMember(this.iMemberData, '0', 3, true);
-                        await this.updateMember(upMember);//修改簽核組別資訊
-                        alert('發起成功');
-                        this.$router.go(0);
-
-                    } catch (error) {
-                        console.error('Edit failed:', error);
-                    }
-                }
-                else {
-                    alert('您並非發起人');
-                }
-            },
-
-            // signContract 簽核作業
-            async signContract() {
-                let iMemberEnd = false;//維運平行簽核
-                let upMember = null;
-                if (this.iMemberData.comId === this.per.comId && (this.iMemberData.memNowKey === this.per.perKey || (this.iMemberData.memNowKey === '' && this.iMemberData.memLVCKey === '' && this.contactData.some(contact => contact.perKey.includes(this.per.perKey))))) {
-                    const isLV = this.getMemberLV(this.iMemberData);
-                    if (isLV) {
-                        upMember = this.createUpMember(this.iMemberData, isLV, 3, true);
-                        if (isLV === '2') {
-                            iMemberEnd = true;
-                        }
-                    }
-                }
-                let mMemberEnd = false;
-                this.mMemberData.forEach((mem) => {
-                    if (mem.comId === this.per.comId && mem.memNowKey === this.per.perKey) {
-                        const isLV = this.getMemberLV(mem);
-                        if (isLV) {
-                            upMember = this.createUpMember(mem, isLV, 3, false);
-                            if (isLV === '2') {
-                                mMemberEnd = true;
-                            }
-                        }
-                    }
-                });
-
-                let uMemberEnd = false;
-                this.uMemberData.forEach((mem) => {
-                    if (mem.comId === this.per.comId && mem.memNowKey === this.per.perKey) {
-                        const isLV = this.getMemberLV(mem);
-                        if (isLV) {
-                            upMember = this.createUpMember(mem, isLV, 3, false);
-                            if (isLV === '2') {
-                                uMemberEnd = true;
-                            }
-                        }
-                    }
-                });
-                if (upMember) {
-                    try {
-                        await this.updateMember(upMember);
-                        if (iMemberEnd) {
-                            if (this.mMemberData.length > 0) {
-                                for (let mem of this.mMemberData) {
-                                    upMember = this.createUpMember(mem, '0', 0, false);
-                                    try {
-                                        await this.updateMember(upMember);
-                                        alert('簽核完成');
-                                        this.$router.go(0);
-                                    } catch (error) {
-                                        console.error('Edit failed:', error);
-                                    }
-                                }
-                            }
-                            else if (this.uMemberData.length > 0) {
-                                for (let mem of this.uMemberData) {
-                                    upMember = this.createUpMember(mem, '0', 0, false);
-                                    try {
-                                        await this.updateMember(upMember);
-                                        alert('簽核完成');
-                                        this.$router.go(0);
-                                    } catch (error) {
-                                        console.error('Edit failed:', error);
-                                    }
-                                }
-                            }
-                            else {
-                                try {
-                                    let log = this.createContractLog(this.contractData.conId, 0, '', 3, '文件簽核完成', 3);
-                                    await this.updateContractStatus(this.contractData.conId, 3, dayjs().format('YYYY-MM-DD'), log);
-                                    await this.clearMemberAll();
-                                    alert('文件簽核完成');
-                                    this.$router.go(0);
-                                } catch (error) {
-                                    console.error('Edit failed:', error);
-                                }
-                            }
-                        }
-                        else if (mMemberEnd) {
-                            const mMemberParallel = await this.checkParallelTypeSign(1);
-                            if (mMemberParallel) {
-                                if (this.uMemberData.length > 0) {
-                                    for (let mem of this.uMemberData) {
-                                        upMember = this.createUpMember(mem, '0', 0, false);
-                                        try {
-                                            await this.updateMember(upMember);
-                                            alert('簽核完成');
-                                            this.$router.go(0);
-                                        } catch (error) {
-                                            console.error('Edit failed:', error);
-                                        }
-                                    }
-                                    this.$router.go(0);
-                                }
-                                else {
-                                    try {
-                                        let log = this.createContractLog(this.contractData.conId, 0, '', 3, '文件簽核完成', 3);
-                                        await this.updateContractStatus(this.contractData.conId, 3, dayjs().format('YYYY-MM-DD'), log);
-                                        await this.clearMemberAll();
-                                        alert('文件簽核完成');
-                                        this.$router.go(0);
-                                    } catch (error) {
-                                        console.error('Edit failed:', error);
-                                    }
-                                }
-                            }
-                            else {
-                                alert('簽核完成');
-                                this.$router.go(0);
-                            }
-                        }
-                        else if (uMemberEnd) {
-                            const uMemberParallel = await this.checkParallelTypeSign(2);
-                            if (uMemberParallel) {
-                                try {
-                                    let log = this.createContractLog(this.contractData.conId, 0, '', 3, '文件簽核完成', 3);
-                                    await this.updateContractStatus(this.contractData.conId, 3, dayjs().format('YYYY-MM-DD'), log);
-                                    await this.clearMemberAll();
-                                    alert('文件簽核完成');
-                                    this.$router.go(0);
-                                } catch (error) {
-                                    console.error('Edit failed:', error);
-                                }
-                            }
-                            else {
-                                alert('簽核完成');
-                                this.$router.go(0);
-                            }
-                        }
-                        else {
-                            alert('簽核完成');
-                            this.$router.go(0);
-                        }
-                    } catch (error) {
-                        console.error('Edit failed:', error);
-                    }
-                }
-                this.$router.go(0);
-            },
-            // backContract 退回
-            async backContract() {
-                let upMember = null;
-                if (this.iMemberData.comId === this.per.comId && this.iMemberData.memNowKey === this.per.perKey) {
-                    const isLV = this.getMemberLV(this.iMemberData);
-                    if (isLV) {
-                        upMember = this.createUpMember(this.iMemberData, isLV, 2, true);
-                    }
-                }
-                this.mMemberData.forEach((mem) => {
-                    if (mem.comId === this.per.comId && mem.memNowKey === this.per.perKey) {
-                        const isLV = this.getMemberLV(mem);
-                        if (isLV) {
-                            upMember = this.createUpMember(mem, isLV, 2, false);
-                        }
-                    }
-                });
-                this.uMemberData.forEach((mem) => {
-                    if (mem.comId === this.per.comId && mem.memNowKey === this.per.perKey) {
-                        const isLV = this.getMemberLV(mem);
-                        if (isLV) {
-                            upMember = this.createUpMember(mem, isLV, 2, false);
-                        }
-                    }
-                });
-                if (upMember) {
-                    try {
-                        await this.updateMember(upMember);
-                        let log = this.createContractLog(this.contractData.conId, upMember.memId, upMember.LVKey, 2, '文件退回', 2);
-                        await this.updateContractStatus(this.contractData.conId, 2, null, log);
-                        await this.clearMemberAll();
-                        this.$router.push(`/contract/list`);
-
-                    } catch (error) {
-                        console.error('Edit failed:', error);
-                    }
-                }
-                this.$router.go(0);
-            },
-
-            // 產生執行資料
-            createUpMember(mem, isLV, signType, first) {//signType :0 開始待檢視 3簽核 2退件
-                const conId = mem.conId;
-                const memId = mem.memId;
-                const time = signType === 0 ? null : dayjs().format('YYYY-MM-DD HH:mm:ss');
-                const msg = signType === 0 || signType === 3 ? null : this.msg;
-                const comTitle = this.$root.getCompanyTitle(mem.comId, '');
-                const memBu2 = mem.memBu2;
-                const memBu3 = mem.memBu3;
-                const positionName = this.getLVPositionName(mem, isLV);
-                const LVKey = this.getLVKey(mem, isLV);
-                const positionNameNext = this.getLVPositionNameNext(mem, isLV, first);
-                let conLogMsg = null;
-                let isNext = null;
-                let nextLVKey = null;
-                let nextLVStatus = null;
-                let nextLogMsg = null;
-                let memStatus = null;
-                let memLVCKey = null;
-                let memLVCName = null;
-                let memLVCPositionName = null;
-                let conStatus = 1;
-                if (signType === 3) {
-                    conLogMsg = `${comTitle} ${memBu2} ${memBu3} ${positionName} 簽核完成 ${msg !== null ? ':' + msg : ''}`
-                    switch (isLV) {
-                        case '0':
-                            isNext = first ? 'C' : '1';
-                            nextLVKey = first ? '' : mem.memLV1Key;
-                            nextLVStatus = 0;
-                            nextLogMsg = first ? '窗口人員 待檢視' : `${comTitle} ${memBu2} ${memBu3} ${positionNameNext} 待檢視`;
-                            memStatus = 1;
-                            break;
-                        case 'C':
-                            memLVCKey = this.per.perKey;
-                            memLVCName = this.per.perName;
-                            memLVCPositionName = this.per.perPositionName;
-                            isNext = '1';
-                            nextLVKey = mem.memLV1Key;
-                            nextLVStatus = 0;
-                            nextLogMsg = `${comTitle} ${memBu2} ${memBu3} ${positionNameNext} 待檢視`;
-                            memStatus = 1;
-                            break;
-                        case '1':
-                            isNext = '2';
-                            nextLVKey = mem.memLV2Key;
-                            nextLVStatus = 0;
-                            nextLogMsg = `${comTitle} ${memBu2} ${memBu3} ${positionNameNext} 待檢視`;
-                            memStatus = 1;
-                            break;
-                        case '2':
-                            isNext = '';
-                            nextLVKey = '';
-                            nextLVStatus = -1;
-                            memStatus = signType;
-                    }
-                }
-                else {
-                    if (signType === 2) {
-                        conStatus = 2;
-                        conLogMsg = `${comTitle} ${memBu2} ${memBu3} ${positionName} 退件 ${msg !== '' ? ':' + msg : null}`
-                    }
-                    else if (signType === 0) {
-                        nextLVKey = mem.memLV0Key;
-                        nextLVStatus = 0;
-                        conLogMsg = `${comTitle} ${memBu2} ${memBu3} ${positionName} 待檢視`
-                    }
-                    memStatus = signType;
-                }
-
-
-                return {
-                    conId: conId,
-                    memId: memId,
-                    [`memLV${isLV}Status`]: signType,
-                    [`memLV${isLV}Time`]: time,
-                    [`memLV${isLV}Msg`]: msg,
-                    [`memLV${isNext}Status`]: signType === 3 && '' !== isNext ? 0 : null,
-                    memLVCKey: memLVCKey,
-                    memLVCName: memLVCName,
-                    memLVCPositionName: memLVCPositionName,
-                    LVKey: LVKey,
-                    memNowKey: nextLVKey,
-                    memNowStatus: nextLVStatus,
-                    memStatus: memStatus,
-                    conLog: this.createContractLog(this.contractData.conId, memId, LVKey, signType, conLogMsg, conStatus),
-                    conLogNext: nextLogMsg ? this.createContractLog(this.contractData.conId, memId, nextLVKey, nextLVStatus, nextLogMsg, conStatus) : null,
-                };
-            },
-
-            //取得姓名與職稱
-            getLVKey(mem, isLV) {
-                switch (isLV) {
-                    case '0':
-                        return `${mem.memLV0Key}`;
-                    case 'C':
-                        return `${mem.memLVCKey}`;
-                    case '1':
-                        return `${mem.memLV1Key}`;
-                    case '2':
-                        return `${mem.memLV2Key}`;
-                    default:
-                        return '';
-                }
-            },
-            //取得姓名與職稱
-            getLVPositionName(mem, isLV) {
-                switch (isLV) {
-                    case '0':
-                        return `${mem.memLV0Name} ${mem.memLV0PositionName}`;
-                    case 'C':
-                        return `${mem.memLVCName} ${mem.memLVCPositionName}`;
-                    case '1':
-                        return `${mem.memLV1Name} ${mem.memLV1PositionName}`;
-                    case '2':
-                        return `${mem.memLV2Name} ${mem.memLV2PositionName}`;
-                    default:
-                        return '';
-                }
-            },
-            //取得下一位姓名與職稱
-            getLVPositionNameNext(mem, isLV, first) {
-                switch (isLV) {
-                    case '0':
-                        return first ? `${mem.memLVCName} ${mem.memLVCPositionName}` : `${mem.memLV1Name} ${mem.memLV1PositionName}`;
-                    case 'C':
-                        return `${mem.memLV1Name} ${mem.memLV1PositionName}`;
-                    case '1':
-                        return `${mem.memLV2Name} ${mem.memLV2PositionName}`;
-                    default:
-                        return '';
-                }
-            },
-            //取得對應等級
-            getMemberLV(mem) {
-                if (mem.memLV0Key === this.per.perKey && parseInt(mem.memLV0Status) < 2 ) {
-                    return '0';
-                }
-                if (mem.memNowKey === '') {
-                    return 'C';
-                }
-                if (mem.memLV1Key === this.per.perKey && parseInt(mem.memLV1Status) < 2) {
-                    return '1';
-                }
-                if (mem.memLV2Key === this.per.perKey && parseInt(mem.memLV2Status) < 2) {
-                    return '2';
-                }
-                return null; // 如果都不满足条件，则返回 null
-            },
-            // checkParallelTypeSign 查驗平行簽核是否皆已完成
-            async checkParallelTypeSign(memberType) {
-                try {
-                    const response = await this.$api.get(
-                        this.$test ? `/api/?type=contractMember` : `/api/iform/contractMember/List`
-                        , {params: {conId: this.contractData.conId, memType: memberType}}
-                    );
-
-                    if (response.status === 200) {
-                        const data = response.data.data;
-                        data.forEach((mem) => {
-                            if (mem.memStatus !== '3') {
-                                return false;
-                            }
-                        });
-                    } else {
-                        console.log('err');
-                    }
-                } catch (error) {
-                    console.error('Edit failed:', error);
-                }
-                return true;
-            },
-            // updateMember 修改簽核人員簽核狀態
-            async updateMember(payload) {
-                try {
-                    const response = await this.$api.put(
-                        this.$test ? '/api/?type=memberStatus' : '/api/iform/memberStatus',
-                        payload
-                    );
-
-                    if (response.status === 200) {
-                        return true;
-                    } else {
-                        console.log('err');
-                    }
-                } catch (error) {
-                    console.error('Edit failed:', error);
-                }
-                return false;
-
-            },
-            // clearMemberAll 重置所有簽核人員狀態
-            async clearMemberAll() {
-                const payload = {
-                    conId: this.contractData.conId,
-                    memNow: '',
-                    memNowPosition: '',
-                    memNowStatus: -1,
-                };
-                try {
-                    const response = await this.$api.put(
-                        this.$test ? '/api/?type=memberStatusAll' : '/api/iform/memberStatusAll',
-                        payload
-                    );
-
-                    if (response.status === 200) {
-                        return true;
-                    } else {
-                        console.log('err');
-                    }
-                } catch (error) {
-                    console.error('Edit failed:', error);
-                }
-                return false;
-
-            },
-            // defaultContract 重置文件狀態
-            async defaultContract() {
-                // 修改文件狀態為草稿模式，並重置所有簽核人員訊息狀態與時間
-                try {
-                    const payload = {
-                        conId: this.contractData.conId,
-                    };
-
-                    const response = await this.$api.put(
-                        this.$test ? '/api/?type=contractDefault' : '/api/iform/contractDefault',
-                        payload
-                    );
-
-                    if (response.status === 200) {
-                        console.log('Edit successful:', response.data.data);
-                        return true;
-                    } else {
-                        console.log('err');
-                    }
-                } catch (error) {
-                    console.error('Edit failed:', error);
-                }
-                return false;
             },
 
 
@@ -1925,96 +1486,6 @@
                 }
             },
 
-            // checkMember 確認權限
-            checkMember() {
-                let ckMember = false;
-                if (this.iMemberData.memNowKey === this.per.perKey || (this.iMemberData.memNowKey === '' && this.iMemberData.memLVCKey === '' && this.contactData.some(contact => contact.perKey.includes(this.per.perKey)))) {
-                    ckMember = true;
-                }
-                this.mMemberData.forEach(mem => {
-                    if (mem.comId === this.per.comId && mem.memNowKey === this.per.perKey) {
-                        ckMember = true;
-                    }
-                });
-                this.uMemberData.forEach(mem => {
-                    if (mem.comId === this.per.comId && mem.memNowKey === this.per.perKey) {
-                        ckMember = true;
-                    }
-                });
-                return ckMember;
-            },
-            async actionTo(action, conId) {
-                switch (action) {
-                    case 'ch':
-                    case 'tp':
-                        await this.$api
-                            .get(this.$test ? `/api/?type=contractCopy` : `/api/iform/contractCopy`, {
-                                params: {
-                                    conId: conId,
-                                    conType: action === 'ch' ? 1 : 2,
-                                    conMark: 0,
-                                    conStatus: 0,
-                                }
-                            })
-                            .then(response => {
-                                console.log(response);
-                                if (response.status === 200) {
-                                    //response.data.conId
-                                    this.$router.push(`/contract/up/${response.data.conId}`);
-                                } else {
-                                    console.log('err');
-                                }
-
-                            })
-                            .catch(error => {
-                                console.error('Edit failed:', error);
-                            });
-
-                        break;
-                    case 'ex':
-                        await this.$api
-                            .get(this.$test ? `/api/?type=apportion` : `/api/iform/apportion`, {
-                                params: {
-                                    conId: conId,
-                                }
-                            })
-                            .then(response => {
-                                console.log(response);
-                                if (response.status === 200) {
-                                    if (response.data?.appId) {
-                                        this.$router.push(`/apportion/sl/${response.data.appId}`);
-                                        // this.$router.push(`/apportion/sl/${response.data.data[0].appId}`);
-                                    }
-                                    else {
-                                        this.$api
-                                            .get(this.$test ? `/api/?type=apportionId` : `/api/iform/apportionId`, {
-                                                params: {
-                                                    conId: conId,
-                                                }
-                                            })
-                                            .then(response => {
-                                                console.log(response);
-                                                if (response.status === 200) {
-                                                    this.$router.push(`/apportion/up/${response.data.appId}`);
-                                                } else {
-                                                    console.log('err');
-                                                }
-
-                                            })
-                                            .catch(error => {
-                                                console.error('Edit failed:', error);
-                                            });
-                                    }
-                                } else {
-                                    console.log('err');
-                                }
-
-                            })
-                            .catch(error => {
-                                console.error('Edit failed:', error);
-                            });
-                }
-            },
             async exportPDF() {
                 this.showConcat = false;
                 try {

@@ -2,37 +2,6 @@
 
 export const contractActionMixin = {
     methods: {
-        createContractLog(conId, memId, perKey, memStatus, msg, status) {
-            const contractLog = {
-                conId: conId,
-                memId: memId,
-                perKey: perKey,
-                colMemberStatus: memStatus,
-                colMsg: msg,
-                colStatus: status
-            };
-            return JSON.stringify(contractLog);
-        },
-        // updateContractStatus(狀態, 生效日期, log) 修改文件簽核狀態
-        async updateContractStatus(conId, status, date, log) {
-            const payload = {
-                conId: conId,
-                conStatus: status,
-                conDate: date,
-                conLog: log,
-            };
-            console.log(payload);
-            try {
-                await this.$api.put(
-                    this.$test ? '/api/?type=contractStatus' : '/api/iform/contractStatus',
-                    payload
-                );
-            } catch (error) {
-                console.error('Edit failed:', error);
-            }
-            return false;
-
-        },
         async deleteContract(conId){
             await this.$api
                 .delete(this.$test ? '/api/?type=contract' : '/api/iform/contract'
@@ -51,7 +20,7 @@ export const contractActionMixin = {
                 });
         },
         async saveContract(payload, conId){
-            let log = this.createContractLog(conId, 0, this.per.perKey, -1, '儲存草稿', 0);
+            let log = this.createSignLog(conId, 0, 0, this.per.perKey, -1, '儲存草稿', 0);
             await this.updateContractStatus(conId, 0, null, log);//修改文件狀態為進行中
             await this.$api
                 .put(this.$test ? '/api/?type=contract' : '/api/iform/contract', payload)
@@ -59,7 +28,8 @@ export const contractActionMixin = {
                     console.log(response);
                     if (response.status === 200) {
                         console.log(response);
-                        this.$router.push(`/contract/sl/${conId}`);
+                        // this.$router.push(`/contract/sl/${conId}`);
+                        this.$router.go(0);
                     } else {
                         console.log('err');
                     }
@@ -70,9 +40,84 @@ export const contractActionMixin = {
 
         },
         async cleanContract(temId, conId){
-            let log = this.createContractLog(conId, 0, this.per.perKey, -1, '撤案', 4);
+            let log = this.createSignLog(conId, 0, 0, this.per.perKey, -1, '撤案', 4);
             await this.updateContractStatus(conId, 4, null, log);//修改文件狀態為進行中
             this.$router.push(`/contract/list`);
+        },
+        async actionTo(action, conId) {
+            switch (action) {
+                case 'ch':
+                case 'tp':
+                    await this.$api
+                        .get(this.$test ? `/api/?type=contractCopy` : `/api/iform/contractCopy`, {
+                            params: {
+                                conId: conId,
+                                conType: action === 'ch' ? 1 : 2,
+                                conMark: 0,
+                                conStatus: 0,
+                            }
+                        })
+                        .then(response => {
+                            console.log(response);
+                            if (response.status === 200) {
+                                //response.data.conId
+                                this.$router.push(`/contract/up/${response.data.conId}`);
+                            } else {
+                                console.log('err');
+                            }
+
+                        })
+                        .catch(error => {
+                            console.error('Edit failed:', error);
+                        });
+
+                    break;
+                case 'ex':
+                    await this.$api
+                        .get(this.$test ? `/api/?type=apportion` : `/api/iform/apportion`, {
+                            params: {
+                                conId: conId,
+                            }
+                        })
+                        .then(response => {
+                            console.log(response);
+                            if (response.status === 200) {
+                                if (response.data?.appId) {
+                                    this.$router.push(`/apportion/sl/${response.data.appId}`);
+                                    // this.$router.push(`/apportion/sl/${response.data.data[0].appId}`);
+                                }
+                                else {
+                                    this.$api
+                                        .get(this.$test ? `/api/?type=apportionId` : `/api/iform/apportionId`, {
+                                            params: {
+                                                conId: conId,
+                                                perKey: this.per.perKey,
+                                                comCode: this.per.comCode,
+                                            }
+                                        })
+                                        .then(response => {
+                                            console.log(response);
+                                            if (response.status === 200) {
+                                                this.$router.push(`/apportion/up/${response.data.appId}`);
+                                            } else {
+                                                console.log('err');
+                                            }
+
+                                        })
+                                        .catch(error => {
+                                            console.error('Edit failed:', error);
+                                        });
+                                }
+                            } else {
+                                console.log('err');
+                            }
+
+                        })
+                        .catch(error => {
+                            console.error('Edit failed:', error);
+                        });
+                    break;
+            }
         },
 
         showTransfer(){

@@ -750,4 +750,11 @@
         left: 0px !important;
     }
 
+    .form-check-input {
+        border-color: rgb(38, 168, 98);
+    }
+    .form-check-input:checked {
+        background-color: rgb(38, 168, 98);
+        border-color: rgb(38, 168, 98);
+    }
 </style>

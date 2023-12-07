@@ -50,7 +50,7 @@ export const exesMixin = {
                     console.log(response.data);
                     if (response.status === 200) {
                         console.log(response);
-                        // this.$router.push(`/apportion/sl/${appId}`);
+                        this.$router.push(`/apportion/sl/${appId}`);
                     } else {
                         console.log('err');
                     }
@@ -59,6 +59,41 @@ export const exesMixin = {
                     console.error('Edit failed:', error);
                 });
 
+        },
+        loadContract(query) {
+            this.isLoading = true;
+            const contractPayload = {
+                action: 1,
+                // temId: this.$route.params.tem,
+                perKey: this.per.perKey,
+                perBu1Code: this.per.perBu1Code,
+                memOwner: 1,
+                conStatus: 3,
+                conInh: 0,
+                keyword:query,
+            };
+
+            this.$api
+                .get(this.$test ? `/api/?type=contract` : `/api/adm/contract`, {params: contractPayload})
+                .then(response => {
+                    console.log(response.data);
+                    if (response.status === 200) {
+                        this.isLoading = false;
+                        console.log(response);
+
+                        this.options = response.data.data.map(con => ({
+                            id: con.conId,
+                            name: `${ con.conTitle} ${ con.conSerial }${ con.conVer }`,
+                        }));
+                    } else {
+                        this.isLoading = false;
+                        console.log('err');
+                    }
+
+                })
+                .catch(error => {
+                    console.error('Edit failed:', error);
+                });
         },
     },
 };

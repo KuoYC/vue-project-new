@@ -19,6 +19,7 @@ export const controlBoxMixin = {
             }
         },
         scrollToElement(el) {
+            console.log(el);
             // 取得要捲動到的目標元素
             const targetElement = document.getElementById(el);
 
