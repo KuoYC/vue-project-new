@@ -54,7 +54,6 @@ export const contractActionMixin = {
                                 conId: conId,
                                 conType: action === 'ch' ? 1 : 2,
                                 conMark: 0,
-                                conStatus: 0,
                             }
                         })
                         .then(response => {
