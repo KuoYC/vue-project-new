@@ -143,406 +143,405 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="col-12">
-                            <div class="card" :id="'my1'">
-                                <div class="card-header justify-content-between">
-                                    <h4 class="myCardTitle">
+                    </div>
+                    <div class="col-12">
+                        <div class="card" :id="'my1'">
+                            <div class="card-header justify-content-between">
+                                <h4 class="myCardTitle">
                                     <span class="myFont16 d-flex align-center"
                                           style="background-color: #26a862; color: white; border-radius: 6px; padding: 0.3rem 0.8rem; font-weight: 400;">
                                         <vue-feather type="tag" size="20"
                                                      style="transform: rotate(135deg); padding-right: 0px;"
-                                                     class="m-r-5"></vue-feather>{{ currentYear }}年各公司分攤費用</span>
-                                    </h4>
-                                </div>
-                                <div class="card-body myNotification">
-                                    <div class="table-responsive">
-                                        <table ref="testTable" class="newTable tables-def">
-                                            <thead style="position: sticky;top: 0;" class="myNew">
-                                            <tr>
-                                                <th></th>
-                                                <template v-if="apportionData?.conCompany">
-                                                    <th v-for="(option, idx) in apportionData.conCompany">{{
-                                                        this.$root.getCompanyTitle('', option) }}
-                                                    </th>
-                                                </template>
-                                                <th>加總</th>
-                                            </tr>
-                                            </thead>
+                                                     class="m-r-5"></vue-feather>{{ apportionData.appYear }}年各公司分攤費用</span>
+                                </h4>
+                            </div>
+                            <div class="card-body myNotification">
+                                <div class="table-responsive">
+                                    <table ref="testTable" class="newTable tables-def">
+                                        <thead style="position: sticky;top: 0;" class="myNew">
+                                        <tr>
+                                            <th></th>
+                                            <template v-if="apportionData?.conCompany">
+                                                <th v-for="(option, idx) in apportionData.conCompany">{{
+                                                    this.$root.getCompanyTitle('', option) }}
+                                                </th>
+                                            </template>
+                                            <th>加總</th>
+                                        </tr>
+                                        </thead>
 
-                                            <tbody>
-                                            <tr v-for="cou in countCostData">
-                                                <td>{{ cou.iteTitle }}</td>
-                                                <td v-for="(option, idx) in apportionData.conCompany">{{ cou[option] }}
-                                                </td>
-                                                <td>{{ cou.costSum }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>合計</td>
-                                                <td v-for="(option, idx) in apportionData.conCompany">{{
-                                                    countTotelCostData[option]
-                                                    }}
-                                                </td>
-                                                <td>{{ countTotelCostData.costSum }}</td>
-                                            </tr>
+                                        <tbody>
+                                        <tr v-for="cou in countCostData">
+                                            <td>{{ cou.iteTitle }}</td>
+                                            <td v-for="(option, idx) in apportionData.conCompany">{{ cou[option] }}
+                                            </td>
+                                            <td>{{ cou.costSum }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>合計</td>
+                                            <td v-for="(option, idx) in apportionData.conCompany">{{
+                                                countTotelCostData[option]
+                                                }}
+                                            </td>
+                                            <td>{{ countTotelCostData.costSum }}</td>
+                                        </tr>
 
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
-                            <div class="card" :id="'my2'">
-                                <div class="card-header justify-content-between">
-                                    <h4 class="myCardTitle">
+                        </div>
+                        <div class="card" :id="'my2'">
+                            <div class="card-header justify-content-between">
+                                <h4 class="myCardTitle">
                                     <span class="myFont16 d-flex align-center"
                                           style="background-color: #26a862; color: white; border-radius: 6px; padding: 0.3rem 0.8rem; font-weight: 400;">
                                         <vue-feather type="tag" size="20"
                                                      style="transform: rotate(135deg); padding-right: 0px;"
                                                      class="m-r-5"></vue-feather>分攤費用共用作業項目</span>
-                                    </h4>
-                                </div>
-                                <div class="card-body myNotification">
-                                    <div class="row">
-                                        <div class="col-12 sub-item">
-                                            <div class="row" style="margin-bottom: 20px;">
-                                                <div class="table-responsive">
-                                                    <table class="newTable">
-                                                        <caption>分攤費用共用作業項目資料表</caption>
-                                                        <thead style="position: sticky;top: 0;" class="myNew">
-                                                        <tr>
-                                                            <th style="width: 20px;"></th>
-                                                            <th style="width: 50px;">種類</th>
-                                                            <th style="min-width: 110px;">共用作業項目</th>
-                                                            <th style="min-width: 120px;">軟硬體名稱</th>
-                                                            <th style="min-width: 80px;" colspan="3">分攤總費用</th>
-                                                            <th style="width: 80px;">提列年度</th>
-                                                            <th style="width: 70px;">操作</th>
-                                                        </tr>
-                                                        </thead>
+                                </h4>
+                            </div>
+                            <div class="card-body myNotification">
+                                <div class="row">
+                                    <div class="col-12 sub-item">
+                                        <div class="row" style="margin-bottom: 20px;">
+                                            <div class="table-responsive">
+                                                <table class="newTable">
+                                                    <caption>分攤費用共用作業項目資料表</caption>
+                                                    <thead style="position: sticky;top: 0;" class="myNew">
+                                                    <tr>
+                                                        <th style="width: 20px;"></th>
+                                                        <th style="width: 50px;">種類</th>
+                                                        <th style="min-width: 110px;">共用作業項目</th>
+                                                        <th style="min-width: 120px;">軟硬體名稱</th>
+                                                        <th style="min-width: 80px;" colspan="3">分攤總費用</th>
+                                                        <th style="width: 80px;">提列年度</th>
+                                                        <th style="width: 70px;">操作</th>
+                                                    </tr>
+                                                    </thead>
 
-                                                        <tbody class="exesTable">
-                                                        <Exes v-for="(exes, exes_index) in apportionData.exesData"
-                                                              :key="exes.uniqueId"
-                                                              :idx="exes_index"
-                                                              :exes="exes"
-                                                              :itemData="apportionData.itemData"
-                                                              :nowYear="parseInt(exes.exeStartYear)"
-                                                              :infoData="infoData"
-                                                              :PM="parseInt(infoData.infPM)"
-                                                              :SP="parseInt(infoData.infSP)"
-                                                              @remove-exes="removeExesData"
-                                                              @scrollExes="scrollToIteElement"
-                                                              @checkMathAnnual="mathAnnual"
-                                                              ref="ItemComp"
-                                                        />
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                                    <tbody class="exesTable">
+                                                    <Exes v-for="(exes, exes_index) in apportionData.exesData"
+                                                          :key="exes.uniqueId"
+                                                          :idx="exes_index"
+                                                          :exes="exes"
+                                                          :itemData="apportionData.itemData"
+                                                          :nowYear="parseInt(exes.exeStartYear)"
+                                                          :infoData="infoData"
+                                                          :PM="parseInt(infoData.infPM)"
+                                                          :SP="parseInt(infoData.infSP)"
+                                                          @remove-exes="removeExesData"
+                                                          @scrollExes="scrollToIteElement"
+                                                          @checkMathAnnual="mathAnnual"
+                                                          ref="ItemComp"
+                                                    />
+                                                    </tbody>
+                                                </table>
                                             </div>
-                                            <div class=" mt-2 d-flex justify-content">
-                                                <button type="button" @click="addExesData"
-                                                        class="btn btn-icon icon-left btn-outline-success myFont16"
-                                                        style="border-radius: 6px;">新增一筆
-                                                </button>
-                                            </div>
+                                        </div>
+                                        <div class=" mt-2 d-flex justify-content">
+                                            <button type="button" @click="addExesData"
+                                                    class="btn btn-icon icon-left btn-outline-success myFont16"
+                                                    style="border-radius: 6px;">新增一筆
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="card" :id="'my3'" style="position: static;">
-                                <div class="card-header justify-content-between">
-                                    <h4 class="myCardTitle">
+                        </div>
+                        <div class="card" :id="'my3'" style="position: static;">
+                            <div class="card-header justify-content-between">
+                                <h4 class="myCardTitle">
                                     <span class="myFont16 d-flex align-center"
                                           style="background-color: #26a862; color: white; border-radius: 6px; padding: 0.3rem 0.8rem; font-weight: 400;">
                                         <vue-feather type="tag" size="20"
                                                      style="transform: rotate(135deg); padding-right: 0px;"
                                                      class="m-r-5"></vue-feather>分攤費用共用作業項目-詳細資訊</span>
-                                    </h4>
-                                </div>
-                                <div class="card-body">
-                                    <template v-for="(exes, index) in apportionData.exesData">
-                                        <div class="card" :id="'ite_'+exes.uniqueId">
-                                            <div class="card-body mt-2">
-                                                <div class="row myShowDetail">
-                                                    <h4 class="myCardTitle">項目資訊</h4>
-                                                    <div class="d-flex mb-5 row">
-                                                        <div class="col-xl-2 col-md-2 col-sm-4 col-4">
-                                                            <label class="row-label row-title">種類</label>
-                                                            <label class="row-text">{{ exes.worTitle }}</label>
-                                                        </div>
-                                                        <div class="col-xl-2 col-md-4 col-sm-8 col-8">
-                                                            <label class="row-label row-title">共用作業項目</label>
-                                                            <label class="row-text">{{ exes.iteTitle }}</label>
-                                                        </div>
-                                                        <div class="col-xl-4 col-md-12 col-sm-12 col-12">
-                                                            <label class="row-label row-title">分攤原則</label>
-                                                            <label class="row-text">{{ exes.disTitle}}</label>
-                                                        </div>
-                                                        <div class="col-xl-4 col-md-12 col-sm-12 col-12">
-                                                            <label class="row-label row-title">計算基礎</label>
-                                                            <label class="row-text">{{ exes.manTitle }}</label>
-                                                        </div>
+                                </h4>
+                            </div>
+                            <div class="card-body">
+                                <template v-for="(exes, index) in apportionData.exesData">
+                                    <div class="card" :id="'ite_'+exes.uniqueId">
+                                        <div class="card-body mt-2">
+                                            <div class="row myShowDetail">
+                                                <h4 class="myCardTitle">項目資訊</h4>
+                                                <div class="d-flex mb-5 row">
+                                                    <div class="col-xl-2 col-md-2 col-sm-4 col-4">
+                                                        <label class="row-label row-title">種類</label>
+                                                        <label class="row-text">{{ exes.worTitle }}</label>
+                                                    </div>
+                                                    <div class="col-xl-2 col-md-4 col-sm-8 col-8">
+                                                        <label class="row-label row-title">共用作業項目</label>
+                                                        <label class="row-text">{{ exes.iteTitle }}</label>
+                                                    </div>
+                                                    <div class="col-xl-4 col-md-12 col-sm-12 col-12">
+                                                        <label class="row-label row-title">分攤原則</label>
+                                                        <label class="row-text">{{ exes.disTitle}}</label>
+                                                    </div>
+                                                    <div class="col-xl-4 col-md-12 col-sm-12 col-12">
+                                                        <label class="row-label row-title">計算基礎</label>
+                                                        <label class="row-text">{{ exes.manTitle }}</label>
+                                                    </div>
 
-                                                        <div :class="3 === parseInt(exes.worId) ? 'col-xl-2 col-md-3 col-sm-4 col-6' : 'col-xl-4 col-md-3 col-sm-4 col-6'">
-                                                            <label class="row-label row-title">軟硬體名稱</label>
-                                                            <label class="row-text">{{ exes.exeTitle }}</label>
+                                                    <div :class="3 === parseInt(exes.worId) ? 'col-xl-2 col-md-3 col-sm-4 col-6' : 'col-xl-4 col-md-3 col-sm-4 col-6'">
+                                                        <label class="row-label row-title">軟硬體名稱</label>
+                                                        <label class="row-text">{{ exes.exeTitle }}</label>
+                                                    </div>
+                                                    <template v-if="3 === parseInt(exes.worId)">
+                                                        <div class="col-xl-1 col-md-3 col-sm-4 col-3">
+                                                            <label class="row-label row-title">PM人天數</label>
+                                                            <label class="row-text">{{ exes.exePM}}</label>
                                                         </div>
-                                                        <template v-if="3 === parseInt(exes.worId)">
-                                                            <div class="col-xl-1 col-md-3 col-sm-4 col-3">
-                                                                <label class="row-label row-title">PM人天數</label>
-                                                                <label class="row-text">{{ exes.exePM}}</label>
-                                                            </div>
-                                                            <div class="col-xl-1 col-md-3 col-sm-4 col-3">
-                                                                <label class="row-label row-title">SP人天數</label>
-                                                                <label class="row-text">{{ exes.exeSP}}</label>
-                                                            </div>
-                                                        </template>
+                                                        <div class="col-xl-1 col-md-3 col-sm-4 col-3">
+                                                            <label class="row-label row-title">SP人天數</label>
+                                                            <label class="row-text">{{ exes.exeSP}}</label>
+                                                        </div>
+                                                    </template>
 
 
-                                                        <div class="col-xl-2 col-md-3 col-sm-4 col-6">
-                                                            <label class="row-label row-title">分攤總費用</label>
-                                                            <label class="row-text">{{ exes.exeCost}}</label>
-                                                        </div>
-                                                        <div class="col-xl-2 col-md-3 col-sm-4 col-6">
-                                                            <label class="row-label row-title">提列年度</label>
-                                                            <label class="row-text">{{ exes.exeStartYear}}</label>
-                                                        </div>
-                                                        <div class="col-xl-2 col-md-3 col-sm-4 col-6">
-                                                            <label class="row-label row-title">攤提月數(個)</label>
-                                                            <input :disabled="1 === parseInt(exes.exeStatus)"
-                                                                   type="number"
-                                                                   v-model="exes.exeMonth" class="row-text"
-                                                                   style="width: 80px;" placeholder="1" min="1"
-                                                                   onclick="this.select();"/>
-                                                        </div>
-                                                        <div class="col-xl-2 col-md-12 col-sm-12 col-12">
-                                                            <label class="row-label row-title">費用攤提起始年月</label>
-                                                            <DatePicker format="yyyy/MM"
-                                                                        v-model="exes.exeCreateMonth"
-                                                                        :disabled="1 === parseInt(exes.exeStatus)"
-                                                                        :enable-time-picker="false"
-                                                                        placeholder="起始年月"
-                                                                        locale="zh"
-                                                                        month-picker
-                                                                        @closed="mathAnnual(exes)"
-                                                                        style="width: 140px;"/>
-                                                        </div>
-                                                        <div v-if="null !== exes.exeCreateMonth && 0 !== exes.exeMonth"
-                                                             class="col-12">
-                                                            <div class="card-body">
-                                                                <ul class="nav nav-tabs" role="tablist">
-                                                                    <li class="nav-item" role="presentation">
-                                                                        <a class="nav-link active" id="home-tab"
-                                                                           data-bs-toggle="tab"
-                                                                           :href="'#ann_'+exes.uniqueId" role="tab"
-                                                                           aria-controls="home" aria-selected="true">各年度分攤費用</a>
-                                                                    </li>
-                                                                    <li class="nav-item" role="presentation">
-                                                                        <a class="nav-link" id="profile-tab"
-                                                                           data-bs-toggle="tab"
-                                                                           :href="'#exe_'+exes.uniqueId" role="tab"
-                                                                           aria-controls="profile" aria-selected="false"
-                                                                           tabindex="-1">各公司年度分攤費用</a>
-                                                                    </li>
-                                                                    <li class="nav-item" role="presentation">
-                                                                        <a class="nav-link" id="contact-tab"
-                                                                           data-bs-toggle="tab"
-                                                                           :href="'#fil_'+exes.uniqueId" role="tab"
-                                                                           aria-controls="contact" aria-selected="false"
-                                                                           tabindex="-1">附件資料</a>
-                                                                    </li>
-                                                                </ul>
-                                                                <div class="tab-content" id="myTabContent">
-                                                                    <div class="tab-pane fade show active"
-                                                                         :id="'ann_'+exes.uniqueId"
-                                                                         role="tabpanel" aria-labelledby="home-tab">
-                                                                        <div class="card-body" style="padding: 0px;">
-                                                                            <div class="">
-                                                                                <Annual
-                                                                                        :annualData="exes.annualData"
-                                                                                        :exes="exes"
-                                                                                        :currentYear="currentYear"
-                                                                                        :appYear="apportionData.appYear"
-                                                                                        @math-company="mathCompany"
-                                                                                />
-                                                                            </div>
+                                                    <div class="col-xl-2 col-md-3 col-sm-4 col-6">
+                                                        <label class="row-label row-title">分攤總費用</label>
+                                                        <label class="row-text">{{ exes.exeCost}}</label>
+                                                    </div>
+                                                    <div class="col-xl-2 col-md-3 col-sm-4 col-6">
+                                                        <label class="row-label row-title">提列年度</label>
+                                                        <label class="row-text">{{ exes.exeStartYear}}</label>
+                                                    </div>
+                                                    <div class="col-xl-2 col-md-3 col-sm-4 col-6">
+                                                        <label class="row-label row-title">攤提月數(個)</label>
+                                                        <input :disabled="1 === parseInt(exes.exeStatus)"
+                                                               type="number"
+                                                               v-model="exes.exeMonth" class="row-text"
+                                                               style="width: 80px;" placeholder="1" min="1"
+                                                               onclick="this.select();"/>
+                                                    </div>
+                                                    <div class="col-xl-2 col-md-12 col-sm-12 col-12">
+                                                        <label class="row-label row-title">費用攤提起始年月</label>
+                                                        <DatePicker format="yyyy/MM"
+                                                                    v-model="exes.exeCreateMonth"
+                                                                    :disabled="1 === parseInt(exes.exeStatus)"
+                                                                    :enable-time-picker="false"
+                                                                    placeholder="起始年月"
+                                                                    locale="zh"
+                                                                    month-picker
+                                                                    @closed="mathAnnual(exes)"
+                                                                    style="width: 140px;"/>
+                                                    </div>
+                                                    <div v-if="null !== exes.exeCreateMonth && 0 !== exes.exeMonth"
+                                                         class="col-12">
+                                                        <div class="card-body">
+                                                            <ul class="nav nav-tabs" role="tablist">
+                                                                <li class="nav-item" role="presentation">
+                                                                    <a class="nav-link active" id="home-tab"
+                                                                       data-bs-toggle="tab"
+                                                                       :href="'#ann_'+exes.uniqueId" role="tab"
+                                                                       aria-controls="home" aria-selected="true">各年度分攤費用</a>
+                                                                </li>
+                                                                <li class="nav-item" role="presentation">
+                                                                    <a class="nav-link" id="profile-tab"
+                                                                       data-bs-toggle="tab"
+                                                                       :href="'#exe_'+exes.uniqueId" role="tab"
+                                                                       aria-controls="profile" aria-selected="false"
+                                                                       tabindex="-1">各公司年度分攤費用</a>
+                                                                </li>
+                                                                <li class="nav-item" role="presentation">
+                                                                    <a class="nav-link" id="contact-tab"
+                                                                       data-bs-toggle="tab"
+                                                                       :href="'#fil_'+exes.uniqueId" role="tab"
+                                                                       aria-controls="contact" aria-selected="false"
+                                                                       tabindex="-1">附件資料</a>
+                                                                </li>
+                                                            </ul>
+                                                            <div class="tab-content" id="myTabContent">
+                                                                <div class="tab-pane fade show active"
+                                                                     :id="'ann_'+exes.uniqueId"
+                                                                     role="tabpanel" aria-labelledby="home-tab">
+                                                                    <div class="card-body" style="padding: 0px;">
+                                                                        <div class="">
+                                                                            <Annual
+                                                                                    :annualData="exes.annualData"
+                                                                                    :exes="exes"
+                                                                                    :currentYear="currentYear"
+                                                                                    :appYear="apportionData.appYear"
+                                                                                    @math-company="mathCompany"
+                                                                            />
                                                                         </div>
                                                                     </div>
-                                                                    <div class="tab-pane fade"
-                                                                         :id="'exe_'+exes.uniqueId"
-                                                                         role="tabpanel" aria-labelledby="profile-tab">
-                                                                        <!-- 待簽列表 -->
-                                                                        <template v-for="ann in exes.annualData">
-                                                                            <template
-                                                                                    v-if="parseInt(ann.annYear) === parseInt(currentYear)">
-                                                                                <Subsidiary
-                                                                                        :exesData="exes"
-                                                                                        :annualData="ann"
-                                                                                        :subsidiaryData="ann.subsidiaryData"
-                                                                                        @getCount="countCost"
-                                                                                />
-                                                                            </template>
+                                                                </div>
+                                                                <div class="tab-pane fade"
+                                                                     :id="'exe_'+exes.uniqueId"
+                                                                     role="tabpanel" aria-labelledby="profile-tab">
+                                                                    <!-- 待簽列表 -->
+                                                                    <template v-for="ann in exes.annualData">
+                                                                        <template
+                                                                                v-if="parseInt(ann.annYear) === parseInt(currentYear)">
+                                                                            <Subsidiary
+                                                                                    :exesData="exes"
+                                                                                    :annualData="ann"
+                                                                                    :subsidiaryData="ann.subsidiaryData"
+                                                                                    @getCount="countCost"
+                                                                            />
                                                                         </template>
-                                                                        <!-- 待簽列表 -->
-                                                                    </div>
-                                                                    <div class="tab-pane fade"
-                                                                         :id="'fil_'+exes.uniqueId"
-                                                                         role="tabpanel" aria-labelledby="contact-tab">
-                                                                        <!-- 待簽列表 -->
-                                                                        <table class="table table-bordered table-md">
-                                                                            <tbody>
-                                                                            <tr>
-                                                                                <th>編號</th>
-                                                                                <th>名稱</th>
-                                                                                <th>創建日期</th>
-                                                                                <th>狀態</th>
-                                                                                <th>查看</th>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>1</td>
-                                                                                <td>資訊作業系統</td>
-                                                                                <td>2017-01-09</td>
-                                                                                <td>
-                                                                                    <div class="badge badge-success">
-                                                                                        Active
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <!-- <a href="#" class="btn btn-primary">詳細內容</a>  -->
-                                                                                    <div class="action-btns"><a
-                                                                                            href="javascript:void(0);"
-                                                                                            class="action-btn btn-view bs-tooltip me-2"
-                                                                                            data-toggle="tooltip"
-                                                                                            data-placement="top"
-                                                                                            title=""
-                                                                                            data-bs-original-title="View"
-                                                                                            aria-label="View">
-                                                                                        <svg
-                                                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                                                width="24" height="24"
-                                                                                                viewBox="0 0 24 24"
-                                                                                                fill="none"
-                                                                                                stroke="currentColor"
-                                                                                                stroke-width="2"
-                                                                                                stroke-linecap="round"
-                                                                                                stroke-linejoin="round"
-                                                                                                class="feather feather-eye">
-                                                                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                                                                            <circle cx="12" cy="12"
-                                                                                                    r="3"></circle>
-                                                                                        </svg>
-                                                                                    </a></div>
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>2</td>
-                                                                                <td>資訊作業系統</td>
-                                                                                <td>2017-01-09</td>
-                                                                                <td>
-                                                                                    <div class="badge badge-success">
-                                                                                        Active
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="action-btns"><a
-                                                                                            href="javascript:void(0);"
-                                                                                            class="action-btn btn-view bs-tooltip me-2"
-                                                                                            data-toggle="tooltip"
-                                                                                            data-placement="top"
-                                                                                            title=""
-                                                                                            data-bs-original-title="View"
-                                                                                            aria-label="View">
-                                                                                        <svg
-                                                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                                                width="24" height="24"
-                                                                                                viewBox="0 0 24 24"
-                                                                                                fill="none"
-                                                                                                stroke="currentColor"
-                                                                                                stroke-width="2"
-                                                                                                stroke-linecap="round"
-                                                                                                stroke-linejoin="round"
-                                                                                                class="feather feather-eye">
-                                                                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                                                                            <circle cx="12" cy="12"
-                                                                                                    r="3"></circle>
-                                                                                        </svg>
-                                                                                    </a></div>
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>3</td>
-                                                                                <td>資訊作業系統</td>
-                                                                                <td>2017-01-11</td>
-                                                                                <td>
-                                                                                    <div class="badge badge-danger">Not
-                                                                                        Active
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="action-btns"><a
-                                                                                            href="javascript:void(0);"
-                                                                                            class="action-btn btn-view bs-tooltip me-2"
-                                                                                            data-toggle="tooltip"
-                                                                                            data-placement="top"
-                                                                                            title=""
-                                                                                            data-bs-original-title="View"
-                                                                                            aria-label="View">
-                                                                                        <svg
-                                                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                                                width="24" height="24"
-                                                                                                viewBox="0 0 24 24"
-                                                                                                fill="none"
-                                                                                                stroke="currentColor"
-                                                                                                stroke-width="2"
-                                                                                                stroke-linecap="round"
-                                                                                                stroke-linejoin="round"
-                                                                                                class="feather feather-eye">
-                                                                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                                                                            <circle cx="12" cy="12"
-                                                                                                    r="3"></circle>
-                                                                                        </svg>
-                                                                                    </a></div>
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>4</td>
-                                                                                <td>資訊作業系統</td>
-                                                                                <td>2017-01-11</td>
-                                                                                <td>
-                                                                                    <div class="badge badge-success">
-                                                                                        Active
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="action-btns"><a
-                                                                                            href="javascript:void(0);"
-                                                                                            class="action-btn btn-view bs-tooltip me-2"
-                                                                                            data-toggle="tooltip"
-                                                                                            data-placement="top"
-                                                                                            title=""
-                                                                                            data-bs-original-title="View"
-                                                                                            aria-label="View">
-                                                                                        <svg
-                                                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                                                width="24" height="24"
-                                                                                                viewBox="0 0 24 24"
-                                                                                                fill="none"
-                                                                                                stroke="currentColor"
-                                                                                                stroke-width="2"
-                                                                                                stroke-linecap="round"
-                                                                                                stroke-linejoin="round"
-                                                                                                class="feather feather-eye">
-                                                                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                                                                            <circle cx="12" cy="12"
-                                                                                                    r="3"></circle>
-                                                                                        </svg>
-                                                                                    </a></div>
-                                                                                </td>
-                                                                            </tr>
-                                                                            </tbody>
-                                                                        </table>
-                                                                        <!-- 待簽列表 -->
-                                                                    </div>
+                                                                    </template>
+                                                                    <!-- 待簽列表 -->
+                                                                </div>
+                                                                <div class="tab-pane fade"
+                                                                     :id="'fil_'+exes.uniqueId"
+                                                                     role="tabpanel" aria-labelledby="contact-tab">
+                                                                    <!-- 待簽列表 -->
+                                                                    <table class="table table-bordered table-md">
+                                                                        <tbody>
+                                                                        <tr>
+                                                                            <th>編號</th>
+                                                                            <th>名稱</th>
+                                                                            <th>創建日期</th>
+                                                                            <th>狀態</th>
+                                                                            <th>查看</th>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>1</td>
+                                                                            <td>資訊作業系統</td>
+                                                                            <td>2017-01-09</td>
+                                                                            <td>
+                                                                                <div class="badge badge-success">
+                                                                                    Active
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <!-- <a href="#" class="btn btn-primary">詳細內容</a>  -->
+                                                                                <div class="action-btns"><a
+                                                                                        href="javascript:void(0);"
+                                                                                        class="action-btn btn-view bs-tooltip me-2"
+                                                                                        data-toggle="tooltip"
+                                                                                        data-placement="top"
+                                                                                        title=""
+                                                                                        data-bs-original-title="View"
+                                                                                        aria-label="View">
+                                                                                    <svg
+                                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                                            width="24" height="24"
+                                                                                            viewBox="0 0 24 24"
+                                                                                            fill="none"
+                                                                                            stroke="currentColor"
+                                                                                            stroke-width="2"
+                                                                                            stroke-linecap="round"
+                                                                                            stroke-linejoin="round"
+                                                                                            class="feather feather-eye">
+                                                                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                                                        <circle cx="12" cy="12"
+                                                                                                r="3"></circle>
+                                                                                    </svg>
+                                                                                </a></div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>2</td>
+                                                                            <td>資訊作業系統</td>
+                                                                            <td>2017-01-09</td>
+                                                                            <td>
+                                                                                <div class="badge badge-success">
+                                                                                    Active
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="action-btns"><a
+                                                                                        href="javascript:void(0);"
+                                                                                        class="action-btn btn-view bs-tooltip me-2"
+                                                                                        data-toggle="tooltip"
+                                                                                        data-placement="top"
+                                                                                        title=""
+                                                                                        data-bs-original-title="View"
+                                                                                        aria-label="View">
+                                                                                    <svg
+                                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                                            width="24" height="24"
+                                                                                            viewBox="0 0 24 24"
+                                                                                            fill="none"
+                                                                                            stroke="currentColor"
+                                                                                            stroke-width="2"
+                                                                                            stroke-linecap="round"
+                                                                                            stroke-linejoin="round"
+                                                                                            class="feather feather-eye">
+                                                                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                                                        <circle cx="12" cy="12"
+                                                                                                r="3"></circle>
+                                                                                    </svg>
+                                                                                </a></div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>3</td>
+                                                                            <td>資訊作業系統</td>
+                                                                            <td>2017-01-11</td>
+                                                                            <td>
+                                                                                <div class="badge badge-danger">Not
+                                                                                    Active
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="action-btns"><a
+                                                                                        href="javascript:void(0);"
+                                                                                        class="action-btn btn-view bs-tooltip me-2"
+                                                                                        data-toggle="tooltip"
+                                                                                        data-placement="top"
+                                                                                        title=""
+                                                                                        data-bs-original-title="View"
+                                                                                        aria-label="View">
+                                                                                    <svg
+                                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                                            width="24" height="24"
+                                                                                            viewBox="0 0 24 24"
+                                                                                            fill="none"
+                                                                                            stroke="currentColor"
+                                                                                            stroke-width="2"
+                                                                                            stroke-linecap="round"
+                                                                                            stroke-linejoin="round"
+                                                                                            class="feather feather-eye">
+                                                                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                                                        <circle cx="12" cy="12"
+                                                                                                r="3"></circle>
+                                                                                    </svg>
+                                                                                </a></div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>4</td>
+                                                                            <td>資訊作業系統</td>
+                                                                            <td>2017-01-11</td>
+                                                                            <td>
+                                                                                <div class="badge badge-success">
+                                                                                    Active
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="action-btns"><a
+                                                                                        href="javascript:void(0);"
+                                                                                        class="action-btn btn-view bs-tooltip me-2"
+                                                                                        data-toggle="tooltip"
+                                                                                        data-placement="top"
+                                                                                        title=""
+                                                                                        data-bs-original-title="View"
+                                                                                        aria-label="View">
+                                                                                    <svg
+                                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                                            width="24" height="24"
+                                                                                            viewBox="0 0 24 24"
+                                                                                            fill="none"
+                                                                                            stroke="currentColor"
+                                                                                            stroke-width="2"
+                                                                                            stroke-linecap="round"
+                                                                                            stroke-linejoin="round"
+                                                                                            class="feather feather-eye">
+                                                                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                                                        <circle cx="12" cy="12"
+                                                                                                r="3"></circle>
+                                                                                    </svg>
+                                                                                </a></div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <!-- 待簽列表 -->
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -550,11 +549,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </template>
-                                </div>
+                                    </div>
+                                </template>
                             </div>
-
-
                         </div>
                     </div>
 
@@ -1221,7 +1218,7 @@
                                     <li  class="nav-item" ref="tp">
                                         <a class="nav-link myFont16" href="javascript:void(0);"
                                            @click="scrollToElement('my1')">
-                                            {{ currentYear }}年各公司分攤費用
+                                            {{ apportionData.appYear }}年各公司分攤費用
                                         </a>
                                     </li>
                                     <li  class="nav-item" ref="tp">
@@ -1395,12 +1392,11 @@
                 const apiRequests = [
                     this.$api.get(this.$test ? `/api/?type=apportion&appId=${this.appId}` : `/api/adm/apportion/${appId}`),
                     this.$api.get(this.$test ? '/api/?type=company' : '/api/iform/company'),
-                    this.$api.get(this.$test ? `/api/?type=signMember` : `/api/iform/signMember/List`, {params: {appId: this.appId}}),
                     this.$api.get(this.$test ? '/api/?type=contact' : '/api/iform/contact/List'),
                     this.$api.get(this.$test ? '/api/?type=info' : '/api/iform/info/List'),
                 ];
                 Promise.all(apiRequests)
-                    .then(([apportionResponse, companyResponse, memberResponse, contactResponse, infoResponse]) => {
+                    .then(([apportionResponse, companyResponse, contactResponse, infoResponse]) => {
                         //contactResponse
                         this.contactData = contactResponse.data.data;
                         //companyResponse
@@ -1409,11 +1405,41 @@
                         //apportionResponse
                         this.apportionData = apportionResponse.data.data;
 
+                        const memberList = this.apportionData.memberData;
+                        if (memberList.length > 0) {
+                            memberList.forEach(member => {
+                                member.uniqueId = this.$root.generateUniqueId();
+                            });
 
-                        // memberResponse
-                        this.iMemberData = memberResponse.data.data.find(member => member.memType === '0');
-                        this.mMemberData = memberResponse.data.data.filter(member => member.memType === '1');
-                        this.uMemberData = memberResponse.data.data.filter(member => member.memType === '2');
+                            this.iMemberData = memberList.find(member => member.memType === '0');
+                            this.mMemberData = memberList.filter(member => member.memType === '1');
+                            this.uMemberData = memberList.filter(member => member.memType === '2');
+                        }
+                        else {
+                            this.iMemberData = {
+                                uniqueId: this.$root.generateUniqueId(),
+                                memId: '0',
+                                memType: '0',
+                                memBu1Code: this.per.perBu1Code,
+                                memBu2Code: this.per.perBu2Code,
+                                memBu2: this.per.perBu2,
+                                memBu3Code: this.per.perBu3Code,
+                                memBu3: this.per.perBu3,
+                                memLV0Key: this.per.perKey,
+                                memLV0Name: this.per.perName,
+                                memLV0PositionName: this.per.perPositionName,
+                                memLVCKey: '',
+                                memLVCName: '',
+                                memLVCPositionName: '',
+                                memLV1Key: '',
+                                memLV1Name: '',
+                                memLV1PositionName: '',
+                                memLV2Key: '',
+                                memLV2Name: '',
+                                memLV2PositionName: '',
+                                memPhone: this.per.perPhone2 + ' ' + this.per.perPhone3,
+                            };
+                        }
                         // infoResponse
                         this.infoData = infoResponse.data.data;
                         this.currentYear = parseInt(this.infoData.infYear);

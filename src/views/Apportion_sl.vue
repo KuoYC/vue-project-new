@@ -34,64 +34,65 @@
                     </div>
                 </div>
             </div>
-            <div class="card contract-title">
-                <div class="author-box-name d-flex justify-content-between"
-                     style="margin-bottom: 20px;padding: 10px 25px;border-bottom-color: #f9f9f9;">
-                    <h4 class="myCardTitle" style="font-size: x-large;">
-                        {{ apportionData.temTitle }}
-                    </h4>
-                    <div class="contract-serial">
-                        <!-- 這裡放文件序號 -->
-                        <div style="font-weight: 400;">文件序號：<span class="date">{{ apportionData.conSerial }}{{ apportionData.conVer }}</span>
+            <div class="col-12" :id="'my0'">
+                <div class="card contract-title">
+                    <div class="author-box-name d-flex justify-content-between"
+                         style="margin-bottom: 20px;padding: 10px 25px;border-bottom-color: #f9f9f9;">
+                        <h4 class="myCardTitle" style="font-size: x-large;">
+                            {{ apportionData.temTitle }}
+                        </h4>
+                        <div class="contract-serial">
+                            <!-- 這裡放文件序號 -->
+                            <div style="font-weight: 400;">文件序號：<span class="date">{{ apportionData.conSerial }}{{ apportionData.conVer }}</span>
+                            </div>
+                            <!-- 這裡放創文日期 -->
+                            <div style="font-weight: 400;">創文日期：<span class="date">{{ this.$root.formatDate(apportionData.conCreateTime) }}</span>
+                            </div>
                         </div>
-                        <!-- 這裡放創文日期 -->
-                        <div style="font-weight: 400;">創文日期：<span class="date">{{ this.$root.formatDate(apportionData.conCreateTime) }}</span>
+                    </div>
+                    <div class="card-body myNotification d-flex">
+                        <div class="myFont16Title" style="margin: 0 10px;">申請單位： <span
+                                class="date myFont16">{{ apportionData.perBu2}}  {{ apportionData.perBu3}}</span>
+                        </div>
+                        <div class="myFont16Title" style="margin: 0 10px;">申請人： <span
+                                class="date myFont16">{{ apportionData.perName}}</span>
+                        </div>
+                        <div class="myFont16Title" style="margin: 0 10px;">聯絡電話： <span
+                                class="date myFont16">{{ apportionData.perPhone1}}  {{ apportionData.perPhone2}}  {{ apportionData.perPhone3}}</span>
                         </div>
                     </div>
-                </div>
-                <div class="card-body myNotification d-flex">
-                    <div class="myFont16Title" style="margin: 0 10px;">申請單位： <span
-                            class="date myFont16">{{ apportionData.perBu2}}  {{ apportionData.perBu3}}</span>
+                    <div class="card-body myNotification d-flex">
+                        <div class="myFont16Title" style="margin: 0 10px;">管理維運公司： <span class="date myFont16">{{ apportionData.comTitle }}</span>
+                        </div>
+                        <div class="myFont16Title" style="margin: 0 10px;">使用公司： <span
+                                class="date myFont16">
+                                <template v-if="apportionData?.conCompany">
+                                    <template v-for="(option, idx) in apportionData.conCompany">{{ idx !== 0 ? '、' : ''}}{{ this.$root.getCompanyTitle('', option)}}</template>
+                                </template>
+                            </span>
+                        </div>
+                        <div class="myFont16Title" style="margin: 0 10px;">作業種類： <span
+                                class="date myFont16">
+                                <template v-if="apportionData?.conWork">
+                                    <template v-for="(option, idx) in apportionData.conWork">{{ idx !== 0 ? '、' : ''}}{{ this.$root.getWorkTitle(option)}}</template>
+                                </template>
+                            </span>
+                        </div>
                     </div>
-                    <div class="myFont16Title" style="margin: 0 10px;">申請人： <span
-                            class="date myFont16">{{ apportionData.perName}}</span>
-                    </div>
-                    <div class="myFont16Title" style="margin: 0 10px;">聯絡電話： <span
-                            class="date myFont16">{{ apportionData.perPhone1}}  {{ apportionData.perPhone2}}  {{ apportionData.perPhone3}}</span>
-                    </div>
-                </div>
-                <div class="card-body myNotification d-flex">
-                    <div class="myFont16Title" style="margin: 0 10px;">管理維運公司： <span class="date myFont16">{{ apportionData.comTitle }}</span>
-                    </div>
-                    <div class="myFont16Title" style="margin: 0 10px;">使用公司： <span
-                            class="date myFont16">
-                            <template v-if="apportionData?.conCompany">
-                                <template v-for="(option, idx) in apportionData.conCompany">{{ idx !== 0 ? '、' : ''}}{{ this.$root.getCompanyTitle('', option)}}</template>
-                            </template>
-                        </span>
-                    </div>
-                    <div class="myFont16Title" style="margin: 0 10px;">作業種類： <span
-                            class="date myFont16">
-                            <template v-if="apportionData?.conWork">
-                                <template v-for="(option, idx) in apportionData.conWork">{{ idx !== 0 ? '、' : ''}}{{ this.$root.getWorkTitle(option)}}</template>
-                            </template>
-                        </span>
-                    </div>
-                </div>
-                <div class="card-body myNotification d-flex">
-                    <div class="myFont16Title" style="margin: 0 10px;">申請類型：
-                        <span v-if="'0' === apportionData.appType"
-                              class="date myFont16">新增</span>
-                        <span v-if="'1' === apportionData.appType"
-                              class="date myFont16">變更</span>
-                        <span v-if="'2' === apportionData.appType"
-                              class="date myFont16">終止</span>
+                    <div class="card-body myNotification d-flex">
+                        <div class="myFont16Title" style="margin: 0 10px;">申請類型：
+                            <span v-if="'0' === apportionData.appType"
+                                  class="date myFont16">新增</span>
+                            <span v-if="'1' === apportionData.appType"
+                                  class="date myFont16">變更</span>
+                            <span v-if="'2' === apportionData.appType"
+                                  class="date myFont16">終止</span>
+                        </div>
                     </div>
                 </div>
             </div>
-
             <div class="col-12">
-                <div class="card">
+                <div class="card" :id="'my1'">
                     <div class="card-header justify-content-between">
                         <h4 class="myCardTitle">
                                     <span class="myFont16 d-flex align-center"
@@ -134,14 +135,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="card">
+                <div class="card" :id="'my2'">
                     <div class="card-header justify-content-between">
                         <h4 class="myCardTitle">
                                     <span class="myFont16 d-flex align-center"
                                           style="background-color: #26a862; color: white; border-radius: 6px; padding: 0.3rem 0.8rem; font-weight: 400;">
                                         <vue-feather type="tag" size="20"
                                                      style="transform: rotate(135deg); padding-right: 0px;"
-                                                     class="m-r-5"></vue-feather>費用分攤明細</span>
+                                                     class="m-r-5"></vue-feather>分攤費用共用作業項目</span>
                         </h4>
                     </div>
                     <div class="card-body myNotification">
@@ -150,7 +151,7 @@
                                 <div class="row" style="margin-bottom: 20px;">
                                     <div class="table-responsive">
                                         <table class="newTable">
-                                            <caption>費用分攤明細資料表</caption>
+                                            <caption>分攤費用共用作業項目資料表</caption>
                                             <thead style="position: sticky;top: 0;" class="myNew">
                                             <tr>
                                                 <th style="width: 50px;">種類</th>
@@ -190,14 +191,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="card" style="position: static;">
+                <div class="card" :id="'my3'" style="position: static;">
                     <div class="card-header justify-content-between">
                         <h4 class="myCardTitle">
                                     <span class="myFont16 d-flex align-center"
                                           style="background-color: #26a862; color: white; border-radius: 6px; padding: 0.3rem 0.8rem; font-weight: 400;">
                                         <vue-feather type="tag" size="20"
                                                      style="transform: rotate(135deg); padding-right: 0px;"
-                                                     class="m-r-5"></vue-feather>費用分攤明細</span>
+                                                     class="m-r-5"></vue-feather>分攤費用共用作業項目-詳細資訊</span>
                         </h4>
                     </div>
                     <div class="card-body">
@@ -523,9 +524,161 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
+
+            <!-- 立約書人 -->
+            <div class="col-12" :id="'my4'">
+                <div class="card">
+                    <div class="card-header justify-content-between">
+                        <h4 class="myCardTitle">
+                                    <span class="myFont16 d-flex align-center"
+                                          style="background-color: #26a862; color: white; border-radius: 6px; padding: 0.3rem 0.8rem; font-weight: 400;">
+                                        <vue-feather type="tag" size="20"
+                                                     style="transform: rotate(135deg); padding-right: 0px;"
+                                                     class="m-r-5"></vue-feather>立約書人</span>
+                        </h4>
+                    </div>
+                    <div class="card-body myNotification">
+                        <div class="row" style="margin-bottom: 20px">
+                            <label class="myFont16 p-t-10">管理維運公司</label>
+                            <div class="table-responsive">
+                                <table class="newTable">
+                                    <caption>維運公司簽核人員資料表</caption>
+                                    <thead style="position: sticky;top: 0;"
+                                           class="myNew">
+                                    <tr>
+                                        <th style="min-width: 120px;"
+                                            scope="col">公司
+                                        </th>
+                                        <th style="min-width: 120px;"
+                                            scope="col">部門
+                                        </th>
+                                        <th style="min-width: 120px;"
+                                            scope="col">科別
+                                        </th>
+                                        <th style="min-width: 120px;"
+                                            scope="col">部門主管
+                                        </th>
+                                        <th style="min-width: 120px;"
+                                            scope="col">科別主管
+                                        </th>
+                                        <th style="min-width: 120px;"
+                                            scope="col">承辦人
+                                        </th>
+                                        <th style="min-width: 120px;"
+                                            scope="col">承辦人連絡電話
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>{{ iMemberData.comTitle }}</td>
+                                        <td>{{ iMemberData.memBu2 }}</td>
+                                        <td>{{ iMemberData.memBu3 }}</td>
+                                        <td>{{ iMemberData.memLV2Name }}</td>
+                                        <td>{{ iMemberData.memLV1Name }}</td>
+                                        <td>{{ iMemberData.memLV0Name }}</td>
+                                        <td>{{ iMemberData.memPhone }}</td>
+                                    </tr>
+                                    <tr v-for="mmem in mMemberData">
+                                        <td>{{ mmem.comTitle }}</td>
+                                        <td>{{ mmem.memBu2 }}</td>
+                                        <td>{{ mmem.memBu3 }}</td>
+                                        <td>{{ mmem.memLV2Name }}</td>
+                                        <td>{{ mmem.memLV1Name }}</td>
+                                        <td>{{ mmem.memLV0Name }}</td>
+                                        <td>{{ mmem.memPhone }}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom: 20px">
+                            <label class="myFont16 p-t-10">使用公司</label>
+                            <div class="table-responsive">
+                                <table class="newTable">
+                                    <caption>使用公司簽核人員資料表</caption>
+                                    <thead style="position: sticky;top: 0;"
+                                           class="myNew">
+                                    <tr>
+                                        <th style="min-width: 120px;"
+                                            scope="col">公司
+                                        </th>
+                                        <th style="min-width: 120px;"
+                                            scope="col">部門
+                                        </th>
+                                        <th style="min-width: 120px;"
+                                            scope="col">科別
+                                        </th>
+                                        <th style="min-width: 120px;"
+                                            scope="col">部門主管
+                                        </th>
+                                        <th style="min-width: 120px;"
+                                            scope="col">科別主管
+                                        </th>
+                                        <th style="min-width: 120px;"
+                                            scope="col">承辦人
+                                        </th>
+                                        <th style="min-width: 120px;"
+                                            scope="col">承辦人連絡電話
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr v-for="umem in uMemberData">
+                                        <td>{{ umem.comTitle }}</td>
+                                        <td>{{ umem.memBu2 }}</td>
+                                        <td>{{ umem.memBu3 }}</td>
+                                        <td>{{ umem.memLV2Name }}</td>
+                                        <td>{{ umem.memLV1Name }}</td>
+                                        <td>{{ umem.memLV0Name }}</td>
+                                        <td>{{ umem.memPhone }}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="myFont16 mt-2">維運窗口：<span
+                                    class="data">
+                                                                                        <div class="d-flex m-tb">
+                                                                                            <div v-for="con in contactData"
+                                                                                                 class="form-check-inline">
+                                                                                                <label v-if="con.comId.includes(per.comId)"
+                                                                                                       class="form-check-label">
+                                                                                                        <vue-feather
+                                                                                                                v-if="con.perKey === iMemberData.memLVCKey"
+                                                                                                                type="key"
+                                                                                                                size="20"
+                                                                                                                style="margin-bottom: -4px;"></vue-feather>
+                                                                                                    {{ con.perName + ' ' + con.perPositionName }}
+                                                                                                </label>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </span></div>
+                            <div class="myFont16">使用窗口：<span
+                                    class="data">
+                                                                                        <div class="d-flex m-tb">
+                                                                                            <template
+                                                                                                    v-for="com in apportionData.conCompany">
+                                                                                                <template
+                                                                                                        v-for="con in contactData">
+                                                                                                <div v-if="con.comCode.includes(com)"
+                                                                                                     class="form-check-inline">
+                                                                                                    <label class="form-check-label">
+                                                                                                        {{ con.perName + ' ' + con.perPositionName }}
+                                                                                                    </label>
+                                                                                                </div>
+                                                                                                </template>
+                                                                                            </template>
+                                                                                        </div>
+                                                                                    </span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
             <div class="col-6" style="padding-bottom: 20px;">
                 <button type="button"  @click="$router.push(`/apportion/up/${apportionData.appId}`)"
                         class="m-r-5 btn btn-outline-warning btn-border-radius waves-effect myFont16">修改
@@ -633,23 +786,25 @@
                 const appId = this.$route.params.id; // 取得路由參數 id
                 const apiRequests = [
                     this.$api.get(this.$test ? `/api/?type=apportion&appId=${appId}` : `/api/adm/apportion/${appId}`),
-                    this.$api.get(this.$test ? `/api/?type=signMember` : `/api/iform/signMember/List`, {params: {conId: 0}}),
                     this.$api.get(this.$test ? '/api/?type=contact' : '/api/iform/contact/List'),
                     this.$api.get(this.$test ? '/api/?type=info' : '/api/iform/info/List'),
                 ];
                 Promise.all(apiRequests)
-                    .then(([apportionResponse, memberResponse, contactResponse, infoResponse]) => {
+                    .then(([apportionResponse, contactResponse, infoResponse]) => {
                         //contactResponse
                         this.contactData = contactResponse.data.data;
 
                         //apportionResponse
                         this.apportionData = apportionResponse.data.data;
 
-
-                        // memberResponse
-                        this.iMemberData = memberResponse.data.data.find(member => member.memType === '0');
-                        this.mMemberData = memberResponse.data.data.filter(member => member.memType === '1');
-                        this.uMemberData = memberResponse.data.data.filter(member => member.memType === '2');
+                        if (this.apportionData?.memberData !== undefined) {
+                            const memberList = this.apportionData?.memberData;
+                            if (memberList.length > 0) {
+                                this.iMemberData = memberList.find(member => member.memType === '0');
+                                this.mMemberData = memberList.filter(member => member.memType === '1');
+                                this.uMemberData = memberList.filter(member => member.memType === '2');
+                            }
+                        }
                         // infoResponse
                         this.infoData = infoResponse.data.data;
                         this.currentYear = parseInt(this.infoData.infYear);
