@@ -204,7 +204,7 @@
                                                                     </div>
                                                                     <div v-if="1 === parseInt(contractData.conLock)" class="col-xl-4 col-md-6 col-sm-6 col-12">
                                                                         <label class="row-label row-title">作業種類</label>
-                                                                        <div class="d-flex my-list">
+                                                                        <div class="my-list">
                                                                             <ul style="padding-left: 0px;">
                                                                                 <li v-for="(option, idx) in contractData.conWork">
                                                                                     <span class="row-text">{{ this.$root.getWorkTitle(option) }}</span>
@@ -214,22 +214,24 @@
                                                                     </div>
                                                                     <div v-else class="col-xl-4 col-md-6 col-sm-6 col-12">
                                                                         <label class="row-label row-title">作業種類</label>
-                                                                        <div class="d-flex my-list">
-                                                                            <div v-for="wor in workData" class="form-check">
-                                                                                <input class="form-check-input"
-                                                                                       type="checkbox"
-                                                                                       :value="wor.worId"
-                                                                                       v-model="contractData.conWork"
-                                                                                       :id="'wor_'+wor.worId">
-                                                                                <label class="form-check-label"
-                                                                                       :for="'wor_'+wor.worId">{{
-                                                                                    wor.worTitle }}</label>
-                                                                            </div>
+                                                                        <div class="my-list">
+                                                                            <ul>
+                                                                                <li v-for="wor in workData" class="form-check">
+                                                                                    <input class="form-check-input"
+                                                                                           type="checkbox"
+                                                                                           :value="wor.worId"
+                                                                                           v-model="contractData.conWork"
+                                                                                           :id="'wor_'+wor.worId">
+                                                                                    <label class="form-check-label"
+                                                                                           :for="'wor_'+wor.worId">{{
+                                                                                        wor.worTitle }}</label>
+                                                                                </li>
+                                                                            </ul>
                                                                         </div>
                                                                     </div>
                                                                     <div v-if="1 === parseInt(contractData.conLock)" class="col-12">
                                                                         <label class="row-label row-title">使用公司</label>
-                                                                        <div class="d-flex my-list">
+                                                                        <div class="my-list">
                                                                             <ul style="padding-left: 0px;">
                                                                                 <li v-for="option in contractData.conCompany">
                                                                                     <span class="row-text">{{ this.$root.getCompanyTitle('', option) }}</span>
@@ -239,7 +241,7 @@
                                                                     </div>
                                                                     <div v-else class="col-12">
                                                                         <label class="row-label row-title">使用公司</label>
-                                                                        <div class="d-flex my-list">
+                                                                        <div class="my-list">
                                                                             <ul>
                                                                                 <li v-for="com in companyData"
                                                                                     class="form-check">

@@ -144,8 +144,64 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-12" :id="'my1'">
+                        <div class="card">
+                            <div class="card-header justify-content-between">
+                                <h4 class="myCardTitle">
+                                    <span class="myFont16 d-flex align-center"
+                                          style="background-color: #26a862; color: white; border-radius: 6px; padding: 0.3rem 0.8rem; font-weight: 400;">
+                                        <vue-feather type="tag" size="20"
+                                                     style="transform: rotate(135deg); padding-right: 0px;"
+                                                     class="m-r-5"></vue-feather>資訊共用計畫摘要</span>
+                                </h4>
+                            </div>
+                            <div class="card-body myNotification">
+                                <div class="row" style="margin-bottom: 20px">
+                                    <div class="col-xl-4 col-md-6 col-sm-6 col-12">
+                                        <label class="row-label row-title">共用計劃書名稱</label>
+                                        <span class="row-text">{{ apportionData.conTitle }}</span>
+                                    </div>
+                                    <div class="col-xl-4 col-md-6 col-sm-6 col-12">
+                                        <label class="row-label row-title">共用計劃框架</label>
+                                        <label class="row-text">{{ apportionData.frmTitle }}</label>
+                                    </div>
+                                    <div class="col-xl-4 col-md-6 col-sm-6 col-12">
+                                        <label class="row-label row-title">生效日期</label>
+                                        <label class="row-text">
+                                            <template v-if="apportionData.conDate">{{ apportionData.conDate }}</template>
+                                            <template v-else>未填寫將以簽核完成日為依據</template>
+                                        </label>
+                                    </div>
+                                    <div class="col-xl-4 col-md-6 col-sm-6 col-12">
+                                        <label class="row-label row-title">維運公司</label>
+                                        <label class="row-text">{{ apportionData.comTitle }}</label>
+                                    </div>
+                                    <div class="col-xl-4 col-md-6 col-sm-6 col-12">
+                                        <label class="row-label row-title">作業種類</label>
+                                        <div class="d-flex my-list">
+                                            <ul style="padding-left: 0px;">
+                                                <li v-for="(option, idx) in apportionData.conWork">
+                                                    <span class="row-text">{{ this.$root.getWorkTitle(option) }}</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="row-label row-title">使用公司</label>
+                                        <div class="d-flex my-list">
+                                            <ul style="padding-left: 0px;">
+                                                <li v-for="option in apportionData.conCompany">
+                                                    <span class="row-text">{{ this.$root.getCompanyTitle('', option) }}</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-12">
-                        <div class="card" :id="'my1'">
+                        <div class="card" :id="'my2'">
                             <div class="card-header justify-content-between">
                                 <h4 class="myCardTitle">
                                     <span class="myFont16 d-flex align-center"
@@ -191,7 +247,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card" :id="'my2'">
+                        <div class="card" :id="'my3'">
                             <div class="card-header justify-content-between">
                                 <h4 class="myCardTitle">
                                     <span class="myFont16 d-flex align-center"
@@ -249,7 +305,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card" :id="'my3'" style="position: static;">
+                        <div class="card" :id="'my4'" style="position: static;">
                             <div class="card-header justify-content-between">
                                 <h4 class="myCardTitle">
                                     <span class="myFont16 d-flex align-center"
@@ -352,42 +408,39 @@
                                                                        tabindex="-1">附件資料</a>
                                                                 </li>
                                                             </ul>
-                                                            <div class="tab-content" id="myTabContent">
+                                                            <div class="tab-content">
                                                                 <div class="tab-pane fade show active"
-                                                                     :id="'ann_'+exes.uniqueId"
-                                                                     role="tabpanel" aria-labelledby="home-tab">
+                                                                     :id="'ann_'+exes.uniqueId">
                                                                     <div class="card-body" style="padding: 0px;">
-                                                                        <div class="">
-                                                                            <Annual
-                                                                                    :annualData="exes.annualData"
-                                                                                    :exes="exes"
-                                                                                    :currentYear="currentYear"
-                                                                                    :appYear="apportionData.appYear"
-                                                                                    @math-company="mathCompany"
-                                                                            />
-                                                                        </div>
+                                                                        <Annual
+                                                                                :annualData="exes.annualData"
+                                                                                :exes="exes"
+                                                                                :currentYear="currentYear"
+                                                                                :appYear="parseInt(apportionData.appYear)"
+                                                                                @math-company="mathCompany"
+                                                                        />
                                                                     </div>
                                                                 </div>
                                                                 <div class="tab-pane fade"
-                                                                     :id="'exe_'+exes.uniqueId"
-                                                                     role="tabpanel" aria-labelledby="profile-tab">
+                                                                     :id="'exe_'+exes.uniqueId">
                                                                     <!-- 待簽列表 -->
-                                                                    <template v-for="ann in exes.annualData">
-                                                                        <template
-                                                                                v-if="parseInt(ann.annYear) === parseInt(currentYear)">
-                                                                            <Subsidiary
-                                                                                    :exesData="exes"
-                                                                                    :annualData="ann"
-                                                                                    :subsidiaryData="ann.subsidiaryData"
-                                                                                    @getCount="countCost"
-                                                                            />
+                                                                    <div class="card-body" style="padding: 0px;">
+                                                                        <template v-for="ann in exes.annualData">
+                                                                            <template
+                                                                                    v-if="parseInt(ann.annYear) === parseInt(currentYear)">
+                                                                                <Subsidiary
+                                                                                        :exesData="exes"
+                                                                                        :annualData="ann"
+                                                                                        :subsidiaryData="ann.subsidiaryData"
+                                                                                        @getCount="countCost"
+                                                                                />
+                                                                            </template>
                                                                         </template>
-                                                                    </template>
+                                                                    </div>
                                                                     <!-- 待簽列表 -->
                                                                 </div>
                                                                 <div class="tab-pane fade"
-                                                                     :id="'fil_'+exes.uniqueId"
-                                                                     role="tabpanel" aria-labelledby="contact-tab">
+                                                                     :id="'fil_'+exes.uniqueId">
                                                                     <!-- 待簽列表 -->
                                                                     <table class="table table-bordered table-md">
                                                                         <tbody>
@@ -556,7 +609,7 @@
                     </div>
 
                     <!-- 立約書人 -->
-                    <div class="col-12" :id="'my4'">
+                    <div class="col-12" :id="'my5'">
                         <div class="card">
                             <div class="card-header justify-content-between">
                                 <h4 class="myCardTitle">
@@ -1218,24 +1271,30 @@
                                     <li  class="nav-item" ref="tp">
                                         <a class="nav-link myFont16" href="javascript:void(0);"
                                            @click="scrollToElement('my1')">
-                                            {{ apportionData.appYear }}年各公司分攤費用
+                                            資訊共用計畫摘要
                                         </a>
                                     </li>
                                     <li  class="nav-item" ref="tp">
                                         <a class="nav-link myFont16" href="javascript:void(0);"
                                            @click="scrollToElement('my2')">
-                                            分攤費用共用作業項目
+                                            {{ apportionData.appYear }}年各公司分攤費用
                                         </a>
                                     </li>
                                     <li  class="nav-item" ref="tp">
                                         <a class="nav-link myFont16" href="javascript:void(0);"
                                            @click="scrollToElement('my3')">
-                                            分攤費用共用作業項目-詳細資訊
+                                            分攤費用共用作業項目
                                         </a>
                                     </li>
                                     <li  class="nav-item" ref="tp">
                                         <a class="nav-link myFont16" href="javascript:void(0);"
                                            @click="scrollToElement('my4')">
+                                            分攤費用共用作業項目-詳細資訊
+                                        </a>
+                                    </li>
+                                    <li  class="nav-item" ref="tp">
+                                        <a class="nav-link myFont16" href="javascript:void(0);"
+                                           @click="scrollToElement('my5')">
                                             立約書人
                                         </a>
                                     </li>
@@ -1266,7 +1325,6 @@
                 </div>
                 <!-- 浮動控制版 -->
             </section>
-
         </template>
         <template v-else>
             <vue-feather type="settings" animation="spin" animation-speed="slow"></vue-feather>
@@ -1589,6 +1647,7 @@
                         annCost: cost,
                         // subsidiaryData: nowYear === this.currentYear ? this.getCost(subsidiarySet, cost, exes.manType) : subsidiaryDefault,
                     });
+                    lastCost = lastCost - cost;
                     if (parseInt(this.apportionData.appYear) === nowYear) {
                         exes.exeYearCost = cost;
                     }
@@ -1608,6 +1667,7 @@
                                 annCost: cost,
                                 // subsidiaryData: nowYear === this.currentYear ? this.getCost(subsidiarySet, cost, exes.manType) : subsidiaryDefault,
                             });
+                            lastCost = lastCost - cost;
                             if (parseInt(this.apportionData.appYear) === nowYear) {
                                 exes.exeYearCost = parseInt(avgCost * 12);
                             }
@@ -1621,9 +1681,9 @@
                             exes.annualData.push({
                                 annYear: nowYear,
                                 annStartMonth: start,//new Date(nowYear, 0, 1),//{year: nowYear, month: 0, day: 1},
-                                annEndMonth: {year: end.year, month: 11},
+                                annEndMonth: end,
                                 annMonth: overMonth,
-                                annCost: cost,
+                                annCost: lastCost,//cost,
                                 // subsidiaryData: nowYear === this.currentYear ? this.getCost(subsidiarySet, cost, exes.manType) : subsidiaryDefault,
                             });
                             if (parseInt(this.apportionData.appYear) === nowYear) {
@@ -1686,7 +1746,6 @@
                         });
                         break;
                     case 1:
-                        console.log('nn');
                         subsidiarySet.forEach(sub => {
                             exes.ratio.forEach(ite => {
                                 if (sub.comCode === ite.comCode) {
@@ -1796,6 +1855,7 @@
                     this.$root.addDataPush(memberList, this.uMemberData);
                     payload.memberData = memberList;
                 }
+                payload.appStatus = 0;
 
                 // const formData = new FormData();
                 // this.$root.addFilesToFormData(formData, this.filMeetingFiles, 'conFileMeeting[]');
@@ -1883,26 +1943,20 @@
         min-height: auto !important;
     }
 
-    .tables-min thead {
+    #exportBox img {
         display: none;
     }
 
-    .tables-min td {
-        display: block;
-        float: left;
-        clear: left;
-        width: 100%;
+    .textBox {
+        /*border-style: dashed;*/
+        /*border-color: darkgray;*/
+        /*border-width: thin;*/
     }
 
-    .tables-min b {
-        display: inline-block;
-        padding: 0 1.2em 0 0;
-        width: 30%;
-        text-align: right;
-    }
-
-    .tables-def b {
-        display: none;
+    .textRowBox {
+        border-style: double;
+        border-color: black;
+        border-width: unset;
     }
 
     .sign-title {
@@ -1910,26 +1964,31 @@
         font-size: 14px;
     }
 
-    /*table{*/
-    /*width: 100%;*/
-    /*border-collapse: collapse;*/
-    /*border-radius: 10px ;*/
-    /*overflow: hidden;*/
-    /*}*/
-    /*!* Zebra striping *!*/
-    /*!*table tr:nth-of-type(odd) {*!*/
-    /*!*background: #ececec;*!*/
-    /*!*}*!*/
-    /*table th {*/
-    /*background: #f0f3ff;*/
-    /*color: #6777ef;*/
-    /*font-weight: bold;*/
-    /*}*/
-    /*table td, table th {*/
-    /*padding: 6px;*/
-    /*border: 1px solid #ccc;*/
-    /*!*text-align: center;*!*/
-    /*}*/
+    .time-msg {
+        font-size: 12px;
+    }
+
+    .other-msg {
+
+    }
+
+    .form-check {
+        font-size: 16px;
+    }
+
+    .my-list ul li {
+        float: left;
+        list-style: none;
+        margin-right: 10px;
+    }
+
+    .contract-title .myNotification {
+        min-height: auto !important;
+    }
+
+    .d-flex i {
+        padding-right: 10px;
+    }
 
     .transfer > tr > td {
         height: 60px !important;

@@ -1,7 +1,7 @@
 <template>
     <table class="newTable mb-5">
-        <thead style="position: sticky;top: 0;"
-               class="myNew">
+        <thead><!--  style="position: sticky;top: 0;"
+               class="myNew"-->
         <tr>
             <th></th>
             <th v-for="ann in annualData">{{
@@ -24,33 +24,33 @@
                     {{ ann.annEndMonth.year }}/{{ (ann.annEndMonth.month+1).toString().padStart(2, '0') }}
                 </template>
                 <template v-else>
-                <DatePicker format="yyyy/MM"
-                            v-model="ann.annEndMonth"
-                            placeholder="費用迄止"
-                            locale="zh"
-                            month-picker
-                            :enable-time-picker="false"
-                            :min-date="new Date(ann.annYear, 0, 1)"
-                            :max-date="new Date(ann.annYear, 11, 31)"
-                            @closed="mathAnnual"
-                            :disabled="1 === parseInt(ann.annStatus)"
-                            style="width: 135px;"
-                />
+                    <DatePicker format="yyyy/MM"
+                                v-model="ann.annEndMonth"
+                                placeholder="費用迄止"
+                                locale="zh"
+                                month-picker
+                                :enable-time-picker="false"
+                                :min-date="new Date(ann.annYear, 0, 1)"
+                                :max-date="new Date(ann.annYear, 11, 31)"
+                                @closed="mathAnnual"
+                                :disabled="1 === parseInt(ann.annStatus)"
+                                style="width: 135px;"
+                    />
                 </template>
             </td>
         </tr>
         <tr>
             <td>費用</td>
-                <td v-for="ann in annualData">
-                    <input type="number"
-                           v-model="ann.annCost"
-                           class="row-text"
-                           @input="mathCompany"
-                           style="width: 120px;"
-                           placeholder="0"
-                           :disabled="1 === parseInt(ann.annStatus)"
-                           onclick="this.select();"/>
-                </td>
+            <td v-for="ann in annualData">
+                <input type="number"
+                       v-model="ann.annCost"
+                       class="row-text"
+                       @input="mathCompany"
+                       style="width: 120px;"
+                       placeholder="0"
+                       :disabled="1 === parseInt(ann.annStatus)"
+                       onclick="this.select();"/>
+            </td>
         </tr>
         </tbody>
     </table>
@@ -58,10 +58,15 @@
 
 <script>
     import DatePicker from '@vuepic/vue-datepicker';
+
     export default {
         name: "Annual",
         emits: ['math-company'],
         props: {
+            appYear: {
+                type: Number,
+                default: () => 0,
+            },
             annualData: {
                 type: Object,
                 // default: () => [],
@@ -88,59 +93,95 @@
                 //     }
                 // });
 
+                let endMonth = '';
+                this.annualData.forEach((ann, idx) => {
+                    if ('' !== endMonth) {
+                        ann.annStartMonth = this.getYearMonth(endMonth, 2);
+                    }
+                    endMonth = ann.annEndMonth;
+                });
 
 
                 if ('' !== this.exes.exeCost && '' !== this.exes.exeMonth && null !== this.exes.exeCreateMonth) {
 
-                    const subsidiariesArray = this.exes.iteSubsidiaries.split('|');
-                    const subsidiaryDefault = [];
-                    subsidiariesArray.forEach(comCode => {
-                        subsidiaryDefault.push({
-                            comCode: comCode,
-                            subAmount: 0,
-                            subPercent: 0,
-                            subCost: 0,
-                        })
+                    const totalCost = parseInt(this.exes.exeCost);//總金額
+                    const totalMonths = parseInt(this.exes.exeMonth);//需要總月數
+                    const avgCost = Math.round(totalCost / totalMonths);//平均每月金額
+                    console.log(totalCost);
+                    console.log(totalMonths);
+                    console.log(avgCost);
+                    console.log('====');
+
+                    let overMonth = totalMonths;//剩餘為分攤月
+                    let lastCost = totalCost;//剩餘為分攤金額
+                    let useMonth = 0;//當前使用月數
+                    this.annualData.forEach((ann, idx) => {
+                        useMonth = (ann.annEndMonth.year - ann.annStartMonth.year) * 12 + (ann.annEndMonth.month - ann.annStartMonth.month) + 1;//當前使用月數
+                        if (overMonth > useMonth) {
+                            console.log(useMonth);
+                            ann.annEndMonth = this.getYearMonth(ann.annStartMonth, useMonth);
+                            ann.annMonth = useMonth;
+                            ann.annCost = avgCost * useMonth;
+                            lastCost = lastCost - (avgCost * useMonth);
+                            overMonth = overMonth - useMonth;
+                            if (parseInt(this.appYear) === ann.annYear) {
+                                this.exes.exeYearCost = avgCost * useMonth;
+                                this.getCost(ann.subsidiaryData, avgCost * useMonth);
+                            }
+                        }
+                        else {
+                            ann.annEndMonth = this.getYearMonth(ann.annStartMonth, useMonth);
+                            ann.annMonth = useMonth;
+                            ann.annCost = lastCost;
+                            if (parseInt(this.appYear) === ann.annYear) {
+                                this.exes.exeYearCost = lastCost;
+                                this.getCost(ann.subsidiaryData, lastCost);
+                            }
+                        }
                     });
+                    this.mathCompany();
 
-                    const subsidiarySet = subsidiaryDefault;
-                    if ('1' === this.exes.manType) {
-                        subsidiarySet.forEach(sub => {
-                            this.exes.ratio.forEach(rat => {
-                                if (sub.comCode === rat.comCode) {
-                                    sub.subPercent = parseFloat(rat.p);
-                                }
-                            });
-                        });
-                    }
-                    if ('0' === this.exes.manType) {
-                        subsidiarySet.forEach(sub => {
-                            this.exes.ratio.forEach(rat => {
-                                if (sub.comCode === rat.comCode) {
-                                    sub.subAmount = parseFloat(rat.s);
-                                }
-                            });
-                        });
-                    }
-
-
-                    const totalCost = parseInt(this.exes.exeCost);
-                    const createYear = new Date(this.exes.exeCreateMonth).getFullYear();
-                    const createMonth = new Date(this.exes.exeCreateMonth).getMonth();//parseInt(this.exes.exeCreateMonth.month);
-                    const startYear = this.exes.exeStartYear;
-                    const totalMonths = parseInt(this.exes.exeMonth);
-                    const avgCost = Math.round(totalCost / totalMonths);
-
-                    let nowYear = parseInt(startYear);
-                    let overMonth = totalMonths;
-                    let lastCost = totalCost;
-                    const firstMonth = (nowYear - createYear) * 12 + (12 - createMonth);
-                    const needYear = Math.ceil((totalMonths - firstMonth) / 12);
-                    this.annualData.forEach(ann=>{
-                        console.log(ann.annEndMonth);
-                    });
+                    //計算總共需要年份
+                    // let start = this.exes.exeCreateMonth;
+                    // let end = this.getYearMonth(start, firstMonth);
+                    // let cost = parseInt((firstMonth > totalMonths ? totalMonths : firstMonth) * avgCost);
+                    //
+                    // this.annualData.forEach(ann=>{
+                    //     console.log(ann.annEndMonth);
+                    // });
                 }
             },
+            getCost(subsidiaryData, cost) {
+                let totalCost = cost;
+                subsidiaryData.forEach((sub, idx)=>{
+                    if (idx === subsidiaryData.length +1) {
+                        sub.subCost = totalCost;
+                        sub.subCostOG = totalCost;
+                    }
+                    else {
+                        sub.subCost = Math.round(cost * sub.subPercent / 100);
+                        sub.subCostOG = Math.round(cost * sub.subPercent / 100);
+                        totalCost = totalCost - Math.round(cost * sub.subPercent / 100);
+                    }
+                });
+
+            },
+            getYearMonth(nowYearMonth, num) {
+                // 将传入的 nowYearMonth 转换为 Date 对象
+                num = num - 1;
+                const currentDate = new Date(nowYearMonth.year, nowYearMonth.month, 1);
+
+                // 计算新日期
+                currentDate.setMonth(currentDate.getMonth() + num);
+
+                // 获取新日期的年份和月份
+                const newYear = currentDate.getFullYear();
+                const newMonth = currentDate.getMonth();
+
+                // 返回结果
+                return {year: newYear, month: newMonth};
+            },
+
         },
     }
 </script>

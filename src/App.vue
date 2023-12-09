@@ -550,6 +550,11 @@
                     return '';
                 }
             },
+            formatNumber(num) {
+                num = Number(num);
+                const formattedNumber = new Intl.NumberFormat('en-US', { style: 'decimal' }).format(num);
+                return formattedNumber;
+            },
             getWorkTitle(work_id) {
                 let work = '';
                 if (work_id && '' !== work_id) {

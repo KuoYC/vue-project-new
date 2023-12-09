@@ -23,6 +23,8 @@ export const itemMixin = {
                 iteDescription: '',
                 iteWord: '',
                 iteNote: '',
+                manType:'',
+                disType:'',
             },);
         },
         removeItemData(uniqueId) {

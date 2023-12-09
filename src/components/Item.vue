@@ -23,27 +23,46 @@
                     </option>
                 </select>
             </div>
-            <div :class="4 === parseInt(item.manId) || 1 === parseInt(item.manId) ? 'col-xl-4 col-md-4 col-sm-6 col-12' : 'col-xl-6 col-md-6 col-sm-6 col-12'">
+
+            <div class="col-12">
+                <label class="row-label">使用公司</label>
+                <div class="my-list">
+                    <ul>
+                        <li v-for="com in companyData" :key="com.comCode" class="form-check">
+                            <input class="form-check-input" :disabled="!companyUse.includes(com.comCode)"
+                                   :name="'com_'+item.uniqueId"
+                                   type="checkbox"
+                                   :value="com.comCode"
+                                   v-model="item.iteSubsidiaries"
+                                   :id="'com_'+item.uniqueId+'_'+com.comCode"/>
+                            <label class="form-check-label" :for="'com_'+item.uniqueId+'_'+com.comCode">{{ com.comTitle
+                                }}</label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div :class="0 !== parseInt(item.manType) && 0 !== parseInt(item.manId) ? 'col-xl-4 col-md-4 col-sm-6 col-12' : 'col-xl-6 col-md-6 col-sm-6 col-12'">
                 <label class="row-label">費用分攤原則</label>
                 <select v-model="item.disId" class="row-text" ref="dis" @change="disChange">
-                    <option value="0">費用分攤原則</option>
+                    <option value="0" data-type="">費用分攤原則</option>
                     <option v-for="dis in distributionData" :value="dis.disId" :data-type="dis.disType"
                             :disabled="(parseInt(item.worId) === 3 && parseInt(dis.disId) !== 1)">
                         {{ dis.disTitle }}
                     </option>
                 </select>
             </div>
-            <div :class="4 === parseInt(item.manId) || 1 === parseInt(item.manId) ? 'col-xl-4 col-md-4 col-sm-6 col-12' : 'col-xl-6 col-md-6 col-sm-6 col-12'">
+            <div :class="0 !== parseInt(item.manType) && 0 !== parseInt(item.manId) ? 'col-xl-4 col-md-4 col-sm-6 col-12' : 'col-xl-6 col-md-6 col-sm-6 col-12'">
                 <label class="row-label">計算基礎</label>
                 <select v-model="item.manId" class="row-text" ref="man" @change="manChange">
-                    <option value="0">費用分攤方式</option>
+                    <option value="0" data-type="">費用分攤方式</option>
                     <option v-for="man in manner" :value="man.manId" :data-type="man.manType"
-                            :disabled="parseInt(item.disId) === 0 || (disType === 1 && parseInt(man.manType) === 0)">
+                            :disabled="parseInt(item.disId) === 0 || (item.disType === 1 && parseInt(man.manType) === 0)">
                         {{ man.manTitle }}
                     </option>
                 </select>
             </div>
-            <div v-if="4 === parseInt(item.manId) || 1 === parseInt(item.manId)"
+            <div v-if="0 !== parseInt(item.manType) && 0 !== parseInt(item.manId)"
                  class="col-xl-4 col-md-4 col-sm-12 col-12">
                 <label class="row-label">說明</label>
                 <input type="text" v-model="item.iteTypeNote" class="row-text" placeholder="說明"/>
@@ -68,23 +87,6 @@
                 <label class="row-label">權限控管及資料管制</label>
                 <textarea class="row-text" v-model="item.iteControl" spellcheck="false" placeholder="請輸入標題"
                           style="width: 98%;"></textarea>
-            </div>
-            <div class="col-12">
-                <label class="row-label">使用公司</label>
-                <div class="d-flex my-list">
-                    <ul>
-                        <li v-for="com in companyData" :key="com.comCode" class="form-check">
-                            <input class="form-check-input" :disabled="!companyUse.includes(com.comCode)"
-                                   :name="'com_'+item.uniqueId"
-                                   type="checkbox"
-                                   :value="com.comCode"
-                                   v-model="item.iteSubsidiaries"
-                                   :id="'com_'+item.uniqueId+'_'+com.comCode"/>
-                            <label class="form-check-label" :for="'com_'+item.uniqueId+'_'+com.comCode">{{ com.comTitle
-                                }}</label>
-                        </li>
-                    </ul>
-                </div>
             </div>
 
         </div>
@@ -163,12 +165,6 @@
                 required: false,
             }
         },
-        data() {
-            return {
-                disType: 0,
-                manType: 0,
-            };
-        },
         watch: {
             companyUse: {
                 handler(newVal) {
@@ -206,12 +202,13 @@
             },
             disChange() {
                 this.item.manId = '0';
+                this.item.manType = '0';
                 const dis = this.$refs.dis.querySelector('option:checked');
-                this.disType = parseInt(dis.getAttribute('data-type'));
+                this.item.disType = parseInt(dis.getAttribute('data-type'));
             },
             manChange() {
                 const man = this.$refs.man.querySelector('option:checked');
-                this.manType = parseInt(man.getAttribute('data-type'));
+                this.item.manType = parseInt(man.getAttribute('data-type'));
                 // if ('0' === this.manType) {
                 //     this.item.iteProportion.forEach(ite=>
                 //     ite.p = '0');
