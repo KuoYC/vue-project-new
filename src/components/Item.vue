@@ -47,6 +47,7 @@
                 <select v-model="item.disId" class="row-text" ref="dis" @change="disChange">
                     <option value="0" data-type="">費用分攤原則</option>
                     <option v-for="dis in distributionData" :value="dis.disId" :data-type="dis.disType"
+                            :style="(parseInt(item.worId) === 3 && parseInt(dis.disId) !== 1) ? 'display:none;' : ''"
                             :disabled="(parseInt(item.worId) === 3 && parseInt(dis.disId) !== 1)">
                         {{ dis.disTitle }}
                     </option>
@@ -57,6 +58,7 @@
                 <select v-model="item.manId" class="row-text" ref="man" @change="manChange">
                     <option value="0" data-type="">費用分攤方式</option>
                     <option v-for="man in manner" :value="man.manId" :data-type="man.manType"
+                            :style="parseInt(item.disId) === 0 || (item.disType === 1 && parseInt(man.manType) === 0) ? 'display:none;' : ''"
                             :disabled="parseInt(item.disId) === 0 || (item.disType === 1 && parseInt(man.manType) === 0)">
                         {{ man.manTitle }}
                     </option>

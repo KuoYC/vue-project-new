@@ -30,7 +30,7 @@
                                 locale="zh"
                                 month-picker
                                 :enable-time-picker="false"
-                                :min-date="new Date(ann.annYear, 0, 1)"
+                                :min-date="ann.annStartMonth.year < ann.annYear ? new Date(ann.annYear, 0, 1) : new Date(ann.annStartMonth.year, ann.annStartMonth.month, 1)"
                                 :max-date="new Date(ann.annYear, 11, 31)"
                                 @closed="mathAnnual"
                                 :disabled="1 === parseInt(ann.annStatus)"

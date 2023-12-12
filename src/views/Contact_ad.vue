@@ -20,7 +20,7 @@
                                             <div class="author-box-name d-flex justify-content-between"
                                                  style="margin-bottom: 20px;">
                                                 <h4>
-                                                    <select v-model="contactData.comCode" class="form-control">
+                                                    <select v-model="contactData.comCode" class="form-control" @change="cleanContact">
                                                         <option disabled value="">請選擇公司</option>
                                                         <template v-for="com in companyData">
                                                             <option :value="com.comCode">{{ com.comTitle }}
@@ -39,7 +39,7 @@
                                                         v-if="'' !== contactData.comCode"
                                                              v-model="per"
                                                              :options="options"
-                                                             :searchable="false"
+                                                             :searchable="true"
                                                              @search-change="loadPersonnel"
                                                              placeholder="搜尋員工編號"
                                                              label="name"
@@ -116,8 +116,13 @@
                         console.error(error);
                     });
             },
+            cleanContact(){
+                this.per = {};
+                this.contactData.perKey = '';
+            },
             createContact() {
                 const payload = JSON.stringify(this.contactData);
+                console.log(payload);
                 this.$api
                     .post(this.$test ? '/api/?type=contact' : '/api/iform/contact', payload)
                     .then(response => {

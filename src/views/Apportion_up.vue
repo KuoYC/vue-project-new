@@ -19,7 +19,7 @@
                                             <div class="flex-grow-1">
                                                 <div class="myFont16Title">請選擇要新增的共用計畫書： <span class="date myFont16">
                                                 <Multiselect
-                                                        v-model="conId"
+                                                        v-model="con"
                                                         :options="options"
                                                         :searchable="true"
                                                         :loading="isLoading"
@@ -112,24 +112,6 @@
                                 </div>
                                 <div class="myFont16Title" style="margin: 0 10px;">聯絡電話： <span
                                         class="date myFont16">{{ apportionData.perPhone1}}  {{ apportionData.perPhone2}}  {{ apportionData.perPhone3}}</span>
-                                </div>
-                            </div>
-                            <div class="card-body myNotification d-flex">
-                                <div class="myFont16Title" style="margin: 0 10px;">管理維運公司： <span class="date myFont16">{{ apportionData.comTitle }}</span>
-                                </div>
-                                <div class="myFont16Title" style="margin: 0 10px;">使用公司： <span
-                                        class="date myFont16">
-                            <template v-if="apportionData?.conCompany">
-                                <template v-for="(option, idx) in apportionData.conCompany">{{ idx !== 0 ? '、' : ''}}{{ this.$root.getCompanyTitle('', option)}}</template>
-                            </template>
-                        </span>
-                                </div>
-                                <div class="myFont16Title" style="margin: 0 10px;">作業種類： <span
-                                        class="date myFont16">
-                            <template v-if="apportionData?.conWork">
-                                <template v-for="(option, idx) in apportionData.conWork">{{ idx !== 0 && '' !== option ? '、' : ''}}{{ this.$root.getWorkTitle(option)}}</template>
-                            </template>
-                        </span>
                                 </div>
                             </div>
                             <div class="card-body myNotification d-flex">
@@ -1359,6 +1341,7 @@
             return {
                 isLoading: false,
                 appId: parseInt(this.$route.params.id),
+                con:{},
                 conId: 0,
                 per: JSON.parse(Cookies.get('per')),
                 isSidebarVisible: false,//管理面板使用
@@ -1426,6 +1409,9 @@
                 },
                 immediate: true,
             },
+            'con':function (newCon, oldCon) {
+                this.conId = newCon.id;
+            }
         },
         mounted() {
             // 添加全域點擊事件監聽器
@@ -1558,7 +1544,7 @@
                                     break;
                             }
                         });
-                        if (this.apportionData?.conWork !== undefined) {
+                        if (this.apportionData?.conWork && this.apportionData?.conWork !== undefined) {
                             this.apportionData.conWork = this.apportionData.conWork.split('|');
                         }
 
@@ -1814,21 +1800,23 @@
                     }
 
                     // 遍历 companyCodes，将 comCost 添加到 exesGroup 中
+                        companyCodes.forEach(comCode => {
+                            const comCost = 0;
+                            this.countCostData[iteId][comCode] = comCost;
+
+                            // 将 comCost 累加到 costSum 中
+                            this.countCostData[iteId].costSum = comCost;
+                        });
+                });
+                if (this.apportionData.conCompany) {
                     companyCodes.forEach(comCode => {
                         const comCost = 0;
-                        this.countCostData[iteId][comCode] = comCost;
+                        this.countTotelCostData[comCode] = comCost;
 
                         // 将 comCost 累加到 costSum 中
-                        this.countCostData[iteId].costSum = comCost;
+                        this.countTotelCostData.costSum = comCost;
                     });
-                });
-                companyCodes.forEach(comCode => {
-                    const comCost = 0;
-                    this.countTotelCostData[comCode] = comCost;
-
-                    // 将 comCost 累加到 costSum 中
-                    this.countTotelCostData.costSum = comCost;
-                });
+                }
 
             },
             countCost() {

@@ -39,7 +39,7 @@
                     <div class="author-box-name d-flex justify-content-between"
                          style="margin-bottom: 20px;padding: 10px 25px;border-bottom-color: #f9f9f9;">
                         <h4 class="myCardTitle" style="font-size: x-large;">
-                            {{ apportionData.temTitle }}
+                            {{ apportionData.temExes }}
                         </h4>
                         <div class="contract-serial">
                             <!-- 這裡放文件序號 -->
@@ -59,24 +59,6 @@
                         </div>
                         <div class="myFont16Title" style="margin: 0 10px;">聯絡電話： <span
                                 class="date myFont16">{{ apportionData.perPhone1}}  {{ apportionData.perPhone2}}  {{ apportionData.perPhone3}}</span>
-                        </div>
-                    </div>
-                    <div class="card-body myNotification d-flex">
-                        <div class="myFont16Title" style="margin: 0 10px;">管理維運公司： <span class="date myFont16">{{ apportionData.comTitle }}</span>
-                        </div>
-                        <div class="myFont16Title" style="margin: 0 10px;">使用公司： <span
-                                class="date myFont16">
-                                <template v-if="apportionData?.conCompany">
-                                    <template v-for="(option, idx) in apportionData.conCompany">{{ idx !== 0 ? '、' : ''}}{{ this.$root.getCompanyTitle('', option)}}</template>
-                                </template>
-                            </span>
-                        </div>
-                        <div class="myFont16Title" style="margin: 0 10px;">作業種類： <span
-                                class="date myFont16">
-                                <template v-if="apportionData?.conWork">
-                                    <template v-for="(option, idx) in apportionData.conWork">{{ idx !== 0 ? '、' : ''}}{{ this.$root.getWorkTitle(option)}}</template>
-                                </template>
-                            </span>
                         </div>
                     </div>
                     <div class="card-body myNotification d-flex">

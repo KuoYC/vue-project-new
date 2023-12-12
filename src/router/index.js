@@ -43,6 +43,7 @@ import Company_sl from '@/views/Company_sl.vue'
 import Review from '@/views/Review.vue'
 import Review_sl from '@/views/Review_sl.vue'
 import Manner from '@/views/Manner.vue'
+import Exes from '@/views/Exes.vue'
 import Contact from '@/views/Contact.vue'
 import Contact_ad from '@/views/Contact_ad.vue'
 import Contact_up from '@/views/Contact_up.vue'
@@ -91,6 +92,7 @@ const routes = [
     { path: '/announcement', component: Announcement, name: '公告' },
     { path: '/announcement/sl/:id', component: Announcement_sl, name: '公告查看' },
 
+    { path: '/info/exes', component: Exes, name: '費用相關設定' },
     { path: '/info/manner', component: Manner, name: '比例設定' },
     { path: '/info/news', component: News, name: '公告設定' },
     { path: '/info/news/ad', component: News_ad, name: '新增公告' },

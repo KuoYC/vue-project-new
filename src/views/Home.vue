@@ -124,7 +124,7 @@
                             </thead>
                             <tbody class="exTable">
                             <tr v-for="con in contractData"
-                                @click="$router.push(`/contract/${con.temId}/sl/${con.conId}`)">
+                                @click="$router.push(`/review/sl/${con.conId}`)">
                                 <td>
                                     {{ con.conSerial }}{{ con.conVer }}
                                 </td>
@@ -161,7 +161,7 @@
                             </thead>
                             <tbody class="exTable">
                             <tr v-for="con in contractOwnerData"
-                                @click="$router.push(`/contract/${con.temId}/sl/${con.conId}`)">
+                                @click="$router.push(`/contract/sl/${con.conId}`)">
                                 <td>
                                     {{ con.conSerial }}{{ con.conVer }}
                                 </td>
