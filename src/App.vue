@@ -184,32 +184,31 @@
 
 
                             <!-- <li class="menu-header">Approval Form Management</li> -->
-                            <li class="dropdown" :class="{active : $route.path.startsWith('/contract') || $route.path.startsWith(`/apportion/`)}">
-                                <a href="javascript:void(0);" class="menu-toggle nav-link has-dropdown">
+                            <li class="dropdown" :class="{active : $route.path.startsWith('/paper') || $route.path.startsWith(`/contract/`) || $route.path.startsWith(`/apportion/`)}">
+                                <router-link :to="`/paper`" class="nav-link">
                                     <vue-feather type="layers"></vue-feather>
                                     <span>表單申請</span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li :class="{ active: $route.path.startsWith(`/contract/`)}">
-                                        <router-link :to="`/contract/list`" class="nav-link">
-                                            資訊共用計劃書
-                                        </router-link>
-                                    </li>
-                                    <li :class="{ active: $route.path.startsWith(`/apportion/`)}">
-                                        <router-link :to="`/apportion/list`" class="nav-link">
-                                            費用分攤明細表
-                                        </router-link>
-                                    </li>
-                                </ul>
+                                </router-link>
                             </li>
-                            <li class="dropdown" :class="{active : $route.path.startsWith(`/review`)}">
+
+                            <li class="dropdown" :class="{active : $route.path.startsWith(`/review`) || $route.path.startsWith(`/signed`) || $route.path.startsWith(`/archived`)}">
                                 <a href="javascript:void(0);" class="menu-toggle nav-link has-dropdown">
                                     <vue-feather type="edit"></vue-feather>
                                     <span>簽核管理</span></a>
                                 <ul class="dropdown-menu">
                                     <li :class="{ active: $route.path.startsWith(`/review`)}">
-                                        <router-link :to="`/review/list`" class="nav-link">
+                                        <router-link :to="`/review`" class="nav-link">
                                             待簽核文件
+                                        </router-link>
+                                    </li>
+                                    <li :class="{ active: $route.path.startsWith(`/signed`)}">
+                                        <router-link :to="`/signed`" class="nav-link">
+                                            已簽核文件
+                                        </router-link>
+                                    </li>
+                                    <li :class="{ active: $route.path.startsWith(`/archived`)}">
+                                        <router-link :to="`/archived`" class="nav-link">
+                                            已歸檔文件
                                         </router-link>
                                     </li>
                                 </ul>
@@ -690,6 +689,9 @@
 
     .row-title {
         font-weight:bold;
+    }
+    .row-title-font {
+        font-size: 16px !important;/*font-size: 16px;*/
     }
     .row-label {
         padding-top: 10px;

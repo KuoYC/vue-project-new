@@ -3,23 +3,22 @@
         <section class="section">
             <ul class="breadcrumb breadcrumb-style ">
                 <li class="breadcrumb-item">
-                    <h4 class="page-title m-b-0">表單申請</h4>
+                    <h4 class="page-title m-b-0">已簽核文件</h4>
                 </li>
                 <li class="breadcrumb-item">
-                    <router-link :to="`/apportion/list`">
+                    <router-link :to="`/signed`">
                         <vue-feather type="link"></vue-feather>
-                        費用分攤明細表
+                        列表
                     </router-link>
                 </li>
-                <li class="breadcrumb-item">文件操作</li>
+                <li class="breadcrumb-item">查看已簽核費用</li>
             </ul>
             <div class="section-body">
                 <div class="contract-serial mb-2" style="width: 100%;">
                     <div class="d-inline mr-2" style="text-align:left;">
-                        <button class="btn btn-success" type="button"
-                                @click="$router.push(`/contract/sl/${apportionData.conId}`)">
+                        <router-link :to="`/review_contract/${apportionData.conId}`" class="btn btn-success">
                             文件
-                        </button>
+                        </router-link>
                     </div>
                     <div class="dropdown d-inline mr-2" style="text-align:right; float: right;">
                         <button class="btn btn-success dropdown-toggle" type="button"
@@ -39,7 +38,7 @@
                         <div class="author-box-name d-flex justify-content-between"
                              style="margin-bottom: 20px;padding: 10px 25px;border-bottom-color: #f9f9f9;">
                             <h4 class="myCardTitle" style="font-size: x-large;">
-                                {{ apportionData.temTitle }}
+                                {{ apportionData.temExes }}
                             </h4>
                             <div class="contract-serial">
                                 <!-- 這裡放文件序號 -->
@@ -62,24 +61,6 @@
                             </div>
                         </div>
                         <div class="card-body myNotification d-flex">
-                            <div class="myFont16Title" style="margin: 0 10px;">管理維運公司： <span class="date myFont16">{{ apportionData.comTitle }}</span>
-                            </div>
-                            <div class="myFont16Title" style="margin: 0 10px;">使用公司： <span
-                                    class="date myFont16">
-                                <template v-if="apportionData?.conCompany">
-                                    <template v-for="(option, idx) in apportionData.conCompany">{{ idx !== 0 ? '、' : ''}}{{ this.$root.getCompanyTitle('', option)}}</template>
-                                </template>
-                            </span>
-                            </div>
-                            <div class="myFont16Title" style="margin: 0 10px;">作業種類： <span
-                                    class="date myFont16">
-                                <template v-if="apportionData?.conWork">
-                                    <template v-for="(option, idx) in apportionData.conWork">{{ idx !== 0 ? '、' : ''}}{{ this.$root.getWorkTitle(option)}}</template>
-                                </template>
-                            </span>
-                            </div>
-                        </div>
-                        <div class="card-body myNotification d-flex">
                             <div class="myFont16Title" style="margin: 0 10px;">申請類型：
                                 <span v-if="'0' === apportionData.appType"
                                       class="date myFont16">新增</span>
@@ -91,8 +72,65 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-12" :id="'my1'">
+                    <div class="card">
+                        <div class="card-header justify-content-between">
+                            <h4 class="myCardTitle">
+                                    <span class="myFont16 d-flex align-center"
+                                          style="background-color: #26a862; color: white; border-radius: 6px; padding: 0.3rem 0.8rem; font-weight: 400;">
+                                        <vue-feather type="tag" size="20"
+                                                     style="transform: rotate(135deg); padding-right: 0px;"
+                                                     class="m-r-5"></vue-feather>資訊共用計畫摘要</span>
+                            </h4>
+                        </div>
+                        <div class="card-body myNotification">
+                            <div class="row" style="margin-bottom: 20px">
+                                <div class="col-xl-4 col-md-6 col-sm-6 col-12">
+                                    <label class="row-label row-title">共用計劃書名稱</label>
+                                    <span class="row-text">{{ apportionData.conTitle }}</span>
+                                </div>
+                                <div class="col-xl-4 col-md-6 col-sm-6 col-12">
+                                    <label class="row-label row-title">共用計劃框架</label>
+                                    <label class="row-text">{{ apportionData.frmTitle }}</label>
+                                </div>
+                                <div class="col-xl-4 col-md-6 col-sm-6 col-12">
+                                    <label class="row-label row-title">生效日期</label>
+                                    <label class="row-text">
+                                        <template v-if="apportionData.conDate">{{ apportionData.conDate }}</template>
+                                        <template v-else>未填寫將以簽核完成日為依據</template>
+                                    </label>
+                                </div>
+                                <div class="col-xl-4 col-md-6 col-sm-6 col-12">
+                                    <label class="row-label row-title">維運公司</label>
+                                    <label class="row-text">{{ apportionData.comTitle }}</label>
+                                </div>
+                                <div class="col-xl-4 col-md-6 col-sm-6 col-12">
+                                    <label class="row-label row-title">作業種類</label>
+                                    <div class="d-flex my-list">
+                                        <ul style="padding-left: 0px;">
+                                            <li v-for="(option, idx) in apportionData.conWork">
+                                                <span class="row-text">{{ this.$root.getWorkTitle(option) }}</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <label class="row-label row-title">使用公司</label>
+                                    <div class="d-flex my-list">
+                                        <ul style="padding-left: 0px;">
+                                            <li v-for="option in apportionData.conCompany">
+                                                <span class="row-text">{{ this.$root.getCompanyTitle('', option) }}</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="col-12">
-                    <div class="card" :id="'my1'">
+                    <div class="card" :id="'my2'">
                         <div class="card-header justify-content-between">
                             <h4 class="myCardTitle">
                                     <span class="myFont16 d-flex align-center"
@@ -120,14 +158,17 @@
                                     <tbody>
                                     <tr v-for="cou in countCostData">
                                         <td>{{ cou.iteTitle }}</td>
-                                        <td v-for="(option, idx) in apportionData.conCompany">{{ cou[option] }}
+                                        <td v-for="(option, idx) in apportionData.conCompany">{{
+                                            this.$root.formatNumber(cou[option]) }}
                                         </td>
-                                        <td>{{ cou.costSum }}</td>
+                                        <td>{{ this.$root.formatNumber(cou.costSum) }}</td>
                                     </tr>
                                     <tr>
                                         <td>合計</td>
-                                        <td v-for="(option, idx) in apportionData.conCompany">{{ countTotelCostData[option] }}</td>
-                                        <td>{{ countTotelCostData.costSum }}</td>
+                                        <td v-for="(option, idx) in apportionData.conCompany">{{
+                                            this.$root.formatNumber(countTotelCostData[option]) }}
+                                        </td>
+                                        <td>{{ this.$root.formatNumber(countTotelCostData.costSum) }}</td>
                                     </tr>
 
                                     </tbody>
@@ -135,7 +176,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card" :id="'my2'">
+                    <div class="card" :id="'my3'">
                         <div class="card-header justify-content-between">
                             <h4 class="myCardTitle">
                                     <span class="myFont16 d-flex align-center"
@@ -173,13 +214,15 @@
                                                         {{ exes.exeTitle }}
                                                     </td>
                                                     <td style="min-width: 80px;">
-                                                        {{ exes.exeCost }}
+                                                        {{ this.$root.formatNumber(exes.exeCost) }}
                                                     </td>
                                                     <td>
                                                         {{ exes.exeStartYear }}
                                                     </td>
                                                     <td>
-                                                        <vue-feather v-if="1 !== parseInt(exes.exeStatus)" type="fast-forward" size="20" style="cursor: pointer;" class="m-r-10 m-clean"
+                                                        <vue-feather v-if="1 !== parseInt(exes.exeStatus)"
+                                                                     type="fast-forward" size="20"
+                                                                     style="cursor: pointer;" class="m-r-10 m-clean"
                                                                      @click="scrollToElement(exes.exeId)"></vue-feather>
                                                     </td>
                                                 </tr>
@@ -191,7 +234,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card" :id="'my3'" style="position: static;">
+                    <div class="card" :id="'my4'" style="position: static;">
                         <div class="card-header justify-content-between">
                             <h4 class="myCardTitle">
                                     <span class="myFont16 d-flex align-center"
@@ -242,7 +285,8 @@
 
                                             <div class="col-xl-2 col-md-3 col-sm-4 col-6">
                                                 <label class="row-label row-title">分攤總費用</label>
-                                                <label class="row-text">{{ exes.exeCost}}</label>
+                                                <label class="row-text">{{ this.$root.formatNumber(exes.exeCost)
+                                                    }}</label>
                                             </div>
                                             <div class="col-xl-2 col-md-3 col-sm-4 col-6">
                                                 <label class="row-label row-title">提列年度</label>
@@ -254,7 +298,8 @@
                                             </div>
                                             <div class="col-xl-2 col-md-12 col-sm-12 col-12">
                                                 <label class="row-label row-title">費用攤提起始年月</label>
-                                                <label class="row-text">{{ exes.exeCreateMonth.substring(0, 4) }}/{{ exes.exeCreateMonth.substring(4) }}</label>
+                                                <label class="row-text">{{ exes.exeCreateMonth.substring(0, 4) }}/{{
+                                                    exes.exeCreateMonth.substring(4) }}</label>
                                             </div>
                                             <div v-if="null !== exes.exeCreateMonth && 0 !== exes.exeMonth"
                                                  class="col-12">
@@ -293,7 +338,8 @@
                                                                         <tr>
                                                                             <th></th>
                                                                             <th v-for="sub in ann.subsidiaryData">
-                                                                                {{ this.$root.getCompanyTitle('', sub.comCode) }}
+                                                                                {{ this.$root.getCompanyTitle('',
+                                                                                sub.comCode) }}
                                                                             </th>
                                                                         </tr>
                                                                         </thead>
@@ -313,7 +359,8 @@
                                                                         <tr>
                                                                             <td>分攤金額</td>
                                                                             <td v-for="sub in ann.subsidiaryData">
-                                                                                {{ sub.subCost }}
+                                                                                {{ this.$root.formatNumber(sub.subCost)
+                                                                                }}
                                                                             </td>
                                                                         </tr>
                                                                         </tbody>
@@ -342,19 +389,22 @@
                                                                         <tr>
                                                                             <td>費用起始</td>
                                                                             <td v-for="(ann, idx) in exes.annualData">
-                                                                                {{ ann.annStartMonth.substring(0, 4) }}/{{ ann.annStartMonth.substring(4) }}
+                                                                                {{ ann.annStartMonth.substring(0, 4)
+                                                                                }}/{{ ann.annStartMonth.substring(4) }}
                                                                             </td>
                                                                         </tr>
                                                                         <tr>
                                                                             <td>費用迄止</td>
                                                                             <td v-for="(ann, idx) in exes.annualData">
-                                                                                {{ ann.annEndMonth.substring(0, 4) }}/{{ ann.annEndMonth.substring(4) }}
+                                                                                {{ ann.annEndMonth.substring(0, 4) }}/{{
+                                                                                ann.annEndMonth.substring(4) }}
                                                                             </td>
                                                                         </tr>
                                                                         <tr>
                                                                             <td>費用</td>
                                                                             <td v-for="ann in exes.annualData">
-                                                                                {{ ann.annCost }}
+                                                                                {{ this.$root.formatNumber(ann.annCost)
+                                                                                }}
                                                                             </td>
                                                                         </tr>
                                                                         </tbody>
@@ -527,7 +577,7 @@
                 </div>
 
                 <!-- 立約書人 -->
-                <div class="col-12" :id="'my4'">
+                <div class="col-12" :id="'my5'">
                     <div class="card">
                         <div class="card-header justify-content-between">
                             <h4 class="myCardTitle">
@@ -641,38 +691,40 @@
                             <div>
                                 <div class="myFont16 mt-2">維運窗口：<span
                                         class="data">
-                                                                                        <div class="d-flex m-tb">
-                                                                                            <div v-for="con in contactData"
-                                                                                                 class="form-check-inline">
-                                                                                                <label v-if="con.comId.includes(per.comId)"
-                                                                                                       class="form-check-label">
-                                                                                                        <vue-feather
-                                                                                                                v-if="con.perKey === iMemberData.memLVCKey"
-                                                                                                                type="key"
-                                                                                                                size="20"
-                                                                                                                style="margin-bottom: -4px;"></vue-feather>
-                                                                                                    {{ con.perName + ' ' + con.perPositionName }}
-                                                                                                </label>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </span></div>
+                                        <div class="d-flex m-tb">
+                                            <div v-for="con in contactData"
+                                                 class="form-check-inline">
+                                                <label v-if="con.comId.includes(per.comId)"
+                                                       class="form-check-label">
+                                                        <vue-feather
+                                                                v-if="con.perKey === iMemberData.memLVCKey"
+                                                                type="key"
+                                                                size="20"
+                                                                style="margin-bottom: -4px;"></vue-feather>
+                                                    {{ con.perName + ' ' + con.perPositionName }}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </span>
+                                </div>
                                 <div class="myFont16">使用窗口：<span
                                         class="data">
-                                                                                        <div class="d-flex m-tb">
-                                                                                            <template
-                                                                                                    v-for="com in apportionData.conCompany">
-                                                                                                <template
-                                                                                                        v-for="con in contactData">
-                                                                                                <div v-if="con.comCode.includes(com)"
-                                                                                                     class="form-check-inline">
-                                                                                                    <label class="form-check-label">
-                                                                                                        {{ con.perName + ' ' + con.perPositionName }}
-                                                                                                    </label>
-                                                                                                </div>
-                                                                                                </template>
-                                                                                            </template>
-                                                                                        </div>
-                                                                                    </span></div>
+                                        <div class="d-flex m-tb">
+                                            <template
+                                                    v-for="com in apportionData.conCompany">
+                                                <template
+                                                        v-for="con in contactData">
+                                                <div v-if="con.comCode.includes(com)"
+                                                     class="form-check-inline">
+                                                    <label class="form-check-label">
+                                                        {{ con.perName + ' ' + con.perPositionName }}
+                                                    </label>
+                                                </div>
+                                                </template>
+                                            </template>
+                                        </div>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -680,12 +732,496 @@
 
 
                 <div class="col-6" style="padding-bottom: 20px;">
-                    <button type="button"  @click="$router.push(`/apportion/up/${apportionData.appId}`)"
-                            class="m-r-5 btn btn-outline-warning btn-border-radius waves-effect myFont16">修改
+                    <template v-if="'3' === apportionData.appStatus">
+                        <button v-if="apportionData.appStatus === '3'" @click="exportPDF" type="button"
+                                class="m-r-5 btn btn-outline-primary btn-border-radius waves-effect myFont16">
+                            PDF
+                        </button>
+                    </template>
+                    <button v-if="apportionData.appStatus === '1' && checkMember()"
+                            @click="signContract(0 <= parseInt(apportionData.conApp) ? apportionData.conId : 0, apportionData.appId, 0 <= parseInt(apportionData.conApp) ? 2 : 1)"
+                            type="button"
+                            class="m-r-5 btn btn-outline-success btn-border-radius waves-effect myFont16">
+                        簽核
                     </button>
+                    <button
+                            v-if="apportionData.appStatus === '1' && checkMember() && iMemberData.memLVCStatus !== '0'"
+                            @click="backContract(0 <= parseInt(apportionData.conApp) ? apportionData.conId : 0, apportionData.appId, 0 <= parseInt(apportionData.conApp) ? 2 : 1)"
+                            :disabled="msg === ''"
+                            type="button"
+                            class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">退回
+                    </button>
+                    <input v-if="apportionData.appStatus === '1' && checkMember() && iMemberData.memLVCStatus !== '0'"
+                           type="text" class="form-control" v-model="msg"
+                           placeholder="退回請填寫源由"/>
+
+                    <template v-if="apportionData.perKey === per.perKey">
+                        <button v-if="apportionData.appStatus === '0'"
+                                @click="releaseSign(0 <= parseInt(apportionData.conApp) ? apportionData.conId : 0, apportionData.appId, 0 <= parseInt(apportionData.conApp) ? 2 : 1)"
+                                type="button"
+                                class="m-r-5 btn btn-outline-warning btn-border-radius waves-effect myFont16">
+                            發起
+                        </button>
+                        <template v-if="'3' === apportionData.appStatus">
+                            <button v-if="'0' === apportionData.appInh" type="button"
+                                    @click="apportionActionTo('ch', apportionData.appId)"
+                                    class="m-r-5 btn btn-outline-warning btn-border-radius waves-effect myFont16">
+                                變更
+                            </button>
+                            <button v-if="'0' === apportionData.appInh" type="button"
+                                    @click="apportionActionTo('tp', apportionData.appId)"
+                                    class="m-r-5 btn btn-outline-dark btn-border-radius waves-effect myFont16">
+                                終止
+                            </button>
+                        </template>
+                        <template v-if="'0' === apportionData.appStatus || '1' === apportionData.appStatus">
+                            <button type="button" @click="cleanApportion(apportionData.appId)"
+                                    class="m-r-5 btn btn-outline-secondary btn-border-radius waves-effect myFont16">
+                                撤案
+                            </button>
+                        </template>
+                        <template v-if="'0' === apportionData.appStatus">
+                            <button type="button"
+                                    @click="$router.push(`/apportion/up/${apportionData.appId}`)"
+                                    class="m-r-5 btn btn-outline-warning btn-border-radius waves-effect myFont16">
+                                修改
+                            </button>
+                        </template>
+                        <template v-if="'0' === apportionData.appStatus || '2' === apportionData.appStatus">
+                            <button type="button"
+                                    @click="deleteContract(apportionData.appId)"
+                                    class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">
+                                刪除
+                            </button>
+                        </template>
+                    </template>
+
                 </div>
 
             </div>
+
+            <div class="col-12" id="myView">
+                <div class="card">
+                    <div class="card-header justify-content-between">
+                        <h4 class="myCardTitle" href="#">
+                            <vue-feather type="list" size="20" class="m-r-5"></vue-feather>
+                            本案傳遞流程
+                        </h4>
+                    </div>
+                    <div class="card-body myNotification">
+                        <table class="table">
+                            <!-- <thead style="position: sticky;top: 0;" class="myNew">
+                              <tr>
+                                <th scope="col"></th>
+                                <th scope="col">標題</th>
+                                <th scope="col">發布日期</th>
+                                <th scope="col">查看</th>
+                              </tr>
+                            </thead> -->
+                            <tbody class="myNew transfer">
+                            <tr>
+                                <td>1</td>
+                                <th scope="row"><span class="badge badge-success">起簽</span></th>
+                                <td class="bm-1"><span class="sign-title">管理維運公司承辦人</span><br>{{ iMemberData.comTitle}}
+                                    {{
+                                    iMemberData.memBu2
+                                    }} {{ iMemberData.memBu3 }} {{
+                                    iMemberData.memLV0Name }} {{ iMemberData.memLV0PositionName }}
+                                </td>
+                                <td style="text-align: right;">
+                                    <a :class="iMemberData.memLV0Status === '0' || iMemberData.memLV0Status === '1' ? 'text-job text-danger myFont16' : 'text-job myFont16'"
+                                       href="javascript:void(0);">
+                                        <template v-if="iMemberData.memLV0Status === '-1'">等待</template>
+                                        <template v-if="iMemberData.memLV0Status === '0'">待檢視</template>
+                                        <template v-if="iMemberData.memLV0Status === '1'">簽核中</template>
+                                        <template v-if="iMemberData.memLV0Status === '2'">退件<br><span class="time-msg">{{iMemberData.memLV0Time}}</span>
+                                            <template v-if="iMemberData.memLV0Msg !== ''"><br><span class="other-msg">{{ iMemberData.memLV0Msg }}</span>
+                                            </template>
+                                        </template>
+                                        <template v-if="iMemberData.memLV0Status === '3'">已完成<br><span class="time-msg">{{iMemberData.memLV0Time}}</span>
+                                        </template>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <th scope="row"><span class="badge badge-primary">會辦</span></th>
+                                <td class="bm-1"><span class="sign-title">管理維運公司窗口</span><br>{{ iMemberData.comTitle}}
+                                    <template v-if="iMemberData.memLVCKey !== ''">{{ iMemberData.memBu2 }} {{
+                                        iMemberData.memBu3
+                                        }} {{
+                                        iMemberData.memLVCName }} {{ iMemberData.memLVCPositionName }}
+                                    </template>
+                                </td>
+                                <td style="text-align: right;">
+                                    <a :class="iMemberData.memLVCStatus === '0' || iMemberData.memLVCStatus === '1' ? 'text-job text-danger myFont16' : 'text-job myFont16'"
+                                       href="javascript:void(0);">
+                                        <template v-if="iMemberData.memLVCStatus === '-1'">等待</template>
+                                        <template v-if="iMemberData.memLVCStatus === '0'">待檢視</template>
+                                        <template v-if="iMemberData.memLVCStatus === '1'">簽核中</template>
+                                        <template v-if="iMemberData.memLVCStatus === '2'">退件<br><span class="time-msg">{{iMemberData.memLVCTime}}</span>
+                                            <template v-if="iMemberData.memLVCMsg !== ''"><br><span class="other-msg">{{ iMemberData.memLVCMsg }}</span>
+                                            </template>
+                                        </template>
+                                        <template v-if="iMemberData.memLVCStatus === '3'">已完成<br><span class="time-msg">{{iMemberData.memLVCTime}}</span>
+                                        </template>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <th scope="row"><span class="badge badge-primary">簽核</span></th>
+                                <td class="bm-1"><span class="sign-title">管理維運公司科級主管</span><br>{{ iMemberData.comTitle}}
+                                    {{
+                                    iMemberData.memBu2 }} {{ iMemberData.memBu3 }} {{
+                                    iMemberData.memLV1Name }} {{ iMemberData.memLV1PositionName }}
+                                </td>
+                                <td style="text-align: right;">
+                                    <a :class="iMemberData.memLV1Status === '0' || iMemberData.memLV1Status === '1' ? 'text-job text-danger myFont16' : 'text-job myFont16'"
+                                       href="javascript:void(0);">
+                                        <template v-if="iMemberData.memLV1Status === '-1'">等待</template>
+                                        <template v-if="iMemberData.memLV1Status === '0'">待檢視</template>
+                                        <template v-if="iMemberData.memLV1Status === '1'">簽核中</template>
+                                        <template v-if="iMemberData.memLV1Status === '2'">退件<br><span class="time-msg">{{iMemberData.memLV1Time}}</span>
+                                            <template v-if="iMemberData.memLV1Msg !== ''"><br><span class="other-msg">{{ iMemberData.memLV1Msg }}</span>
+                                            </template>
+                                        </template>
+                                        <template v-if="iMemberData.memLV1Status === '3'">已完成<br><span class="time-msg">{{iMemberData.memLV1Time}}</span>
+                                        </template>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <th scope="row"><span class="badge badge-primary">簽核</span></th>
+                                <td class="bm-1"><span class="sign-title">管理維運公司部級主管(含以上)</span><br>{{
+                                    iMemberData.comTitle}} {{
+                                    iMemberData.memBu2 }} {{ iMemberData.memBu3 }} {{
+                                    iMemberData.memLV2Name }} {{ iMemberData.memLV2PositionName }}
+                                </td>
+                                <td style="text-align: right;">
+                                    <a :class="iMemberData.memLV2Status === '0' || iMemberData.memLV2Status === '1' ? 'text-job text-danger myFont16' : 'text-job myFont16'"
+                                       href="javascript:void(0);">
+                                        <template v-if="iMemberData.memLV2Status === '-1'">等待</template>
+                                        <template v-if="iMemberData.memLV2Status === '0'">待檢視</template>
+                                        <template v-if="iMemberData.memLV2Status === '1'">簽核中</template>
+                                        <template v-if="iMemberData.memLV2Status === '2'">退回<br><span class="time-msg">{{iMemberData.memLV2Time}}</span>
+                                            <template v-if="iMemberData.memLV2Msg !== ''"><br><span class="other-msg">{{ iMemberData.memLV2Msg }}</span>
+                                            </template>
+                                        </template>
+                                        <template v-if="iMemberData.memLV2Status === '3'">已完成<br><span class="time-msg">{{iMemberData.memLV2Time}}</span>
+                                        </template>
+                                    </a>
+                                </td>
+                            </tr>
+                            <template v-for="(mmem, idx) in mMemberData">
+                                <tr>
+                                    <td>{{idx+5}}</td>
+                                    <th scope="row"><span class="badge badge-primary">水平會簽</span></th>
+                                    <td class="bm-1"><span class="sign-title">平行維運公司承辦人</span><br>{{ mmem.comTitle}} {{
+                                        mmem.memBu2 }} {{
+                                        mmem.memBu3 }} {{ mmem.memLV0Name }} {{
+                                        mmem.memLV0PositionName }}
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <a :class="mmem.memLV0Status === '0' || mmem.memLV0Status === '1' ? 'text-job text-danger myFont16' : 'text-job myFont16'"
+                                           href="javascript:void(0);">
+                                            <template v-if="mmem.memLV0Status === '-1'">等待</template>
+                                            <template v-if="mmem.memLV0Status === '0'">待檢視</template>
+                                            <template v-if="mmem.memLV0Status === '1'">簽核中</template>
+                                            <template v-if="mmem.memLV0Status === '2'">退件<br><span class="time-msg">{{mmem.memLV0Time}}</span>
+                                                <template v-if="mmem.memLV0Msg !== ''"><br><span class="other-msg">{{ mmem.memLV0Msg }}</span>
+                                                </template>
+                                            </template>
+                                            <template v-if="mmem.memLV0Status === '3'">已完成<br><span class="time-msg">{{mmem.memLV0Time}}</span>
+                                            </template>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <th scope="row"><span class="badge badge-secondary"></span></th>
+                                    <td class="bm-1"><span class="sign-title">管理維運公司科級主管</span><br>{{ mmem.comTitle}} {{
+                                        mmem.memBu2 }} {{
+                                        mmem.memBu3 }} {{ mmem.memLV1Name }} {{
+                                        mmem.memLV1PositionName }}
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <a :class="mmem.memLV1Status === '0' || mmem.memLV1Status === '1' ? 'text-job text-danger myFont16' : 'text-job myFont16'"
+                                           href="javascript:void(0);">
+                                            <template v-if="mmem.memLV1Status === '-1'">等待</template>
+                                            <template v-if="mmem.memLV1Status === '0'">待檢視</template>
+                                            <template v-if="mmem.memLV1Status === '1'">簽核中</template>
+                                            <template v-if="mmem.memLV1Status === '2'">退件<br><span class="time-msg">{{mmem.memLV1Time}}</span>
+                                                <template v-if="mmem.memLV1Msg !== ''"><br><span class="other-msg">{{ mmem.memLV1Msg }}</span>
+                                                </template>
+                                            </template>
+                                            <template v-if="mmem.memLV1Status === '3'">已完成<br><span class="time-msg">{{mmem.memLV1Time}}</span>
+                                            </template>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <th scope="row"><span class="badge badge-success"></span></th>
+                                    <td class="bm-1"><span class="sign-title">管理維運公司部級主管(含以上)</span><br>{{
+                                        mmem.comTitle}}
+                                        {{ mmem.memBu2 }}
+                                        {{ mmem.memBu3 }} {{ mmem.memLV2Name }} {{
+                                        mmem.memLV2PositionName }}
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <a :class="mmem.memLV2Status === '0' || mmem.memLV2Status === '1' ? 'text-job text-danger myFont16' : 'text-job myFont16'"
+                                           href="javascript:void(0);">
+                                            <template v-if="mmem.memLV2Status === '-1'">等待</template>
+                                            <template v-if="mmem.memLV2Status === '0'">待檢視</template>
+                                            <template v-if="mmem.memLV2Status === '1'">簽核中</template>
+                                            <template v-if="mmem.memLV2Status === '2'">退件<br><span class="time-msg">{{mmem.memLV2Time}}</span>
+                                                <template v-if="mmem.memLV2Msg !== ''"><br><span class="other-msg">{{ mmem.memLV2Msg }}</span>
+                                                </template>
+                                            </template>
+                                            <template v-if="mmem.memLV2Status === '3'">已完成<br><span class="time-msg">{{mmem.memLV2Time}}</span>
+                                            </template>
+                                            <template v-if="mmem.memLV2Status === '4'"><br><span class="time-msg">{{mmem.memLV2Time}}</span>
+                                                <template v-if="mmem.memLV2Msg !== ''"><br><span class="other-msg">{{ mmem.memLV2Msg }}</span>
+                                                </template>
+                                            </template>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </template>
+                            <template v-for="(umem, idx) in uMemberData">
+                                <tr>
+                                    <td>{{mMemberData.length+idx+5}}</td>
+                                    <th scope="row"><span class="badge badge-info">水平會簽</span></th>
+                                    <td class="bm-1"><span class="sign-title">使用公司承辦人</span><br>{{ umem.comTitle}} {{
+                                        umem.memBu2 }} {{
+                                        umem.memBu3 }} {{ umem.memLV0Name }} {{
+                                        umem.memLV0PositionName }}
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <a :class="umem.memLV0Status === '0' || umem.memLV0Status === '1' ? 'text-job text-danger myFont16' : 'text-job myFont16'"
+                                           href="javascript:void(0);">
+                                            <template v-if="umem.memLV0Status === '-1'">等待</template>
+                                            <template v-if="umem.memLV0Status === '0'">待檢視</template>
+                                            <template v-if="umem.memLV0Status === '1'">簽核中</template>
+                                            <template v-if="umem.memLV0Status === '2'">退件<br><span class="time-msg">{{umem.memLV0Time}}</span>
+                                                <template v-if="umem.memLV0Msg !== ''"><br><span class="other-msg">{{ umem.memLV0Msg }}</span>
+                                                </template>
+                                            </template>
+                                            <template v-if="umem.memLV0Status === '3'">已完成<br><span class="time-msg">{{umem.memLV0Time}}</span>
+                                            </template>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <th scope="row"><span class="badge badge-secondary"></span></th>
+                                    <td class="bm-1"><span class="sign-title">使用公司科級主管</span><br>{{ umem.comTitle}} {{
+                                        umem.memBu2 }} {{
+                                        umem.memBu3 }} {{ umem.memLV1Name }} {{
+                                        umem.memLV1PositionName }}
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <a :class="umem.memLV1Status === '0' || umem.memLV1Status === '1' ? 'text-job text-danger myFont16' : 'text-job myFont16'"
+                                           href="javascript:void(0);">
+                                            <template v-if="umem.memLV1Status === '-1'">等待</template>
+                                            <template v-if="umem.memLV1Status === '0'">待檢視</template>
+                                            <template v-if="umem.memLV1Status === '1'">簽核中</template>
+                                            <template v-if="umem.memLV1Status === '2'">退件<br><span class="time-msg">{{umem.memLV1Time}}</span>
+                                                <template v-if="umem.memLV1Msg !== ''"><br><span class="other-msg">{{ umem.memLV1Msg }}</span>
+                                                </template>
+                                            </template>
+                                            <template v-if="umem.memLV1Status === '3'">已完成<br><span class="time-msg">{{umem.memLV1Time}}</span>
+                                            </template>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <th scope="row"><span class="badge badge-success"></span></th>
+                                    <td class="bm-1"><span class="sign-title">使用公司部級主管(含以上)</span><br>{{ umem.comTitle}}
+                                        {{
+                                        umem.memBu2 }} {{
+                                        umem.memBu3 }} {{ umem.memLV2Name }} {{
+                                        umem.memLV2PositionName }}
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <a :class="umem.memLV2Status === '0' || umem.memLV2Status === '1' ? 'text-job text-danger myFont16' : 'text-job myFont16'"
+                                           href="javascript:void(0);">
+                                            <template v-if="umem.memLV2Status === '-1'">等待</template>
+                                            <template v-if="umem.memLV2Status === '0'">待檢視</template>
+                                            <template v-if="umem.memLV2Status === '1'">簽核中</template>
+                                            <template v-if="umem.memLV2Status === '2'">退件<br><span class="time-msg">{{umem.memLV2Time}}</span>
+                                                <template v-if="umem.memLV2Msg !== ''"><br><span class="other-msg">{{ umem.memLV2Msg }}</span>
+                                                </template>
+                                            </template>
+                                            <template v-if="umem.memLV2Status === '3'">已完成<br><span class="time-msg">{{umem.memLV2Time}}</span>
+                                            </template>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </template>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 浮動控制版 -->
+            <div :class="isSidebarVisible ? 'settingSidebar showSettingPanel' : 'settingSidebar'" ref="sidebar">
+                <a href="javascript:void(0)" class="settingPanelToggle" @click="sidebarClick"> <i
+                        class="fa fa-spin fa-cog"></i>
+                </a>
+                <div class="settingSidebar-body ps-container ps-theme-default" style="overflow-y:auto;">
+                    <div class=" fade show active">
+                        <div class="setting-panel-header">管理面板</div>
+                        <div class="p-15 border-bottom">
+                            <div class="col-lg-12">
+                                <div class="m-l-20">
+                                    <template v-if="'3' === apportionData.appStatus">
+                                        <button v-if="apportionData.conStatus === '3'" @click="exportPDF" type="button"
+                                                class="m-r-5 btn btn-outline-primary btn-border-radius waves-effect myFont16">
+                                            PDF
+                                        </button>
+                                    </template>
+                                    <button v-if="apportionData.appStatus === '1' && checkMember()"
+                                            @click="signContract(0 <= parseInt(apportionData.conApp) ? apportionData.conId : 0, apportionData.appId, 0 <= parseInt(apportionData.conApp) ? 2 : 1)"
+                                            type="button"
+                                            class="m-r-5 btn btn-outline-success btn-border-radius waves-effect myFont16">
+                                        簽核
+                                    </button>
+                                    <button
+                                            v-if="apportionData.appStatus === '1' && checkMember() && iMemberData.memLVCStatus !== '0'"
+                                            @click="backContract(0 <= parseInt(apportionData.conApp) ? apportionData.conId : 0, apportionData.appId, 0 <= parseInt(apportionData.conApp) ? 2 : 1)"
+                                            :disabled="msg === ''"
+                                            type="button"
+                                            class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">
+                                        退回
+                                    </button>
+                                    <input v-if="apportionData.appStatus === '1' && checkMember() && iMemberData.memLVCStatus !== '0'"
+                                           type="text" class="form-control" v-model="msg"
+                                           placeholder="退回請填寫源由"/>
+                                </div>
+                            </div>
+                        </div>
+                        <template v-if="apportionData.perKey === per.perKey">
+                            <div class="setting-panel-header">文件操作
+                            </div>
+                            <div class="p-15 border-bottom">
+                                <div class="col-lg-12">
+                                    <div class="m-l-20">
+                                        <button v-if="apportionData.appStatus === '0'"
+                                                @click="releaseSign(0 <= parseInt(apportionData.conApp) ? apportionData.conId : 0, apportionData.appId, 0 <= parseInt(apportionData.conApp) ? 2 : 1)"
+                                                type="button"
+                                                class="m-r-5 btn btn-outline-warning btn-border-radius waves-effect myFont16">
+                                            發起
+                                        </button>
+                                        <template v-if="'3' === apportionData.appStatus">
+                                            <button v-if="'0' === apportionData.appInh" type="button"
+                                                    @click="apportionActionTo('ch', apportionData.appId)"
+                                                    class="m-r-5 btn btn-outline-warning btn-border-radius waves-effect myFont16">
+                                                變更
+                                            </button>
+                                            <button v-if="'0' === apportionData.appInh" type="button"
+                                                    @click="apportionActionTo('tp', apportionData.appId)"
+                                                    class="m-r-5 btn btn-outline-dark btn-border-radius waves-effect myFont16">
+                                                終止
+                                            </button>
+                                        </template>
+                                        <template
+                                                v-if="'0' === apportionData.appStatus || '1' === apportionData.appStatus">
+                                            <button type="button" @click="cleanApportion(apportionData.appId)"
+                                                    class="m-r-5 btn btn-outline-secondary btn-border-radius waves-effect myFont16">
+                                                撤案
+                                            </button>
+                                        </template>
+                                        <template v-if="'0' === apportionData.appStatus">
+                                            <button type="button"
+                                                    @click="$router.push(`/apportion/up/${apportionData.appId}`)"
+                                                    class="m-r-5 btn btn-outline-warning btn-border-radius waves-effect myFont16">
+                                                修改
+                                            </button>
+                                        </template>
+                                        <template
+                                                v-if="'0' === apportionData.appStatus || '2' === apportionData.appStatus">
+                                            <button type="button"
+                                                    @click="deleteContract(apportionData.appId)"
+                                                    class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">
+                                                刪除
+                                            </button>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                        <div class="p-15 border-bottom">
+                            <h6 class="font-medium m-b-10">文件架構</h6>
+                            <ul class="contact-list">
+                                <li class="nav-item" ref="tp">
+                                    <a class="nav-link myFont16" href="javascript:void(0);"
+                                       @click="scrollToElement('my0')">
+                                        {{ apportionData.temExes }}
+                                    </a>
+                                </li>
+                                <li class="nav-item" ref="tp">
+                                    <a class="nav-link myFont16" href="javascript:void(0);"
+                                       @click="scrollToElement('my1')">
+                                        資訊共用計畫摘要
+                                    </a>
+                                </li>
+                                <li class="nav-item" ref="tp">
+                                    <a class="nav-link myFont16" href="javascript:void(0);"
+                                       @click="scrollToElement('my2')">
+                                        {{ apportionData.appYear }}年各公司分攤費用
+                                    </a>
+                                </li>
+                                <li class="nav-item" ref="tp">
+                                    <a class="nav-link myFont16" href="javascript:void(0);"
+                                       @click="scrollToElement('my3')">
+                                        分攤費用共用作業項目
+                                    </a>
+                                </li>
+                                <li class="nav-item" ref="tp">
+                                    <a class="nav-link myFont16" href="javascript:void(0);"
+                                       @click="scrollToElement('my4')">
+                                        分攤費用共用作業項目-詳細資訊
+                                    </a>
+                                </li>
+                                <li class="nav-item" ref="tp">
+                                    <a class="nav-link myFont16" href="javascript:void(0);"
+                                       @click="scrollToElement('my5')">
+                                        立約書人
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--<div class="p-15 border-bottom">-->
+                        <!--<div class="theme-setting-options">-->
+                        <!--<label class="m-b-0">-->
+                        <!--<input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input"-->
+                        <!--id="mini_sidebar_setting">-->
+                        <!--<span class="custom-switch-indicator"></span>-->
+                        <!--<span class="control-label p-l-10">縮小右側控制板</span>-->
+                        <!--</label>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="p-15 border-bottom">-->
+                        <!--<div class="theme-setting-options">-->
+                        <!--<label class="m-b-0">-->
+                        <!--<input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input"-->
+                        <!--id="">-->
+                        <!--<span class="custom-switch-indicator"></span>-->
+                        <!--<span class="control-label p-l-10">開啟所有區塊</span>-->
+                        <!--</label>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                    </div>
+                </div>
+            </div>
+            <!-- 浮動控制版 -->
+
         </section>
     </template>
     <template v-else>
@@ -703,11 +1239,13 @@
     import '@vue-office/excel/lib/index.css';
     import VueOfficePdf from '@vue-office/pdf';
     import {exesMixin} from '@/mixins/exesMixin.js';
+    import {controlBoxMixin} from '@/mixins/controlBoxMixin.js';
+    import {signMixin} from '@/mixins/signMixin.js';
     import DatePicker from '@vuepic/vue-datepicker';
 
     export default {
-        name: "Apportion_sl",
-        mixins: [exesMixin],
+        name: "SignedApportion",
+        mixins: [exesMixin, controlBoxMixin, signMixin],
         data() {
             return {
                 isLoading: false,
@@ -717,7 +1255,7 @@
                 viewFilePDF: false,
                 viewFileDOCK: false,
                 viewFileXLSE: false,
-                isSidebarVisible: false,
+                isSidebarVisible: false,//管理面板使用
                 msg: '',//理由
                 apportionData: [],
                 iMemberData: [],//發起
@@ -810,8 +1348,6 @@
                         this.currentYear = parseInt(this.infoData.infYear);
 
 
-
-
                         this.apportionData.itemData.forEach((item) => {
                             item.iteProportion = item.iteProportion && '' !== item.iteProportion ? JSON.parse(item.iteProportion) : item.iteProportion;
                             item.manRatio = item.manRatio && '' !== item.manRatio ? JSON.parse(item.manRatio) : item.manRatio;
@@ -823,7 +1359,6 @@
                         if (this.apportionData?.conWork !== undefined) {
                             this.apportionData.conWork = this.apportionData.conWork.split('|');
                         }
-
 
 
                         this.countCost();
@@ -1023,13 +1558,15 @@
                         this.countCostData[iteId].costSum = comCost;
                     });
                 });
-                companyCodes.forEach(comCode => {
-                    const comCost = 0;
-                    this.countTotelCostData[comCode] = comCost;
+                if (this.apportionData.conCompany) {
+                    companyCodes.forEach(comCode => {
+                        const comCost = 0;
+                        this.countTotelCostData[comCode] = comCost;
 
-                    // 将 comCost 累加到 costSum 中
-                    this.countTotelCostData.costSum = comCost;
-                });
+                        // 将 comCost 累加到 costSum 中
+                        this.countTotelCostData.costSum = comCost;
+                    });
+                }
 
             },
             countCost() {
@@ -1062,26 +1599,20 @@
         min-height: auto !important;
     }
 
-    .tables-min thead {
+    #exportBox img {
         display: none;
     }
 
-    .tables-min td {
-        display: block;
-        float: left;
-        clear: left;
-        width: 100%;
+    .textBox {
+        /*border-style: dashed;*/
+        /*border-color: darkgray;*/
+        /*border-width: thin;*/
     }
 
-    .tables-min b {
-        display: inline-block;
-        padding: 0 1.2em 0 0;
-        width: 30%;
-        text-align: right;
-    }
-
-    .tables-def b {
-        display: none;
+    .textRowBox {
+        border-style: double;
+        border-color: black;
+        border-width: unset;
     }
 
     .sign-title {
@@ -1089,26 +1620,31 @@
         font-size: 14px;
     }
 
-    /*table{*/
-    /*width: 100%;*/
-    /*border-collapse: collapse;*/
-    /*border-radius: 10px ;*/
-    /*overflow: hidden;*/
-    /*}*/
-    /*!* Zebra striping *!*/
-    /*!*table tr:nth-of-type(odd) {*!*/
-    /*!*background: #ececec;*!*/
-    /*!*}*!*/
-    /*table th {*/
-    /*background: #f0f3ff;*/
-    /*color: #6777ef;*/
-    /*font-weight: bold;*/
-    /*}*/
-    /*table td, table th {*/
-    /*padding: 6px;*/
-    /*border: 1px solid #ccc;*/
-    /*!*text-align: center;*!*/
-    /*}*/
+    .time-msg {
+        font-size: 12px;
+    }
+
+    .other-msg {
+
+    }
+
+    .form-check {
+        font-size: 16px;
+    }
+
+    .my-list ul li {
+        float: left;
+        list-style: none;
+        margin-right: 10px;
+    }
+
+    .contract-title .myNotification {
+        min-height: auto !important;
+    }
+
+    .d-flex i {
+        padding-right: 10px;
+    }
 
     .transfer > tr > td {
         height: 60px !important;

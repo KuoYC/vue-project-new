@@ -3,23 +3,22 @@
         <section class="section">
             <ul class="breadcrumb breadcrumb-style ">
                 <li class="breadcrumb-item">
-                    <h4 class="page-title m-b-0">表單申請</h4>
+                    <h4 class="page-title m-b-0">已歸檔文件</h4>
                 </li>
                 <li class="breadcrumb-item">
-                    <router-link :to="`/apportion/list`">
+                    <router-link :to="`/archived`">
                         <vue-feather type="link"></vue-feather>
-                        費用分攤明細表
+                        列表
                     </router-link>
                 </li>
-                <li class="breadcrumb-item">文件操作</li>
+                <li class="breadcrumb-item">查看已歸檔文件</li>
             </ul>
             <div class="section-body">
                 <div class="contract-serial mb-2" style="width: 100%;">
                     <div class="d-inline mr-2" style="text-align:left;">
-                        <button class="btn btn-success" type="button"
-                                @click="$router.push(`/contract/sl/${apportionData.conId}`)">
+                        <router-link :to="`/review_contract/${apportionData.conId}`" class="btn btn-success">
                             文件
-                        </button>
+                        </router-link>
                     </div>
                     <div class="dropdown d-inline mr-2" style="text-align:right; float: right;">
                         <button class="btn btn-success dropdown-toggle" type="button"
@@ -1245,7 +1244,7 @@
     import DatePicker from '@vuepic/vue-datepicker';
 
     export default {
-        name: "Apportion_sl",
+        name: "ArchivedApportion",
         mixins: [exesMixin, controlBoxMixin, signMixin],
         data() {
             return {

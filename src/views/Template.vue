@@ -45,7 +45,7 @@
                                                 修正
                                             </button>
                                         </router-link>
-                                        <button type="button" @click="actionTo('dl', item.temId)"
+                                        <button type="button" @click="templateActionTo('dl', item.temId)"
                                                 class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">
                                             刪除
                                         </button>
@@ -96,7 +96,7 @@
                         console.error(error);
                     });
             },
-            actionTo(action, temId) {
+            templateActionTo(action, temId) {
                 if (action === 'sl') {
                     this.$router.push(`/template/sl/${temId}`);
                 } else if (action === 'up') {

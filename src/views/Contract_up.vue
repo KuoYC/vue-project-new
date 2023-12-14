@@ -15,24 +15,42 @@
                             <div class="inbox-body no-pad">
                                 <section class="mail-list">
                                     <div class="mail-sender">
-                                        <div class="d-flex mb-4 mt-2">
-                                            <div class="flex-grow-1">
-                                                <div class="myFont16Title">請選擇要新增的共用計畫書類型： <span class="date myFont16">
+                                        <div class="mail-heading">
+                                            <h4 class="vew-mail-header">
+                                                <div class="author-box-name d-flex justify-content-between"
+                                                     style="margin-bottom: 20px;">
+                                                    <h4>新增共用計畫書</h4>
+                                                </div>
+                                                <hr>
+                                            </h4>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <label class="row-label row-title row-title-font">請選擇要新增的共用計畫書類型：</label>
                                                 <select v-model="temId" class="form-control">
                                                     <option disabled value="">請選擇</option>
                                                     <template v-for="tem in templateData">
                                                         <option :value="tem.temId">{{ tem.temTitle }}</option>
                                                     </template>
                                                 </select>
-                                            </span></div>
                                             </div>
                                         </div>
-                                        <div class="col-6" style="padding-bottom: 20px;">
-                                            <button type="button" @click="createContract"
-                                                    :disabled="'' === temId"
-                                                    class="m-r-5 btn btn-success btn-border-radius waves-effect myFont16">
-                                                開始
-                                            </button>
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <label class="row-text"
+                                                       style="display: inline-block; border-color: #54ca68; color: #54ca68;"><input
+                                                        type="checkbox" v-model="merge"
+                                                        class="form-check-input"/> 讓費用與計畫書一起進行簽核</label>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col-6" style="padding-bottom: 20px;">
+                                                <button type="button" @click="createContract"
+                                                        :disabled="'' === temId"
+                                                        class="m-r-5 btn btn-success btn-border-radius waves-effect myFont16">
+                                                    開始
+                                                </button>
+                                            </div>
                                         </div>
 
                                     </div>
@@ -52,23 +70,25 @@
                         <h4 class="page-title m-b-0">表單申請</h4>
                     </li>
                     <li class="breadcrumb-item">
-                        <router-link :to="`/contract/list`">
+                        <router-link :to="`/paper`">
                             <vue-feather type="link"></vue-feather>
-                            資訊共用計畫書列表
+                            列表
                         </router-link>
                     </li>
-                    <li class="breadcrumb-item">文件操作</li>
+                    <li class="breadcrumb-item">操作</li>
                 </ul>
                 <div class="section-body">
                     <div class="contract-serial mb-2" style="width: 100%;">
                         <div class="d-inline mr-2" style="text-align:left;">
-                            <label class="row-text" style="display: inline-block; border-color: #54ca68; color: #54ca68;"><input type="checkbox" v-model="merge" :disabled="parseInt(contractData.conApp) >= 0" class="form-check-input"/> 與費用一起送簽</label>
+                            <label class="row-text"
+                                   style="display: inline-block; border-color: #54ca68; color: #54ca68;"><input
+                                    type="checkbox" v-model="merge"
+                                    class="form-check-input"/> 與費用一起送簽</label>
                         </div>
-                        <div class="d-inline mr-2" style="text-align:right; float: right;">
-                            <label v-if="0 === parseInt(contractData.conLock)" class="row-text" style="display: inline-block; border-color: #54ca68; color: #54ca68;"><input type="checkbox" v-model="lockItem" :disabled="parseInt(contractData.conLock) === 1" class="form-check-input"/> 鎖定項目</label>
-                            <button v-else type="button"
-                                    @click="actionTo('ex', contractData.conId)"
-                                    class="m-r-5 btn btn-success btn-border-radius waves-effect myFont16">費用
+                        <div v-if="1 === parseInt(contractData.conLock)" class="d-inline mr-2" style="text-align:right; float: right;">
+                            <button type="button"
+                                    @click="contractActionTo('ex', contractData.conId)"
+                                    class="m-l-5 m-r-5 btn btn-success btn-border-radius waves-effect myFont16">費用
                             </button>
                         </div>
                     </div>
@@ -200,9 +220,11 @@
                                                                     </div>
                                                                     <div class="col-xl-4 col-md-6 col-sm-6 col-12">
                                                                         <label class="row-label row-title">維運公司</label>
-                                                                        <label class="row-text">{{ contractData.comTitle }}</label>
+                                                                        <label class="row-text">{{ contractData.comTitle
+                                                                            }}</label>
                                                                     </div>
-                                                                    <div v-if="1 === parseInt(contractData.conLock)" class="col-xl-4 col-md-6 col-sm-6 col-12">
+                                                                    <div v-if="1 === parseInt(contractData.conLock)"
+                                                                         class="col-xl-4 col-md-6 col-sm-6 col-12">
                                                                         <label class="row-label row-title">作業種類</label>
                                                                         <div class="my-list">
                                                                             <ul style="padding-left: 0px;">
@@ -212,11 +234,13 @@
                                                                             </ul>
                                                                         </div>
                                                                     </div>
-                                                                    <div v-else class="col-xl-4 col-md-6 col-sm-6 col-12">
+                                                                    <div v-else
+                                                                         class="col-xl-4 col-md-6 col-sm-6 col-12">
                                                                         <label class="row-label row-title">作業種類</label>
                                                                         <div class="my-list">
                                                                             <ul>
-                                                                                <li v-for="wor in workData" class="form-check">
+                                                                                <li v-for="wor in workData"
+                                                                                    class="form-check">
                                                                                     <input class="form-check-input"
                                                                                            type="checkbox"
                                                                                            :value="wor.worId"
@@ -229,7 +253,8 @@
                                                                             </ul>
                                                                         </div>
                                                                     </div>
-                                                                    <div v-if="1 === parseInt(contractData.conLock)" class="col-12">
+                                                                    <div v-if="1 === parseInt(contractData.conLock)"
+                                                                         class="col-12">
                                                                         <label class="row-label row-title">使用公司</label>
                                                                         <div class="my-list">
                                                                             <ul style="padding-left: 0px;">
@@ -310,7 +335,8 @@
                                                                     </label>
 
                                                                     <span class="myFont16 d-flex align-center row-title"><vue-feather
-                                                                            type="chevrons-right" size="20"></vue-feather>共用作業項目與費用分攤原則</span>
+                                                                            type="chevrons-right"
+                                                                            size="20"></vue-feather>共用作業項目與費用分攤原則</span>
                                                                     <div v-for="wor in contractData.conWork" class="row"
                                                                          style="margin-bottom: 20px">
                                                                         <label class="myFont16 p-t-10">{{
@@ -336,7 +362,8 @@
                                                                                 </tr>
                                                                                 </thead>
                                                                                 <tbody>
-                                                                                <template v-for="ite in contractData.itemData">
+                                                                                <template
+                                                                                        v-for="ite in contractData.itemData">
                                                                                     <tr v-if="wor === ite.worId">
                                                                                         <td>{{ ite.iteTitle }}</td>
                                                                                         <td>{{ ite.disTitle }}</td>
@@ -350,7 +377,8 @@
                                                                     </div>
                                                                     <span class="myFont16 d-flex align-center row-title"
                                                                           style="padding-top: 10px;"><vue-feather
-                                                                            type="chevrons-right" size="20"></vue-feather>共用作業項目之固定分攤比例</span>
+                                                                            type="chevrons-right"
+                                                                            size="20"></vue-feather>共用作業項目之固定分攤比例</span>
                                                                     <div class="row" style="margin-bottom: 20px">
                                                                         <div class="table-responsive">
                                                                             <table class="newTable">
@@ -368,10 +396,12 @@
                                                                                 </tr>
                                                                                 </thead>
                                                                                 <tbody>
-                                                                                <template v-for="ite in contractData.itemData">
+                                                                                <template
+                                                                                        v-for="ite in contractData.itemData">
                                                                                     <tr v-if="'1' === ite.manType && typeof ite.iteProportion === 'object'">
                                                                                         <td>{{ ite.iteTitle }}</td>
-                                                                                        <template v-for="com in companyData">
+                                                                                        <template
+                                                                                                v-for="com in companyData">
                                                                                             <template
                                                                                                     v-for="pp in ite.iteProportion">
                                                                                                 <td v-if="pp.comCode === com.comCode">
@@ -405,10 +435,12 @@
                                                                                 </tr>
                                                                                 </thead>
                                                                                 <tbody>
-                                                                                <template v-for="ite in contractData.itemData">
+                                                                                <template
+                                                                                        v-for="ite in contractData.itemData">
                                                                                     <tr v-if="'1' === ite.manType && typeof ite.iteProportion === 'object'">
                                                                                         <td>{{ ite.iteTitle }}</td>
-                                                                                        <template v-for="com in companyData">
+                                                                                        <template
+                                                                                                v-for="com in companyData">
                                                                                             <td v-if="ite.iteSubsidiaries.includes(com.comCode)">
                                                                                                 <vue-feather
                                                                                                         type="check-square"></vue-feather>
@@ -426,7 +458,8 @@
                                                                     </div>
                                                                     <span class="myFont16 d-flex align-center row-title"
                                                                           style="padding-top: 10px;"><vue-feather
-                                                                            type="chevrons-right" size="20"></vue-feather>服務時間與權限控管</span>
+                                                                            type="chevrons-right"
+                                                                            size="20"></vue-feather>服務時間與權限控管</span>
                                                                     <div class="row" style="margin-bottom: 20px">
                                                                         <div class="table-responsive">
                                                                             <table class="newTable">
@@ -827,6 +860,14 @@
                     <button type="button" @click="updateContract"
                             class="m-r-5 btn btn-outline-success btn-border-radius waves-effect myFont16">儲存
                     </button>
+                    <button v-if="merge" type="button" @click="updateContract(true)"
+                            class="m-r-5 btn btn-outline-success btn-border-radius waves-effect myFont16">儲存並重新建立費用
+                    </button>
+                    <button v-if="1 === parseInt(contractData.conLock)" type="button"
+                            @click="openContractLock"
+                            class="m-r-5 btn btn-outline-success btn-border-radius waves-effect myFont16">
+                        解除項目鎖定(將刪除費用資料)
+                    </button>
                     <button type="button" @click="deleteContract(contractData.conId)"
                             class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">刪除
                     </button>
@@ -1126,6 +1167,15 @@
                                             class="m-r-5 btn btn-outline-success btn-border-radius waves-effect myFont16">
                                         儲存
                                     </button>
+                                    <button v-if="merge" type="button" @click="updateContract(true)"
+                                            class="m-r-5 btn btn-outline-success btn-border-radius waves-effect myFont16">
+                                        儲存並重新建立費用
+                                    </button>
+                                    <button v-if="1 === parseInt(contractData.conLock)" type="button"
+                                            @click="openContractLock"
+                                            class="m-r-5 btn btn-outline-success btn-border-radius waves-effect myFont16">
+                                        解除項目鎖定(將刪除費用資料)
+                                    </button>
                                     <button type="button"
                                             @click="deleteContract(contractData.conId)"
                                             class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">
@@ -1206,7 +1256,6 @@
                 isSidebarVisible: false,//管理面板使用
                 conId: parseInt(this.$route.params.id),
                 merge: false,//是否一起送
-                lockItem: false,//鎖定項目
 
                 //新增使用
                 temId: '',
@@ -1316,7 +1365,8 @@
                             temId: this.temId,
                             perKey: this.per.perKey,
                             conType: 0,
-                            comCode: this.per.perBu1Code
+                            comCode: this.per.perBu1Code,
+                            conApp: this.merge ? 0 : -1,
                         }
                     })
                     .then(response => {
@@ -1373,11 +1423,8 @@
 
                         //contractResponse
                         this.contractData = contractResponse.data.data;
-                        if (0 <= parseInt(this.contractData.conApp)){
+                        if (0 <= parseInt(this.contractData.conApp)) {
                             this.merge = true;
-                        }
-                        if (1 === parseInt(this.contractData.conLock)){
-                            this.lockItem = true;
                         }
                         // if ('0' != this.contractData.conStatus) {
                         //     this.$router.push(`/contract/${this.contractData.temId}/sl/${this.contractData.conId}`);
@@ -1489,7 +1536,7 @@
                         console.error(error);
                     });
             },
-            async updateContract() {
+            async updateContract(toApportion = false) {
                 const memberList = [];
                 memberList.push(this.iMemberData);
                 this.$root.addDataPush(memberList, this.mMemberData);
@@ -1515,7 +1562,6 @@
                 payload.conCompany = this.contractData.conCompany.filter(val => val !== '').join('|');
                 payload.memberData = memberList;
                 payload.conStatus = 0;
-                payload.conLock = this.lockItem ? 1 : 0;
                 payload.conApp = this.merge ? (parseInt(this.contractData.conApp) > -1 ? parseInt(this.contractData.conApp) : 0) : -1;
 
 
@@ -1546,8 +1592,31 @@
                 // }
 
                 await this.saveContract(payload, this.contractData.conId, null);
+                if (toApportion === true) {
+                    await this.cleanApportionByContract(this.contractData.conId);
+                    this.contractActionTo('re', this.contractData.conId);
+                }
+                else {
+                    // this.$router.push(`/contract/sl/${this.contractData.conId}`);
+                    this.$router.go(0);
+                }
             },
-
+            async openContractLock() {
+                const payload = {conId: this.contractData.conId, conLock: 0};
+                await this.$api
+                    .put(this.$test ? '/api/?type=contractLock' : '/api/iform/contractLock', payload)
+                    .then(response => {
+                        console.log(response);
+                        if (response.status === 200) {
+                            this.$router.go(0);
+                        } else {
+                            console.log('err');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Edit failed:', error);
+                    });
+            },
 
             deleteFile(fileString, type) {
                 switch (type) {

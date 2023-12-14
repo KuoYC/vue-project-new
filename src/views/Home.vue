@@ -20,7 +20,7 @@
                         <!-- <div class="card-icon card-icon-large"><i class="fa fa-award"></i></div> -->
                         <div class="card-content" style="color: #6c757d;">
                             <span class="myFont18">
-                                <router-link :to="`/review/list`">待簽核文件</router-link>
+                                <router-link :to="`/review`">待簽核文件</router-link>
                             </span>
                             <h4 class="card-title" style="color: red;">{{ contractData.length }}份</h4>
                         </div>
@@ -33,7 +33,7 @@
                         <!-- <div class="card-icon card-icon-large"><i class="fa fa-briefcase"></i></div> -->
                         <div class="card-content" style="color: #6c757d;">
                             <span class="myFont18">
-                                <router-link :to="`/contract/list/1`">簽核中文件</router-link>
+                                <router-link :to="`/paper/1`">簽核中文件</router-link>
                             </span>
                             <h4 class="card-title" style="color: orange;">{{ contractSignData.length }}份</h4>
                         </div>
@@ -46,7 +46,7 @@
                         <!-- <div class="card-icon card-icon-large"><i class="fa fa-globe"></i></div> -->
                         <div class="card-content" style="color: #6c757d;">
                             <span class="myFont18">
-                                <router-link :to="`/contract/list/3`">歸檔文件</router-link>
+                                <router-link :to="`/paper/3`">歸檔文件</router-link>
                             </span>
                             <h4 class="card-title" style="color: green;">{{ contractOverData.length }}份</h4>
                         </div>
@@ -58,7 +58,7 @@
                     <div class="card-statistic-3">
                         <div class="card-content" style="color: #6c757d;">
                             <span class="myFont18">
-                                <router-link :to="`/contract/list/0`">草稿文件</router-link>
+                                <router-link :to="`/paper/0`">草稿文件</router-link>
                             </span>
                             <h4 class="card-title" style="color: green;">{{ contractDraftData.length }}份</h4>
                         </div>
@@ -235,46 +235,51 @@
                     const apiRequests = [
                         this.$api.get(this.$test ? '/api/?type=news' : '/api/iform/news'),
                         this.$api.get(this.$test ? '/api/?type=company' : '/api/iform/company'),
+                        // contractResponse 待簽文件
                         this.$api.get(this.$test ? `/api/?type=contract` : '/api/iform/contract/List', {
                             params: {
                                 action: 1,
-                                conStatus: 1,
+                                status: 1,
                                 perKey: this.per.perKey,
                                 perBu1Code: this.per.perBu1Code,
                                 memView:1,
                                 memSign:1
                             }
                         }),
+                        //contractSignResponse 簽核中文件
                         this.$api.get(this.$test ? `/api/?type=contract` : '/api/iform/contract/List', {
                             params: {
                                 action: 1,
-                                conStatus: 1,
+                                status: 1,
                                 perKey: this.per.perKey,
                                 perBu1Code: this.per.perBu1Code,
                                 memOver:1
                             }
                         }),
+                        // contractOverResponse 已完成文件
                         this.$api.get(this.$test ? `/api/?type=contract` : '/api/iform/contract/List', {
                             params: {
                                 action: 1,
-                                conStatus: 3,
+                                status: 3,
                                 perKey: this.per.perKey,
                                 perBu1Code: this.per.perBu1Code,
                             }
                         }),
+                        // contractDraftResponse 草稿文件
                         this.$api.get(this.$test ? `/api/?type=contract` : '/api/iform/contract/List', {
                             params: {
                                 action: 1,
-                                conStatus: 0,
+                                status: 0,
                                 perKey: this.per.perKey,
                                 perBu1Code: this.per.perBu1Code,
                                 memDraft:1
                             }
                         }),
+                        // contractOwnerResponse 申請作業
                         this.$api.get(this.$test ? `/api/?type=contract` : '/api/iform/contract/List', {
                             params: {
                                 action: 1,
-                                conStatus: 1,
+                                status: 1,
                                 perKey: this.per.perKey,
                                 perBu1Code: this.per.perBu1Code,
                                 memOwner:1,
@@ -287,14 +292,15 @@
                             this.newsData = newsResponse.data.data;
                             // companyResponse
                             this.companyData = companyResponse.data.data;
-                            // contractResponse
+                            // contractResponse 待簽文件
                             this.contractData = contractResponse.data.data;
+                            //contractSignResponse 簽核中文件
                             this.contractSignData = contractSignResponse.data.data;
-                            // contractOverResponse
+                            // contractOverResponse 已完成文件
                             this.contractOverData = contractOverResponse.data.data;
-                            // contractDraftResponse
+                            // contractDraftResponse 草稿文件
                             this.contractDraftData = contractDraftResponse.data.data;
-                            // contractOwnerResponse
+                            // contractOwnerResponse 申請作業
                             this.contractOwnerData = contractOwnerResponse.data.data;
                         })
                         .catch(error => {

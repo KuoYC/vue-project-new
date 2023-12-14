@@ -3,10 +3,10 @@
         <section class="section">
             <ul class="breadcrumb breadcrumb-style ">
                 <li class="breadcrumb-item">
-                    <h4 class="page-title m-b-0">表單申請</h4>
+                    <h4 class="page-title m-b-0">已歸檔文件</h4>
                 </li>
                 <li class="breadcrumb-item">
-                    <router-link :to="`/paper`">
+                    <router-link :to="`/archived`">
                         <vue-feather type="link"></vue-feather>
                         列表
                     </router-link>
@@ -16,11 +16,10 @@
 
 
             <div class="section-body">
-                <div v-if="'3' === contractData.conStatus || (per.perKey === contractData.perKey && 1 === parseInt(contractData.conLock))" class="contract-serial mb-2" style="text-align:right;">
-                    <button type="button"
-                            @click="contractActionTo('ex', contractData.conId)"
-                            class="m-r-5 btn btn-success btn-border-radius waves-effect myFont16">費用
-                    </button>
+                <div v-if="0 < parseInt(contractData.conApp)" class="contract-serial mb-2" style="text-align:right;">
+                    <router-link :to="`/review_apportion/${contractData.conApp}`"
+                                 class="m-r-5 btn btn-success btn-border-radius waves-effect myFont16">費用
+                    </router-link>
                 </div>
                 <div class="d-flex">
                     <!-- 主要內容 -->
@@ -115,14 +114,14 @@
                                                         </template>
                                                     </tr>
                                                     <!--<tr>-->
-                                                        <!--<td>-->
-                                                            <!--分攤比例-->
-                                                        <!--</td>-->
-                                                        <!--<template v-for="com in expData">-->
-                                                            <!--<td v-if="conCompany.includes(com.comCode)">-->
-                                                                <!--{{ (com.comValue / expSum * 100).toFixed(2) }}%-->
-                                                            <!--</td>-->
-                                                        <!--</template>-->
+                                                    <!--<td>-->
+                                                    <!--分攤比例-->
+                                                    <!--</td>-->
+                                                    <!--<template v-for="com in expData">-->
+                                                    <!--<td v-if="conCompany.includes(com.comCode)">-->
+                                                    <!--{{ (com.comValue / expSum * 100).toFixed(2) }}%-->
+                                                    <!--</td>-->
+                                                    <!--</template>-->
                                                     <!--</tr>-->
                                                     <tr>
                                                         <td>
@@ -1280,7 +1279,7 @@
     import {saveAs} from 'file-saver';
 
     export default {
-        name: "Contract_sl",
+        name: "ArchivedContract",
         mixins: [controlBoxMixin, contractActionMixin, signMixin],
         data() {
             return {

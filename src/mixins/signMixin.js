@@ -8,9 +8,9 @@ export const signMixin = {
             // 文件發起人必須與登入人資料一致
             if (this.iMemberData.comId === this.per.comId && this.iMemberData.memLV0Key === this.per.perKey) {
                 try {
-                    await this.goDefaultSet(useType);//重置簽核人員資料
+                    await this.goDefaultSet(conId, appId, useType);//重置簽核人員資料
                     let log = this.createSignLog(conId, appId, 0, this.per.perKey, 3, '發起', 1);
-                    await this.goUpdateStatus(conId, 1, null, log, useType);//修改狀態為進行中
+                    await this.goUpdateStatus(conId, appId, 1, null, log, useType);//修改狀態為進行中
                     const upMember = this.createUpMember(conId, appId, this.iMemberData, '0', 3, true);
                     await this.updateMember(upMember);//修改簽核組別資訊
                     alert('發起成功');
@@ -93,7 +93,7 @@ export const signMixin = {
                         else {
                             try {
                                 let log = this.createSignLog(conId, appId, 0, '', 3, '文件簽核完成', 3);
-                                await this.goUpdateStatus(conId, 3, dayjs().format('YYYY-MM-DD'), log, useType);
+                                await this.goUpdateStatus(conId, appId, 3, dayjs().format('YYYY-MM-DD'), log, useType);
                                 await this.clearMemberAll(conId, appId);
                                 alert('文件簽核完成');
                                 this.$router.go(0);
@@ -120,7 +120,7 @@ export const signMixin = {
                             else {
                                 try {
                                     let log = this.createSignLog(conId, appId, 0, '', 3, '文件簽核完成', 3);
-                                    await this.goUpdateStatus(conId, 3, dayjs().format('YYYY-MM-DD'), log, useType);
+                                    await this.goUpdateStatus(conId, appId, 3, dayjs().format('YYYY-MM-DD'), log, useType);
                                     await this.clearMemberAll(conId, appId);
                                     alert('文件簽核完成');
                                     this.$router.go(0);
@@ -139,7 +139,7 @@ export const signMixin = {
                         if (uMemberParallel) {
                             try {
                                 let log = this.createSignLog(conId, appId, 0, '', 3, '文件簽核完成', 3);
-                                await this.goUpdateStatus(conId, 3, dayjs().format('YYYY-MM-DD'), log, useType);
+                                await this.goUpdateStatus(conId, appId, 3, dayjs().format('YYYY-MM-DD'), log, useType);
                                 await this.clearMemberAll(conId, appId);
                                 alert('文件簽核完成');
                                 this.$router.go(0);
@@ -191,7 +191,7 @@ export const signMixin = {
                 try {
                     await this.updateMember(upMember);
                     let log = this.createSignLog(conId, appId, upMember.memId, upMember.LVKey, 2, '文件退回', 2);
-                    await this.goUpdateStatus(conId, 2, null, log, useType);
+                    await this.goUpdateStatus(conId, appId, 2, null, log, useType);
                     await this.clearMemberAll(conId, appId);
                     this.$router.push(`/contract/list`);
 
@@ -202,13 +202,37 @@ export const signMixin = {
             this.$router.go(0);
         },
 
-        async goUpdateStatus(id, status, date, log, useType) {
+        async goUpdateStatus(conId, appId, status, date, log, useType) {
             if (0 === useType) {
-                await this.updateContractStatus(id, status, date, log);//修改文件狀態為進行中
+                await this.updateContractStatus(conId, status, date, log);//修改文件狀態為進行中
             }
             if (1 === useType) {
-                await this.updateApportionStatus(id, status, date, log);//修改文件狀態為進行中
+                await this.updateApportionStatus(conId, status, date, log);//修改文件狀態為進行中
             }
+            if (2 === useType) {
+                await this.updateSignStatus(conId, appId, status, date, log);//修改文件狀態為進行中
+            }
+        },
+        // updateSignStatus(狀態, 生效日期, log) 修改文件與費用簽核狀態
+        async updateSignStatus(conId, appId, status, date, log) {
+            const payload = {
+                conId: conId,
+                appId: appId,
+                status: status,
+                date: date,
+                sglLog: log,
+            };
+            console.log(payload);
+            try {
+                await this.$api.put(
+                    this.$test ? '/api/?type=signStatus' : '/api/iform/signStatus',//todo
+                    payload
+                );
+            } catch (error) {
+                console.error('Edit failed:', error);
+            }
+            return false;
+
         },
         // updateContractStatus(狀態, 生效日期, log) 修改文件簽核狀態
         async updateContractStatus(conId, status, date, log) {
@@ -234,14 +258,14 @@ export const signMixin = {
         async updateApportionStatus(appId, status, date, log) {
             const payload = {
                 appId: appId,
-                conStatus: status,
-                conDate: date,
+                appStatus: status,
+                appDate: date,
                 sglLog: log,
             };
             console.log(payload);
             try {
                 await this.$api.put(
-                    this.$test ? '/api/?type=contractStatus' : '/api/iform/contractStatus',
+                    this.$test ? '/api/?type=apportionStatus' : '/api/iform/apportionStatus',
                     payload
                 );
             } catch (error) {
@@ -253,20 +277,48 @@ export const signMixin = {
 
 
 
-        async goDefaultSet(useType) {
+        async goDefaultSet(conId, appId, useType) {
             if (0 === useType) {
-                await this.defaultContract();//重置文件資訊與簽核人員資料
+                await this.defaultContract(conId);//重置文件資訊與簽核人員資料
             }
             if (1 === useType) {
-                await this.defaultApportion();//重置文件資訊與簽核人員資料
+                await this.defaultApportion(appId);//重置文件資訊與簽核人員資料
+            }
+            if (2 === useType) {
+                await this.defaultSign(conId, appId);//重置文件資訊與與費用與簽核人員資料
             }
         },
         // defaultContract 重置文件狀態
-        async defaultContract() {
+        async defaultSign(conId, appId) {
             // 修改文件狀態為草稿模式，並重置所有簽核人員訊息狀態與時間
             try {
                 const payload = {
-                    conId: this.conId,
+                    conId: conId,
+                    appId: appId,
+                };
+
+                const response = await this.$api.put(
+                    this.$test ? '/api/?type=signDefault' : '/api/iform/signDefault',
+                    payload
+                );
+
+                if (response.status === 200) {
+                    console.log('Edit successful:', response.data.data);
+                    return true;
+                } else {
+                    console.log('err');
+                }
+            } catch (error) {
+                console.error('Edit failed:', error);
+            }
+            return false;
+        },
+        // defaultContract 重置文件狀態
+        async defaultContract(conId) {
+            // 修改文件狀態為草稿模式，並重置所有簽核人員訊息狀態與時間
+            try {
+                const payload = {
+                    conId: conId,
                 };
 
                 const response = await this.$api.put(
@@ -286,15 +338,15 @@ export const signMixin = {
             return false;
         },
         // defaultApportion 重置文件狀態
-        async defaultApportion() {
+        async defaultApportion(appId) {
             // 修改文件狀態為草稿模式，並重置所有簽核人員訊息狀態與時間
             try {
                 const payload = {
-                    conId: this.conId,
+                    appId: appId,
                 };
 
                 const response = await this.$api.put(
-                    this.$test ? '/api/?type=contractDefault' : '/api/iform/contractDefault',
+                    this.$test ? '/api/?type=apportionDefault' : '/api/iform/apportionDefault',
                     payload
                 );
 

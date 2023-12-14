@@ -43,23 +43,6 @@ export const exesMixin = {
                 this.apportionData.exesData.splice(index, 1);
             }
         },
-        async saveApportion(payload, appId){
-            await this.$api
-                .put(this.$test ? '/api/?type=apportion' : '/api/iform/apportion', payload)
-                .then(response => {
-                    console.log(response.data);
-                    if (response.status === 200) {
-                        console.log(response);
-                        this.$router.push(`/apportion/sl/${appId}`);
-                    } else {
-                        console.log('err');
-                    }
-                })
-                .catch(error => {
-                    console.error('Edit failed:', error);
-                });
-
-        },
         loadContract(query) {
             this.isLoading = true;
             const contractPayload = {
@@ -68,8 +51,8 @@ export const exesMixin = {
                 perKey: this.per.perKey,
                 perBu1Code: this.per.perBu1Code,
                 memOwner: 1,
-                conStatus: 3,
-                conInh: 0,
+                status: 3,
+                inh: 0,
                 keyword:query,
             };
 

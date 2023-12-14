@@ -25,11 +25,12 @@
                                                         :loading="isLoading"
                                                         @search-change="loadContract"
                                                         placeholder="搜尋計畫書"
+                                                        :value="[]"
                                                         label="name"
                                                         track-by="id"
                                                 >
-                                                    <template #noResult>查無資料</template>
                                                     <template #noOptions>請輸入搜尋文字</template>
+                                                    <template #noResult>查無資料</template>
                                                 </Multiselect>
                                             </span></div>
                                             </div>
@@ -70,7 +71,7 @@
                     <div class="contract-serial mb-2" style="width: 100%;">
                         <div class="d-inline mr-2" style="text-align:left;">
                             <button class="btn btn-success" type="button"
-                                    @click="$router.push(`/contract/sl/${apportionData.conId}`)">
+                                    @click="$router.push(`/contract/up/${apportionData.conId}`)">
                                 文件
                             </button>
                         </div>
@@ -1225,16 +1226,16 @@
                                                 class="m-r-5 btn btn-outline-info btn-border-radius waves-effect myFont16">
                                             查看
                                         </button>
-                                        <button type="button" @click="updateContract"
+                                        <button type="button" @click="updateApportion"
                                                 class="m-r-5 btn btn-outline-success btn-border-radius waves-effect myFont16">
                                             儲存
                                         </button>
                                         <button v-if="-1 === parseInt(apportionData.conApp)" type="button"
-                                                @click="deleteContract(contractData.conId)"
+                                                @click="deleteApportion(apportionData.appId)"
                                                 class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">
                                             刪除
                                         </button>
-                                        <button v-if="-1 === parseInt(apportionData.conApp)" type="button" @click="cleanContract(contractData.conId)"
+                                        <button v-if="-1 === parseInt(apportionData.conApp)" type="button" @click="cleanApportion(apportionData.appId)"
                                                 class="m-r-5 btn btn-outline-secondary btn-border-radius waves-effect myFont16">
                                             撤案
                                         </button>
@@ -1327,6 +1328,7 @@
     import '@vue-office/excel/lib/index.css';
     import {memberMixin} from '@/mixins/memberMixin.js';
     import VueOfficePdf from '@vue-office/pdf';
+    import {apportionActionMixin} from '@/mixins/apportionActionMixin.js';
     import {exesMixin} from '@/mixins/exesMixin.js';
     import {controlBoxMixin} from '@/mixins/controlBoxMixin.js';
     import DatePicker from '@vuepic/vue-datepicker';
@@ -1336,7 +1338,7 @@
 
     export default {
         name: "Apportion_up",
-        mixins: [exesMixin, controlBoxMixin, memberMixin],
+        mixins: [apportionActionMixin, exesMixin, controlBoxMixin, memberMixin],
         data() {
             return {
                 isLoading: false,
@@ -1523,9 +1525,7 @@
                                     month: parseInt(ann.annEndMonth.substring(4)) - 1
                                 };
                                 if (parseInt(ann.annYear) === this.currentYear) {
-                                    console.log('a');
                                     if (ann.subsidiaryData.length === 0) {
-                                        console.log('b');
                                         const subsidiaryDefault = this.subsidiaryDefault(exes);
                                         const subsidiarySet = this.subsidiaryCheck(exes, subsidiaryDefault);
                                         ann.subsidiaryData = this.getCost(subsidiarySet, ann.annCost, exes.manType);
@@ -1539,7 +1539,7 @@
                                     break;
                                 case 1:
                                     exes.ratio = JSON.parse(exes.iteProportion);
-                                    break
+                                    break;
                                 case 2:
                                     break;
                             }
@@ -1874,7 +1874,9 @@
                     });
                 });
 
+                console.log(payload);
                 await this.saveApportion(payload, this.apportionData.appId);
+                this.$router.push(`/apportion/sl/${this.apportionData.appId}`);
 
 
             },

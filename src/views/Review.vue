@@ -81,13 +81,13 @@
                     this.$api.get(this.$test ? `/api/?type=contract` : `/api/adm/contract`, {
                         params: {
                             action: 1,
-                            conStatus: 1,
+                            status: 1,
                             perKey: this.per.perKey,
                             perBu1Code: this.per.perBu1Code,
                             memView: 1,
                             memSign: 1,
-                            conMark:0,
-                            conInh:0,
+                            mark:0,
+                            inh:0,
                         }
                     }),
                 ];
