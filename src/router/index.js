@@ -52,6 +52,9 @@ import Contact from '@/views/Contact.vue'
 import Contact_ad from '@/views/Contact_ad.vue'
 import Contact_up from '@/views/Contact_up.vue'
 import Contact_sl from '@/views/Contact_sl.vue'
+
+import Inventory from '@/views/Inventory.vue'
+import Integrate from '@/views/Integrate.vue'
 // import Proportion from '@/views/Proportion.vue'
 // import Switch from '@/views/Switch.vue'
 import Personnel from '@/views/Personnel.vue'
@@ -142,6 +145,8 @@ const routes = [
     { path: '/control/group/ad', component: Group_ad, name: '新增帳號群組' },
     { path: '/control/group/up/:id', component: Group_up, name: '修改帳號群組' },
     { path: '/control/group/sl/:id', component: Group_sl, name: '查看帳號群組' },
+    { path: '/inventory', component: Inventory, name: '資訊共用計畫書清冊' },
+    { path: '/integrate', component: Integrate, name: '年度費用分攤明細' },
 
 ]
 

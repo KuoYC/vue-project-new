@@ -38,7 +38,8 @@
                         <div class="author-box-name d-flex justify-content-between"
                              style="margin-bottom: 20px;padding: 10px 25px;border-bottom-color: #f9f9f9;">
                             <h4 class="myCardTitle" style="font-size: x-large;">
-                                {{ apportionData.temExes }}
+                                {{ apportionData.conTitle }}
+                                <span class="sp-note"> - {{ apportionData.temExes }}</span>
                             </h4>
                             <div class="contract-serial">
                                 <!-- 這裡放文件序號 -->

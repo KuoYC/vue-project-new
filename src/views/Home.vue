@@ -116,23 +116,40 @@
                         <table class="newTable">
                             <thead style="position: sticky;top: 0;" class="myNew">
                             <tr>
+                                <th scope="col">表單類型</th>
                                 <th scope="col">序號</th>
                                 <th scope="col">共用計畫書名稱</th>
-                                <th scope="col">表單類型</th>
                                 <th scope="col">創文日期</th>
                             </tr>
                             </thead>
                             <tbody class="exTable">
                             <tr v-for="con in contractData"
-                                @click="$router.push(`/review/sl/${con.conId}`)">
+                                @click="$router.push(`/review_contract/${con.conId}`)">
+                                <td>
+                                    <template v-if="0 === parseInt(con.Type) && 0 <= parseInt(con.conApp)">
+                                        <span class="sp-contract">共用計畫書</span>
+                                        <span class="sp-apportion">分攤明細表</span>
+                                    </template>
+                                    <template v-else>
+                                        <template v-if="0 === parseInt(con.Type)"><span class="sp-contract">共用計畫書</span></template>
+                                        <template v-else><span class="sp-apportion">分攤明細表</span></template>
+                                    </template>
+                                </td>
                                 <td>
                                     {{ con.conSerial }}{{ con.conVer }}
                                 </td>
                                 <td>
                                     {{ con.conTitle }}
+                                    <span class="sp-note">- {{ 0 === parseInt(con.Type) ? con.temTitle : con.temExes }}</span>
                                 </td>
-                                <td>{{ con.temTitle }}</td>
-                                <td>{{ this.$root.formatDateTime(con.conCreateTime)}}</td>
+                                <td>
+                                    <template v-if="0 === parseInt(con.Type) && 0 <= parseInt(con.conApp)">
+                                        {{ this.$root.formatDateTime(con.conCreateTime)}}
+                                    </template>
+                                    <template v-else>
+                                        {{ 0 === parseInt(con.Type) ? this.$root.formatDateTime(con.conCreateTime) : this.$root.formatDateTime(con.appCreateTime)}}
+                                    </template>
+                                </td>
                             </tr>
 
                             </tbody>
@@ -152,9 +169,9 @@
                         <table class="newTable">
                             <thead style="position: sticky;top: 0;" class="myNew">
                             <tr>
+                                <th scope="col">表單類型</th>
                                 <th scope="col">序號</th>
                                 <th scope="col">共用計畫書名稱</th>
-                                <th scope="col">表單類型</th>
                                 <th scope="col">狀態</th>
                                 <th scope="col">創文日期</th>
                             </tr>
@@ -163,21 +180,38 @@
                             <tr v-for="con in contractOwnerData"
                                 @click="$router.push(`/contract/sl/${con.conId}`)">
                                 <td>
+                                    <template v-if="0 === parseInt(con.Type) && 0 <= parseInt(con.conApp)">
+                                        <span class="sp-contract">共用計畫書</span>
+                                        <span class="sp-apportion">分攤明細表</span>
+                                    </template>
+                                    <template v-else>
+                                        <template v-if="0 === parseInt(con.Type)"><span class="sp-contract">共用計畫書</span></template>
+                                        <template v-else><span class="sp-apportion">分攤明細表</span></template>
+                                    </template>
+                                </td>
+                                <td>
                                     {{ con.conSerial }}{{ con.conVer }}
                                 </td>
                                 <td>
                                     {{ con.conTitle }}
+                                    <span class="sp-note">- {{ 0 === parseInt(con.Type) ? con.temTitle : con.temExes }}</span>
                                 </td>
-                                <td>{{ con.temTitle }}</td>
                                 <td>
-                                    <template v-if="con.conStatus === '-1'">建置中</template>
-                                    <template v-if="con.conStatus === '0'">草稿</template>
-                                    <template v-if="con.conStatus === '1'">簽核中</template>
-                                    <template v-if="con.conStatus === '2'">退回</template>
-                                    <template v-if="con.conStatus === '3'">已歸檔</template>
-                                    <template v-if="con.conStatus === '4'">撤回</template>
+                                    <template v-if="con.Status === '-1'">建置中</template>
+                                    <template v-if="con.Status === '0'">草稿</template>
+                                    <template v-if="con.Status === '1'">簽核中</template>
+                                    <template v-if="con.Status === '2'">退回</template>
+                                    <template v-if="con.Status === '3'">已歸檔</template>
+                                    <template v-if="con.Status === '4'">撤回</template>
                                 </td>
-                                <td>{{ this.$root.formatDateTime(con.conCreateTime)}}</td>
+                                <td>
+                                    <template v-if="0 === parseInt(con.Type) && 0 <= parseInt(con.conApp)">
+                                        {{ this.$root.formatDateTime(con.conCreateTime)}}
+                                    </template>
+                                    <template v-else>
+                                        {{ 0 === parseInt(con.Type) ? this.$root.formatDateTime(con.conCreateTime) : this.$root.formatDateTime(con.appCreateTime)}}
+                                    </template>
+                                </td>
                             </tr>
 
                             </tbody>

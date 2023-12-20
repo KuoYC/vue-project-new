@@ -32,7 +32,8 @@
                                         <div class="author-box-name d-flex justify-content-between"
                                              style="margin-bottom: 20px;padding: 10px 25px;border-bottom-color: #f9f9f9;">
                                             <h4 class="myCardTitle" style="font-size: x-large; min-width: 250px;">
-                                                {{ contractData.temTitle }}
+                                                {{ contractData.conTitle }}
+                                                <span class="sp-note"> - {{ contractData.temTitle }}</span>
                                                 <vue-feather v-if="area.areaNote !== ''"
                                                              v-tooltip="{ content: area.areaNote, placement: 'right' }"
                                                              type="help-circle" size="20" stroke="blue"></vue-feather>
@@ -68,7 +69,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div v-if="area.areaType === '2' && expSum > 0"
+                                    <div v-if="area.areaType === '2' && area.areaValue && area.areaValue?.expSum && area.areaValue.expSum > 0"
                                          class="card">
                                         <div class="card-header justify-content-between">
                                             <h4 class="myCardTitle">
@@ -87,14 +88,16 @@
                                         </div>
                                         <div class="card-body myNotification">
                                             <p>僅供各公司簽核參考，實際收付款以當年度分攤收付款簽呈為主。</p>
-                                            <div class="table-responsive">
+                                            <label class="row-label">預計分攤總額</label>
+                                            <label class="row-text">{{ area.areaValue.expSum }}</label>
+                                            <div class="table-responsive mt-2">
                                                 <table class="newTable" style="width: auto;">
                                                     <caption>各公司預計分攤費用參考</caption>
                                                     <thead style="position: sticky;top: 0;" class="myNew">
                                                     <tr>
                                                         <th style="min-width: 100px;"
                                                             scope="col"></th>
-                                                        <template v-for="com in expData">
+                                                        <template v-for="com in area.areaValue.expData">
                                                             <th v-if="contractData.conCompany.includes(com.comCode)" scope="col"
                                                                 style="min-width:120px; max-width: 120px;">{{
                                                                 com.comTitle }}
@@ -107,7 +110,7 @@
                                                         <td>
                                                             分攤比例
                                                         </td>
-                                                        <template v-for="com in expData">
+                                                        <template v-for="com in area.areaValue.expData">
                                                             <td v-if="contractData.conCompany.includes(com.comCode)">
                                                                 <input type="text" disabled :value="com.comPercent + '%'"
                                                                        class="form-control"/>
@@ -128,7 +131,7 @@
                                                         <td>
                                                             分攤費用
                                                         </td>
-                                                        <template v-for="com in expData">
+                                                        <template v-for="com in area.areaValue.expData">
                                                             <td v-if="contractData.conCompany.includes(com.comCode)">
                                                                 <input type="text" disabled :value="com.comValue"
                                                                        style="background-color: white;"
@@ -1306,8 +1309,6 @@
                 uMemberData: [],//使用
                 contactData: [],
                 // conCompany: {},//使用公司
-                expData: [],//預計分攤
-                expSum: 0,
 
                 templateStyleData: [],
                 subsidiaryData: [],
@@ -1373,16 +1374,6 @@
                         this.conFile = this.contractData?.conFile ? this.contractData.conFile.split('|') : null;
                         if (this.contractData?.conCompany !== undefined) {
                             this.contractData.conCompany = this.contractData?.conCompany ? this.contractData.conCompany.split('|') : null;
-                        }
-                        if (this.contractData?.conValue !== undefined) {
-                            this.contractData.conValue.forEach(area => {
-                                if ('2' === area.areaType && area.areaValue) {
-                                    this.expData = area.areaValue;
-                                    this.expData.forEach(exp => {
-                                        this.expSum += exp.comValue;
-                                    });
-                                }
-                            });
                         }
 
                         if (this.contractData?.itemData !== undefined) {

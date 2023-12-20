@@ -248,13 +248,17 @@
                                 <!--</ul>-->
                             <!--</li>-->
                             <!-- <li class="menu-header">Approval Form Inventory</li> -->
-                            <li class="dropdown" :class="{active : $route.path.startsWith(`/report`)}">
-                                <a href="javascript:void(0);"  onclick="alert('建置中');" class="menu-toggle nav-link has-dropdown">
+                            <li class="dropdown" :class="{active : $route.path.startsWith(`/inventory`) || $route.path.startsWith(`/integrate`)}">
+                                <a href="javascript:void(0);" class="menu-toggle nav-link has-dropdown">
                                     <vue-feather type="bar-chart-2"></vue-feather>
                                     <span>報表管理</span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="nav-link" href="javascript:void(0);">資訊共用計畫書清冊</a></li>
-                                    <li><a class="nav-link" href="javascript:void(0);">年度費用分攤明細</a></li>
+                                    <li :class="{active : $route.path.startsWith(`/inventory`)}" class="nav-link">
+                                        <router-link :to="`/inventory`">資訊共用計畫書清冊</router-link>
+                                    </li>
+                                    <li :class="{active : $route.path.startsWith(`/integrate`)}" class="nav-link">
+                                        <router-link :to="`/integrate`">年度費用分攤明細</router-link>
+                                    </li>
                                 </ul>
                             </li>
                             <li class="dropdown" :class="{active : $route.path.startsWith(`/info`)}">
@@ -618,14 +622,14 @@
     .newTable caption {
         display: none;
     }
-    .newTable th:first-child {
+    .newTable thead tr:first-child th:first-child {
         border-top-left-radius: 10px;
         background: #F5F5F5;
         /*background: #26a862;*/
         color: black;
         font-weight: bold;
     }
-    .newTable th:last-child {
+    .newTable thead tr:first-child th:last-child {
         border-top-right-radius: 10px;
         background: #F5F5F5;
         /*background: #26a862;*/
@@ -763,5 +767,23 @@
     .form-check-input:checked {
         background-color: rgb(38, 168, 98);
         border-color: rgb(38, 168, 98);
+    }
+
+    .sp-contract{
+        background-color:#8edc9c;
+        color:white;
+        border-radius: 7px;
+        padding: 3px;
+        margin-right: 3px;
+    }
+    .sp-apportion{
+        background-color:#e9f7ed;
+        color:#26a862;
+        border-radius: 7px;
+        padding: 3px;
+        margin-right: 3px;
+    }
+    .sp-note{
+        color: #9f9f9f;
     }
 </style>

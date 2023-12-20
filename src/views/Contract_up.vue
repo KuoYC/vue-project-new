@@ -101,7 +101,8 @@
                                             <div class="author-box-name d-flex justify-content-between"
                                                  style="margin-bottom: 20px;padding: 10px 25px;border-bottom-color: #f9f9f9;">
                                                 <h4 class="myCardTitle" style="font-size: x-large; min-width: 250px;">
-                                                    {{ contractData.temTitle }}
+                                                    {{ contractData.conTitle }}
+                                                    <span class="sp-note"> - {{ contractData.temTitle }}</span>
                                                     <vue-feather v-if="area.areaNote !== ''"
                                                                  v-tooltip="{ content: area.areaNote, placement: 'right' }"
                                                                  type="help-circle" size="20"
@@ -156,9 +157,8 @@
                                                 <p>僅供各公司簽核參考，實際收付款以當年度分攤收付款簽呈為主。</p>
                                                 <div class="table-responsive">
                                                     <Exp
-                                                            :expData="expData"
+                                                            :exp="area.areaValue"
                                                             :companyUse="contractData.conCompany"
-                                                            :expSum="expSum"
                                                     />
                                                 </div>
                                             </div>
@@ -1234,7 +1234,7 @@
     import Cookies from 'js-cookie'
     import Item from '@/components/Item.vue';
     import Member from '@/components/Member.vue';
-    import Exp from '@/components/ExpEdit.vue';
+    import Exp from '@/components/Exp.vue';
     import DatePicker from '@vuepic/vue-datepicker';
     import '@vuepic/vue-datepicker/dist/main.css';
     import FileUpload from '@/components/FileUpload.vue';
@@ -1272,8 +1272,6 @@
                 contactData: [],
 
                 contractData: [],
-                expData: [],//預計分攤
-                expSum: 0,
                 account: '',
                 // conValue: [],//temStyle
                 // conWork: [],//作業種類
@@ -1447,24 +1445,23 @@
                                     item.checkedOptions = selectedOptions.map(option => option.trim());
                                 }
                             })
-                            if ('2' === area.areaType && area.areaValue) {
-                                this.expData = area.areaValue;
-                                this.expData.forEach(exp => {
-                                    this.expSum += exp.comValue;
-                                });
+                            if ('2' === area.areaType) {
+                                if (!area.areaValue) {
+                                    const areaValue = {expData:[], expSum:0};
+                                    this.companyData.forEach(com => {
+                                        areaValue.expData.push({
+                                            comId: com.comId,
+                                            comCode: com.comCode,
+                                            comTitle: com.comTitle,
+                                            comValue: 0,
+                                            comPercent: 0,
+                                        });
+                                    });
+                                    area.areaValue = areaValue;
+                                }
+                                console.log(area.areaValue);
                             }
                         });
-                        if (0 === this.expSum) {
-                            this.companyData.forEach(com => {
-                                this.expData.push({
-                                    comId: com.comId,
-                                    comCode: com.comCode,
-                                    comTitle: com.comTitle,
-                                    comValue: 0,
-                                    comPercent: 0,
-                                });
-                            });
-                        }
                         const memberList = this.contractData.memberData;
                         if (memberList.length > 0) {
                             memberList.forEach(member => {

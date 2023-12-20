@@ -75,14 +75,17 @@
                                     @click="0 === parseInt(con.Type) ? $router.push(`/contract/sl/${con.conId}`) : $router.push(`/apportion/sl/${con.appId}`)">
                                     <td scope="row">
                                         <template v-if="0 === parseInt(con.Type) && 0 <= parseInt(con.conApp)">
-                                            {{con.temTitle}}<br>{{con.temExes}}
+                                            <span class="sp-contract">共用計畫書</span>
+                                            <span class="sp-apportion">分攤明細表</span>
                                         </template>
                                         <template v-else>
-                                            {{ 0 === parseInt(con.Type) ? con.temTitle : con.temExes }}
+                                            <template v-if="0 === parseInt(con.Type)"><span class="sp-contract">共用計畫書</span></template>
+                                            <template v-else><span class="sp-apportion">分攤明細表</span></template>
                                         </template>
                                     </td>
                                     <td scope="row">
                                         {{ con.conTitle }}
+                                        <span class="sp-note">- {{ 0 === parseInt(con.Type) ? con.temTitle : con.temExes }}</span>
                                     </td>
                                     <td>{{ con.comTitle + '/' + con.perBu2 + '/' + con.perBu3}}</td>
                                     <td>

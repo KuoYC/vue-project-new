@@ -90,7 +90,7 @@ export const contractActionMixin = {
                             console.log(response);
                             if (response.status === 200) {
                                 if (response.data?.appId) {
-                                    this.$router.push(`/apportion/up/${response.data.appId}`);
+                                    this.$router.push(`/apportion/sl/${response.data.appId}`);
                                     // this.$router.push(`/apportion/sl/${response.data.data[0].appId}`);
                                 }
                                 else {
