@@ -9,7 +9,7 @@ export const contractActionMixin = {
                 .then(response => {
                     console.log(response.data);
                     if (response.status === 200) {
-                        this.$router.push(`/contract/list`);
+                        this.$router.push(`/paper`);
                     } else {
                         console.log('err');
                     }
@@ -37,10 +37,10 @@ export const contractActionMixin = {
                 });
 
         },
-        async cleanContract(temId, conId) {
+        async cleanContract(conId) {
             let log = this.createSignLog(conId, 0, 0, this.per.perKey, -1, '撤案', 4);
             await this.updateContractStatus(conId, 4, null, log);//修改文件狀態為進行中
-            this.$router.push(`/contract/list`);
+            this.$router.push(`/paper`);
         },
         async cleanApportionByContract(conId) {
             try {

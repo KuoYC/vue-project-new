@@ -9,7 +9,8 @@ import Paper from '@/views/Paper.vue'
 import Contract_up from '@/views/Contract_up.vue'
 import Contract_sl from '@/views/Contract_sl.vue'
 import Search from '@/views/Search.vue'
-import Search_sl from '@/views/Search_sl.vue'
+import SearchContract from '@/views/SearchContract.vue'
+import SearchApportion from '@/views/SearchApportion.vue'
 import Apportion_up from '@/views/Apportion_up.vue'
 import Apportion_sl from '@/views/Apportion_sl.vue'
 import Admin_login from '@/views/Admin_login.vue'
@@ -97,8 +98,9 @@ const routes = [
     { path: '/apportion/up/:id', component: Apportion_up, name: '費用分攤修改' },
     { path: '/apportion/sl/:id', component: Apportion_sl, name: '費用分攤查看' },
 
-    { path: '/search/:tem/list', component: Search, name: '查詢作業列表' },
-    { path: '/search/:tem/sl/:id', component: Search_sl, name: '查看作業' },
+    { path: '/search', component: Search, name: '查詢作業列表' },
+    { path: '/search_contract/:id', component: SearchContract, name: '查詢文件' },
+    { path: '/search_apportion/:id', component: SearchApportion, name: '查詢費用' },
 
     { path: '/admin_login', component: Admin_login, name: '管理者登入' },
     { path: '/sso/login', component: SSO, name: 'SSO' },

@@ -94,7 +94,7 @@
                                  style="margin-bottom: 20px;padding: 10px 25px;border-bottom-color: #f9f9f9;">
                                 <h4 class="myCardTitle" style="font-size: x-large;">
                                     {{ apportionData.conTitle }}
-                                    <span class="sp-note"> - {{ apportionData.temExes }}</span>
+                                    <span class="sp-note"> - {{ apportionData.appYear + apportionData.temExes }}</span>
                                 </h4>
                                 <div class="contract-serial">
                                     <!-- 這裡放文件序號 -->
@@ -382,7 +382,7 @@
                                                                        data-bs-toggle="tab"
                                                                        :href="'#exe_'+exes.uniqueId" role="tab"
                                                                        aria-controls="profile" aria-selected="false"
-                                                                       tabindex="-1">各公司年度分攤費用</a>
+                                                                       tabindex="-1">{{ apportionData.appYear }}年各公司年度分攤費用</a>
                                                                 </li>
                                                                 <li class="nav-item" role="presentation">
                                                                     <a class="nav-link" id="contact-tab"
@@ -921,18 +921,18 @@
                     </div>
 
                     <div class="col-6" style="padding-bottom: 20px;">
-                        <button type="button"
+                        <button v-if="-1 !== parseInt(apportionData.appStatus)" type="button"
                                 @click="$router.push(`/apportion/sl/${apportionData.appId}`)"
                                 class="m-r-5 btn btn-outline-info btn-border-radius waves-effect myFont16">
                             查看
                         </button>
-                        <button type="button" @click="updateApportion"
+                        <button v-if="-1 === parseInt(apportionData.appStatus) || 0 === parseInt(apportionData.appStatus)" type="button" @click="updateApportion"
                                 class="m-r-5 btn btn-outline-success btn-border-radius waves-effect myFont16">儲存
                         </button>
-                        <button v-if="-1 === parseInt(apportionData.conApp)" type="button" @click="deleteApportion(apportionData.appId)"
+                        <button v-if="-1 === parseInt(apportionData.conApp) && (-1 === parseInt(apportionData.appStatus) || 0 === parseInt(apportionData.appStatus))" type="button" @click="deleteApportion(apportionData.appId)"
                                 class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">刪除
                         </button>
-                        <button v-if="-1 === parseInt(apportionData.conApp)" type="button" @click="cleanApportion(apportionData.appId)"
+                        <button v-if="-1 === parseInt(apportionData.conApp) && 1 === parseInt(apportionData.appStatus)" type="button" @click="cleanApportion(apportionData.appId)"
                                 class="m-r-5 btn btn-outline-secondary btn-border-radius waves-effect myFont16">
                             撤案
                         </button>
@@ -1222,21 +1222,18 @@
                             <div class="p-15 border-bottom">
                                 <div class="col-lg-12">
                                     <div class="m-l-20">
-                                        <button type="button"
-                                                @click="$router.push(`/contract/sl/${contractData.conId}`)"
+                                        <button v-if="-1 !== parseInt(apportionData.appStatus)" type="button"
+                                                @click="$router.push(`/apportion/sl/${apportionData.appId}`)"
                                                 class="m-r-5 btn btn-outline-info btn-border-radius waves-effect myFont16">
                                             查看
                                         </button>
-                                        <button type="button" @click="updateApportion"
-                                                class="m-r-5 btn btn-outline-success btn-border-radius waves-effect myFont16">
-                                            儲存
+                                        <button v-if="-1 === parseInt(apportionData.appStatus) || 0 === parseInt(apportionData.appStatus)" type="button" @click="updateApportion"
+                                                class="m-r-5 btn btn-outline-success btn-border-radius waves-effect myFont16">儲存
                                         </button>
-                                        <button v-if="-1 === parseInt(apportionData.conApp)" type="button"
-                                                @click="deleteApportion(apportionData.appId)"
-                                                class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">
-                                            刪除
+                                        <button v-if="-1 === parseInt(apportionData.conApp) && (-1 === parseInt(apportionData.appStatus) || 0 === parseInt(apportionData.appStatus))" type="button" @click="deleteApportion(apportionData.appId)"
+                                                class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">刪除
                                         </button>
-                                        <button v-if="-1 === parseInt(apportionData.conApp)" type="button" @click="cleanApportion(apportionData.appId)"
+                                        <button v-if="-1 === parseInt(apportionData.conApp) && 1 === parseInt(apportionData.appStatus)" type="button" @click="cleanApportion(apportionData.appId)"
                                                 class="m-r-5 btn btn-outline-secondary btn-border-radius waves-effect myFont16">
                                             撤案
                                         </button>

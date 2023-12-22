@@ -38,7 +38,7 @@
                                         </td>
                                         <td scope="row">
                                             {{ con.conTitle }}
-                                            <span class="sp-note">- {{ 0 === parseInt(con.Type) ? con.temTitle : con.temExes }}</span>
+                                            <span class="sp-note">- {{ 0 === parseInt(con.Type) ? con.temTitle : con.appYear + con.temExes }}</span>
                                         </td>
                                         <td>{{ con.comTitle + '/' + con.perBu2 + '/' + con.perBu3}}</td>
                                         <td>

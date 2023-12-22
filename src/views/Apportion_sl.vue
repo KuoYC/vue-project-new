@@ -40,10 +40,17 @@
                              style="margin-bottom: 20px;padding: 10px 25px;border-bottom-color: #f9f9f9;">
                             <h4 class="myCardTitle" style="font-size: x-large;">
                                 {{ apportionData.conTitle }}
-                                <span class="sp-note"> - {{ apportionData.temExes }}</span>
+                                <span class="sp-note"> - {{ apportionData.appYear + apportionData.temExes }}</span>
                             </h4>
                             <div class="contract-serial">
                                 <!-- 這裡放文件序號 -->
+                                <div style="font-weight: 400; text-align: right;">
+                                    <span class="btn btn-outline-success btn-border-radius waves-effect myFont16">
+                                        <template v-if="0 === parseInt(apportionData.appStatus)">草稿</template>
+                                        <template v-if="1 === parseInt(apportionData.appStatus)">簽核中</template>
+                                        <template v-if="3 === parseInt(apportionData.appStatus)">已歸檔</template>
+                                    </span>
+                                </div>
                                 <div style="font-weight: 400;">文件序號：<span class="date">{{ apportionData.conSerial }}{{ apportionData.conVer }}</span>
                                 </div>
                                 <!-- 這裡放創文日期 -->
@@ -312,7 +319,7 @@
                                                                data-bs-toggle="tab"
                                                                :href="'#exe_'+exes.exeId" role="tab"
                                                                aria-controls="profile" aria-selected="false"
-                                                               tabindex="-1">各公司年度分攤費用</a>
+                                                               tabindex="-1">{{ apportionData.appYear }}年各公司年度分攤費用</a>
                                                         </li>
                                                         <li class="nav-item" role="presentation">
                                                             <a class="nav-link" id="home-tab"
@@ -734,68 +741,62 @@
 
 
                 <div class="col-6" style="padding-bottom: 20px;">
-                    <template v-if="'3' === apportionData.appStatus">
-                        <button v-if="apportionData.appStatus === '3'" @click="exportPDF" type="button"
-                                class="m-r-5 btn btn-outline-primary btn-border-radius waves-effect myFont16">
-                            PDF
-                        </button>
-                    </template>
-                    <button v-if="apportionData.appStatus === '1' && checkMember()"
+                    <button @click="exportPDF" type="button"
+                            class="m-r-5 btn btn-outline-primary btn-border-radius waves-effect myFont16">
+                        PDF
+                    </button>
+                    <button v-if="1 === parseInt(apportionData.appStatus) && checkMember()"
                             @click="signContract(0 <= parseInt(apportionData.conApp) ? apportionData.conId : 0, apportionData.appId, 0 <= parseInt(apportionData.conApp) ? 2 : 1)"
                             type="button"
                             class="m-r-5 btn btn-outline-success btn-border-radius waves-effect myFont16">
                         簽核
                     </button>
                     <button
-                            v-if="apportionData.appStatus === '1' && checkMember() && iMemberData.memLVCStatus !== '0'"
+                            v-if="1 === parseInt(apportionData.appStatus) && checkMember() && 0 !== parseInt(iMemberData.memLVCStatus)"
                             @click="backContract(0 <= parseInt(apportionData.conApp) ? apportionData.conId : 0, apportionData.appId, 0 <= parseInt(apportionData.conApp) ? 2 : 1)"
                             :disabled="msg === ''"
                             type="button"
                             class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">退回
                     </button>
-                    <input v-if="apportionData.appStatus === '1' && checkMember() && iMemberData.memLVCStatus !== '0'"
+                    <input v-if="1 === parseInt(apportionData.appStatus) && checkMember() && 0 !== parseInt(iMemberData.memLVCStatus)"
                            type="text" class="form-control" v-model="msg"
                            placeholder="退回請填寫源由"/>
 
                     <template v-if="apportionData.perKey === per.perKey">
-                        <button v-if="apportionData.appStatus === '0'"
+                        <button v-if="0 === parseInt(apportionData.appStatus)"
                                 @click="releaseSign(0 <= parseInt(apportionData.conApp) ? apportionData.conId : 0, apportionData.appId, 0 <= parseInt(apportionData.conApp) ? 2 : 1)"
                                 type="button"
                                 class="m-r-5 btn btn-outline-warning btn-border-radius waves-effect myFont16">
-                            發起
+                            提交
                         </button>
-                        <template v-if="'3' === apportionData.appStatus">
-                            <button v-if="'0' === apportionData.appInh" type="button"
-                                    @click="apportionActionTo('ch', apportionData.appId)"
-                                    class="m-r-5 btn btn-outline-warning btn-border-radius waves-effect myFont16">
-                                變更
-                            </button>
-                            <button v-if="'0' === apportionData.appInh" type="button"
-                                    @click="apportionActionTo('tp', apportionData.appId)"
-                                    class="m-r-5 btn btn-outline-dark btn-border-radius waves-effect myFont16">
-                                終止
-                            </button>
-                        </template>
-                        <template v-if="'0' === apportionData.appStatus || '1' === apportionData.appStatus">
-                            <button type="button" @click="cleanApportion(apportionData.appId)"
-                                    class="m-r-5 btn btn-outline-secondary btn-border-radius waves-effect myFont16">
-                                撤案
-                            </button>
-                        </template>
-                        <template v-if="'0' === apportionData.appStatus">
-                            <button type="button"
-                                    @click="$router.push(`/apportion/up/${apportionData.appId}`)"
-                                    class="m-r-5 btn btn-outline-warning btn-border-radius waves-effect myFont16">
-                                修改
-                            </button>
-                        </template>
-                        <template v-if="'0' === apportionData.appStatus || '2' === apportionData.appStatus">
-                            <button type="button"
-                                    @click="deleteContract(apportionData.appId)"
-                                    class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">
-                                刪除
-                            </button>
-                        </template>
+                        <button v-if="3 === parseInt(apportionData.appStatus) && 0 === parseInt(apportionData.appInh)"
+                                type="button"
+                                @click="apportionActionTo('ch', apportionData.appId)"
+                                class="m-r-5 btn btn-outline-warning btn-border-radius waves-effect myFont16">
+                            變更
+                        </button>
+                        <button v-if="3 === parseInt(apportionData.appStatus) && 0 === parseInt(apportionData.appInh)"
+                                type="button"
+                                @click="apportionActionTo('tp', apportionData.appId)"
+                                class="m-r-5 btn btn-outline-dark btn-border-radius waves-effect myFont16">
+                            終止
+                        </button>
+                        <button v-if="1 === parseInt(apportionData.appStatus)" type="button"
+                                @click="cleanApportion(apportionData.appId)"
+                                class="m-r-5 btn btn-outline-secondary btn-border-radius waves-effect myFont16">
+                            撤案
+                        </button>
+                        <button v-if="0 === parseInt(apportionData.appStatus)" type="button"
+                                @click="$router.push(`/apportion/up/${apportionData.appId}`)"
+                                class="m-r-5 btn btn-outline-warning btn-border-radius waves-effect myFont16">
+                            修改
+                        </button>
+                        <button v-if="-1 === parseInt(apportionData.appStatus) || 0 === parseInt(apportionData.appStatus) || 2 === parseInt(apportionData.appStatus)"
+                                type="button"
+                                @click="deleteContract(apportionData.appId)"
+                                class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">
+                            刪除
+                        </button>
                     </template>
 
                 </div>
@@ -1082,27 +1083,25 @@
                         <div class="p-15 border-bottom">
                             <div class="col-lg-12">
                                 <div class="m-l-20">
-                                    <template v-if="'3' === apportionData.appStatus">
-                                        <button v-if="apportionData.conStatus === '3'" @click="exportPDF" type="button"
-                                                class="m-r-5 btn btn-outline-primary btn-border-radius waves-effect myFont16">
-                                            PDF
-                                        </button>
-                                    </template>
-                                    <button v-if="apportionData.appStatus === '1' && checkMember()"
+                                    <button @click="exportPDF" type="button"
+                                            class="m-r-5 btn btn-outline-primary btn-border-radius waves-effect myFont16">
+                                        PDF
+                                    </button>
+                                    <button v-if="1 === parseInt(apportionData.appStatus) && checkMember()"
                                             @click="signContract(0 <= parseInt(apportionData.conApp) ? apportionData.conId : 0, apportionData.appId, 0 <= parseInt(apportionData.conApp) ? 2 : 1)"
                                             type="button"
                                             class="m-r-5 btn btn-outline-success btn-border-radius waves-effect myFont16">
                                         簽核
                                     </button>
                                     <button
-                                            v-if="apportionData.appStatus === '1' && checkMember() && iMemberData.memLVCStatus !== '0'"
+                                            v-if="1 === parseInt(apportionData.appStatus) && checkMember() && 0 !== parseInt(iMemberData.memLVCStatus)"
                                             @click="backContract(0 <= parseInt(apportionData.conApp) ? apportionData.conId : 0, apportionData.appId, 0 <= parseInt(apportionData.conApp) ? 2 : 1)"
                                             :disabled="msg === ''"
                                             type="button"
                                             class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">
                                         退回
                                     </button>
-                                    <input v-if="apportionData.appStatus === '1' && checkMember() && iMemberData.memLVCStatus !== '0'"
+                                    <input v-if="1 === parseInt(apportionData.appStatus) && checkMember() && 0 !== parseInt(iMemberData.memLVCStatus)"
                                            type="text" class="form-control" v-model="msg"
                                            placeholder="退回請填寫源由"/>
                                 </div>
@@ -1114,46 +1113,40 @@
                             <div class="p-15 border-bottom">
                                 <div class="col-lg-12">
                                     <div class="m-l-20">
-                                        <button v-if="apportionData.appStatus === '0'"
+                                        <button v-if="0 === parseInt(apportionData.appStatus)"
                                                 @click="releaseSign(0 <= parseInt(apportionData.conApp) ? apportionData.conId : 0, apportionData.appId, 0 <= parseInt(apportionData.conApp) ? 2 : 1)"
                                                 type="button"
                                                 class="m-r-5 btn btn-outline-warning btn-border-radius waves-effect myFont16">
-                                            發起
+                                            提交
                                         </button>
-                                        <template v-if="'3' === apportionData.appStatus">
-                                            <button v-if="'0' === apportionData.appInh" type="button"
-                                                    @click="apportionActionTo('ch', apportionData.appId)"
-                                                    class="m-r-5 btn btn-outline-warning btn-border-radius waves-effect myFont16">
-                                                變更
-                                            </button>
-                                            <button v-if="'0' === apportionData.appInh" type="button"
-                                                    @click="apportionActionTo('tp', apportionData.appId)"
-                                                    class="m-r-5 btn btn-outline-dark btn-border-radius waves-effect myFont16">
-                                                終止
-                                            </button>
-                                        </template>
-                                        <template
-                                                v-if="'0' === apportionData.appStatus || '1' === apportionData.appStatus">
-                                            <button type="button" @click="cleanApportion(apportionData.appId)"
-                                                    class="m-r-5 btn btn-outline-secondary btn-border-radius waves-effect myFont16">
-                                                撤案
-                                            </button>
-                                        </template>
-                                        <template v-if="'0' === apportionData.appStatus">
-                                            <button type="button"
-                                                    @click="$router.push(`/apportion/up/${apportionData.appId}`)"
-                                                    class="m-r-5 btn btn-outline-warning btn-border-radius waves-effect myFont16">
-                                                修改
-                                            </button>
-                                        </template>
-                                        <template
-                                                v-if="'0' === apportionData.appStatus || '2' === apportionData.appStatus">
-                                            <button type="button"
-                                                    @click="deleteContract(apportionData.appId)"
-                                                    class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">
-                                                刪除
-                                            </button>
-                                        </template>
+                                        <button v-if="3 === parseInt(apportionData.appStatus) && 0 === parseInt(apportionData.appInh)"
+                                                type="button"
+                                                @click="apportionActionTo('ch', apportionData.appId)"
+                                                class="m-r-5 btn btn-outline-warning btn-border-radius waves-effect myFont16">
+                                            變更
+                                        </button>
+                                        <button v-if="3 === parseInt(apportionData.appStatus) && 0 === parseInt(apportionData.appInh)"
+                                                type="button"
+                                                @click="apportionActionTo('tp', apportionData.appId)"
+                                                class="m-r-5 btn btn-outline-dark btn-border-radius waves-effect myFont16">
+                                            終止
+                                        </button>
+                                        <button v-if="1 === parseInt(apportionData.appStatus)" type="button"
+                                                @click="cleanApportion(apportionData.appId)"
+                                                class="m-r-5 btn btn-outline-secondary btn-border-radius waves-effect myFont16">
+                                            撤案
+                                        </button>
+                                        <button v-if="0 === parseInt(apportionData.appStatus)" type="button"
+                                                @click="$router.push(`/apportion/up/${apportionData.appId}`)"
+                                                class="m-r-5 btn btn-outline-warning btn-border-radius waves-effect myFont16">
+                                            修改
+                                        </button>
+                                        <button v-if="-1 === parseInt(apportionData.appStatus) || 0 === parseInt(apportionData.appStatus) || 2 === parseInt(apportionData.appStatus)"
+                                                type="button"
+                                                @click="deleteContract(apportionData.appId)"
+                                                class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">
+                                            刪除
+                                        </button>
                                     </div>
                                 </div>
                             </div>

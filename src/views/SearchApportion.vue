@@ -1238,7 +1238,7 @@
     import DatePicker from '@vuepic/vue-datepicker';
 
     export default {
-        name: "SignedApportion",
+        name: "SearchApportion",
         mixins: [exesMixin, controlBoxMixin, signMixin],
         data() {
             return {

@@ -9,7 +9,7 @@ export const apportionActionMixin = {
                 .then(response => {
                     console.log(response.data);
                     if (response.status === 200) {
-                        this.$router.push(`/contract/list`);
+                        this.$router.push(`/paper`);
                     } else {
                         console.log('err');
                     }
@@ -38,7 +38,7 @@ export const apportionActionMixin = {
         async cleanApportion(appId) {
             let log = this.createSignLog(0, appId, 0, this.per.perKey, -1, '撤案', 4);
             await this.updateApportionStatus(appId, 4, null, log);//修改文件狀態為進行中
-            this.$router.push(`/contract/list`);
+            this.$router.push(`/paper`);
         },
         async apportionActionTo(action, appId) {
             switch (action) {

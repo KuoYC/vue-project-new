@@ -3,22 +3,22 @@
         <section class="section">
             <ul class="breadcrumb breadcrumb-style ">
                 <li class="breadcrumb-item">
-                    <h4 class="page-title m-b-0">待簽核文件</h4>
+                    <h4 class="page-title m-b-0">已簽核文件</h4>
                 </li>
                 <li class="breadcrumb-item">
-                    <router-link :to="`/review`">
+                    <router-link :to="`/signed`">
                         <vue-feather type="link"></vue-feather>
                         列表
                     </router-link>
                 </li>
-                <li class="breadcrumb-item">查看待簽核文件</li>
+                <li class="breadcrumb-item">查看已簽核文件</li>
             </ul>
 
 
             <div class="section-body">
                 <div v-if="0 < parseInt(contractData.conApp)" class="contract-serial mb-2" style="text-align:right;">
                     <router-link :to="`/review_apportion/${contractData.conApp}`"
-                            class="m-r-5 btn btn-success btn-border-radius waves-effect myFont16">費用
+                                 class="m-r-5 btn btn-success btn-border-radius waves-effect myFont16">費用
                     </router-link>
                 </div>
                 <div class="d-flex">
@@ -1275,7 +1275,7 @@
     import {saveAs} from 'file-saver';
 
     export default {
-        name: "ReviewContract",
+        name: "SearchContract",
         mixins: [controlBoxMixin, contractActionMixin, signMixin],
         data() {
             return {

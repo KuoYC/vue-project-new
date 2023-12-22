@@ -85,7 +85,7 @@
                                     </td>
                                     <td scope="row">
                                         {{ con.conTitle }}
-                                        <span class="sp-note">- {{ 0 === parseInt(con.Type) ? con.temTitle : con.temExes }}</span>
+                                        <span class="sp-note">- {{ 0 === parseInt(con.Type) ? con.temTitle : con.appYear + con.temExes }}</span>
                                     </td>
                                     <td>{{ con.comTitle + '/' + con.perBu2 + '/' + con.perBu3}}</td>
                                     <td>
@@ -218,9 +218,9 @@
                         status: this.searchType === -1 ? null : this.searchType,
                     };
 
-                    const contactResponse = await this.$api.get(this.$test ? `/api/?type=contract` : `/api/adm/contract/List`, {params: contractPayload});
-                    console.log(contactResponse.data.data);
-                    this.contractData = contactResponse.data.data;
+                    const contractResponse = await this.$api.get(this.$test ? `/api/?type=contract` : `/api/adm/contract/List`, {params: contractPayload});
+                    console.log(contractResponse.data.data);
+                    this.contractData = contractResponse.data.data;
                 } catch (error) {
                     console.error(error);
                 }

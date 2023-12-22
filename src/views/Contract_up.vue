@@ -35,7 +35,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row" style="display: none;">
                                             <div class="col-4">
                                                 <label class="row-text"
                                                        style="display: inline-block; border-color: #54ca68; color: #54ca68;"><input
@@ -78,14 +78,14 @@
                     <li class="breadcrumb-item">操作</li>
                 </ul>
                 <div class="section-body">
-                    <div class="contract-serial mb-2" style="width: 100%;">
+                    <div class="contract-serial mb-2" style="width: 100%;display: none;">
                         <div class="d-inline mr-2" style="text-align:left;">
                             <label class="row-text"
                                    style="display: inline-block; border-color: #54ca68; color: #54ca68;"><input
                                     type="checkbox" v-model="merge"
                                     class="form-check-input"/> 與費用一起送簽</label>
                         </div>
-                        <div v-if="1 === parseInt(contractData.conLock)" class="d-inline mr-2" style="text-align:right; float: right;">
+                        <div v-if="1 === parseInt(contractData.conLock)" class="d-inline mr-2" style="text-align:left;">
                             <button type="button"
                                     @click="contractActionTo('ex', contractData.conId)"
                                     class="m-l-5 m-r-5 btn btn-success btn-border-radius waves-effect myFont16">費用
@@ -335,8 +335,8 @@
                                                                     </label>
 
                                                                     <span class="myFont16 d-flex align-center row-title"><vue-feather
-                                                                            type="chevrons-right"
-                                                                            size="20"></vue-feather>共用作業項目與費用分攤原則</span>
+                                                                            type="grid" stroke="#26a862"
+                                                                            size="20"></vue-feather>費用分攤原則</span>
                                                                     <div v-for="wor in contractData.conWork" class="row"
                                                                          style="margin-bottom: 20px">
                                                                         <label class="myFont16 p-t-10">{{
@@ -368,7 +368,7 @@
                                                                                         <td>{{ ite.iteTitle }}</td>
                                                                                         <td>{{ ite.disTitle }}</td>
                                                                                         <td>{{ ite.manTitle }}</td>
-                                                                                        <td>{{ ite.iteTypeNote }}</td>
+                                                                                        <td>{{ 0 === parseInt(ite.manType) ? '--' : ite.iteTypeNote }}</td>
                                                                                     </tr>
                                                                                 </template>
                                                                                 </tbody>
@@ -377,12 +377,12 @@
                                                                     </div>
                                                                     <span class="myFont16 d-flex align-center row-title"
                                                                           style="padding-top: 10px;"><vue-feather
-                                                                            type="chevrons-right"
-                                                                            size="20"></vue-feather>共用作業項目之固定分攤比例</span>
+                                                                            type="grid" stroke="#26a862"
+                                                                            size="20"></vue-feather>固定分攤比例</span>
                                                                     <div class="row" style="margin-bottom: 20px">
                                                                         <div class="table-responsive">
                                                                             <table class="newTable">
-                                                                                <caption>共用作業項目之固定分攤比例</caption>
+                                                                                <caption>固定分攤比例</caption>
                                                                                 <thead style="position: sticky;top: 0;"
                                                                                        class="myNew">
                                                                                 <tr>
@@ -418,10 +418,10 @@
                                                                     <div class="row" style="margin-bottom: 20px">
                                                                 <span class="myFont16 d-flex align-center row-title"
                                                                       style="padding-top: 10px;"><vue-feather
-                                                                        type="chevrons-right" size="20"></vue-feather>共用作業項目之使用公司</span>
+                                                                        type="grid" stroke="#26a862" size="20"></vue-feather>使用公司</span>
                                                                         <div class="table-responsive">
                                                                             <table class="newTable">
-                                                                                <caption>共用作業項目之使用公司</caption>
+                                                                                <caption>使用公司</caption>
                                                                                 <thead style="position: sticky;top: 0;"
                                                                                        class="myNew">
                                                                                 <tr>
@@ -458,7 +458,7 @@
                                                                     </div>
                                                                     <span class="myFont16 d-flex align-center row-title"
                                                                           style="padding-top: 10px;"><vue-feather
-                                                                            type="chevrons-right"
+                                                                            type="grid" stroke="#26a862"
                                                                             size="20"></vue-feather>服務時間與權限控管</span>
                                                                     <div class="row" style="margin-bottom: 20px">
                                                                         <div class="table-responsive">
@@ -860,10 +860,10 @@
                     <button type="button" @click="updateContract"
                             class="m-r-5 btn btn-outline-success btn-border-radius waves-effect myFont16">儲存
                     </button>
-                    <button v-if="merge" type="button" @click="updateContract(true)"
+                    <button v-if="merge" type="button" @click="updateContract(true)" style="display: none;"
                             class="m-r-5 btn btn-outline-success btn-border-radius waves-effect myFont16">儲存並重新建立費用
                     </button>
-                    <button v-if="1 === parseInt(contractData.conLock)" type="button"
+                    <button v-if="1 === parseInt(contractData.conLock)" type="button" style="display: none;"
                             @click="openContractLock"
                             class="m-r-5 btn btn-outline-success btn-border-radius waves-effect myFont16">
                         解除項目鎖定(將刪除費用資料)
@@ -871,7 +871,7 @@
                     <button type="button" @click="deleteContract(contractData.conId)"
                             class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">刪除
                     </button>
-                    <button type="button" @click="cleanContract(contractData.conId)"
+                    <button v-if="1 === parseInt(contractData.conStatus)" type="button" @click="cleanContract(contractData.conId)"
                             class="m-r-5 btn btn-outline-secondary btn-border-radius waves-effect myFont16">
                         撤案
                     </button>
@@ -1167,11 +1167,11 @@
                                             class="m-r-5 btn btn-outline-success btn-border-radius waves-effect myFont16">
                                         儲存
                                     </button>
-                                    <button v-if="merge" type="button" @click="updateContract(true)"
+                                    <button v-if="merge" type="button" @click="updateContract(true)" style="display: none;"
                                             class="m-r-5 btn btn-outline-success btn-border-radius waves-effect myFont16">
                                         儲存並重新建立費用
                                     </button>
-                                    <button v-if="1 === parseInt(contractData.conLock)" type="button"
+                                    <button v-if="1 === parseInt(contractData.conLock)" type="button" style="display: none;"
                                             @click="openContractLock"
                                             class="m-r-5 btn btn-outline-success btn-border-radius waves-effect myFont16">
                                         解除項目鎖定(將刪除費用資料)
@@ -1181,7 +1181,7 @@
                                             class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">
                                         刪除
                                     </button>
-                                    <button type="button" @click="cleanContract(contractData.conId)"
+                                    <button v-if="1 === parseInt(contractData.conStatus)" type="button" @click="cleanContract(contractData.conId)"
                                             class="m-r-5 btn btn-outline-secondary btn-border-radius waves-effect myFont16">
                                         撤案
                                     </button>

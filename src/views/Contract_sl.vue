@@ -16,7 +16,8 @@
 
 
             <div class="section-body">
-                <div v-if="'3' === contractData.conStatus || (per.perKey === contractData.perKey && 1 === parseInt(contractData.conLock))" class="contract-serial mb-2" style="text-align:right;">
+                <div v-if="'3' === contractData.conStatus || (per.perKey === contractData.perKey && 1 === parseInt(contractData.conLock))"
+                     class="contract-serial mb-2" style="text-align:right;">
                     <button type="button"
                             @click="contractActionTo('ex', contractData.conId)"
                             class="m-r-5 btn btn-success btn-border-radius waves-effect myFont16">費用
@@ -40,6 +41,13 @@
                                             </h4>
                                             <div class="contract-serial">
                                                 <!-- 這裡放文件序號 -->
+                                                <div style="font-weight: 400; text-align: right;">
+                                                    <span class="btn btn-outline-success btn-border-radius waves-effect myFont16">
+                                                        <template v-if="0 === parseInt(contractData.conStatus)">草稿</template>
+                                                        <template v-if="1 === parseInt(contractData.conStatus)">簽核中</template>
+                                                        <template v-if="3 === parseInt(contractData.conStatus)">已歸檔</template>
+                                                    </span>
+                                                </div>
                                                 <div style="font-weight: 400;">文件序號：<span class="date">{{ contractData.conSerial }}{{ contractData.conVer }}</span>
                                                 </div>
                                                 <!-- 這裡放創文日期 -->
@@ -98,7 +106,8 @@
                                                         <th style="min-width: 100px;"
                                                             scope="col"></th>
                                                         <template v-for="com in area.areaValue.expData">
-                                                            <th v-if="contractData.conCompany.includes(com.comCode)" scope="col"
+                                                            <th v-if="contractData.conCompany.includes(com.comCode)"
+                                                                scope="col"
                                                                 style="min-width:120px; max-width: 120px;">{{
                                                                 com.comTitle }}
                                                             </th>
@@ -112,20 +121,21 @@
                                                         </td>
                                                         <template v-for="com in area.areaValue.expData">
                                                             <td v-if="contractData.conCompany.includes(com.comCode)">
-                                                                <input type="text" disabled :value="com.comPercent + '%'"
+                                                                <input type="text" disabled
+                                                                       :value="com.comPercent + '%'"
                                                                        class="form-control"/>
                                                             </td>
                                                         </template>
                                                     </tr>
                                                     <!--<tr>-->
-                                                        <!--<td>-->
-                                                            <!--分攤比例-->
-                                                        <!--</td>-->
-                                                        <!--<template v-for="com in expData">-->
-                                                            <!--<td v-if="conCompany.includes(com.comCode)">-->
-                                                                <!--{{ (com.comValue / expSum * 100).toFixed(2) }}%-->
-                                                            <!--</td>-->
-                                                        <!--</template>-->
+                                                    <!--<td>-->
+                                                    <!--分攤比例-->
+                                                    <!--</td>-->
+                                                    <!--<template v-for="com in expData">-->
+                                                    <!--<td v-if="conCompany.includes(com.comCode)">-->
+                                                    <!--{{ (com.comValue / expSum * 100).toFixed(2) }}%-->
+                                                    <!--</td>-->
+                                                    <!--</template>-->
                                                     <!--</tr>-->
                                                     <tr>
                                                         <td>
@@ -176,18 +186,22 @@
                                                                 </div>
                                                                 <div class="col-xl-4 col-md-6 col-sm-6 col-12">
                                                                     <label class="row-label row-title">共用計劃框架</label>
-                                                                    <label class="row-text">{{ contractData.frmTitle }}</label>
+                                                                    <label class="row-text">{{ contractData.frmTitle
+                                                                        }}</label>
                                                                 </div>
                                                                 <div class="col-xl-4 col-md-6 col-sm-6 col-12">
                                                                     <label class="row-label row-title">生效日期</label>
                                                                     <label class="row-text">
-                                                                        <template v-if="contractData.conDate">{{ contractData.conDate }}</template>
+                                                                        <template v-if="contractData.conDate">{{
+                                                                            contractData.conDate }}
+                                                                        </template>
                                                                         <template v-else>未填寫將以簽核完成日為依據</template>
                                                                     </label>
                                                                 </div>
                                                                 <div class="col-xl-4 col-md-6 col-sm-6 col-12">
                                                                     <label class="row-label row-title">維運公司</label>
-                                                                    <label class="row-text">{{ contractData.comTitle }}</label>
+                                                                    <label class="row-text">{{ contractData.comTitle
+                                                                        }}</label>
                                                                 </div>
                                                                 <div class="col-xl-4 col-md-6 col-sm-6 col-12">
                                                                     <label class="row-label row-title">作業種類</label>
@@ -250,7 +264,7 @@
                                                             </label>
 
                                                             <span class="myFont16 d-flex align-center row-title"><vue-feather
-                                                                    type="chevrons-right" size="20"></vue-feather>共用作業項目與費用分攤原則</span>
+                                                                    type="grid" stroke="#26a862" size="20"></vue-feather>費用分攤原則</span>
                                                             <div v-for="wor in contractData.conWork" class="row"
                                                                  style="margin-bottom: 20px">
                                                                 <label class="myFont16 p-t-10">{{
@@ -281,7 +295,7 @@
                                                                                 <td>{{ ite.iteTitle }}</td>
                                                                                 <td>{{ ite.disTitle }}</td>
                                                                                 <td>{{ ite.manTitle }}</td>
-                                                                                <td>{{ ite.iteTypeNote }}</td>
+                                                                                <td>{{ 0 === parseInt(ite.manType) ? '--' : ite.iteTypeNote }}</td>
                                                                             </tr>
                                                                         </template>
                                                                         </tbody>
@@ -290,11 +304,11 @@
                                                             </div>
                                                             <span class="myFont16 d-flex align-center row-title"
                                                                   style="padding-top: 10px;"><vue-feather
-                                                                    type="chevrons-right" size="20"></vue-feather>共用作業項目之固定分攤比例</span>
+                                                                    type="grid" stroke="#26a862" size="20"></vue-feather>固定分攤比例</span>
                                                             <div class="row" style="margin-bottom: 20px">
                                                                 <div class="table-responsive">
                                                                     <table class="newTable">
-                                                                        <caption>共用作業項目之固定分攤比例</caption>
+                                                                        <caption>固定分攤比例</caption>
                                                                         <thead style="position: sticky;top: 0;"
                                                                                class="myNew">
                                                                         <tr>
@@ -328,10 +342,10 @@
                                                             <div class="row" style="margin-bottom: 20px">
                                                                 <span class="myFont16 d-flex align-center row-title"
                                                                       style="padding-top: 10px;"><vue-feather
-                                                                        type="chevrons-right" size="20"></vue-feather>共用作業項目之使用公司</span>
+                                                                        type="grid" stroke="#26a862" size="20"></vue-feather>使用公司</span>
                                                                 <div class="table-responsive">
                                                                     <table class="newTable">
-                                                                        <caption>共用作業項目之使用公司</caption>
+                                                                        <caption>使用公司</caption>
                                                                         <thead style="position: sticky;top: 0;"
                                                                                class="myNew">
                                                                         <tr>
@@ -366,7 +380,7 @@
                                                             </div>
                                                             <span class="myFont16 d-flex align-center row-title"
                                                                   style="padding-top: 10px;"><vue-feather
-                                                                    type="chevrons-right" size="20"></vue-feather>服務時間與權限控管</span>
+                                                                    type="grid" stroke="#26a862" size="20"></vue-feather>服務時間與權限控管</span>
                                                             <div class="row" style="margin-bottom: 20px">
                                                                 <div class="table-responsive">
                                                                     <table class="newTable">
@@ -705,68 +719,62 @@
                 </div>
 
                 <div class="col-6" style="padding-bottom: 20px;">
-                    <template v-if="'3' === contractData.conStatus">
-                        <button v-if="contractData.conStatus === '3'" @click="exportPDF" type="button"
-                                class="m-r-5 btn btn-outline-primary btn-border-radius waves-effect myFont16">
-                            PDF
-                        </button>
-                    </template>
-                    <button v-if="contractData.conStatus === '1' && checkMember()"
+                    <button @click="exportPDF" type="button"
+                            class="m-r-5 btn btn-outline-primary btn-border-radius waves-effect myFont16">
+                        PDF
+                    </button>
+                    <button v-if="1 === parseInt(contractData.conStatus) && checkMember()"
                             @click="signContract(contractData.conId, 0 <= parseInt(contractData.conApp) ? contractData.conApp : 0, 0 <= parseInt(contractData.conApp) ? 2 : 0)"
                             type="button"
                             class="m-r-5 btn btn-outline-success btn-border-radius waves-effect myFont16">
                         簽核
                     </button>
                     <button
-                            v-if="contractData.conStatus === '1' && checkMember() && iMemberData.memLVCStatus !== '0'"
+                            v-if="1 === parseInt(contractData.conStatus) && checkMember() && 0 !== parseInt(iMemberData.memLVCStatus)"
                             @click="backContract(contractData.conId, 0 <= parseInt(contractData.conApp) ? contractData.conApp : 0, 0 <= parseInt(contractData.conApp) ? 2 : 0)"
                             :disabled="msg === ''"
                             type="button"
                             class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">退回
                     </button>
-                    <input v-if="contractData.conStatus === '1' && checkMember() && iMemberData.memLVCStatus !== '0'"
+                    <input v-if="1 === parseInt(contractData.conStatus) && checkMember() && 0 !== parseInt(iMemberData.memLVCStatus)"
                            type="text" class="form-control" v-model="msg"
                            placeholder="退回請填寫源由"/>
 
                     <template v-if="contractData.perKey === per.perKey">
-                        <button v-if="contractData.conStatus === '0'"
+                        <button v-if="0 === parseInt(contractData.conStatus)"
                                 @click="releaseSign(contractData.conId, 0 <= parseInt(contractData.conApp) ? contractData.conApp : 0, 0 <= parseInt(contractData.conApp) ? 2 : 0)"
                                 type="button"
                                 class="m-r-5 btn btn-outline-warning btn-border-radius waves-effect myFont16">
-                            發起
+                            提交
                         </button>
-                        <template v-if="'3' === contractData.conStatus">
-                            <button v-if="'0' === contractData.conInh" type="button"
-                                    @click="contractActionTo('ch', contractData.conId)"
-                                    class="m-r-5 btn btn-outline-warning btn-border-radius waves-effect myFont16">
-                                變更
-                            </button>
-                            <button v-if="'0' === contractData.conInh" type="button"
-                                    @click="contractActionTo('tp', contractData.conId)"
-                                    class="m-r-5 btn btn-outline-dark btn-border-radius waves-effect myFont16">
-                                終止
-                            </button>
-                        </template>
-                        <template v-if="'0' === contractData.conStatus || '1' === contractData.conStatus">
-                            <button type="button" @click="cleanContract(contractData.conId)"
-                                    class="m-r-5 btn btn-outline-secondary btn-border-radius waves-effect myFont16">
-                                撤案
-                            </button>
-                        </template>
-                        <template v-if="'0' === contractData.conStatus">
-                            <button type="button"
-                                    @click="$router.push(`/contract/up/${contractData.conId}`)"
-                                    class="m-r-5 btn btn-outline-warning btn-border-radius waves-effect myFont16">
-                                修改
-                            </button>
-                        </template>
-                        <template v-if="'0' === contractData.conStatus || '2' === contractData.conStatus">
-                            <button type="button"
-                                    @click="deleteContract(contractData.conId)"
-                                    class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">
-                                刪除
-                            </button>
-                        </template>
+                        <button v-if="3 === parseInt(contractData.appStatus) && 0 === parseInt(contractData.conInh)"
+                                type="button"
+                                @click="contractActionTo('ch', contractData.conId)"
+                                class="m-r-5 btn btn-outline-warning btn-border-radius waves-effect myFont16">
+                            變更
+                        </button>
+                        <button v-if="3 === parseInt(contractData.appStatus) && 0 === parseInt(contractData.conInh)"
+                                type="button"
+                                @click="contractActionTo('tp', contractData.conId)"
+                                class="m-r-5 btn btn-outline-dark btn-border-radius waves-effect myFont16">
+                            終止
+                        </button>
+                        <button v-if="1 === parseInt(contractData.conStatus)" type="button"
+                                @click="cleanContract(contractData.conId)"
+                                class="m-r-5 btn btn-outline-secondary btn-border-radius waves-effect myFont16">
+                            撤案
+                        </button>
+                        <button v-if="0 === parseInt(contractData.conStatus)" type="button"
+                                @click="$router.push(`/contract/up/${contractData.conId}`)"
+                                class="m-r-5 btn btn-outline-warning btn-border-radius waves-effect myFont16">
+                            修改
+                        </button>
+                        <button v-if="-1 === parseInt(contractData.conStatus) || 0 === parseInt(contractData.conStatus) || 2 === parseInt(contractData.conStatus)"
+                                type="button"
+                                @click="deleteContract(contractData.conId)"
+                                class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">
+                            刪除
+                        </button>
                     </template>
 
                 </div>
@@ -803,7 +811,8 @@
                             <tr>
                                 <td>1</td>
                                 <th scope="row"><span class="badge badge-success">起簽</span></th>
-                                <td class="bm-1"><span class="sign-title">管理維運公司承辦人</span><br>{{ iMemberData.comTitle}} {{
+                                <td class="bm-1"><span class="sign-title">管理維運公司承辦人</span><br>{{ iMemberData.comTitle}}
+                                    {{
                                     iMemberData.memBu2
                                     }} {{ iMemberData.memBu3 }} {{
                                     iMemberData.memLV0Name }} {{ iMemberData.memLV0PositionName }}
@@ -851,7 +860,8 @@
                             <tr>
                                 <td>3</td>
                                 <th scope="row"><span class="badge badge-primary">簽核</span></th>
-                                <td class="bm-1"><span class="sign-title">管理維運公司科級主管</span><br>{{ iMemberData.comTitle}} {{
+                                <td class="bm-1"><span class="sign-title">管理維運公司科級主管</span><br>{{ iMemberData.comTitle}}
+                                    {{
                                     iMemberData.memBu2 }} {{ iMemberData.memBu3 }} {{
                                     iMemberData.memLV1Name }} {{ iMemberData.memLV1PositionName }}
                                 </td>
@@ -943,7 +953,8 @@
                                 <tr>
                                     <td></td>
                                     <th scope="row"><span class="badge badge-success"></span></th>
-                                    <td class="bm-1"><span class="sign-title">管理維運公司部級主管(含以上)</span><br>{{ mmem.comTitle}}
+                                    <td class="bm-1"><span class="sign-title">管理維運公司部級主管(含以上)</span><br>{{
+                                        mmem.comTitle}}
                                         {{ mmem.memBu2 }}
                                         {{ mmem.memBu3 }} {{ mmem.memLV2Name }} {{
                                         mmem.memLV2PositionName }}
@@ -1018,7 +1029,8 @@
                                 <tr>
                                     <td></td>
                                     <th scope="row"><span class="badge badge-success"></span></th>
-                                    <td class="bm-1"><span class="sign-title">使用公司部級主管(含以上)</span><br>{{ umem.comTitle}} {{
+                                    <td class="bm-1"><span class="sign-title">使用公司部級主管(含以上)</span><br>{{ umem.comTitle}}
+                                        {{
                                         umem.memBu2 }} {{
                                         umem.memBu3 }} {{ umem.memLV2Name }} {{
                                         umem.memLV2PositionName }}
@@ -1074,19 +1086,26 @@
                                                 <vue-feather type="flag" style="padding-top: 13px;"></vue-feather>
                                             </div>
                                             <template v-else>
-                                                <div v-if="'-1' === log.sglMemberStatus" class="activity-icon bg-success text-white">
-                                                    <vue-feather type="more-horizontal" style="padding-top: 13px;"></vue-feather>
+                                                <div v-if="'-1' === log.sglMemberStatus"
+                                                     class="activity-icon bg-success text-white">
+                                                    <vue-feather type="more-horizontal"
+                                                                 style="padding-top: 13px;"></vue-feather>
                                                 </div>
-                                                <div v-if="'0' === log.sglMemberStatus" class="activity-icon bg-success text-white">
+                                                <div v-if="'0' === log.sglMemberStatus"
+                                                     class="activity-icon bg-success text-white">
                                                     <vue-feather type="eye" style="padding-top: 13px;"></vue-feather>
                                                 </div>
-                                                <div v-if="'1' === log.sglMemberStatus" class="activity-icon bg-success text-white">
+                                                <div v-if="'1' === log.sglMemberStatus"
+                                                     class="activity-icon bg-success text-white">
                                                     <vue-feather type="edit-2" style="padding-top: 13px;"></vue-feather>
                                                 </div>
-                                                <div v-if="'2' === log.sglMemberStatus" class="activity-icon bg-danger text-white">
-                                                    <vue-feather type="rotate-cw" style="padding-top: 13px;"></vue-feather>
+                                                <div v-if="'2' === log.sglMemberStatus"
+                                                     class="activity-icon bg-danger text-white">
+                                                    <vue-feather type="rotate-cw"
+                                                                 style="padding-top: 13px;"></vue-feather>
                                                 </div>
-                                                <div v-if="'3' === log.sglMemberStatus" class="activity-icon bg-success text-white">
+                                                <div v-if="'3' === log.sglMemberStatus"
+                                                     class="activity-icon bg-success text-white">
                                                     <vue-feather type="check" style="padding-top: 13px;"></vue-feather>
                                                 </div>
                                             </template>
@@ -1104,14 +1123,19 @@
                                             <div class="mb-2">
                                                 <span v-if="'-1' === log.sglStatus" class="text-job">建立</span>
                                                 <span v-if="'0' === log.sglStatus" class="text-job">草稿</span>
-                                                <span v-if="'1' === log.sglStatus && '0' === log.memId" class="text-job">發起</span>
-                                                <span v-if="'1' === log.sglStatus && '0' !== log.memId && '0' === log.memType" class="text-job">發起</span>
-                                                <span v-if="'1' === log.sglStatus && '0' !== log.memId && '1' === log.memType" class="text-job">維運</span>
-                                                <span v-if="'1' === log.sglStatus && '0' !== log.memId && '2' === log.memType" class="text-job">使用</span>
+                                                <span v-if="'1' === log.sglStatus && '0' === log.memId"
+                                                      class="text-job">發起</span>
+                                                <span v-if="'1' === log.sglStatus && '0' !== log.memId && '0' === log.memType"
+                                                      class="text-job">發起</span>
+                                                <span v-if="'1' === log.sglStatus && '0' !== log.memId && '1' === log.memType"
+                                                      class="text-job">維運</span>
+                                                <span v-if="'1' === log.sglStatus && '0' !== log.memId && '2' === log.memType"
+                                                      class="text-job">使用</span>
                                                 <span v-if="'2' === log.sglStatus" class="text-job">退回</span>
                                                 <span v-if="'3' === log.sglStatus" class="text-job">已歸檔</span>
                                                 <span v-if="'4' === log.sglStatus" class="text-job">撤回</span>
-                                                <template v-if="'1' === log.sglStatus && ('0' === log.memId || ('0' !== log.memId && ('0' === log.memType || '1' === log.memType || '2' === log.memType)))">
+                                                <template
+                                                        v-if="'1' === log.sglStatus && ('0' === log.memId || ('0' !== log.memId && ('0' === log.memType || '1' === log.memType || '2' === log.memType)))">
                                                     <span class="bullet"></span>
                                                     <span v-if="'-1' === log.sglMemberStatus" class="text-job">等待</span>
                                                     <span v-if="'0' === log.sglMemberStatus" class="text-job">待檢視</span>
@@ -1122,7 +1146,7 @@
                                                 <span class="bullet"></span>
                                                 <span class="text-job">{{ log.sglCreateTime }}</span>
                                             </div>
-                                            <p>{{ log.perBu2 }}  {{ log.perBu3 }} {{ log.perName }}</p>
+                                            <p>{{ log.perBu2 }} {{ log.perBu3 }} {{ log.perName }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -1145,26 +1169,24 @@
                     <div class="p-15 border-bottom">
                         <div class="col-lg-12">
                             <div class="m-l-20">
-                                <template v-if="'3' === contractData.conStatus">
-                                    <button v-if="contractData.conStatus === '3'" @click="exportPDF" type="button"
-                                            class="m-r-5 btn btn-outline-primary btn-border-radius waves-effect myFont16">
-                                        PDF
-                                    </button>
-                                </template>
-                                <button v-if="contractData.conStatus === '1' && checkMember()"
+                                <button @click="exportPDF" type="button"
+                                        class="m-r-5 btn btn-outline-primary btn-border-radius waves-effect myFont16">
+                                    PDF
+                                </button>
+                                <button v-if="1 === parseInt(contractData.conStatus) && checkMember()"
                                         @click="signContract(contractData.conId, 0 <= parseInt(contractData.conApp) ? contractData.conApp : 0, 0 <= parseInt(contractData.conApp) ? 2 : 0)"
                                         type="button"
                                         class="m-r-5 btn btn-outline-success btn-border-radius waves-effect myFont16">
                                     簽核
                                 </button>
                                 <button
-                                        v-if="contractData.conStatus === '1' && checkMember() && iMemberData.memLVCStatus !== '0'"
+                                        v-if="1 === parseInt(contractData.conStatus) && checkMember() && 0 !== parseInt(iMemberData.memLVCStatus)"
                                         @click="backContract(contractData.conId, 0 <= parseInt(contractData.conApp) ? contractData.conApp : 0, 0 <= parseInt(contractData.conApp) ? 2 : 0)"
                                         :disabled="msg === ''"
                                         type="button"
                                         class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">退回
                                 </button>
-                                <input v-if="contractData.conStatus === '1' && checkMember() && iMemberData.memLVCStatus !== '0'"
+                                <input v-if="1 === parseInt(contractData.conStatus) && checkMember() && 0 !== parseInt(iMemberData.memLVCStatus)"
                                        type="text" class="form-control" v-model="msg"
                                        placeholder="退回請填寫源由"/>
                             </div>
@@ -1176,43 +1198,37 @@
                         <div class="p-15 border-bottom">
                             <div class="col-lg-12">
                                 <div class="m-l-20">
-                                    <button v-if="contractData.conStatus === '0'"
+                                    <button v-if="0 === parseInt(contractData.appStatus)"
                                             @click="releaseSign(contractData.conId, 0 <= parseInt(contractData.conApp) ? contractData.conApp : 0, 0 <= parseInt(contractData.conApp) ? 2 : 0)"
                                             type="button"
                                             class="m-r-5 btn btn-outline-warning btn-border-radius waves-effect myFont16">
-                                        發起
+                                        提交
                                     </button>
-                                    <template v-if="'3' === contractData.conStatus">
-                                        <button type="button" @click="contractActionTo('ch', contractData.conId)"
-                                                class="m-r-5 btn btn-outline-warning btn-border-radius waves-effect myFont16">
-                                            變更
-                                        </button>
-                                        <button type="button" @click="contractActionTo('tp', contractData.conId)"
-                                                class="m-r-5 btn btn-outline-dark btn-border-radius waves-effect myFont16">
-                                            終止
-                                        </button>
-                                    </template>
-                                    <template v-if="'0' === contractData.conStatus || '1' === contractData.conStatus">
-                                        <button type="button"
-                                                @click="cleanContract(contractData.conId)"
-                                                class="m-r-5 btn btn-outline-secondary btn-border-radius waves-effect myFont16">
-                                            撤案
-                                        </button>
-                                    </template>
-                                    <template v-if="'0' === contractData.conStatus">
-                                        <button type="button"
-                                                @click="$router.push(`/contract/up/${contractData.conId}`)"
-                                                class="m-r-5 btn btn-outline-warning btn-border-radius waves-effect myFont16">
-                                            修改
-                                        </button>
-                                    </template>
-                                    <template v-if="'0' === contractData.conStatus || '2' === contractData.conStatus">
-                                        <button type="button"
-                                                @click="deleteContract(contractData.conId)"
-                                                class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">
-                                            刪除
-                                        </button>
-                                    </template>
+                                    <button v-if="3 === parseInt(contractData.conStatus)" type="button"
+                                            @click="contractActionTo('ch', contractData.conId)"
+                                            class="m-r-5 btn btn-outline-warning btn-border-radius waves-effect myFont16">
+                                        變更
+                                    </button>
+                                    <button v-if="3 === parseInt(contractData.conStatus)" type="button"
+                                            @click="contractActionTo('tp', contractData.conId)"
+                                            class="m-r-5 btn btn-outline-dark btn-border-radius waves-effect myFont16">
+                                        終止
+                                    </button>
+                                    <button v-if="1 === parseInt(contractData.conStatus)" type="button"
+                                            @click="cleanContract(contractData.conId)"
+                                            class="m-r-5 btn btn-outline-secondary btn-border-radius waves-effect myFont16">
+                                        撤案
+                                    </button>
+                                    <button v-if="0 === parseInt(contractData.conStatus)" type="button"
+                                            @click="$router.push(`/contract/up/${contractData.conId}`)"
+                                            class="m-r-5 btn btn-outline-warning btn-border-radius waves-effect myFont16">
+                                        修改
+                                    </button>
+                                    <button v-if="-1 === parseInt(contractData.conStatus) || 0 === parseInt(contractData.conStatus) || 2 === parseInt(contractData.conStatus)"
+                                            @click="deleteContract(contractData.conId)"
+                                            class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">
+                                        刪除
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -1289,7 +1305,7 @@
             return {
                 isLoading: false,
                 showConcat: true,//顯示窗口
-                viewTransfer:false,//顯示log
+                viewTransfer: false,//顯示log
                 per: JSON.parse(Cookies.get('per')),
                 conId: parseInt(this.$route.params.id),
 

@@ -193,7 +193,7 @@ export const signMixin = {
                     let log = this.createSignLog(conId, appId, upMember.memId, upMember.LVKey, 2, '文件退回', 2);
                     await this.goUpdateStatus(conId, appId, 2, null, log, useType);
                     await this.clearMemberAll(conId, appId);
-                    this.$router.push(`/contract/list`);
+                    this.$router.push(`/paper`);
 
                 } catch (error) {
                     console.error('Edit failed:', error);
@@ -207,7 +207,7 @@ export const signMixin = {
                 await this.updateContractStatus(conId, status, date, log);//修改文件狀態為進行中
             }
             if (1 === useType) {
-                await this.updateApportionStatus(conId, status, date, log);//修改文件狀態為進行中
+                await this.updateApportionStatus(appId, status, date, log);//修改文件狀態為進行中
             }
             if (2 === useType) {
                 await this.updateSignStatus(conId, appId, status, date, log);//修改文件狀態為進行中

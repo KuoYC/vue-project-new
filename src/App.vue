@@ -213,19 +213,11 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="dropdown" :class="{active : $route.path.startsWith(`/search`)}">
-                                <a href="javascript:void(0);" class="menu-toggle nav-link has-dropdown">
+                            <li class="dropdown" :class="{active : $route.path.startsWith('/search')}">
+                                <router-link :to="`/search`" class="nav-link">
                                     <vue-feather type="search"></vue-feather>
-                                    <span>查詢作業</span></a>
-                                <ul class="dropdown-menu">
-                                    <li v-for="menu in templateData"
-                                        :class="{ active: $route.path.startsWith(`/search/${menu.temId}/`)}">
-                                        <router-link :to="`/search/${menu.temId}/list`" class="nav-link">
-                                            {{ menu.temTitle }}
-                                        </router-link>
-                                    </li>
-                                    <li><a href="#">費用分攤明細表</a></li>
-                                </ul>
+                                    <span>查詢作業</span>
+                                </router-link>
                             </li>
                             <li class="dropdown" :class="{active : $route.path.startsWith('/batch')}">
                                 <a href="javascript:void(0);" onclick="alert('建置中');" class="nav-link">

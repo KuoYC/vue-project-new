@@ -116,7 +116,7 @@
                         <table class="newTable">
                             <thead style="position: sticky;top: 0;" class="myNew">
                             <tr>
-                                <th scope="col">表單類型</th>
+                                <th scope="col" style="min-width: 110px;">表單類型</th>
                                 <th scope="col">序號</th>
                                 <th scope="col">共用計畫書名稱</th>
                                 <th scope="col">創文日期</th>
@@ -140,7 +140,7 @@
                                 </td>
                                 <td>
                                     {{ con.conTitle }}
-                                    <span class="sp-note">- {{ 0 === parseInt(con.Type) ? con.temTitle : con.temExes }}</span>
+                                    <span class="sp-note">- {{ 0 === parseInt(con.Type) ? con.temTitle : con.appYear + con.temExes }}</span>
                                 </td>
                                 <td>
                                     <template v-if="0 === parseInt(con.Type) && 0 <= parseInt(con.conApp)">
@@ -169,7 +169,7 @@
                         <table class="newTable">
                             <thead style="position: sticky;top: 0;" class="myNew">
                             <tr>
-                                <th scope="col">表單類型</th>
+                                <th scope="col" style="min-width: 110px;">表單類型</th>
                                 <th scope="col">序號</th>
                                 <th scope="col">共用計畫書名稱</th>
                                 <th scope="col">狀態</th>
@@ -194,7 +194,7 @@
                                 </td>
                                 <td>
                                     {{ con.conTitle }}
-                                    <span class="sp-note">- {{ 0 === parseInt(con.Type) ? con.temTitle : con.temExes }}</span>
+                                    <span class="sp-note">- {{ 0 === parseInt(con.Type) ? con.temTitle : con.appYear + con.temExes }}</span>
                                 </td>
                                 <td>
                                     <template v-if="con.Status === '-1'">建置中</template>
@@ -287,7 +287,7 @@
                                 status: 1,
                                 perKey: this.per.perKey,
                                 perBu1Code: this.per.perBu1Code,
-                                memOver:1
+                                memOwner:1
                             }
                         }),
                         // contractOverResponse 已完成文件
@@ -297,6 +297,7 @@
                                 status: 3,
                                 perKey: this.per.perKey,
                                 perBu1Code: this.per.perBu1Code,
+                                memOwner:1,
                             }
                         }),
                         // contractDraftResponse 草稿文件
@@ -306,7 +307,8 @@
                                 status: 0,
                                 perKey: this.per.perKey,
                                 perBu1Code: this.per.perBu1Code,
-                                memDraft:1
+                                memDraft:1,
+                                memOwner:1
                             }
                         }),
                         // contractOwnerResponse 申請作業
