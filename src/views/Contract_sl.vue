@@ -42,11 +42,10 @@
                                             <div class="contract-serial">
                                                 <!-- 這裡放文件序號 -->
                                                 <div style="font-weight: 400; text-align: right;">
-                                                    <span class="btn btn-outline-success btn-border-radius waves-effect myFont16">
-                                                        <template v-if="0 === parseInt(contractData.conStatus)">草稿</template>
-                                                        <template v-if="1 === parseInt(contractData.conStatus)">簽核中</template>
-                                                        <template v-if="3 === parseInt(contractData.conStatus)">已歸檔</template>
-                                                    </span>
+                                                    <span v-if="0 === parseInt(contractData.conStatus)" class="st-success myFont16">草稿</span>
+                                                    <span v-if="1 === parseInt(contractData.conStatus)" class="st-warning myFont16">簽核中</span>
+                                                    <span v-if="3 === parseInt(contractData.conStatus)" class="st-success myFont16">已歸檔</span>
+                                                    <span v-if="4 === parseInt(contractData.conStatus)" class="st-secondary myFont16">撤案</span>
                                                 </div>
                                                 <div style="font-weight: 400;">文件序號：<span class="date">{{ contractData.conSerial }}{{ contractData.conVer }}</span>
                                                 </div>
@@ -275,7 +274,7 @@
                                                                         <thead style="position: sticky;top: 0;"
                                                                                class="myNew">
                                                                         <tr>
-                                                                            <th style="width: 140px;"
+                                                                            <th style="min-width: 140px;"
                                                                                 scope="col">共用作業項目
                                                                             </th>
                                                                             <th style="width: 280px;"
@@ -360,7 +359,7 @@
                                                                         </thead>
                                                                         <tbody>
                                                                         <template v-for="ite in contractData.itemData">
-                                                                            <tr v-if="'1' === ite.manType && typeof ite.iteProportion === 'object'">
+                                                                            <tr>
                                                                                 <td>{{ ite.iteTitle }}</td>
                                                                                 <template v-for="com in companyData">
                                                                                     <td v-if="ite.iteSubsidiaries.split('|').includes(com.comCode)">
@@ -388,7 +387,7 @@
                                                                         <thead style="position: sticky;top: 0;"
                                                                                class="myNew">
                                                                         <tr>
-                                                                            <th style="width: 140px;"
+                                                                            <th style="min-width: 140px;"
                                                                                 scope="col">共用作業項目
                                                                             </th>
                                                                             <th style="width: 80px;"
@@ -730,13 +729,13 @@
                         簽核
                     </button>
                     <button
-                            v-if="1 === parseInt(contractData.conStatus) && checkMember() && 0 !== parseInt(iMemberData.memLVCStatus)"
+                            v-if="1 === parseInt(contractData.conStatus) && checkMember()"
                             @click="backContract(contractData.conId, 0 <= parseInt(contractData.conApp) ? contractData.conApp : 0, 0 <= parseInt(contractData.conApp) ? 2 : 0)"
                             :disabled="msg === ''"
                             type="button"
                             class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">退回
                     </button>
-                    <input v-if="1 === parseInt(contractData.conStatus) && checkMember() && 0 !== parseInt(iMemberData.memLVCStatus)"
+                    <input v-if="1 === parseInt(contractData.conStatus) && checkMember()"
                            type="text" class="form-control" v-model="msg"
                            placeholder="退回請填寫源由"/>
 
@@ -1180,13 +1179,13 @@
                                     簽核
                                 </button>
                                 <button
-                                        v-if="1 === parseInt(contractData.conStatus) && checkMember() && 0 !== parseInt(iMemberData.memLVCStatus)"
+                                        v-if="1 === parseInt(contractData.conStatus) && checkMember()"
                                         @click="backContract(contractData.conId, 0 <= parseInt(contractData.conApp) ? contractData.conApp : 0, 0 <= parseInt(contractData.conApp) ? 2 : 0)"
                                         :disabled="msg === ''"
                                         type="button"
                                         class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">退回
                                 </button>
-                                <input v-if="1 === parseInt(contractData.conStatus) && checkMember() && 0 !== parseInt(iMemberData.memLVCStatus)"
+                                <input v-if="1 === parseInt(contractData.conStatus) && checkMember()"
                                        type="text" class="form-control" v-model="msg"
                                        placeholder="退回請填寫源由"/>
                             </div>
@@ -1422,36 +1421,6 @@
             },
 
 
-            async exportPDF() {
-                try {
-                    const logoImage = new Image();
-                    logoImage.src = '/layouts/assets/img/logo.png';
-
-                    const element = document.getElementById('exportBox');
-                    element.insertBefore(logoImage, element.firstChild);
-
-                    await new Promise((resolve) => {
-                        logoImage.onload = resolve;
-                    });
-
-                    const options = {
-                        margin: [10, 10, 10, 10], // 页边距，单位为mm
-                        filename: 'exported.pdf',
-                        image: {type: 'png'},
-                        jsPDF: {unit: 'mm', format: 'a4'},
-                    };
-
-                    html2pdf()
-                        .set(options)
-                        .from(element)
-                        .save();
-
-                    // 移除插入的图像，以避免在网页上显示
-                    element.removeChild(logoImage);
-                } catch (error) {
-                    console.error(error);
-                }
-            },
             async downloadViewFile(file_url) {
                 const segments = file_url.split('/');
                 const fileName = segments[segments.length - 1];
@@ -1494,17 +1463,16 @@
             },
 
             async exportPDF() {
-                this.showConcat = false;
                 try {
-                    const logoImage = new Image();
-                    logoImage.src = '/assets/img/logo-banner.png';
+                    // const logoImage = new Image();
+                    // logoImage.src = '/layouts/assets/img/logo.png';
 
-                    const element = document.getElementById('exportPDF');
-                    element.insertBefore(logoImage, element.firstChild);
+                    const element = document.getElementById('myMainDocument');
+                    // element.insertBefore(logoImage, element.firstChild);
 
-                    await new Promise((resolve) => {
-                        logoImage.onload = resolve;
-                    });
+                    // await new Promise((resolve) => {
+                    //     logoImage.onload = resolve;
+                    // });
 
                     const options = {
                         margin: [10, 10, 10, 10], // 页边距，单位为mm
@@ -1519,8 +1487,7 @@
                         .save();
 
                     // 移除插入的图像，以避免在网页上显示
-                    element.removeChild(logoImage);
-                    this.showConcat = true;
+                    // element.removeChild(logoImage);
                 } catch (error) {
                     console.error(error);
                 }

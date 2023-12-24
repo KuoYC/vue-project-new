@@ -43,7 +43,7 @@ export const exesMixin = {
                 this.apportionData.exesData.splice(index, 1);
             }
         },
-        loadContract(query) {
+        loadContract(query = null) {
             this.isLoading = true;
             const contractPayload = {
                 action: 1,

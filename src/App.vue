@@ -778,4 +778,65 @@
     .sp-note{
         color: #9f9f9f;
     }
+
+    .st-success {
+        box-shadow: 0 2px 6px #8edc9c;
+        background-color: #54ca68;
+        border-color: #54ca68;
+        color: #fff;
+        padding: 0.3rem 0.8rem;
+        letter-spacing: .5px;
+        text-align: center;
+        text-decoration: none;
+        vertical-align: middle;
+        border-radius:5px;
+        position: relative;
+        display: inline-block;
+        overflow: hidden;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+    }
+    .st-warning {
+        box-shadow: 0 2px 6px #ffc473;
+        background-color: #ffa426;
+        border-color: #ffa426;
+        color: #fff;
+        padding: 0.3rem 0.8rem;
+        letter-spacing: .5px;
+        text-align: center;
+        text-decoration: none;
+        vertical-align: middle;
+        border-radius:5px;
+        position: relative;
+        display: inline-block;
+        overflow: hidden;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+    }
+    .st-secondary {
+        box-shadow: 0 2px 6px #e1e5e8;
+        background-color: #cdd3d8;
+        border-color: #cdd3d8;
+        color: #fff;
+        padding: 0.3rem 0.8rem;
+        letter-spacing: .5px;
+        text-align: center;
+        text-decoration: none;
+        vertical-align: middle;
+        border-radius:5px;
+        position: relative;
+        display: inline-block;
+        overflow: hidden;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+    }
 </style>

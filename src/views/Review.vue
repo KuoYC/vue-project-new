@@ -27,7 +27,7 @@
                                     <tr v-for="con in contractData"
                                         @click="0 === parseInt(con.Type) ? $router.push(`/review_contract/${con.conId}`) : $router.push(`/review_apportion/${con.appId}`)">
                                         <td scope="row">
-                                            <template v-if="0 === parseInt(con.Type) && 0 <= parseInt(con.conApp)">
+                                            <template v-if="0 === parseInt(con.Type)">
                                                 <span class="sp-contract">共用計畫書</span>
                                                 <span class="sp-apportion">分攤明細表</span>
                                             </template>

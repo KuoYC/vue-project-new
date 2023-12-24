@@ -423,161 +423,13 @@
                                                                     </div>
                                                                     <!-- 待簽列表 -->
                                                                 </div>
-                                                                <div class="tab-pane fade"
+                                                                <div class="tab-pane fade d-flex justify-content-between align-center"
                                                                      :id="'fil_'+exes.uniqueId">
                                                                     <!-- 待簽列表 -->
-                                                                    <table class="table table-bordered table-md">
-                                                                        <tbody>
-                                                                        <tr>
-                                                                            <th>編號</th>
-                                                                            <th>名稱</th>
-                                                                            <th>創建日期</th>
-                                                                            <th>狀態</th>
-                                                                            <th>查看</th>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>1</td>
-                                                                            <td>資訊作業系統</td>
-                                                                            <td>2017-01-09</td>
-                                                                            <td>
-                                                                                <div class="badge badge-success">
-                                                                                    Active
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <!-- <a href="#" class="btn btn-primary">詳細內容</a>  -->
-                                                                                <div class="action-btns"><a
-                                                                                        href="javascript:void(0);"
-                                                                                        class="action-btn btn-view bs-tooltip me-2"
-                                                                                        data-toggle="tooltip"
-                                                                                        data-placement="top"
-                                                                                        title=""
-                                                                                        data-bs-original-title="View"
-                                                                                        aria-label="View">
-                                                                                    <svg
-                                                                                            xmlns="http://www.w3.org/2000/svg"
-                                                                                            width="24" height="24"
-                                                                                            viewBox="0 0 24 24"
-                                                                                            fill="none"
-                                                                                            stroke="currentColor"
-                                                                                            stroke-width="2"
-                                                                                            stroke-linecap="round"
-                                                                                            stroke-linejoin="round"
-                                                                                            class="feather feather-eye">
-                                                                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                                                                        <circle cx="12" cy="12"
-                                                                                                r="3"></circle>
-                                                                                    </svg>
-                                                                                </a></div>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>2</td>
-                                                                            <td>資訊作業系統</td>
-                                                                            <td>2017-01-09</td>
-                                                                            <td>
-                                                                                <div class="badge badge-success">
-                                                                                    Active
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="action-btns"><a
-                                                                                        href="javascript:void(0);"
-                                                                                        class="action-btn btn-view bs-tooltip me-2"
-                                                                                        data-toggle="tooltip"
-                                                                                        data-placement="top"
-                                                                                        title=""
-                                                                                        data-bs-original-title="View"
-                                                                                        aria-label="View">
-                                                                                    <svg
-                                                                                            xmlns="http://www.w3.org/2000/svg"
-                                                                                            width="24" height="24"
-                                                                                            viewBox="0 0 24 24"
-                                                                                            fill="none"
-                                                                                            stroke="currentColor"
-                                                                                            stroke-width="2"
-                                                                                            stroke-linecap="round"
-                                                                                            stroke-linejoin="round"
-                                                                                            class="feather feather-eye">
-                                                                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                                                                        <circle cx="12" cy="12"
-                                                                                                r="3"></circle>
-                                                                                    </svg>
-                                                                                </a></div>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>3</td>
-                                                                            <td>資訊作業系統</td>
-                                                                            <td>2017-01-11</td>
-                                                                            <td>
-                                                                                <div class="badge badge-danger">Not
-                                                                                    Active
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="action-btns"><a
-                                                                                        href="javascript:void(0);"
-                                                                                        class="action-btn btn-view bs-tooltip me-2"
-                                                                                        data-toggle="tooltip"
-                                                                                        data-placement="top"
-                                                                                        title=""
-                                                                                        data-bs-original-title="View"
-                                                                                        aria-label="View">
-                                                                                    <svg
-                                                                                            xmlns="http://www.w3.org/2000/svg"
-                                                                                            width="24" height="24"
-                                                                                            viewBox="0 0 24 24"
-                                                                                            fill="none"
-                                                                                            stroke="currentColor"
-                                                                                            stroke-width="2"
-                                                                                            stroke-linecap="round"
-                                                                                            stroke-linejoin="round"
-                                                                                            class="feather feather-eye">
-                                                                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                                                                        <circle cx="12" cy="12"
-                                                                                                r="3"></circle>
-                                                                                    </svg>
-                                                                                </a></div>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>4</td>
-                                                                            <td>資訊作業系統</td>
-                                                                            <td>2017-01-11</td>
-                                                                            <td>
-                                                                                <div class="badge badge-success">
-                                                                                    Active
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="action-btns"><a
-                                                                                        href="javascript:void(0);"
-                                                                                        class="action-btn btn-view bs-tooltip me-2"
-                                                                                        data-toggle="tooltip"
-                                                                                        data-placement="top"
-                                                                                        title=""
-                                                                                        data-bs-original-title="View"
-                                                                                        aria-label="View">
-                                                                                    <svg
-                                                                                            xmlns="http://www.w3.org/2000/svg"
-                                                                                            width="24" height="24"
-                                                                                            viewBox="0 0 24 24"
-                                                                                            fill="none"
-                                                                                            stroke="currentColor"
-                                                                                            stroke-width="2"
-                                                                                            stroke-linecap="round"
-                                                                                            stroke-linejoin="round"
-                                                                                            class="feather feather-eye">
-                                                                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                                                                        <circle cx="12" cy="12"
-                                                                                                r="3"></circle>
-                                                                                    </svg>
-                                                                                </a></div>
-                                                                            </td>
-                                                                        </tr>
-                                                                        </tbody>
-                                                                    </table>
+                                                                    <FileUpload
+                                                                            :titleString="'拖放文件到此處或點擊選擇文件'"
+                                                                            :multiple="true"
+                                                                    />
                                                                     <!-- 待簽列表 -->
                                                                 </div>
                                                             </div>
@@ -605,7 +457,7 @@
                                 </h4>
                             </div>
                             <div class="card-body myNotification">
-                                <template v-if="-1 === parseInt(apportionData.conApp)">
+                                <template v-if="parseInt(apportionData.appId) !== parseInt(apportionData.conApp)">
                                     <div class="row" style="margin-bottom: 20px">
                                         <label class="myFont16 p-t-10">管理維運公司</label>
                                         <div class="table-responsive">
@@ -929,6 +781,12 @@
                         <button v-if="-1 === parseInt(apportionData.appStatus) || 0 === parseInt(apportionData.appStatus)" type="button" @click="updateApportion"
                                 class="m-r-5 btn btn-outline-success btn-border-radius waves-effect myFont16">儲存
                         </button>
+                        <button v-if="apportionData.perKey === per.perKey && (-1 === parseInt(apportionData.appStatus) || 0 === parseInt(apportionData.appStatus))"
+                                @click="updateApportionSign(0 <= parseInt(apportionData.conApp) ? apportionData.conId : 0, apportionData.appId, 0 <= parseInt(apportionData.conApp) ? 2 : 1)"
+                                type="button"
+                                class="m-r-5 btn btn-outline-warning btn-border-radius waves-effect myFont16">
+                            提交
+                        </button>
                         <button v-if="-1 === parseInt(apportionData.conApp) && (-1 === parseInt(apportionData.appStatus) || 0 === parseInt(apportionData.appStatus))" type="button" @click="deleteApportion(apportionData.appId)"
                                 class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">刪除
                         </button>
@@ -1230,6 +1088,12 @@
                                         <button v-if="-1 === parseInt(apportionData.appStatus) || 0 === parseInt(apportionData.appStatus)" type="button" @click="updateApportion"
                                                 class="m-r-5 btn btn-outline-success btn-border-radius waves-effect myFont16">儲存
                                         </button>
+                                        <button v-if="apportionData.perKey === per.perKey && (-1 === parseInt(apportionData.appStatus) || 0 === parseInt(apportionData.appStatus))"
+                                                @click="updateApportionSign(0 <= parseInt(apportionData.conApp) ? apportionData.conId : 0, apportionData.appId, 0 <= parseInt(apportionData.conApp) ? 2 : 1)"
+                                                type="button"
+                                                class="m-r-5 btn btn-outline-warning btn-border-radius waves-effect myFont16">
+                                            提交
+                                        </button>
                                         <button v-if="-1 === parseInt(apportionData.conApp) && (-1 === parseInt(apportionData.appStatus) || 0 === parseInt(apportionData.appStatus))" type="button" @click="deleteApportion(apportionData.appId)"
                                                 class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">刪除
                                         </button>
@@ -1324,11 +1188,13 @@
     import '@vue-office/docx/lib/index.css';
     import VueOfficeExcel from '@vue-office/excel';
     import '@vue-office/excel/lib/index.css';
+    import FileUpload from '@/components/FileUpload.vue';
     import {memberMixin} from '@/mixins/memberMixin.js';
     import VueOfficePdf from '@vue-office/pdf';
     import {apportionActionMixin} from '@/mixins/apportionActionMixin.js';
     import {exesMixin} from '@/mixins/exesMixin.js';
     import {controlBoxMixin} from '@/mixins/controlBoxMixin.js';
+    import {signMixin} from '@/mixins/signMixin.js';
     import DatePicker from '@vuepic/vue-datepicker';
     import cloneDeep from 'lodash/cloneDeep';
     import Multiselect from 'vue-multiselect';
@@ -1336,7 +1202,7 @@
 
     export default {
         name: "Apportion_up",
-        mixins: [apportionActionMixin, exesMixin, controlBoxMixin, memberMixin],
+        mixins: [apportionActionMixin, exesMixin, controlBoxMixin, memberMixin, signMixin],
         data() {
             return {
                 isLoading: false,
@@ -1395,6 +1261,7 @@
             Subsidiary,
             Multiselect,
             Member,
+            FileUpload,
         },
         computed: {
             formattedYearMonth() {
@@ -1426,6 +1293,7 @@
                 this.appId = parseInt(this.$route.params.id); // 取得路由參數 id
                 this.per = JSON.parse(Cookies.get('per'));
                 if (this.appId === 0) {
+                    this.loadContract();
                 }
                 else {
                     this.fetchFirst();
@@ -1877,6 +1745,68 @@
                 this.$router.push(`/apportion/sl/${this.apportionData.appId}`);
 
 
+            },
+            async updateApportionSign(conId, appId, useType) {
+                // 文件發起人必須與登入人資料一致
+                const payload = cloneDeep(this.apportionData);
+                if (-1 === parseInt(this.apportionData.conApp)) {
+                    const memberList = [];
+                    memberList.push(this.iMemberData);
+                    this.$root.addDataPush(memberList, this.mMemberData);
+                    this.$root.addDataPush(memberList, this.uMemberData);
+                    payload.memberData = memberList;
+                }
+                payload.appStatus = 0;
+
+                // const formData = new FormData();
+                // this.$root.addFilesToFormData(formData, this.filMeetingFiles, 'conFileMeeting[]');
+                // this.$root.addFilesToFormData(formData, this.filPlanFiles, 'conFilePlan[]');
+                // this.$root.addFilesToFormData(formData, this.filOtherFiles, 'conFile[]');
+                // const dataToAppend = {
+                //     temId: this.temId,
+                //     perKey: this.per.perKey,
+                //     comCode: this.per.perBu1Code,
+                //     conTitle: this.conTitle,
+                //     conType: this.conType,
+                //     conDate: this.conDate,
+                //     conWork: cloneDeep(this.conWork).join('|'),
+                //     conCompany: cloneDeep(this.conCompany).join('|'),
+                //     conValue: JSON.stringify(conValue),
+                //     itemList: JSON.stringify(itemList),
+                //     memberList: JSON.stringify(memberList),
+                // };
+                // for (const key in dataToAppend) {
+                //     formData.append(key, dataToAppend[key]);
+                // }
+
+                payload.exesData.forEach(exe => {
+                    exe.exeCreateMonth = String(exe.exeCreateMonth.year) + String(parseInt(exe.exeCreateMonth.month) + 1).padStart(2, '0');
+                    exe.annualData.forEach(ann => {
+                        ann.annStartMonth = String(ann.annStartMonth.year) + String(parseInt(ann.annStartMonth.month) + 1).padStart(2, '0');
+                        ann.annEndMonth = String(ann.annEndMonth.year) + String(parseInt(ann.annEndMonth.month) + 1).padStart(2, '0');
+                    });
+                });
+
+                console.log(payload);
+                await this.saveApportion(payload, this.apportionData.appId);
+                this.fetchFirst();
+                if (this.iMemberData.comId === this.per.comId && this.iMemberData.memLV0Key === this.per.perKey) {
+                    try {
+                        await this.goDefaultSet(conId, appId, useType);//重置簽核人員資料
+                        let log = this.createSignLog(conId, appId, 0, this.per.perKey, 3, '發起', 1);
+                        await this.goUpdateStatus(conId, appId, 1, null, log, useType);//修改狀態為進行中
+                        const upMember = this.createUpMember(conId, appId, this.iMemberData, '0', 3, true);
+                        await this.updateMember(upMember);//修改簽核組別資訊
+                        alert('發起成功');
+                        this.$router.push(`/apportion/sl/${this.apportionData.appId}`);
+
+                    } catch (error) {
+                        console.error('Edit failed:', error);
+                    }
+                }
+                else {
+                    alert('您並非發起人');
+                }
             },
             getYearMonth(nowYearMonth, num) {
                 // 将传入的 nowYearMonth 转换为 Date 对象

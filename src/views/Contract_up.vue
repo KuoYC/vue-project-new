@@ -672,7 +672,7 @@
                                                                                         <div class="d-flex m-tb">
                                                                                             <div v-for="con in contactData"
                                                                                                  class="form-check-inline">
-                                                                                                <label v-if="con.comId.includes(per.comId)"
+                                                                                                <label v-if="parseInt(con.comId) === parseInt(per.comId)"
                                                                                                        class="form-check-label">
                                                                                                         <vue-feather
                                                                                                                 v-if="con.perKey === iMemberData.memLVCKey"
@@ -687,11 +687,10 @@
                                                                 <div class="myFont16">使用窗口：<span
                                                                         class="data">
                                                                                         <div class="d-flex m-tb">
-                                                                                            <template
-                                                                                                    v-for="com in contractData.conCompany">
+                                                                                            <template v-if="'' !== contractData.conCompany" v-for="com in contractData.conCompany">
                                                                                                 <template
                                                                                                         v-for="con in contactData">
-                                                                                                <div v-if="con.comCode.includes(com)"
+                                                                                                <div v-if="con.comCode === com"
                                                                                                      class="form-check-inline">
                                                                                                     <label class="form-check-label">
                                                                                                         {{ con.perName + ' ' + con.perPositionName }}
@@ -714,33 +713,10 @@
                                                                 </label>
                                                                 <div class="d-flex justify-content-between align-center"
                                                                      style="margin-bottom: 20px;">
-                                                                    <vue-feather type="paperclip"
-                                                                                 size="20"></vue-feather>
-                                                                    <label class="myFont16 col-4 p-t-10">{{
-                                                                        filMeetingFiles.length +
-                                                                        filPlanFiles.length + filOtherFiles.length
-                                                                        }}則附加檔案</label>
-                                                                    <!-- 這裡放附檔 -->
-                                                                    <div>
                                                                         <FileUpload
-                                                                                :titleString="'會議記錄-拖放文件到此處或點擊選擇文件'"
+                                                                                :titleString="'拖放文件到此處或點擊選擇文件'"
                                                                                 :multiple="true"
-                                                                                @file-selected="files=>handleFilesSelected(files, 'meeting')"
-                                                                                class="col-4"
                                                                         />
-                                                                        <FileUpload
-                                                                                :titleString="'專案規劃報告-拖放文件到此處或點擊選擇文件'"
-                                                                                :multiple="true"
-                                                                                @file-selected="files=>handleFilesSelected(files, 'plan')"
-                                                                                class="col-4"
-                                                                        />
-                                                                        <FileUpload
-                                                                                :titleString="'其他-拖放文件到此處或點擊選擇文件'"
-                                                                                :multiple="true"
-                                                                                @file-selected="files=>handleFilesSelected(files, 'other')"
-                                                                                class="col-4"
-                                                                        />
-                                                                    </div>
                                                                 </div>
                                                             </template>
                                                             <template v-if="col.type === 'select'">
@@ -859,6 +835,12 @@
                     </button>
                     <button type="button" @click="updateContract"
                             class="m-r-5 btn btn-outline-success btn-border-radius waves-effect myFont16">儲存
+                    </button>
+                    <button v-if="contractData.perKey === per.perKey && (-1 === parseInt(contractData.conStatus) || 0 === parseInt(contractData.conStatus))"
+                            @click="updateContractSign(contractData.conId, 0 <= parseInt(contractData.conApp) ? contractData.conApp : 0, 0 <= parseInt(contractData.conApp) ? 2 : 0)"
+                            type="button"
+                            class="m-r-5 btn btn-outline-warning btn-border-radius waves-effect myFont16">
+                        提交
                     </button>
                     <button v-if="merge" type="button" @click="updateContract(true)" style="display: none;"
                             class="m-r-5 btn btn-outline-success btn-border-radius waves-effect myFont16">儲存並重新建立費用
@@ -1166,6 +1148,12 @@
                                     <button type="button" @click="updateContract"
                                             class="m-r-5 btn btn-outline-success btn-border-radius waves-effect myFont16">
                                         儲存
+                                    </button>
+                                    <button v-if="contractData.perKey === per.perKey && (-1 === parseInt(contractData.conStatus) || 0 === parseInt(contractData.conStatus))"
+                                            @click="updateContractSign(contractData.conId, 0 <= parseInt(contractData.conApp) ? contractData.conApp : 0, 0 <= parseInt(contractData.conApp) ? 2 : 0)"
+                                            type="button"
+                                            class="m-r-5 btn btn-outline-warning btn-border-radius waves-effect myFont16">
+                                        提交
                                     </button>
                                     <button v-if="merge" type="button" @click="updateContract(true)" style="display: none;"
                                             class="m-r-5 btn btn-outline-success btn-border-radius waves-effect myFont16">
@@ -1596,6 +1584,57 @@
                 else {
                     // this.$router.push(`/contract/sl/${this.contractData.conId}`);
                     this.$router.go(0);
+                }
+            },
+            async updateContractSign(conId, appId, useType) {
+                // 文件發起人必須與登入人資料一致
+                const memberList = [];
+                memberList.push(this.iMemberData);
+                this.$root.addDataPush(memberList, this.mMemberData);
+                this.$root.addDataPush(memberList, this.uMemberData);
+                const payload = cloneDeep(this.contractData);
+                payload.itemData.forEach(item => {
+                    item.iteSubsidiaries = item.iteSubsidiaries ? item.iteSubsidiaries.join('|') : item.iteSubsidiaries;
+                    item.iteProportion = JSON.stringify(item.iteProportion);
+                });
+                payload.conValue.forEach(area => {
+                    area.colItem.forEach(col => {
+                        if (col.type?.startsWith('word')) {
+                            this.categoryData.forEach(cat => {
+                                if (parseInt(cat.catId) === parseInt(col.id)) {
+                                    col.value = cat.catWord;
+                                }
+                            });
+                        }
+                    });
+                });
+                payload.conValue = JSON.stringify(payload.conValue);
+                payload.conWork = this.contractData.conWork.filter(val => val !== '').join('|');
+                payload.conCompany = this.contractData.conCompany.filter(val => val !== '').join('|');
+                payload.memberData = memberList;
+                payload.conStatus = 0;
+                payload.conApp = this.merge ? (parseInt(this.contractData.conApp) > -1 ? parseInt(this.contractData.conApp) : 0) : -1;
+
+
+
+                await this.saveContract(payload, this.contractData.conId, null);
+                this.fetchFirst();
+                if (this.iMemberData.comId === this.per.comId && this.iMemberData.memLV0Key === this.per.perKey) {
+                    try {
+                        await this.goDefaultSet(conId, appId, useType);//重置簽核人員資料
+                        let log = this.createSignLog(conId, appId, 0, this.per.perKey, 3, '發起', 1);
+                        await this.goUpdateStatus(conId, appId, 1, null, log, useType);//修改狀態為進行中
+                        const upMember = this.createUpMember(conId, appId, this.iMemberData, '0', 3, true);
+                        await this.updateMember(upMember);//修改簽核組別資訊
+                        alert('發起成功');
+                        this.$router.push(`/contract/sl/${this.contractData.conId}`);
+
+                    } catch (error) {
+                        console.error('Edit failed:', error);
+                    }
+                }
+                else {
+                    alert('您並非發起人');
                 }
             },
             async openContractLock() {

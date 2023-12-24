@@ -135,7 +135,7 @@
                     .then(response => {
                         console.log(response.data);
                         if (response.status === 200) {
-                            this.$router.push(`/info/contact/sl/${this.contactData.souId}`);
+                            this.$router.push(`/info/contact/sl/${this.contactData.cotId}`);
                         } else {
                             console.log('err');
                         }
