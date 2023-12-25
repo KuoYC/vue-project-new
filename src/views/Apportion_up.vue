@@ -185,52 +185,6 @@
                         </div>
                     </div>
                     <div class="col-12">
-                        <div class="card" :id="'my2'">
-                            <div class="card-header justify-content-between">
-                                <h4 class="myCardTitle">
-                                    <span class="myFont16 d-flex align-center"
-                                          style="background-color: #26a862; color: white; border-radius: 6px; padding: 0.3rem 0.8rem; font-weight: 400;">
-                                        <vue-feather type="tag" size="20"
-                                                     style="transform: rotate(135deg); padding-right: 0px;"
-                                                     class="m-r-5"></vue-feather>{{ apportionData.appYear }}年各公司分攤費用</span>
-                                </h4>
-                            </div>
-                            <div class="card-body myNotification">
-                                <div class="table-responsive">
-                                    <table ref="testTable" class="newTable tables-def">
-                                        <thead style="position: sticky;top: 0;" class="myNew">
-                                        <tr>
-                                            <th></th>
-                                            <template v-if="apportionData?.conCompany">
-                                                <th v-for="(option, idx) in apportionData.conCompany">{{
-                                                    this.$root.getCompanyTitle('', option) }}
-                                                </th>
-                                            </template>
-                                            <th>加總</th>
-                                        </tr>
-                                        </thead>
-
-                                        <tbody>
-                                        <tr v-for="cou in countCostData">
-                                            <td>{{ cou.iteTitle }}</td>
-                                            <td v-for="(option, idx) in apportionData.conCompany">{{ cou[option] }}
-                                            </td>
-                                            <td>{{ cou.costSum }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>合計</td>
-                                            <td v-for="(option, idx) in apportionData.conCompany">{{
-                                                countTotelCostData[option]
-                                                }}
-                                            </td>
-                                            <td>{{ countTotelCostData.costSum }}</td>
-                                        </tr>
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
                         <div class="card" :id="'my3'">
                             <div class="card-header justify-content-between">
                                 <h4 class="myCardTitle">
@@ -305,7 +259,7 @@
                                         <div class="card-body mt-2">
                                             <div class="row myShowDetail">
                                                 <h4 class="myCardTitle">項目資訊</h4>
-                                                <div class="d-flex mb-5 row">
+                                                <div class="d-flex row">
                                                     <div class="col-xl-2 col-md-2 col-sm-4 col-4">
                                                         <label class="row-label row-title">種類</label>
                                                         <label class="row-text">{{ exes.worTitle }}</label>
@@ -423,14 +377,14 @@
                                                                     </div>
                                                                     <!-- 待簽列表 -->
                                                                 </div>
-                                                                <div class="tab-pane fade d-flex justify-content-between align-center"
+                                                                <div class="tab-pane fade"
                                                                      :id="'fil_'+exes.uniqueId">
-                                                                    <!-- 待簽列表 -->
+                                                                    <div class="card-body row" style="padding: 0px;">
                                                                     <FileUpload
                                                                             :titleString="'拖放文件到此處或點擊選擇文件'"
                                                                             :multiple="true"
                                                                     />
-                                                                    <!-- 待簽列表 -->
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -440,6 +394,54 @@
                                         </div>
                                     </div>
                                 </template>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="card" :id="'my2'">
+                            <div class="card-header justify-content-between">
+                                <h4 class="myCardTitle">
+                                    <span class="myFont16 d-flex align-center"
+                                          style="background-color: #26a862; color: white; border-radius: 6px; padding: 0.3rem 0.8rem; font-weight: 400;">
+                                        <vue-feather type="tag" size="20"
+                                                     style="transform: rotate(135deg); padding-right: 0px;"
+                                                     class="m-r-5"></vue-feather>{{ apportionData.appYear }}年各公司分攤費用</span>
+                                </h4>
+                            </div>
+                            <div class="card-body myNotification">
+                                <div class="table-responsive">
+                                    <table ref="testTable" class="newTable tables-def">
+                                        <thead style="position: sticky;top: 0;" class="myNew">
+                                        <tr>
+                                            <th></th>
+                                            <template v-if="apportionData?.conCompany">
+                                                <th v-for="(option, idx) in apportionData.conCompany">{{
+                                                    this.$root.getCompanyTitle('', option) }}
+                                                </th>
+                                            </template>
+                                            <th>加總</th>
+                                        </tr>
+                                        </thead>
+
+                                        <tbody>
+                                        <tr v-for="cou in countCostData">
+                                            <td>{{ cou.iteTitle }}</td>
+                                            <td v-for="(option, idx) in apportionData.conCompany">{{ cou[option] }}
+                                            </td>
+                                            <td>{{ cou.costSum }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>合計</td>
+                                            <td v-for="(option, idx) in apportionData.conCompany">{{
+                                                countTotelCostData[option]
+                                                }}
+                                            </td>
+                                            <td>{{ countTotelCostData.costSum }}</td>
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1121,12 +1123,6 @@
                                     </li>
                                     <li  class="nav-item" ref="tp">
                                         <a class="nav-link myFont16" href="javascript:void(0);"
-                                           @click="scrollToElement('my2')">
-                                            {{ apportionData.appYear }}年各公司分攤費用
-                                        </a>
-                                    </li>
-                                    <li  class="nav-item" ref="tp">
-                                        <a class="nav-link myFont16" href="javascript:void(0);"
                                            @click="scrollToElement('my3')">
                                             分攤費用共用作業項目
                                         </a>
@@ -1135,6 +1131,12 @@
                                         <a class="nav-link myFont16" href="javascript:void(0);"
                                            @click="scrollToElement('my4')">
                                             分攤費用共用作業項目-詳細資訊
+                                        </a>
+                                    </li>
+                                    <li  class="nav-item" ref="tp">
+                                        <a class="nav-link myFont16" href="javascript:void(0);"
+                                           @click="scrollToElement('my2')">
+                                            {{ apportionData.appYear }}年各公司分攤費用
                                         </a>
                                     </li>
                                     <li  class="nav-item" ref="tp">

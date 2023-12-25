@@ -264,10 +264,7 @@
 
                                                             <span class="myFont16 d-flex align-center row-title"><vue-feather
                                                                     type="grid" stroke="#26a862" size="20"></vue-feather>費用分攤原則</span>
-                                                            <div v-for="wor in contractData.conWork" class="row"
-                                                                 style="margin-bottom: 20px">
-                                                                <label class="myFont16 p-t-10">{{
-                                                                    this.$root.getWorkTitle(wor) }}</label>
+                                                            <div class="row" style="margin-bottom: 20px">
                                                                 <div class="table-responsive">
                                                                     <table class="newTable">
                                                                         <caption>共用作業項目</caption>
@@ -276,6 +273,9 @@
                                                                         <tr>
                                                                             <th style="min-width: 140px;"
                                                                                 scope="col">共用作業項目
+                                                                            </th>
+                                                                            <th style="min-width: 40px;"
+                                                                                scope="col">作業種類
                                                                             </th>
                                                                             <th style="width: 280px;"
                                                                                 scope="col">費用分攤原則
@@ -290,8 +290,9 @@
                                                                         </thead>
                                                                         <tbody>
                                                                         <template v-for="ite in contractData.itemData">
-                                                                            <tr v-if="wor === ite.worId">
+                                                                            <tr>
                                                                                 <td>{{ ite.iteTitle }}</td>
+                                                                                <td>{{ ite.worTitle }}</td>
                                                                                 <td>{{ ite.disTitle }}</td>
                                                                                 <td>{{ ite.manTitle }}</td>
                                                                                 <td>{{ 0 === parseInt(ite.manType) ? '--' : ite.iteTypeNote }}</td>

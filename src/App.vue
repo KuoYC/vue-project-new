@@ -479,7 +479,7 @@
                 const newPer = this.roleData.find(per => per.perKey === perKey);
                 Cookies.set('per', JSON.stringify(newPer));
                 this.per = Cookies.get('per') ? JSON.parse(Cookies.get('per')) : null;
-                this.$router.push('/');
+                this.$router.go(0);
             },
             getRole() {//取得登入人員全部角色
                 if (this.per) {

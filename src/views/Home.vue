@@ -124,7 +124,7 @@
                             </thead>
                             <tbody class="exTable">
                             <tr v-for="con in contractData"
-                                @click="$router.push(`/review_contract/${con.conId}`)">
+                                @click="1 === parseInt(con.Type) ? $router.push(`/review_apportion/${con.appId}`) : $router.push(`/review_contract/${con.conId}`)">
                                 <td>
                                     <template v-if="0 === parseInt(con.Type) && 0 <= parseInt(con.conApp)">
                                         <span class="sp-contract">共用計畫書</span>

@@ -1,5 +1,5 @@
 <template>
-    <table class="newTable mb-5">
+    <table class="newTable">
         <thead><!--  style="position: sticky;top: 0;"
                class="myNew"-->
         <tr>

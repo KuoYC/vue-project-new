@@ -86,6 +86,9 @@
                 },
                 immediate: true,
             },
+            'per':function (newPer, oldPer) {
+                this.contactData.perKey = newPer.id;
+            }
         },
         components: {Multiselect},
         computed: {},

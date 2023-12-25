@@ -164,6 +164,13 @@ export const signMixin = {
         },
         // 退回 backContract useType 0=conId, 1=addId
         async backContract(conId, appId, useType) {
+            console.log('conId');
+            console.log(conId);
+            console.log('appId');
+            console.log(appId);
+            console.log('useType');
+            console.log(useType);
+
             let upMember = null;
             if (this.iMemberData.comId === this.per.comId && this.iMemberData.memNowKey === this.per.perKey) {
                 const isLV = this.getMemberLV(this.iMemberData);
@@ -187,6 +194,7 @@ export const signMixin = {
                     }
                 }
             });
+            console.log(upMember);
             if (upMember) {
                 try {
                     await this.updateMember(upMember);
