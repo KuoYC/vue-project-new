@@ -20,6 +20,7 @@
                     @change="handleFileSelect"
             />
             <table class="newTable" v-if="selectedFiles.length > 0">
+                <caption>檔案管理</caption>
                 <thead style="position: sticky;top: 0;"
                        class="myNew">
                 <tr>

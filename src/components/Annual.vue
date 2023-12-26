@@ -1,5 +1,6 @@
 <template>
     <table class="newTable">
+        <caption>年度費用</caption>
         <thead><!--  style="position: sticky;top: 0;"
                class="myNew"-->
         <tr>

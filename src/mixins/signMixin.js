@@ -7,18 +7,18 @@ export const signMixin = {
         async releaseSign(conId, appId, useType) {
             // 文件發起人必須與登入人資料一致
             // if (this.iMemberData.comId === this.per.comId && this.iMemberData.memLV0Key === this.per.perKey) {
-                try {
-                    await this.goDefaultSet(conId, appId, useType);//重置簽核人員資料
-                    let log = this.createSignLog(conId, appId, this.iMemberData.memId, this.per.perKey, 3, '發起', 1);
-                    await this.goUpdateStatus(conId, appId, 1, null, log, useType);//修改狀態為進行中
-                    const upMember = this.createUpMember(conId, appId, this.iMemberData, '0', 3, true);
-                    await this.updateMember(upMember);//修改簽核組別資訊
-                    alert('發起成功');
-                    this.$router.go(0);
+            try {
+                await this.goDefaultSet(conId, appId, useType);//重置簽核人員資料
+                let log = this.createSignLog(conId, appId, this.iMemberData.memId, this.per.perKey, 3, '發起', 1);
+                await this.goUpdateStatus(conId, appId, 1, null, log, useType);//修改狀態為進行中
+                const upMember = this.createUpMember(conId, appId, this.iMemberData, '0', 3, true);
+                await this.updateMember(upMember);//修改簽核組別資訊
+                alert('發起成功');
+                this.$router.go(0);
 
-                } catch (error) {
-                    console.error('Edit failed:', error);
-                }
+            } catch (error) {
+                console.error('Edit failed:', error);
+            }
             // }
             // else {
             //     alert('您並非發起人');
@@ -67,26 +67,26 @@ export const signMixin = {
                     await this.updateMember(upMember);
                     if (iMemberEnd) {
                         if (this.mMemberData.length > 0) {
-                            await this.mMemberData.forEach(mem=>{
+                            for (const mem of this.mMemberData) {
                                 upMember = this.createUpMember(conId, appId, mem, '0', 0, false);
                                 try {
-                                    this.updateMember(upMember);
+                                    await this.updateMember(upMember);
                                 } catch (error) {
                                     console.error('Edit failed:', error);
                                 }
-                            });
+                            }
                             alert('簽核完成');
                             this.$router.go(0);
                         }
                         else if (this.uMemberData.length > 0) {
-                            await this.uMemberData.forEach(mem=>{
+                            for (const mem of this.uMemberData) {
                                 upMember = this.createUpMember(conId, appId, mem, '0', 0, false);
                                 try {
-                                    this.updateMember(upMember);
+                                    await this.updateMember(upMember);
                                 } catch (error) {
                                     console.error('Edit failed:', error);
                                 }
-                            });
+                            }
                             alert('簽核完成');
                             this.$router.go(0);
                         }
@@ -106,14 +106,14 @@ export const signMixin = {
                         const mMemberParallel = await this.checkParallelTypeSign(conId, appId, 1);
                         if (mMemberParallel) {
                             if (this.uMemberData.length > 0) {
-                                await this.uMemberData.forEach(mem=>{
+                                for (const mem of this.uMemberData) {
                                     upMember = this.createUpMember(conId, appId, mem, '0', 0, false);
                                     try {
-                                        this.updateMember(upMember);
+                                        await this.updateMember(upMember);
                                     } catch (error) {
                                         console.error('Edit failed:', error);
                                     }
-                                });
+                                }
                                 alert('簽核完成');
                                 this.$router.go(0);
                             }
@@ -194,7 +194,7 @@ export const signMixin = {
                     }
                 }
             });
-            if(upMember === null) {//窗口退件
+            if (upMember === null) {//窗口退件
                 if (3 === parseInt(this.iMemberData.memLV0Status) && 3 !== parseInt(this.iMemberData.memLVCStatus)) {
                     const isLV = 'C';
                     upMember = this.createUpMember(conId, appId, this.iMemberData, isLV, 2, true);
@@ -290,7 +290,6 @@ export const signMixin = {
         },
 
 
-
         async goDefaultSet(conId, appId, useType) {
             if (0 === useType) {
                 await this.defaultContract(conId);//重置文件資訊與簽核人員資料
@@ -375,10 +374,6 @@ export const signMixin = {
             }
             return false;
         },
-
-
-
-
 
 
         // 產生執行資料
@@ -523,7 +518,7 @@ export const signMixin = {
         },
         //取得對應等級
         getMemberLV(mem) {
-            if (mem.memLV0Key === this.per.perKey && parseInt(mem.memLV0Status) < 2 ) {
+            if (mem.memLV0Key === this.per.perKey && parseInt(mem.memLV0Status) < 2) {
                 return '0';
             }
             if (mem.memNowKey === '') {
@@ -542,7 +537,7 @@ export const signMixin = {
             try {
                 const response = await this.$api.get(
                     this.$test ? `/api/?type=signMember` : `/api/iform/signMember/List`
-                    , {params: {conId: conId, appId: appId, memType: memberType, memStatusNot:3}}
+                    , {params: {conId: conId, appId: appId, memType: memberType, memStatusNot: 3}}
                 );
 
                 if (response.status === 200) {
@@ -617,7 +612,7 @@ export const signMixin = {
                     ckMember = true;
                 }
             }
-            if (this.iMemberData.memNowKey === '' && this.iMemberData.memLVCKey === '' && this.contactData.some(contact => contact.perKey.includes(this.per.perKey))){
+            if (this.iMemberData.memNowKey === '' && this.iMemberData.memLVCKey === '' && this.contactData.some(contact => contact.perKey.includes(this.per.perKey))) {
                 if (parseInt(this.iMemberData.memLVCStatus) === 0 || parseInt(this.iMemberData.memLVCStatus) === 1) {
                     ckMember = true;
                 }

@@ -157,6 +157,7 @@
                             <div class="card-body myNotification">
                                 <div class="table-responsive">
                                     <table ref="testTable" class="newTable tables-def">
+                                        <caption>年各公司分攤費用</caption>
                                         <thead style="position: sticky;top: 0;" class="myNew">
                                         <tr>
                                             <th></th>
@@ -345,11 +346,11 @@
                                                             <div class="tab-pane fade show active"
                                                                  :id="'exe_'+exes.exeId"
                                                                  role="tabpanel" aria-labelledby="profile-tab">
-                                                                <!-- 待簽列表 -->
                                                                 <template v-for="ann in exes.annualData">
                                                                     <template
                                                                             v-if="parseInt(ann.annYear) === parseInt(apportionData.appYear)">
                                                                         <table class="newTable">
+                                                                            <caption>當年度各公司分攤資訊</caption>
                                                                             <thead>
                                                                             <tr>
                                                                                 <th></th>
@@ -392,6 +393,7 @@
                                                                 <div class="card-body" style="padding: 0px;">
                                                                     <div class="">
                                                                         <table class="newTable mb-5">
+                                                                            <caption>各年度分攤資訊</caption>
                                                                             <thead style="position: sticky;top: 0;"
                                                                                    class="myNew">
                                                                             <tr>
@@ -436,6 +438,7 @@
                                                                  role="tabpanel" aria-labelledby="contact-tab">
                                                                 <!-- 待簽列表 -->
                                                                 <table class="table table-bordered table-md">
+                                                                    <caption>檔案管理</caption>
                                                                     <tbody>
                                                                     <tr>
                                                                         <th>編號</th>
@@ -825,6 +828,7 @@
                     </div>
                     <div class="card-body myNotification">
                         <table class="table">
+                            <caption>傳遞流程</caption>
                             <!-- <thead style="position: sticky;top: 0;" class="myNew">
                               <tr>
                                 <th scope="col"></th>

@@ -1,5 +1,6 @@
 <template>
     <table class="newTable">
+        <caption>各公司分攤資訊</caption>
         <thead>
         <tr>
             <th></th>

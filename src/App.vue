@@ -83,7 +83,7 @@
                             <div class="sidebar-brand" style="background-color: var(--theme-color);">
                                 <router-link :to="`/`">
                                     <img alt="image" src="/assets/img/logo.png" class="header-logo"/>
-                                    <span class="logo-name" style="color: white;"><img src="/assets/img/logo-title.png" style="padding-bottom: 10px;"></span>
+                                    <span class="logo-name" style="color: white;"><img src="/assets/img/logo-title.png" style="padding-bottom: 10px;" alt="logo-title"></span>
                                     <!--<span class="logo-name" style="color: white;"> 國泰金控</span>-->
                                 </router-link>
                             </div>
