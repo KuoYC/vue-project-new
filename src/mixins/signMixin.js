@@ -194,6 +194,12 @@ export const signMixin = {
                     }
                 }
             });
+            if(upMember === null) {//窗口退件
+                if (3 === parseInt(this.iMemberData.memLV0Status) && 3 !== parseInt(this.iMemberData.memLVCStatus)) {
+                    const isLV = 'C';
+                    upMember = this.createUpMember(conId, appId, this.iMemberData, isLV, 2, true);
+                }
+            }
             console.log(upMember);
             if (upMember) {
                 try {
@@ -433,7 +439,15 @@ export const signMixin = {
             else {
                 if (signType === 2) {
                     conStatus = 2;
-                    sglLogMsg = `${comTitle} ${memBu2} ${memBu3} ${positionName} 退件 ${msg !== '' ? ':' + msg : null}`
+                    if (isLV === 'C') {//窗口退件
+                        memLVCKey = this.per.perKey;
+                        memLVCName = this.per.perName;
+                        memLVCPositionName = this.per.perPositionName;
+                        sglLogMsg = `${comTitle} ${memBu2} ${memBu3} ${memLVCPositionName} 退件 ${msg !== '' ? ':' + msg : null}`
+                    }
+                    else {
+                        sglLogMsg = `${comTitle} ${memBu2} ${memBu3} ${positionName} 退件 ${msg !== '' ? ':' + msg : null}`
+                    }
                 }
                 else if (signType === 0) {
                     nextLVKey = mem.memLV0Key;
