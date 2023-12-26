@@ -15,7 +15,7 @@
                                  style="margin-bottom: 20px;padding: 10px 25px;border-bottom-color: #f9f9f9;">
                                 <h4 class="myCardTitle" style="font-size: x-large;">
                                     {{ tpName }}
-                                    <vue-feather v-if="item.areaNote !== ''" v-tooltip="{ content: item.areaNote, placement: 'right' }" type="help-circle" size="20" stroke="blue"></vue-feather>
+                                    <vue-feather v-if="item.areaNote !== ''" v-tooltip="{ content: item.areaNote, placement: 'right' }" type="help-circle" size="20" stroke="grey"></vue-feather>
                                 </h4>
                                 <div class="contract-serial">
                                     <!-- 這裡放文件序號 -->
@@ -42,7 +42,7 @@
                                     <span class="myFont16 d-flex align-center" style="background-color: #26a862; color: white; border-radius: 6px; padding: 0.3rem 0.8rem; font-weight: 400;">
                                     <vue-feather type="tag" size="20" style="transform: rotate(135deg); padding-right: 0px;"
                                                  class="m-r-5"></vue-feather>{{ item.areaTitle }}</span>
-                                    <vue-feather v-if="item.areaNote !== ''" v-tooltip="{ content: item.areaNote, placement: 'right' }" type="help-circle" size="20" stroke="blue"></vue-feather>
+                                    <vue-feather v-if="item.areaNote !== ''" v-tooltip="{ content: item.areaNote, placement: 'right' }" type="help-circle" size="20" stroke="grey"></vue-feather>
                                 </h4>
                             </div>
                             <div class="card-body myNotification">
@@ -86,7 +86,7 @@
                                     <span class="myFont16 d-flex align-center" style="background-color: #26a862; color: white; border-radius: 6px; padding: 0.3rem 0.8rem; font-weight: 400;">
                                     <vue-feather type="tag" size="20" style="transform: rotate(135deg); padding-right: 0px;"
                                                  class="m-r-5"></vue-feather>{{ item.areaTitle }}</span>
-                                    <vue-feather v-if="item.areaNote !== ''" v-tooltip="{ content: item.areaNote, placement: 'right' }" type="help-circle" size="20" stroke="blue"></vue-feather>
+                                    <vue-feather v-if="item.areaNote !== ''" v-tooltip="{ content: item.areaNote, placement: 'right' }" type="help-circle" size="20" stroke="grey"></vue-feather>
                                 </h4>
                             </div>
                             <div class="card-body myNotification">
@@ -95,7 +95,7 @@
                                         <div :class="['col-' + col.width + ' sub-item']">
                                                 <template v-if="col.type === 'subject'">
                                                     <label v-if="col.name !== '' || col.tip !== ''" class="myFont16 col-4 p-t-10">{{ col.name }}
-                                                        <vue-feather v-if="col.tip !== ''" v-tooltip="{ content: col.tip, placement: 'right' }" type="help-circle" size="20" stroke="blue"></vue-feather>
+                                                        <vue-feather v-if="col.tip !== ''" v-tooltip="{ content: col.tip, placement: 'right' }" type="help-circle" size="20" stroke="grey"></vue-feather>
                                                     </label>
                                                     <div class="row">
                                                         <div class="d-flex justify-content-between align-center" style="margin-bottom: 20px; max-width: 450px;">
@@ -151,7 +151,7 @@
                                                 </template>
                                                 <template v-if="col.type.startsWith('list')">
                                                     <label v-if="col.name !== '' || col.tip !== ''" class="myFont16 p-t-10">{{ col.name }}
-                                                        <vue-feather v-if="col.tip !== ''" v-tooltip="{ content: col.tip, placement: 'right' }" type="help-circle" size="20" stroke="blue"></vue-feather>
+                                                        <vue-feather v-if="col.tip !== ''" v-tooltip="{ content: col.tip, placement: 'right' }" type="help-circle" size="20" stroke="grey"></vue-feather>
                                                     </label>
                                                     <select class="form-control">
                                                         <template v-for="option in sourceData">
@@ -163,7 +163,7 @@
                                                 </template>
                                                 <template v-if="col.type.startsWith('word')">
                                                     <label v-if="col.name !== '' || col.tip !== ''" class="myFont16 p-t-10">{{ col.name }}
-                                                        <vue-feather v-if="col.tip !== ''" v-tooltip="{ content: col.tip, placement: 'right' }" type="help-circle" size="20" stroke="blue"></vue-feather>
+                                                        <vue-feather v-if="col.tip !== ''" v-tooltip="{ content: col.tip, placement: 'right' }" type="help-circle" size="20" stroke="grey"></vue-feather>
                                                     </label>
                                                     <template v-for="option in categoryData">
                                                         <div v-if="String(option.catId) === String(col.id)" class="row">
@@ -173,7 +173,7 @@
                                                 </template>
                                                 <template v-if="col.type === 'work_area'">
                                                     <label v-if="col.name !== '' || col.tip !== ''" class="myFont16 p-t-10">{{ col.name }}
-                                                        <vue-feather v-if="col.tip !== ''" v-tooltip="{ content: col.tip, placement: 'right' }" type="help-circle" size="20" stroke="blue"></vue-feather>
+                                                        <vue-feather v-if="col.tip !== ''" v-tooltip="{ content: col.tip, placement: 'right' }" type="help-circle" size="20" stroke="grey"></vue-feather>
                                                     </label>
                                                     <div style="border-radius: 3px; border: 1px solid #ced4da;">
                                                         <div style="background-color:#EAF7ED ;padding-top: 10px;padding-left: 10px;">
@@ -252,7 +252,7 @@
                                                 </template>
                                                 <template v-if="col.type === 'sign'">
                                                     <label v-if="col.name !== '' || col.tip !== ''" class="myFont16 col-4 p-t-10">{{ col.name }}
-                                                        <vue-feather v-if="col.tip !== ''" v-tooltip="{ content: col.tip, placement: 'right' }" type="help-circle" size="20" stroke="blue"></vue-feather>
+                                                        <vue-feather v-if="col.tip !== ''" v-tooltip="{ content: col.tip, placement: 'right' }" type="help-circle" size="20" stroke="grey"></vue-feather>
                                                     </label>
                                                     <div class="row" style="margin-bottom: 20px">
                                                         <label class="myFont16 p-t-10">管理維運公司</label>
@@ -390,7 +390,7 @@
                                                 </template>
                                                 <template v-if="col.type === 'file_area'">
                                                     <label v-if="col.name !== '' || col.tip !== ''" class="myFont16 mb-1">{{ col.name }}
-                                                        <vue-feather v-if="col.tip !== ''" v-tooltip="{ content: col.tip, placement: 'right' }" type="help-circle" size="20" stroke="blue"></vue-feather>
+                                                        <vue-feather v-if="col.tip !== ''" v-tooltip="{ content: col.tip, placement: 'right' }" type="help-circle" size="20" stroke="grey"></vue-feather>
                                                     </label>
                                                     <div class="d-flex justify-content-between align-center" style="margin-bottom: 20px; max-width: 450px;">
                                                         <vue-feather type="paperclip" size="20"></vue-feather>
@@ -406,7 +406,7 @@
                                                 <template v-if="col.type === 'select'">
                                                     <div class="d-flex justify-content-between align-center" style="margin-bottom: 20px; max-width: 450px;">
                                                         <label v-if="col.name !== '' || col.tip !== ''" class="myFont16 col-4 p-t-10">{{ col.name }}
-                                                            <vue-feather v-if="col.tip !== ''" v-tooltip="{ content: col.tip, placement: 'right' }" type="help-circle" size="20" stroke="blue"></vue-feather>
+                                                            <vue-feather v-if="col.tip !== ''" v-tooltip="{ content: col.tip, placement: 'right' }" type="help-circle" size="20" stroke="grey"></vue-feather>
                                                         </label>
                                                         <select class="form-control">
                                                             <!-- 選項列表 -->
@@ -420,7 +420,7 @@
                                                 <template v-if="col.type === 'radio'">
                                                     <div class="d-flex justify-content-between align-center" style="margin-bottom: 20px; max-width: 450px;">
                                                         <label v-if="col.name !== '' || col.tip !== ''" class="myFont16 col-4 p-t-10">{{ col.name }}
-                                                            <vue-feather v-if="col.tip !== ''" v-tooltip="{ content: col.tip, placement: 'right' }" type="help-circle" size="20" stroke="blue"></vue-feather>
+                                                            <vue-feather v-if="col.tip !== ''" v-tooltip="{ content: col.tip, placement: 'right' }" type="help-circle" size="20" stroke="grey"></vue-feather>
                                                         </label>
                                                         <div v-for="option in col.option.split('|')" class="form-check p-t-10">
                                                             <input class="form-check-input" type="radio" :value="option" :id="'rdo_'+parentIndex+'_'+childIndex">
@@ -431,7 +431,7 @@
                                                 <template v-if="col.type === 'check'">
                                                     <div class="d-flex justify-content-between align-center" style="margin-bottom: 20px; max-width: 450px;">
                                                         <label v-if="col.name !== '' || col.tip !== ''" class="myFont16 col-4 p-t-10">{{ col.name }}
-                                                            <vue-feather v-if="col.tip !== ''" v-tooltip="{ content: col.tip, placement: 'right' }" type="help-circle" size="20" stroke="blue"></vue-feather>
+                                                            <vue-feather v-if="col.tip !== ''" v-tooltip="{ content: col.tip, placement: 'right' }" type="help-circle" size="20" stroke="grey"></vue-feather>
                                                         </label>
                                                         <div v-for="option in col.option.split('|')" class="form-check p-t-10">
                                                             <input class="form-check-input" type="checkbox" :value="option" :id="'cbx_'+parentIndex+'_'+childIndex">
@@ -442,7 +442,7 @@
                                                 <template v-if="col.type === 'text'">
                                                     <div class="d-flex justify-content-between align-center" style="margin-bottom: 20px; max-width: 450px;">
                                                         <label v-if="col.name !== '' || col.tip !== ''" class="myFont16 col-4 p-t-10">{{ col.name }}
-                                                            <vue-feather v-if="col.tip !== ''" v-tooltip="{ content: col.tip, placement: 'right' }" type="help-circle" size="20" stroke="blue"></vue-feather>
+                                                            <vue-feather v-if="col.tip !== ''" v-tooltip="{ content: col.tip, placement: 'right' }" type="help-circle" size="20" stroke="grey"></vue-feather>
                                                         </label>
                                                         <input type="text" class="form-control" placeholder="請輸入文字">
                                                     </div>
@@ -450,7 +450,7 @@
                                                 <template v-if="col.type === 'box'">
                                                     <div class="row" style="margin-bottom: 20px;">
                                                         <label v-if="col.name !== '' || col.tip !== ''" class="myFont16 col-4 p-t-10">{{ col.name }}
-                                                            <vue-feather v-if="col.tip !== ''" v-tooltip="{ content: col.tip, placement: 'right' }" type="help-circle" size="20" stroke="blue"></vue-feather>
+                                                            <vue-feather v-if="col.tip !== ''" v-tooltip="{ content: col.tip, placement: 'right' }" type="help-circle" size="20" stroke="grey"></vue-feather>
                                                         </label>
                                                         <textarea class="my-form-control" spellcheck="false" placeholder="請輸入標題"></textarea>
                                                     </div>

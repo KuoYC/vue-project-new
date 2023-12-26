@@ -6,10 +6,10 @@ export const signMixin = {
         // 發起簽核 releaseSign useType 0=conId, 1=addId
         async releaseSign(conId, appId, useType) {
             // 文件發起人必須與登入人資料一致
-            if (this.iMemberData.comId === this.per.comId && this.iMemberData.memLV0Key === this.per.perKey) {
+            // if (this.iMemberData.comId === this.per.comId && this.iMemberData.memLV0Key === this.per.perKey) {
                 try {
                     await this.goDefaultSet(conId, appId, useType);//重置簽核人員資料
-                    let log = this.createSignLog(conId, appId, 0, this.per.perKey, 3, '發起', 1);
+                    let log = this.createSignLog(conId, appId, this.iMemberData.memId, this.per.perKey, 3, '發起', 1);
                     await this.goUpdateStatus(conId, appId, 1, null, log, useType);//修改狀態為進行中
                     const upMember = this.createUpMember(conId, appId, this.iMemberData, '0', 3, true);
                     await this.updateMember(upMember);//修改簽核組別資訊
@@ -19,10 +19,10 @@ export const signMixin = {
                 } catch (error) {
                     console.error('Edit failed:', error);
                 }
-            }
-            else {
-                alert('您並非發起人');
-            }
+            // }
+            // else {
+            //     alert('您並非發起人');
+            // }
         },
         // 簽核作業 signContract useType 0=conId, 1=addId
         async signContract(conId, appId, useType) {

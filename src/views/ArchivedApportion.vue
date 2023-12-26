@@ -1243,6 +1243,7 @@
     import VueOfficeExcel from '@vue-office/excel';
     import '@vue-office/excel/lib/index.css';
     import VueOfficePdf from '@vue-office/pdf';
+    import {apportionActionMixin} from '@/mixins/apportionActionMixin.js';
     import {exesMixin} from '@/mixins/exesMixin.js';
     import {controlBoxMixin} from '@/mixins/controlBoxMixin.js';
     import {signMixin} from '@/mixins/signMixin.js';
@@ -1250,7 +1251,7 @@
 
     export default {
         name: "ArchivedApportion",
-        mixins: [exesMixin, controlBoxMixin, signMixin],
+        mixins: [apportionActionMixin, exesMixin, controlBoxMixin, signMixin],
         data() {
             return {
                 isLoading: false,

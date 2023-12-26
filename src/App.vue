@@ -839,4 +839,8 @@
         user-select: none;
         -webkit-tap-highlight-color: rgba(0,0,0,0);
     }
+    .v-popper--theme-tooltip{
+        max-width: 250px;
+        margin: 0 auto;
+    }
 </style>

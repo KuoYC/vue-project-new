@@ -6,9 +6,9 @@
                     <h4 class="page-title m-b-0">表單申請</h4>
                 </li>
                 <li class="breadcrumb-item">
-                    <router-link :to="`/apportion/list`">
+                    <router-link :to="`/paper`">
                         <vue-feather type="link"></vue-feather>
-                        費用分攤明細表
+                        列表
                     </router-link>
                 </li>
                 <li class="breadcrumb-item">文件操作</li>
@@ -1245,6 +1245,7 @@
     import VueOfficeExcel from '@vue-office/excel';
     import '@vue-office/excel/lib/index.css';
     import VueOfficePdf from '@vue-office/pdf';
+    import {apportionActionMixin} from '@/mixins/apportionActionMixin.js';
     import {exesMixin} from '@/mixins/exesMixin.js';
     import {controlBoxMixin} from '@/mixins/controlBoxMixin.js';
     import {signMixin} from '@/mixins/signMixin.js';
@@ -1252,7 +1253,7 @@
 
     export default {
         name: "Apportion_sl",
-        mixins: [exesMixin, controlBoxMixin, signMixin],
+        mixins: [apportionActionMixin, exesMixin, controlBoxMixin, signMixin],
         data() {
             return {
                 isLoading: false,
@@ -1341,6 +1342,9 @@
 
                         //apportionResponse
                         this.apportionData = apportionResponse.data.data;
+                        if (-1 === parseInt(this.apportionData.appStatus)) {
+                            this.$router.push(`/apportion/up/${this.apportionData.appId}`);
+                        }
 
                         if (this.apportionData?.memberData !== undefined) {
                             const memberList = this.apportionData?.memberData;

@@ -106,7 +106,7 @@
                                                     <vue-feather v-if="area.areaNote !== ''"
                                                                  v-tooltip="{ content: area.areaNote, placement: 'right' }"
                                                                  type="help-circle" size="20"
-                                                                 stroke="blue"></vue-feather>
+                                                                 stroke="grey"></vue-feather>
                                                 </h4>
                                                 <div class="contract-serial">
                                                     <!-- 這裡放文件序號 -->
@@ -150,7 +150,7 @@
                                                     <vue-feather v-if="area.areaNote !== ''"
                                                                  v-tooltip="{ content: area.areaNote, placement: 'right' }"
                                                                  type="help-circle" size="20"
-                                                                 stroke="blue"></vue-feather>
+                                                                 stroke="grey"></vue-feather>
                                                 </h4>
                                             </div>
                                             <div class="card-body myNotification">
@@ -174,7 +174,7 @@
                                                     <vue-feather v-if="area.areaNote !== ''"
                                                                  v-tooltip="{ content: area.areaNote, placement: 'right' }"
                                                                  type="help-circle" size="20"
-                                                                 stroke="blue"></vue-feather>
+                                                                 stroke="grey"></vue-feather>
                                                 </h4>
                                             </div>
                                             <div class="card-body myNotification">
@@ -187,7 +187,7 @@
                                                                     <vue-feather v-if="col.tip !== ''"
                                                                                  v-tooltip="{ content: col.tip, placement: 'right' }"
                                                                                  type="help-circle" size="20"
-                                                                                 stroke="blue"></vue-feather>
+                                                                                 stroke="grey"></vue-feather>
                                                                 </label>
                                                                 <div class="row">
                                                                     <div class="col-xl-4 col-md-6 col-sm-6 col-12">
@@ -292,7 +292,7 @@
                                                                         <vue-feather v-if="col.tip !== ''"
                                                                                      v-tooltip="{ content: col.tip, placement: 'right' }"
                                                                                      type="help-circle" size="20"
-                                                                                     stroke="blue"></vue-feather>
+                                                                                     stroke="grey"></vue-feather>
                                                                     </label>
                                                                     <select class="row-text" v-model="col.value">
                                                                         <option disabled value="">請選擇</option>
@@ -313,7 +313,7 @@
                                                                         <vue-feather v-if="col.tip !== ''"
                                                                                      v-tooltip="{ content: col.tip, placement: 'right' }"
                                                                                      type="help-circle" size="20"
-                                                                                     stroke="blue"></vue-feather>
+                                                                                     stroke="grey"></vue-feather>
                                                                     </label>
                                                                     <template v-for="cat in categoryData">
                                                                         <div v-if="parseInt(cat.catId) === parseInt(col.id)"
@@ -331,7 +331,7 @@
                                                                         <vue-feather v-if="col.tip !== ''"
                                                                                      v-tooltip="{ content: col.tip, placement: 'right' }"
                                                                                      type="help-circle" size="20"
-                                                                                     stroke="blue"></vue-feather>
+                                                                                     stroke="grey"></vue-feather>
                                                                     </label>
 
                                                                     <span class="myFont16 d-flex align-center row-title"><vue-feather
@@ -496,7 +496,7 @@
                                                                         <vue-feather v-if="col.tip !== ''"
                                                                                      v-tooltip="{ content: col.tip, placement: 'right' }"
                                                                                      type="help-circle" size="20"
-                                                                                     stroke="blue"></vue-feather>
+                                                                                     stroke="grey"></vue-feather>
                                                                     </label>
                                                                     <Item v-for="(item, item_index) in contractData.itemData"
                                                                           :key="item.uniqueId"
@@ -527,7 +527,7 @@
                                                                     <vue-feather v-if="col.tip !== ''"
                                                                                  v-tooltip="{ content: col.tip, placement: 'right' }"
                                                                                  type="help-circle" size="20"
-                                                                                 stroke="blue"></vue-feather>
+                                                                                 stroke="grey"></vue-feather>
                                                                 </label>
                                                                 <div class="row" style="margin-bottom: 20px">
                                                                     <label class="myFont16 p-t-10">管理維運公司</label>
@@ -709,7 +709,7 @@
                                                                     <vue-feather v-if="col.tip !== ''"
                                                                                  v-tooltip="{ content: col.tip, placement: 'right' }"
                                                                                  type="help-circle" size="20"
-                                                                                 stroke="blue"></vue-feather>
+                                                                                 stroke="grey"></vue-feather>
                                                                 </label>
                                                                 <div class="d-flex justify-content-between align-center"
                                                                      style="margin-bottom: 20px;">
@@ -727,7 +727,7 @@
                                                                         <vue-feather v-if="col.tip !== ''"
                                                                                      v-tooltip="{ content: col.tip, placement: 'right' }"
                                                                                      type="help-circle" size="20"
-                                                                                     stroke="blue"></vue-feather>
+                                                                                     stroke="grey"></vue-feather>
                                                                     </label>
                                                                     <select class="form-control" v-model="col.value">
                                                                         <!-- 選項列表 -->
@@ -746,7 +746,7 @@
                                                                         <vue-feather v-if="col.tip !== ''"
                                                                                      v-tooltip="{ content: col.tip, placement: 'right' }"
                                                                                      type="help-circle" size="20"
-                                                                                     stroke="blue"></vue-feather>
+                                                                                     stroke="grey"></vue-feather>
                                                                     </label>
                                                                     <div v-for="option in col.option.split('|')"
                                                                          class="form-check p-t-10">
@@ -769,7 +769,7 @@
                                                                         <vue-feather v-if="col.tip !== ''"
                                                                                      v-tooltip="{ content: col.tip, placement: 'right' }"
                                                                                      type="help-circle" size="20"
-                                                                                     stroke="blue"></vue-feather>
+                                                                                     stroke="grey"></vue-feather>
                                                                     </label>
                                                                     <div v-for="option in col.option.split('|')"
                                                                          class="form-check p-t-10">
@@ -792,7 +792,7 @@
                                                                         <vue-feather v-if="col.tip !== ''"
                                                                                      v-tooltip="{ content: col.tip, placement: 'right' }"
                                                                                      type="help-circle" size="20"
-                                                                                     stroke="blue"></vue-feather>
+                                                                                     stroke="grey"></vue-feather>
                                                                     </label>
                                                                     <input type="text" class="form-control"
                                                                            v-model="col.value"
@@ -806,7 +806,7 @@
                                                                         <vue-feather v-if="col.tip !== ''"
                                                                                      v-tooltip="{ content: col.tip, placement: 'right' }"
                                                                                      type="help-circle" size="20"
-                                                                                     stroke="blue"></vue-feather>
+                                                                                     stroke="grey"></vue-feather>
                                                                     </label>
                                                                     <textarea class="my-form-control"
                                                                               v-model="col.value"
@@ -828,7 +828,7 @@
                     </div>
                 </div>
                 <div class="col-6" style="padding-bottom: 20px;">
-                    <button type="button"
+                    <button v-if="-1 !== parseInt(contractData.conStatus)" type="button"
                             @click="$router.push(`/contract/sl/${contractData.conId}`)"
                             class="m-r-5 btn btn-outline-info btn-border-radius waves-effect myFont16">
                         查看
@@ -1140,7 +1140,7 @@
                         <div class="p-15 border-bottom">
                             <div class="col-lg-12">
                                 <div class="m-l-20">
-                                    <button type="button"
+                                    <button v-if="-1 !== parseInt(contractData.conStatus)" type="button"
                                             @click="$router.push(`/contract/sl/${contractData.conId}`)"
                                             class="m-r-5 btn btn-outline-info btn-border-radius waves-effect myFont16">
                                         查看
@@ -1521,7 +1521,7 @@
                         console.error(error);
                     });
             },
-            async updateContract(toApportion = false) {
+            formatContractData(){
                 const memberList = [];
                 memberList.push(this.iMemberData);
                 this.$root.addDataPush(memberList, this.mMemberData);
@@ -1548,6 +1548,7 @@
                 payload.memberData = memberList;
                 payload.conStatus = 0;
                 payload.conApp = this.merge ? (parseInt(this.contractData.conApp) > -1 ? parseInt(this.contractData.conApp) : 0) : -1;
+                return payload;
 
 
                 // const formData = new FormData();
@@ -1569,7 +1570,10 @@
                 //     // delFilePlan: this.delFilePlan ? Object.keys(cloneDeep(this.delFilePlan)).join('|') : null,
                 //     // delFile: this.delFile ? Object.keys(cloneDeep(this.delFile)).join('|') : null,
                 // };
+            },
+            async updateContract(toApportion = false) {
 
+                const payload = this.formatContractData();
                 console.log(payload);
 
                 // for (const key in payload) {
@@ -1587,44 +1591,39 @@
                 }
             },
             async updateContractSign(conId, appId, useType) {
-                // 文件發起人必須與登入人資料一致
-                const memberList = [];
-                memberList.push(this.iMemberData);
-                this.$root.addDataPush(memberList, this.mMemberData);
-                this.$root.addDataPush(memberList, this.uMemberData);
-                const payload = cloneDeep(this.contractData);
-                payload.itemData.forEach(item => {
-                    item.iteSubsidiaries = item.iteSubsidiaries ? item.iteSubsidiaries.join('|') : item.iteSubsidiaries;
-                    item.iteProportion = JSON.stringify(item.iteProportion);
-                });
-                payload.conValue.forEach(area => {
-                    area.colItem.forEach(col => {
-                        if (col.type?.startsWith('word')) {
-                            this.categoryData.forEach(cat => {
-                                if (parseInt(cat.catId) === parseInt(col.id)) {
-                                    col.value = cat.catWord;
-                                }
-                            });
-                        }
-                    });
-                });
-                payload.conValue = JSON.stringify(payload.conValue);
-                payload.conWork = this.contractData.conWork.filter(val => val !== '').join('|');
-                payload.conCompany = this.contractData.conCompany.filter(val => val !== '').join('|');
-                payload.memberData = memberList;
-                payload.conStatus = 0;
-                payload.conApp = this.merge ? (parseInt(this.contractData.conApp) > -1 ? parseInt(this.contractData.conApp) : 0) : -1;
-
-
+                console.log(useType);
+                const payload = this.formatContractData();
+                console.log(payload);
 
                 await this.saveContract(payload, this.contractData.conId, null);
-                this.fetchFirst();
-                if (this.iMemberData.comId === this.per.comId && this.iMemberData.memLV0Key === this.per.perKey) {
+                let memId = 0;
+                let iMemberData;
+                await this.$api
+                    .get(this.$test ? `/api/?type=contract&conId=${this.contractData.conId}` : `/api/iform/contract/${this.conId}`)
+                    .then(response => {
+                        console.log(response);
+                        if (response.status === 200) {
+                            this.contractData = response.data.data;
+                            if (this.contractData?.memberData !== undefined) {
+                                const memberList = this.contractData?.memberData;
+                                iMemberData = memberList.find(member => member.memType === '0');
+                                memId = iMemberData.memId;
+                            }
+                        } else {
+                            console.log('err');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Edit failed:', error);
+                    });
+
+                if (this.contractData.comCode === this.per.comCode && this.contractData.perKey === this.per.perKey) {
                     try {
                         await this.goDefaultSet(conId, appId, useType);//重置簽核人員資料
-                        let log = this.createSignLog(conId, appId, 0, this.per.perKey, 3, '發起', 1);
+                        let log = this.createSignLog(conId, appId, memId, this.per.perKey, 3, '發起', 1);
+                        console.log(log);
                         await this.goUpdateStatus(conId, appId, 1, null, log, useType);//修改狀態為進行中
-                        const upMember = this.createUpMember(conId, appId, this.iMemberData, '0', 3, true);
+                        const upMember = this.createUpMember(conId, appId, iMemberData, '0', 3, true);
                         await this.updateMember(upMember);//修改簽核組別資訊
                         alert('發起成功');
                         this.$router.push(`/contract/sl/${this.contractData.conId}`);

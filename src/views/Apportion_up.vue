@@ -60,9 +60,9 @@
                         <h4 class="page-title m-b-0">表單申請</h4>
                     </li>
                     <li class="breadcrumb-item">
-                        <router-link :to="`/apportion/list`">
+                        <router-link :to="`/paper`">
                             <vue-feather type="link"></vue-feather>
-                            費用分攤明細表
+                            列表
                         </router-link>
                     </li>
                     <li class="breadcrumb-item">費用操作</li>
@@ -1702,7 +1702,7 @@
                     });
                 });
             },
-            async updateApportion() {
+            formatApportionData(){
                 const payload = cloneDeep(this.apportionData);
                 if (-1 === parseInt(this.apportionData.conApp)) {
                     const memberList = [];
@@ -1743,61 +1743,47 @@
                 });
 
                 console.log(payload);
+                return payload;
+
+            },
+            async updateApportion() {
+                const payload =this.formatApportionData();
                 await this.saveApportion(payload, this.apportionData.appId);
                 this.$router.push(`/apportion/sl/${this.apportionData.appId}`);
 
 
             },
             async updateApportionSign(conId, appId, useType) {
-                // 文件發起人必須與登入人資料一致
-                const payload = cloneDeep(this.apportionData);
-                if (-1 === parseInt(this.apportionData.conApp)) {
-                    const memberList = [];
-                    memberList.push(this.iMemberData);
-                    this.$root.addDataPush(memberList, this.mMemberData);
-                    this.$root.addDataPush(memberList, this.uMemberData);
-                    payload.memberData = memberList;
-                }
-                payload.appStatus = 0;
-
-                // const formData = new FormData();
-                // this.$root.addFilesToFormData(formData, this.filMeetingFiles, 'conFileMeeting[]');
-                // this.$root.addFilesToFormData(formData, this.filPlanFiles, 'conFilePlan[]');
-                // this.$root.addFilesToFormData(formData, this.filOtherFiles, 'conFile[]');
-                // const dataToAppend = {
-                //     temId: this.temId,
-                //     perKey: this.per.perKey,
-                //     comCode: this.per.perBu1Code,
-                //     conTitle: this.conTitle,
-                //     conType: this.conType,
-                //     conDate: this.conDate,
-                //     conWork: cloneDeep(this.conWork).join('|'),
-                //     conCompany: cloneDeep(this.conCompany).join('|'),
-                //     conValue: JSON.stringify(conValue),
-                //     itemList: JSON.stringify(itemList),
-                //     memberList: JSON.stringify(memberList),
-                // };
-                // for (const key in dataToAppend) {
-                //     formData.append(key, dataToAppend[key]);
-                // }
-
-                payload.exesData.forEach(exe => {
-                    exe.exeCreateMonth = String(exe.exeCreateMonth.year) + String(parseInt(exe.exeCreateMonth.month) + 1).padStart(2, '0');
-                    exe.annualData.forEach(ann => {
-                        ann.annStartMonth = String(ann.annStartMonth.year) + String(parseInt(ann.annStartMonth.month) + 1).padStart(2, '0');
-                        ann.annEndMonth = String(ann.annEndMonth.year) + String(parseInt(ann.annEndMonth.month) + 1).padStart(2, '0');
-                    });
-                });
+                const payload =this.formatApportionData();
 
                 console.log(payload);
                 await this.saveApportion(payload, this.apportionData.appId);
-                this.fetchFirst();
-                if (this.iMemberData.comId === this.per.comId && this.iMemberData.memLV0Key === this.per.perKey) {
+                let memId = 0;
+                let iMemberData;
+                await this.$api
+                    .get(this.$test ? `/api/?type=apportion&appId=${this.apportionData.appId}` : `/api/iform/contract/${this.conId}`)
+                    .then(response => {
+                        console.log(response);
+                        if (response.status === 200) {
+                            this.apportionData = response.data.data;
+                            if (this.apportionData?.memberData !== undefined) {
+                                const memberList = this.apportionData?.memberData;
+                                iMemberData = memberList.find(member => member.memType === '0');
+                                memId = iMemberData.memId;
+                            }
+                        } else {
+                            console.log('err');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Edit failed:', error);
+                    });
+                if (this.apportionData.comCode === this.per.comCode && this.apportionData.perKey === this.per.perKey) {
                     try {
                         await this.goDefaultSet(conId, appId, useType);//重置簽核人員資料
-                        let log = this.createSignLog(conId, appId, 0, this.per.perKey, 3, '發起', 1);
+                        let log = this.createSignLog(conId, appId, memId, this.per.perKey, 3, '發起', 1);
                         await this.goUpdateStatus(conId, appId, 1, null, log, useType);//修改狀態為進行中
-                        const upMember = this.createUpMember(conId, appId, this.iMemberData, '0', 3, true);
+                        const upMember = this.createUpMember(conId, appId, iMemberData, '0', 3, true);
                         await this.updateMember(upMember);//修改簽核組別資訊
                         alert('發起成功');
                         this.$router.push(`/apportion/sl/${this.apportionData.appId}`);
