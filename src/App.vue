@@ -839,6 +839,26 @@
         user-select: none;
         -webkit-tap-highlight-color: rgba(0,0,0,0);
     }
+    .st-danger {
+        box-shadow: 0 2px 6px #fd9b96;
+        background-color: #fc544b;
+        border-color: #fc544b;
+        color: #fff;
+        padding: 0.3rem 0.8rem;
+        letter-spacing: .5px;
+        text-align: center;
+        text-decoration: none;
+        vertical-align: middle;
+        border-radius:5px;
+        position: relative;
+        display: inline-block;
+        overflow: hidden;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+    }
     .v-popper--theme-tooltip{
         max-width: 250px;
         margin: 0 auto;

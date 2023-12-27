@@ -152,6 +152,9 @@
             if (this.member.memBu2Code) {
                 this.getBu3();
             }
+            if ('' !== this.member.memLV0Key && '' === this.member.memLV1Key && '' === this.member.memLV2Key) {
+                this.getVIP();
+            }
         },
         methods: {
             removeMember() {
@@ -178,6 +181,7 @@
                 this.member.memLV0Name = mem.getAttribute('perName');
                 this.member.memLV0PositionName = mem.getAttribute('positionName');
                 this.member.memPhone = mem.getAttribute('phone');
+                this.getVIP();
             },
             LV1Change() {
 
@@ -318,6 +322,34 @@
                     this.personnel3Data = [];
                 }
             },
+            async getVIP() {
+                if (this.member.memBu1Code && this.member.memBu2Code && this.member.memBu3Code) {
+                    this.$api
+                        .get(this.$test ? `/api/?type=vip&perKey=${this.member.memLV0Key}` : `/api/iform/personnel?perBu1Code=${this.member.memBu1Code}&perBu2Code=${this.member.memBu2Code}&perBu3Code=${this.member.memBu3Code}`)
+                        .then(response => {
+                            const vip = response.data.data;
+                            if (vip.lv1) {
+                                this.personnel2Data = {};
+                                this.personnel2Data[0] = vip.lv1;
+                                this.member.memLV1Key = vip.lv1.perKey;
+                                this.member.memLV1PositionName = vip.lv1.perPositionName;
+                                console.log(vip.lv1.perKey);
+                            }
+                            if (vip.lv2) {
+                                this.personnel1Data = {};
+                                this.personnel1Data[0] = vip.lv2;
+                                this.member.memLV2Key = vip.lv2.perKey;
+                                this.member.memLV2PositionName = vip.lv2.perPositionName;
+                            }
+                        })
+                        .catch(error => {
+                            console.error(error);
+                        });
+                }
+                else {
+                    this.personnel1Data = [];
+                }
+            }
         },
     };
 </script>

@@ -49,6 +49,7 @@
                                               class="st-success myFont16">草稿</span>
                                         <span v-if="1 === parseInt(apportionData.appStatus)"
                                               class="st-warning myFont16">簽核中</span>
+                                        <span v-if="2 === parseInt(apportionData.appStatus)" class="st-danger myFont16">退件</span>
                                         <span v-if="3 === parseInt(apportionData.appStatus)"
                                               class="st-success myFont16">已歸檔</span>
                                         <span v-if="4 === parseInt(apportionData.appStatus)"
@@ -764,7 +765,6 @@
                     <button
                             v-if="1 === parseInt(apportionData.appStatus) && checkMember()"
                             @click="backContract(0 <= parseInt(apportionData.conApp) ? apportionData.conId : 0, apportionData.appId, 0 <= parseInt(apportionData.conApp) ? 2 : 1)"
-                            :disabled="msg === ''"
                             type="button"
                             class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">退回
                     </button>
@@ -1106,7 +1106,6 @@
                                     <button
                                             v-if="1 === parseInt(apportionData.appStatus) && checkMember()"
                                             @click="backContract(0 <= parseInt(apportionData.conApp) ? apportionData.conId : 0, apportionData.appId, 0 <= parseInt(apportionData.conApp) ? 2 : 1)"
-                                            :disabled="msg === ''"
                                             type="button"
                                             class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">
                                         退回

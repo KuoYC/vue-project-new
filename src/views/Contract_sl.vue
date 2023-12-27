@@ -44,6 +44,7 @@
                                                 <div style="font-weight: 400; text-align: right;">
                                                     <span v-if="0 === parseInt(contractData.conStatus)" class="st-success myFont16">草稿</span>
                                                     <span v-if="1 === parseInt(contractData.conStatus)" class="st-warning myFont16">簽核中</span>
+                                                    <span v-if="2 === parseInt(contractData.conStatus)" class="st-danger myFont16">退件</span>
                                                     <span v-if="3 === parseInt(contractData.conStatus)" class="st-success myFont16">已歸檔</span>
                                                     <span v-if="4 === parseInt(contractData.conStatus)" class="st-secondary myFont16">撤案</span>
                                                 </div>
@@ -732,7 +733,6 @@
                     <button
                             v-if="1 === parseInt(contractData.conStatus) && checkMember()"
                             @click="backContract(contractData.conId, 0 <= parseInt(contractData.conApp) ? contractData.conApp : 0, 0 <= parseInt(contractData.conApp) ? 2 : 0)"
-                            :disabled="msg === ''"
                             type="button"
                             class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">退回
                     </button>
@@ -1182,7 +1182,6 @@
                                 <button
                                         v-if="1 === parseInt(contractData.conStatus) && checkMember()"
                                         @click="backContract(contractData.conId, 0 <= parseInt(contractData.conApp) ? contractData.conApp : 0, 0 <= parseInt(contractData.conApp) ? 2 : 0)"
-                                        :disabled="msg === ''"
                                         type="button"
                                         class="m-r-5 btn btn-outline-danger btn-border-radius waves-effect myFont16">退回
                                 </button>

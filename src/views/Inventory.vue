@@ -22,22 +22,23 @@
                         -->
                         <div class="table-responsive">
                             <table class="newTable" id="exportTable">
+                                <caption>資訊共用計畫書清冊</caption>
                                 <thead style="position: sticky;top: 0;" class="myNew">
                                 <tr>
-                                    <th rowspan="2" style="min-width: 150px;">序號</th>
-                                    <th rowspan="2" style="min-width: 100px;">維運公司</th>
-                                    <th rowspan="2" style="min-width: 100px;">負責單位</th>
-                                    <th rowspan="2" style="min-width: 100px;">申請類別</th>
-                                    <th rowspan="2" style="min-width: 150px;">計畫框架</th>
-                                    <th rowspan="2" style="min-width: 200px;">計畫名稱</th>
-                                    <th :colspan="workData.length">作業項目</th>
-                                    <th :colspan="companyData.length">使用公司</th>
-                                    <th rowspan="2" style="min-width: 130px;">費用攤提第一年</th>
-                                    <th rowspan="2" style="min-width: 130px;">費用攤提最後年</th>
+                                    <th scope="row" rowspan="2" style="min-width: 150px;">序號</th>
+                                    <th scope="row" rowspan="2" style="min-width: 100px;">維運公司</th>
+                                    <th scope="row" rowspan="2" style="min-width: 100px;">負責單位</th>
+                                    <th scope="row" rowspan="2" style="min-width: 100px;">申請類別</th>
+                                    <th scope="row" rowspan="2" style="min-width: 150px;">計畫框架</th>
+                                    <th scope="row" rowspan="2" style="min-width: 200px;">計畫名稱</th>
+                                    <th scope="row" :colspan="workData.length">作業項目</th>
+                                    <th scope="row" :colspan="companyData.length">使用公司</th>
+                                    <th scope="row" rowspan="2" style="min-width: 130px;">費用攤提第一年</th>
+                                    <th scope="row" rowspan="2" style="min-width: 130px;">費用攤提最後年</th>
                                 </tr>
                                 <tr>
-                                    <th v-for="wor in workData">{{ wor.worTitle }}</th>
-                                    <th v-for="com in companyData">{{ com.comTitle }}</th>
+                                    <th scope="row" v-for="wor in workData">{{ wor.worTitle }}</th>
+                                    <th scope="row" v-for="com in companyData">{{ com.comTitle }}</th>
                                 </tr>
 
                                 </thead>

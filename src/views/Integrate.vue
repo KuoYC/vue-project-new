@@ -22,121 +22,92 @@
                         -->
                         <div class="table-responsive">
                             <table class="newTable" id="exportTable">
+                                <caption>年度費用分攤明細</caption>
                                 <template v-for="data in contractData.company">
-                                    <thead style="position: sticky;top: 0;" class="myNew">
-                                    <tr>
-                                        <th>{{ data.comTitle}}</th>
-                                        <th :colspan="5+workData.length+contractData.years.length+companyData.length+companyData.length-1">
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th rowspan="2" style="min-width: 150px;">計畫框架</th>
-                                        <th rowspan="2" style="min-width: 200px;">計畫名稱</th>
-                                        <th :colspan="workData.length">作業項目</th>
-                                        <th rowspan="2" style="min-width: 100px;">作業項目</th>
-                                        <th rowspan="2" style="min-width: 150px;">費用分攤原則</th>
-                                        <th :colspan="contractData.years.length">各年度費用</th>
-                                        <th rowspan="2" v-for="com in companyData"
-                                            style="min-width: 140px;">{{
-                                            com.comTitle }}<br>分攤費用
-                                        </th>
-                                        <th :colspan="companyData.length">使用公司</th>
-                                        <th rowspan="2" style="min-width: 100px;">負責單位</th>
-                                    </tr>
-                                    <tr>
-                                        <th v-for="wor in workData" style="min-width: 50px;">{{ wor.worTitle }}</th>
-                                        <th v-for="year in contractData.years">{{ year }}</th>
-                                        <th v-for="com in companyData" style="min-width: 50px;">{{ com.comTitle }}</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <template v-for="frm in data.frame">
-                                        <template v-if="frm.exes.length > 0">
-                                            <tr>
-                                                <td :rowspan="frm.exes.length">{{ frm.frmTitle }}</td>
-                                                <td>{{ frm.exes[0].conTitle}}</td>
-                                                <td v-for="wor in workData">
-                                                    <template v-if="frm.exes[0].worId.includes(parseInt(wor.worId))">
-                                                        V
-                                                    </template>
-                                                    <template v-else></template>
-                                                </td>
-                                                <td>{{ frm.exes[0].iteTitle}}</td>
-                                                <td>{{ frm.exes[0].disTitle}}</td>
-                                                <template v-for="year in contractData.years">
-                                                    <td>
-                                                        <template v-for="ann in frm.exes[0].annual">
-                                                            <template v-if="parseInt(ann.annYear) === parseInt(year)">{{
-                                                                ann.annSum }}
-                                                            </template>
-                                                        </template>
-                                                    </td>
-                                                </template>
-                                                <template v-for="com in companyData">
-                                                    <td>
-                                                        <template v-for="sub in frm.exes[0].subsidiary">
-                                                            <template v-if="sub.comCode === com.comCode">
-                                                                {{ sub.subSum }}
-                                                            </template>
-                                                        </template>
-                                                    </td>
-                                                </template>
-                                                <td v-for="com in companyData" style="min-width: 50px;">
-                                                    <template v-for="sub in frm.exes[0].iteSubsidiaries">
-                                                        <template v-if="sub.includes(com.comCode)">
-                                                            V
-                                                        </template>
-                                                    </template>
-                                                </td>
-                                                <td>{{ frm.exes[0].perBu3 }}</td>
-                                            </tr>
-                                            <template v-if="frm.exes.length > 1">
+                                    <template v-if="data.frame.length && data.frame[0].exes.length > 0">
+                                        <thead style="position: sticky;top: 0;" class="myNew">
+                                        <tr>
+                                            <th scope="row" style="min-width: 200px;">管理維運公司：{{ data.comTitle}}</th>
+                                            <th scope="row"
+                                                :colspan="5+workData.length+contractData.years.length+companyData.length+companyData.length-1">
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row" rowspan="2" style="min-width: 150px;">計畫框架</th>
+                                            <th scope="row" rowspan="2" style="min-width: 200px;">計畫名稱</th>
+                                            <th scope="row" :colspan="workData.length">作業項目</th>
+                                            <th scope="row" rowspan="2" style="min-width: 100px;">作業項目</th>
+                                            <th scope="row" rowspan="2" style="min-width: 150px;">費用分攤原則</th>
+                                            <th scope="row" :colspan="contractData.years.length">各年度費用</th>
+                                            <th scope="row" rowspan="2" v-for="com in companyData"
+                                                style="min-width: 140px;">{{
+                                                com.comTitle }}<br>分攤費用
+                                            </th>
+                                            <th scope="row" :colspan="companyData.length">使用公司</th>
+                                            <th scope="row" rowspan="2" style="min-width: 100px;">負責單位</th>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row" v-for="wor in workData" style="min-width: 50px;">{{
+                                                wor.worTitle }}
+                                            </th>
+                                            <th scope="row" v-for="year in contractData.years">{{ year }}</th>
+                                            <th scope="row" v-for="com in companyData" style="min-width: 50px;">{{
+                                                com.comTitle }}
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <template v-for="frm in data.frame">
+                                            <template v-if="frm.exes.length > 0">
                                                 <template v-for="(exe, idx) in frm.exes">
-                                                    <template v-if="idx > 0">
-                                                        <tr v-if="frm.exes.length > 1" v-for="exe in frm.exes">
-                                                            <td>{{ exe.conTitle}}</td>
-                                                            <td v-for="wor in workData">
-                                                                <template v-if="exe.worId.includes(parseInt(wor.worId))">
+                                                    <tr>
+                                                        <td v-if="0 === idx" :rowspan="frm.exes.length">{{ frm.frmTitle
+                                                            }}
+                                                        </td>
+                                                        <td>{{ exe.conTitle}}</td>
+                                                        <td v-for="wor in workData">
+                                                            <template v-if="exe.worId.includes(parseInt(wor.worId))">
+                                                                V
+                                                            </template>
+                                                            <template v-else></template>
+                                                        </td>
+                                                        <td>{{ exe.iteTitle}}</td>
+                                                        <td>{{ exe.disTitle}}</td>
+                                                        <template v-for="year in contractData.years">
+                                                            <td>
+                                                                <template v-for="ann in exe.annual">
+                                                                    <template
+                                                                            v-if="parseInt(ann.annYear) === parseInt(year)">
+                                                                        {{
+                                                                        ann.annSum }}
+                                                                    </template>
+                                                                </template>
+                                                            </td>
+                                                        </template>
+                                                        <template v-for="com in companyData">
+                                                            <td>
+                                                                <template v-for="sub in exe.subsidiary">
+                                                                    <template v-if="sub.comCode === com.comCode">
+                                                                        {{ sub.subSum }}
+                                                                    </template>
+                                                                </template>
+                                                            </td>
+                                                        </template>
+                                                        <td v-for="com in companyData" style="min-width: 50px;">
+                                                            <template v-for="sub in exe.iteSubsidiaries">
+                                                                <template v-if="sub.includes(com.comCode)">
                                                                     V
                                                                 </template>
-                                                                <template v-else></template>
-                                                            </td>
-                                                            <td>{{ exe.iteTitle}}</td>
-                                                            <td>{{ exe.disTitle}}</td>
-                                                            <template v-for="year in contractData.years">
-                                                                <td>
-                                                                    <template v-for="ann in exe.annual">
-                                                                        <template v-if="parseInt(ann.annYear) === parseInt(year)">{{
-                                                                            ann.annSum }}
-                                                                        </template>
-                                                                    </template>
-                                                                </td>
                                                             </template>
-                                                            <template v-for="com in companyData">
-                                                                <td>
-                                                                    <template v-for="sub in exe.subsidiary">
-                                                                        <template v-if="sub.comCode === com.comCode">
-                                                                            {{ sub.subSum }}
-                                                                        </template>
-                                                                    </template>
-                                                                </td>
-                                                            </template>
-                                                            <td v-for="com in companyData" style="min-width: 50px;">
-                                                                <template v-for="sub in exe.iteSubsidiaries">
-                                                                    <template v-if="sub.includes(com.comCode)">
-                                                                        V
-                                                                    </template>
-                                                                </template>
-                                                            </td>
-                                                            <td>{{ exe.perBu3 }}</td>
-                                                        </tr>
-                                                    </template>
+                                                        </td>
+                                                        <td>{{ exe.perBu3 }}</td>
+                                                    </tr>
                                                 </template>
                                             </template>
                                         </template>
+                                        </tbody>
+                                        <tbody style="height: 100px;"></tbody>
                                     </template>
-                                    </tbody>
-                                    <tbody style="height: 100px;"></tbody>
                                 </template>
                             </table>
                         </div>
